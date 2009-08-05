@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>240</width>
+    <height>320</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>delicacymap</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>240</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QAction" name="menuZoomOut">
+    <property name="Text">
+     <string>Zoom Out</string>
+    </property>
+   </widget>
+   <widget class="QAction" name="menuGPSLoc">
+    <property name="Text">
+     <string>Where am I</string>
+    </property>
+   </widget>
+   <widget class="QAction" name="menuBTHfind">
+    <property name="Text">
+     <string>BTH Endpoints</string>
+    </property>
+   </widget>
+   <widget class="QAction" name="menuZoomIn">
+    <property name="Text">
+     <string>Zoom In</string>
+    </property>
+   </widget>
+   <widget class="QAction" name="menuConfig">
+    <property name="Text">
+     <string>Config</string>
+    </property>
+   </widget>
+   <widget class="QAction" name="menuExit">
+    <property name="Text">
+     <string>Exit</string>
+    </property>
+   </widget>
+   <addaction name="menuZoomOut"/>
+   <addaction name="menuZoomIn"/>
+   <addaction name="menuGPSLoc"/>
+   <addaction name="menuConfig"/>
+   <addaction name="menuExit"/>
+   <addaction name="menuBTHfind"/>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

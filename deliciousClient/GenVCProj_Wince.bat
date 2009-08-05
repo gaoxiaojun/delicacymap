@@ -1,0 +1,1 @@
+F:\QT\qt\bin\qmake -t vcapp
