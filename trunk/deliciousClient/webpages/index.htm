@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<!-- Ripped and modified from google map api v3, modify with care -->
+	<!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
+	<script type="text/javascript">
+		window.google = window.google || {};
+		google.maps = google.maps || {};
+		(function() {		  
+		  google.maps.Load = function(apiLoad) {
+			apiLoad([[,,,],[[["http://mt0.google.com/mt/v=ap.95&hl=zh-TW&","http://mt1.google.com/mt/v=ap.95&hl=zh-TW&","http://mt2.google.com/mt/v=ap.95&hl=zh-TW&","http://mt3.google.com/mt/v=ap.95&hl=zh-TW&"],"Map data &#169;2009 ","ap.95"],[["http://khm0.google.com/kh/v=40&hl=zh-TW&","http://khm1.google.com/kh/v=40&hl=zh-TW&","http://khm2.google.com/kh/v=40&hl=zh-TW&","http://khm3.google.com/kh/v=40&hl=zh-TW&"],"Imagery &#169;2009 ","40"],[["http://mt0.google.com/mt/v=apt.95&hl=zh-TW&","http://mt1.google.com/mt/v=apt.95&hl=zh-TW&","http://mt2.google.com/mt/v=apt.95&hl=zh-TW&","http://mt3.google.com/mt/v=apt.95&hl=zh-TW&"],"Imagery &#169;2009 ","apt.95"],[["http://mt0.google.com/mt/v=app.87&hl=zh-TW&","http://mt1.google.com/mt/v=app.87&hl=zh-TW&","http://mt2.google.com/mt/v=app.87&hl=zh-TW&","http://mt3.google.com/mt/v=app.87&hl=zh-TW&"],"Imagery &#169;2009 ","app.87"],"fzwq2kVu-2jI85EGzR-PZRPiL4_INx_eH8pwLw"],["zh-TW","","google.com"],["http://maps.gstatic.com/mapfiles/api-3/6"],[3871666565],1], loadScriptTime);
+			
+		  };
+		  var loadScriptTime = (new Date).getTime();
+		})();
+	</script>
+	<script type="text/javascript" src="qrc:/webpages/main.js"></script>
+	<script type="text/javascript" src="qrc:/webpages/markermanager.js"></script>
+	<script type="text/javascript">	
+	//<![CDATA[
+	
+	//**************************delicacymap/trunk/webpages/index.htm *******************************
+	//
+	//This file is used as the main page interacting with GoogleMap API,
+	//loaded by mapview
+	//
+	//Update time: 2009-03-08
+	//Updater: Alan Zhu
+	//**********************************************************************************************
+	
+	var map;	//(type:GMap) the map instance
+	var markerManager;  //(type:MarkerManager)  
+	var wayPoints;  //(type: Array<GLatLng>), used in route query
+	var tempMarker; //(type: GMarker), save a temp Marker instance
+	var directions; //(type: GDirections), used for route query
+	var route;	  //(type: GPolyLine), instance of the route polyline
+	var baseIcon;   //(type: GIcon), instance of the costumized icon
+	
+	
+	function load() 
+	{		
+		var latlng = new google.maps.LatLng(39.96067508327288, 116.35796070098877);
+		var myOptions = {
+			zoom: 15,
+			noClear : false,
+			noResize : true,
+			center: latlng,
+			disableDefaultUI: true,
+			navigationControl: true,
+			keyboardShortcuts : true,
+			navigationControlOptions: google.maps.NavigationControlStyle.LARGE,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+
+		wayPoints = new Array();   
+		//markerManager = new MarkerManager(map);
+		directions = new GDirections();
+		   
+		
+		//initIcon(); //still has problems
+
+		//GEvent.addListener(map,'click',mapClicked); //map click, marker click are all captured by mapClicked
+		//GEvent.addListener(directions,"load",refreshRoute); //redraw route after a success query
+	}
+
+	//Init a costumized baseIcon
+	//still not working, can't locate pic in src files;
+	function initIcon()
+	{
+		try
+		{
+			baseIcon = new GIcon();
+			baseIcon.image = "Resource Files/icon1.png";
+			baseIcon.shadow = "Resource Files/icon1-shadow.png";
+			//baseIcon.image = "E:\\Development\\Qt\\project\\delicacymap_bak\\webpages\\images\\icon1.png";
+			//baseIcon.shadow = "E:\\Development\\Qt\\project\\delicacymap_bak\\webpages\\images\\icon1-shadow.png";
+			baseIcon.iconSize = new GSize(20, 20);
+			baseIcon.shadowSize = new GSize(20, 20);
+			baseIcon.iconAnchor = new GPoint(10, 10);
+			baseIcon.infoWindowAnchor = new GPoint(10, 10);
+			baseIcon.infoShadowAnchor = new GPoint(10, 10);
+		}
+		catch(e)
+		{
+			alert(e.toString());
+		}
+	}
+	
+	//Add the new marker to the end of "wayPoints",adding one more hop,
+	//then start a direction query
+	function updateRoute()
+	{
+		wayPoints.push(tempMarker.getLatLng());
+		directions.loadFromWaypoints(wayPoints,{getPolyline: true});	
+	}
+	
+	//Redraw the route onto the map, removing the previous one in advance
+	//Note:Style of the route can be modified, consider adding more parameters 
+	function refreshRoute()
+	{
+		if (route != null)
+		{
+			map.removeOverlay(route);
+		}
+		route = directions.getPolyline();
+		route.setStrokeStyle({color:"#00ff00",weight:3,opacity:0.7});
+		map.addOverlay(route);
+	}
+
+	//Event listener intended binding to a single marker "click" event;
+	//Will become deprecated, since marker click event can now be captured through event "map.click",
+	//See also "mapClicked"
+	function markerClicked()
+	{
+		window.mapListener.markerClicked();
+	}
+	
+	//Event listener binding to the "click" event of "map"(type:GMap), 
+	//"overlay"(type:GOverlay) will be valid if an overlay on the map is clicked,(Markers e.g.),
+	//"latlng"(type:GLatLng) will be valid if the map tile layer is clicked, indicating the geo-position of the clicked point.
+	//note:still need improvement, especially reliable methods of "overlay" type verification.
+	function mapClicked(overlay,latlng)
+	{
+		var s;
+		try
+		{
+			s = overlay.getTitle() + ' @ ' + overlay.getLatLng().lat()+','+overlay.getLatLng().lng();
+			tempMarker = overlay;
+		}
+		catch (e)
+		{
+			try 
+			{
+				s = latlng.lat()+','+latlng.lng();
+			}
+			catch (e)
+			{
+				s = 'error';
+			}
+		}
+		window.mapListener.mapClicked(s);
+	}
+	
+
+
+	//Create a marker by specifying a point on the container,result saved in the variable "tempMarker"
+	//coordinates are originated from top-left,"x" increasing downwards and "y" rightwards, with units of pixel
+	//markerTitle specifies the title of the marker,
+	//note:more parameters are to be added, according to the additional marker options desired
+	function createMarkerByXY(x,y,markerTitle)
+	{
+		var pos = map.fromContainerPixelToLatLng(new GPoint(x,y));
+		var opts = {title:markerTitle};
+		//var opts = {icon:baseIcon, title:markerTitle};
+		tempMarker = new GMarker(pos,opts);
+	}
+	
+	//Almost the same as createMarkerByXY,
+	//except that the parameters "lat","lng",specify absolute geo positions
+	function makeMarkerByLatLng(lat,lng,markerTitle)
+	{
+		var pos = new GLatLng(lat,lng);
+		var opts = {title:markerTitle};
+		tempMarker = new GMarker(pos,opts);
+	}	
+	
+	//]]>
+	</script>
+  </head>
+  <body style="margin:0;padding:0" onload="load()" onunload="GUnload()">
+	<div id="map" style="width:%1px;height:%2px"/>
+  </body>
+</html>

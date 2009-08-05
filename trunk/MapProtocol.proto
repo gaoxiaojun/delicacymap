@@ -1,0 +1,98 @@
+package ProtocolBuffer;
+
+option optimize_for = SPEED;
+
+message Location
+
+{
+    required double                                          latitude                    = 1;
+
+    required double                                          longitude                   = 2;
+
+}
+
+//Representing a rectangular geographic area, specified by the locations of its northeast corner and southwest corner.
+message Area
+{
+    required Location                                        northeast                   = 1;
+    required Location                                        southwest                   = 2;
+}
+
+message Time
+{
+    required string                                          timeStamp                   = 1;
+}
+
+message Comment
+{
+    required bytes                                           content                     = 1;    //Html style comment
+    required ProtocolBuffer.Time                             timeStamp                   = 2;    //Submit time
+    required uint32                                          UID                         = 3;    //Submitter ID (user ID)
+}
+
+message Currency
+{
+    required double                                          amount                      = 1;
+}
+
+message Error
+{
+    required string                                          message                     = 1;
+}
+
+message User
+{
+    required uint32                                          UID                         = 1;    //User ID, unique
+    required string                                          uniqueName                  = 2;    //User Name, unique
+    required ProtocolBuffer.Time                             joinTime                    = 3;    //Registration time of this user
+    
+    repeated ProtocolBuffer.RestaurantType                   preferTypes                 = 4;    //prefered restaurant types
+    repeated uint32                                          friends                     = 5;    //friends of the user, represented by User ID
+}
+
+message Restaurant
+{
+    required ProtocolBuffer.Location                         location                    = 1;    //Geographic location of the restaurant
+    required string                                          name                        = 2;    //Name of the restaurant
+    required uint32                                          RID                         = 3;    //Restaurant ID
+    required ProtocolBuffer.RestaurantType                   type                        = 4;    //Restaurant type
+    required uint32                                          Rating                      = 5;    //Rating by the users
+    required ProtocolBuffer.Currency                         averageExpense              = 6;    //Average expense per person per meal
+}
+
+message RestaurantList
+{
+    repeated Restaurant                                      restaurants                 = 1;
+}
+
+message CommentList
+{
+    repeated Comment                                         comments                    = 1;
+}
+
+message RestaurantType
+{
+    required uint32                                          TID                         = 1;    //Restaurant type ID
+    required string                                          name                        = 2;    //description
+}
+
+message Query
+{
+    optional ProtocolBuffer.Area                             area                        = 1;
+    optional uint32                                          level                       = 2;
+    optional ProtocolBuffer.Time                             time                        = 3;
+    optional uint32                                          RID                         = 4;
+    optional uint32                                          UID                         = 5;
+    optional uint32                                          n                           = 6;
+}
+
+service DMService 
+{
+    rpc GetRestaurants                         (ProtocolBuffer.Query)        returns (RestaurantList);
+    rpc GetLastestCommentsOfRestaurant         (ProtocolBuffer.Query)        returns (CommentList);
+    rpc GetLastestCommentsByUser               (ProtocolBuffer.Query)        returns (CommentList);
+    rpc GetCommentsOfUserSince                 (ProtocolBuffer.Query)        returns (CommentList);
+    rpc GetCommentsOfRestaurantSince           (ProtocolBuffer.Query)        returns (CommentList);
+    
+    rpc AddCommentForRestaurant                (ProtocolBuffer.Query)        returns (CommentList);
+}
