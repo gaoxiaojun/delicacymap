@@ -21,7 +21,6 @@ HEADERS += mapview.h \
            LocationSvc.h \
            mainwindow.h \
            callentry.h \
-           Message.pb.h \
            prototools.h \
            simplerpccontroller.h \
            streamcallbackinfo.h \
@@ -35,13 +34,6 @@ SOURCES += main.cpp \
            ConnectionManager.cpp \
            LocationSvc.cpp \
            mainwindow.cpp \
-           callentry.cpp \
-           Message.pb.cc \
-           prototools.cpp \
-           simplerpccontroller.cpp \
-           streamcallbackinfo.cpp \
-           twowayrpccontroller.cpp \
-           twowaystream.cpp \
            ../protocol-buffer-src/MapProtocol.pb.cc
 
 RESOURCES += webpage.qrc  #for the convinience of development
@@ -72,7 +64,8 @@ win32:!wince* {
 	           bluetoothmanager_win.cpp
     HEADERS += bluetoothmanager_wince.h \
 			   bluetoothmanager_win.h
-	LIBS += Ws2_32.lib
+	LIBS += Ws2_32.lib \
+            protorpcpp_win32_release.lib
     CONFIG(debug, debug|release) {
         LIBS += libprotobuf_win32_debug.lib
     } else {

@@ -25,6 +25,7 @@ package protorpc;
 
 option java_package = "com.likbilen.protorpc";
 option java_outer_classname = "MessageProto";
+option optimize_for = LITE_RUNTIME;
 
 enum Type {
   REQUEST					= 1;
