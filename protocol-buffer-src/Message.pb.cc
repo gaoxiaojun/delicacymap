@@ -5,92 +5,12 @@
 #include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
-#include <google/protobuf/descriptor.h>
-#include <google/protobuf/reflection_ops.h>
-#include <google/protobuf/wire_format.h>
 
 namespace protorpc {
 
-namespace {
-
-const ::google::protobuf::Descriptor* Message_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Message_reflection_ = NULL;
-const ::google::protobuf::Descriptor* DescriptorResponse_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  DescriptorResponse_reflection_ = NULL;
-const ::google::protobuf::EnumDescriptor* Type_descriptor_ = NULL;
-
-}  // namespace
-
-
-void protobuf_AssignDesc_Message_2eproto() {
-  protobuf_AddDesc_Message_2eproto();
-  const ::google::protobuf::FileDescriptor* file =
-    ::google::protobuf::DescriptorPool::generated_pool()->FindFileByName(
-      "Message.proto");
-  GOOGLE_CHECK(file != NULL);
-  Message_descriptor_ = file->message_type(0);
-  static const int Message_offsets_[4] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Message, type_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Message, id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Message, name_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Message, buffer_),
-  };
-  Message_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Message_descriptor_,
-      Message::default_instance_,
-      Message_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Message, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Message, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Message));
-  DescriptorResponse_descriptor_ = file->message_type(1);
-  static const int DescriptorResponse_offsets_[3] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DescriptorResponse, desc_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DescriptorResponse, deps_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DescriptorResponse, servicename_),
-  };
-  DescriptorResponse_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      DescriptorResponse_descriptor_,
-      DescriptorResponse::default_instance_,
-      DescriptorResponse_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DescriptorResponse, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DescriptorResponse, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(DescriptorResponse));
-  Type_descriptor_ = file->enum_type(0);
-}
-
-namespace {
-
-GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_AssignDescriptors_once_);
-inline void protobuf_AssignDescriptorsOnce() {
-  ::google::protobuf::GoogleOnceInit(&protobuf_AssignDescriptors_once_,
-                 &protobuf_AssignDesc_Message_2eproto);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Message_descriptor_, &Message::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    DescriptorResponse_descriptor_, &DescriptorResponse::default_instance());
-}
-
-}  // namespace
-
 void protobuf_ShutdownFile_Message_2eproto() {
   delete Message::default_instance_;
-  delete Message_reflection_;
   delete DescriptorResponse::default_instance_;
-  delete DescriptorResponse_reflection_;
 }
 
 void protobuf_AddDesc_Message_2eproto() {
@@ -99,20 +19,6 @@ void protobuf_AddDesc_Message_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\rMessage.proto\022\010protorpc\"Q\n\007Message\022\034\n\004"
-    "type\030\001 \001(\0162\016.protorpc.Type\022\n\n\002id\030\002 \001(\r\022\014"
-    "\n\004name\030\003 \001(\t\022\016\n\006buffer\030\004 \001(\014\"c\n\022Descript"
-    "orResponse\022\014\n\004desc\030\001 \002(\014\022*\n\004deps\030\002 \003(\0132\034"
-    ".protorpc.DescriptorResponse\022\023\n\013serviceN"
-    "ame\030\003 \001(\t*\252\001\n\004Type\022\013\n\007REQUEST\020\001\022\014\n\010RESPO"
-    "NSE\020\002\022\023\n\017RESPONSE_CANCEL\020\003\022\023\n\017RESPONSE_F"
-    "AILED\020\004\022\034\n\030RESPONSE_NOT_IMPLEMENTED\020\005\022\016\n"
-    "\nDISCONNECT\020\006\022\026\n\022DESCRIPTOR_REQUEST\020\007\022\027\n"
-    "\023DESCRIPTOR_RESPONSE\020\010B%\n\025com.likbilen.p"
-    "rotorpcB\014MessageProto", 421);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "Message.proto", &protobuf_RegisterTypes);
   Message::default_instance_ = new Message();
   DescriptorResponse::default_instance_ = new DescriptorResponse();
   Message::default_instance_->InitAsDefaultInstance();
@@ -127,10 +33,6 @@ struct StaticDescriptorInitializer_Message_2eproto {
   }
 } static_descriptor_initializer_Message_2eproto_;
 
-const ::google::protobuf::EnumDescriptor* Type_descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Type_descriptor_;
-}
 bool Type_IsValid(int value) {
   switch(value) {
     case 1:
@@ -195,11 +97,6 @@ void Message::SharedDtor() {
   }
 }
 
-const ::google::protobuf::Descriptor* Message::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Message_descriptor_;
-}
-
 const Message& Message::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_Message_2eproto();  return *default_instance_;
 }
@@ -226,7 +123,6 @@ void Message::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool Message::MergePartialFromCodedStream(
@@ -245,8 +141,6 @@ bool Message::MergePartialFromCodedStream(
         DO_(::google::protobuf::internal::WireFormatLite::ReadEnum(input, &value));
         if (protorpc::Type_IsValid(value)) {
           set_type(static_cast< protorpc::Type >(value));
-        } else {
-          mutable_unknown_fields()->AddVarint(1, value);
         }
         if (input->ExpectTag(16)) goto parse_id;
         break;
@@ -275,9 +169,6 @@ bool Message::MergePartialFromCodedStream(
        parse_name:
         DO_(::google::protobuf::internal::WireFormatLite::ReadString(
               input, this->mutable_name()));
-        ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-          this->name().data(), this->name().length(),
-          ::google::protobuf::internal::WireFormat::PARSE);
         if (input->ExpectTag(34)) goto parse_buffer;
         break;
       }
@@ -301,8 +192,7 @@ bool Message::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -313,12 +203,6 @@ bool Message::MergePartialFromCodedStream(
 
 void Message::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  ::google::protobuf::uint8* raw_buffer = output->GetDirectBufferForNBytesAndAdvance(_cached_size_);
-  if (raw_buffer != NULL) {
-    Message::SerializeWithCachedSizesToArray(raw_buffer);
-    return;
-  }
-  
   // optional .protorpc.Type type = 1;
   if (_has_bit(0)) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
@@ -332,9 +216,6 @@ void Message::SerializeWithCachedSizes(
   
   // optional string name = 3;
   if (_has_bit(2)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->name().data(), this->name().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       3, this->name(), output);
   }
@@ -345,47 +226,6 @@ void Message::SerializeWithCachedSizes(
       4, this->buffer(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Message::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // optional .protorpc.Type type = 1;
-  if (_has_bit(0)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      1, this->type(), target);
-  }
-  
-  // optional uint32 id = 2;
-  if (_has_bit(1)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->id(), target);
-  }
-  
-  // optional string name = 3;
-  if (_has_bit(2)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->name().data(), this->name().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->name(), target);
-  }
-  
-  // optional bytes buffer = 4;
-  if (_has_bit(3)) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        4, this->buffer(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int Message::ByteSize() const {
@@ -420,25 +260,13 @@ int Message::ByteSize() const {
     }
     
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   _cached_size_ = total_size;
   return total_size;
 }
 
-void Message::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Message* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Message*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void Message::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Message*>(&from));
 }
 
 void Message::MergeFrom(const Message& from) {
@@ -457,13 +285,6 @@ void Message::MergeFrom(const Message& from) {
       set_buffer(from.buffer());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Message::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void Message::CopyFrom(const Message& from) {
@@ -484,17 +305,12 @@ void Message::Swap(Message* other) {
     std::swap(name_, other->name_);
     std::swap(buffer_, other->buffer_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata Message::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Message_descriptor_;
-  metadata.reflection = Message_reflection_;
-  return metadata;
+::std::string Message::GetTypeName() const {
+  return "protorpc.Message";
 }
 
 
@@ -542,11 +358,6 @@ void DescriptorResponse::SharedDtor() {
   }
 }
 
-const ::google::protobuf::Descriptor* DescriptorResponse::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return DescriptorResponse_descriptor_;
-}
-
 const DescriptorResponse& DescriptorResponse::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_Message_2eproto();  return *default_instance_;
 }
@@ -572,7 +383,6 @@ void DescriptorResponse::Clear() {
   }
   deps_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool DescriptorResponse::MergePartialFromCodedStream(
@@ -616,9 +426,6 @@ bool DescriptorResponse::MergePartialFromCodedStream(
        parse_serviceName:
         DO_(::google::protobuf::internal::WireFormatLite::ReadString(
               input, this->mutable_servicename()));
-        ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-          this->servicename().data(), this->servicename().length(),
-          ::google::protobuf::internal::WireFormat::PARSE);
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -629,8 +436,7 @@ bool DescriptorResponse::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -641,12 +447,6 @@ bool DescriptorResponse::MergePartialFromCodedStream(
 
 void DescriptorResponse::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  ::google::protobuf::uint8* raw_buffer = output->GetDirectBufferForNBytesAndAdvance(_cached_size_);
-  if (raw_buffer != NULL) {
-    DescriptorResponse::SerializeWithCachedSizesToArray(raw_buffer);
-    return;
-  }
-  
   // required bytes desc = 1;
   if (_has_bit(0)) {
     ::google::protobuf::internal::WireFormatLite::WriteBytes(
@@ -661,50 +461,10 @@ void DescriptorResponse::SerializeWithCachedSizes(
   
   // optional string serviceName = 3;
   if (_has_bit(2)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->servicename().data(), this->servicename().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       3, this->servicename(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* DescriptorResponse::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // required bytes desc = 1;
-  if (_has_bit(0)) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        1, this->desc(), target);
-  }
-  
-  // repeated .protorpc.DescriptorResponse deps = 2;
-  for (int i = 0; i < this->deps_size(); i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->deps(i), target);
-  }
-  
-  // optional string serviceName = 3;
-  if (_has_bit(2)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->servicename().data(), this->servicename().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->servicename(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int DescriptorResponse::ByteSize() const {
@@ -734,25 +494,13 @@ int DescriptorResponse::ByteSize() const {
         this->deps(i));
   }
   
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   _cached_size_ = total_size;
   return total_size;
 }
 
-void DescriptorResponse::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const DescriptorResponse* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const DescriptorResponse*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void DescriptorResponse::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const DescriptorResponse*>(&from));
 }
 
 void DescriptorResponse::MergeFrom(const DescriptorResponse& from) {
@@ -766,13 +514,6 @@ void DescriptorResponse::MergeFrom(const DescriptorResponse& from) {
       set_servicename(from.servicename());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void DescriptorResponse::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void DescriptorResponse::CopyFrom(const DescriptorResponse& from) {
@@ -796,17 +537,12 @@ void DescriptorResponse::Swap(DescriptorResponse* other) {
     deps_.Swap(&other->deps_);
     std::swap(servicename_, other->servicename_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata DescriptorResponse::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = DescriptorResponse_descriptor_;
-  metadata.reflection = DescriptorResponse_reflection_;
-  return metadata;
+::std::string DescriptorResponse::GetTypeName() const {
+  return "protorpc.DescriptorResponse";
 }
 
 

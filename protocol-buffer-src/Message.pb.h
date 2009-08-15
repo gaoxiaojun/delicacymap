@@ -21,7 +21,6 @@
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/generated_message_reflection.h>
 
 namespace protorpc {
 
@@ -47,19 +46,9 @@ bool Type_IsValid(int value);
 const Type Type_MIN = REQUEST;
 const Type Type_MAX = DESCRIPTOR_RESPONSE;
 
-const ::google::protobuf::EnumDescriptor* Type_descriptor();
-inline const ::std::string& Type_Name(Type value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    Type_descriptor(), value);
-}
-inline bool Type_Parse(
-    const ::std::string& name, Type* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Type>(
-    Type_descriptor(), name, value);
-}
 // ===================================================================
 
-class Message : public ::google::protobuf::Message {
+class Message : public ::google::protobuf::MessageLite {
  public:
   Message();
   virtual ~Message();
@@ -71,23 +60,13 @@ class Message : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Message& default_instance();
   void Swap(Message* other);
   
   // implements Message ----------------------------------------------
   
   Message* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const Message& from);
   void MergeFrom(const Message& from);
   void Clear();
@@ -98,7 +77,6 @@ class Message : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -106,7 +84,7 @@ class Message : public ::google::protobuf::Message {
   void SetCachedSize(int size) const { _cached_size_ = size; }
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -147,7 +125,6 @@ class Message : public ::google::protobuf::Message {
   inline ::std::string* mutable_buffer();
   
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   int type_;
@@ -178,7 +155,7 @@ class Message : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class DescriptorResponse : public ::google::protobuf::Message {
+class DescriptorResponse : public ::google::protobuf::MessageLite {
  public:
   DescriptorResponse();
   virtual ~DescriptorResponse();
@@ -190,23 +167,13 @@ class DescriptorResponse : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const DescriptorResponse& default_instance();
   void Swap(DescriptorResponse* other);
   
   // implements Message ----------------------------------------------
   
   DescriptorResponse* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const DescriptorResponse& from);
   void MergeFrom(const DescriptorResponse& from);
   void Clear();
@@ -217,7 +184,6 @@ class DescriptorResponse : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -225,7 +191,7 @@ class DescriptorResponse : public ::google::protobuf::Message {
   void SetCachedSize(int size) const { _cached_size_ = size; }
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -262,7 +228,6 @@ class DescriptorResponse : public ::google::protobuf::Message {
   inline ::std::string* mutable_servicename();
   
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::std::string* desc_;
@@ -290,9 +255,6 @@ class DescriptorResponse : public ::google::protobuf::Message {
   void InitAsDefaultInstance();
   static DescriptorResponse* default_instance_;
 };
-// ===================================================================
-
-
 // ===================================================================
 
 
@@ -532,18 +494,4 @@ inline ::std::string* DescriptorResponse::mutable_servicename() {
 
 
 }  // namespace protorpc
-
-#ifndef SWIG
-namespace google {
-namespace protobuf {
-
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< protorpc::Type>() {
-  return protorpc::Type_descriptor();
-}
-
-}  // namespace google
-}  // namespace protobuf
-#endif  // SWIG
-
 #endif  // PROTOBUF_Message_2eproto__INCLUDED
