@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "mapview.h"
 #include "bluetoothmanager.h"
+#undef abort
 #include "ConnectionManager.h"
 
 int main(int argc, char *argv[])

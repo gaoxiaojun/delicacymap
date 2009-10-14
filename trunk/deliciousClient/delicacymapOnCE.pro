@@ -57,6 +57,7 @@ wince* {
             ws2.lib \
             Gpsapi.lib \
             libprotobuf_wince_release.lib
+            protorpcpp_wince_release.lib
 }
 
 win32:!wince* {
