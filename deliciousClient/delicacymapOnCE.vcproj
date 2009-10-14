@@ -7,87 +7,30 @@
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Windows Mobile 6 Professional SDK (ARMV4I)"/>
 	</Platforms>
 	<Configurations>
 		<Configuration
-			Name="Release|Win32"
+			Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
 			OutputDirectory="."
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			ConfigurationType="1"
 			IntermediateDirectory="release\"
-			UseOfMfc="0"
-			WholeProgramOptimization="true">
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;..\..\qt-win-4.5.2\include\QtCore&quot;,&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot;,&quot;..\..\qt-win-4.5.2\include\QtGui&quot;,&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot;,&quot;..\..\qt-win-4.5.2\include&quot;,&quot;.&quot;,&quot;.\rclib\include&quot;,&quot;..\protocol-buffer-src&quot;,&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot;,&quot;release&quot;,&quot;.&quot;,..\..\qt-win-4.5.2\mkspecs\default"
+				AdditionalIncludeDirectories="&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot;,&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot;,&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot;,&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot;,&quot;..\..\qt-4.6.0-tp1\include&quot;,&quot;.&quot;,&quot;.\rclib\include&quot;,&quot;..\protocol-buffer-src&quot;,&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot;,&quot;release&quot;,&quot;.&quot;,..\..\qt-4.6.0-tp1\mkspecs\default"
 				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
 				AssemblerListingLocation="release\"
 				BufferSecurityCheck="false"
 				DebugInformationFormat="0"
-				ExceptionHandling="1"
+				ExceptionHandling="0"
 				GeneratePreprocessedFile="0"
 				ObjectFile="release\"
 				Optimization ="2"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_NO_DEBUG,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,NDEBUG"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNDER_CE,WINCE,_WINDOWS,_UNICODE,UNICODE,_WIN32,QT_NO_PRINTER,QT_NO_PRINTDIALOG,ARMV4I,_ARMV4I_,armv4i,_ARM_,ARM,_M_ARM,ARM,__arm__,Q_OS_WINCE_WM,QT_NO_PRINTER,QT_NO_PRINTDIALOG,_WIN32_WCE=0x502,QT_NO_DEBUG,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST,NDEBUG"
 				ProgramDataBaseFileName=".\"
 				RuntimeLibrary="2"
-				RuntimeTypeInfo="true"
-				SuppressStartupBanner="true"
-				TreatWChar_tAsBuiltInType="false"
-				WarningLevel="3"
-				WholeProgramOptimization="true"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Ws2_32.lib protorpcpp_win32_release.lib libprotobuf_win32_release.lib f:\QT\qt-win-4.5.2\lib\QtWebKit4.lib f:\QT\qt-win-4.5.2\lib\QtGui4.lib f:\QT\qt-win-4.5.2\lib\QtNetwork4.lib f:\QT\qt-win-4.5.2\lib\QtCore4.lib"
-				AdditionalLibraryDirectories="..\protocol-buffer-src\lib,f:\QT\qt-win-4.5.2\lib"
-				GenerateDebugInformation="false"
-				IgnoreImportLibrary="true"
-				LinkIncremental="1"
-				LinkTimeCodeGeneration="1"
-				OutputFile="release\delicacymapOnCE.exe"
-				ProgramDatabaseFile=""
-				SubSystem="1"
-				SuppressStartupBanner="true"/>
-			<Tool
-				Name="VCMIDLTool"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-				WarningLevel="0"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_NO_DEBUG,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"/>
-		</Configuration>
-		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="."
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			ConfigurationType="1"
-			IntermediateDirectory="debug\"
-			UseOfMfc="0">
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;..\..\qt-win-4.5.2\include\QtCore&quot;,&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot;,&quot;..\..\qt-win-4.5.2\include\QtGui&quot;,&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot;,&quot;..\..\qt-win-4.5.2\include&quot;,&quot;.&quot;,&quot;.\rclib\include&quot;,&quot;..\protocol-buffer-src&quot;,&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot;,&quot;debug&quot;,&quot;.&quot;,..\..\qt-win-4.5.2\mkspecs\default"
-				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
-				AssemblerListingLocation="debug\"
-				BufferSecurityCheck="false"
-				DebugInformationFormat="3"
-				ExceptionHandling="1"
-				GeneratePreprocessedFile="0"
-				ObjectFile="debug\"
-				Optimization ="4"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"
-				ProgramDataBaseFileName=".\"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="true"
 				SuppressStartupBanner="true"
 				TreatWChar_tAsBuiltInType="false"
 				WarningLevel="3"/>
@@ -95,14 +38,18 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Ws2_32.lib protorpcpp_win32_release.lib libprotobuf_win32_debug.lib f:\QT\qt-win-4.5.2\lib\QtWebKitd4.lib f:\QT\qt-win-4.5.2\lib\QtGuid4.lib f:\QT\qt-win-4.5.2\lib\QtNetworkd4.lib f:\QT\qt-win-4.5.2\lib\QtCored4.lib"
-				AdditionalLibraryDirectories="..\protocol-buffer-src\lib,f:\QT\qt-win-4.5.2\lib"
-				GenerateDebugInformation="true"
+				AdditionalDependencies="corelibc.lib bthutil.lib ws2.lib Gpsapi.lib libprotobuf_wince_release.lib protorpcpp_wince_release.lib f:\QT\qt-4.6.0-tp1\lib\QtWebKit.lib f:\QT\qt-4.6.0-tp1\lib\QtGui.lib f:\QT\qt-4.6.0-tp1\lib\QtNetwork.lib f:\QT\qt-4.6.0-tp1\lib\QtCore.lib mmtimer.lib ceshell.lib ole32.lib uuid.lib f:\QT\qt-4.6.0-tp1\lib\qmenu_wince.res oleaut32.lib commctrl.lib coredll.lib winsock.lib"
+				AdditionalLibraryDirectories="..\protocol-buffer-src\lib,f:\QT\qt-4.6.0-tp1\lib"
+				AdditionalOptions="/SUBSYSTEM:WINDOWSCE,5.02 /MACHINE:THUMB /SUBSYSTEM:WINDOWSCE,5.02 /MACHINE:THUMB"
+				EntryPointSymbol="mainACRTStartup"
+				GenerateDebugInformation="false"
+				IgnoreDefaultLibraryNames="OLDNAMES.LIB"
 				IgnoreImportLibrary="true"
+				LinkIncremental="1"
 				LinkTimeCodeGeneration="0"
-				OutputFile="debug\delicacymapOnCE.exe"
+				OutputFile="release\delicacymapOnCE.exe"
 				ProgramDatabaseFile=""
-				SubSystem="1"
+				SubSystem="0"
 				SuppressStartupBanner="true"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -117,7 +64,62 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,_DEBUG"/>
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNDER_CE,WINCE,_WINDOWS,_UNICODE,UNICODE,_WIN32,QT_NO_PRINTER,QT_NO_PRINTDIALOG,ARMV4I,_ARMV4I_,armv4i,_ARM_,ARM,_M_ARM,ARM,__arm__,Q_OS_WINCE_WM,QT_NO_PRINTER,QT_NO_PRINTDIALOG,_WIN32_WCE=0x502,QT_NO_DEBUG,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST"/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
+			OutputDirectory="."
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			ConfigurationType="1"
+			IntermediateDirectory="debug\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot;,&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot;,&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot;,&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot;,&quot;..\..\qt-4.6.0-tp1\include&quot;,&quot;.&quot;,&quot;.\rclib\include&quot;,&quot;..\protocol-buffer-src&quot;,&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot;,&quot;debug&quot;,&quot;.&quot;,..\..\qt-4.6.0-tp1\mkspecs\default"
+				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
+				AssemblerListingLocation="debug\"
+				BufferSecurityCheck="false"
+				DebugInformationFormat="3"
+				ExceptionHandling="0"
+				GeneratePreprocessedFile="0"
+				ObjectFile="debug\"
+				Optimization ="4"
+				PreprocessorDefinitions="DEBUG,_DEBUG,DEBUG,_DEBUG,UNDER_CE,WINCE,_WINDOWS,_UNICODE,UNICODE,_WIN32,QT_NO_PRINTER,QT_NO_PRINTDIALOG,ARMV4I,_ARMV4I_,armv4i,_ARM_,ARM,_M_ARM,ARM,__arm__,Q_OS_WINCE_WM,QT_NO_PRINTER,QT_NO_PRINTDIALOG,_WIN32_WCE=0x502,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="3"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				WarningLevel="3"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="corelibc.lib bthutil.lib ws2.lib Gpsapi.lib libprotobuf_wince_release.lib protorpcpp_wince_release.lib f:\QT\qt-4.6.0-tp1\lib\QtWebKitd.lib f:\QT\qt-4.6.0-tp1\lib\QtGuid.lib f:\QT\qt-4.6.0-tp1\lib\QtNetworkd.lib f:\QT\qt-4.6.0-tp1\lib\QtCored.lib mmtimer.lib ceshell.lib ole32.lib uuid.lib f:\QT\qt-4.6.0-tp1\lib\qmenu_wince.res oleaut32.lib commctrl.lib coredll.lib winsock.lib"
+				AdditionalLibraryDirectories="..\protocol-buffer-src\lib,f:\QT\qt-4.6.0-tp1\lib"
+				AdditionalOptions="/SUBSYSTEM:WINDOWSCE,5.02 /MACHINE:THUMB /SUBSYSTEM:WINDOWSCE,5.02 /MACHINE:THUMB"
+				EntryPointSymbol="mainACRTStartup"
+				GenerateDebugInformation="true"
+				IgnoreDefaultLibraryNames="OLDNAMES.LIB"
+				IgnoreImportLibrary="true"
+				LinkTimeCodeGeneration="0"
+				OutputFile="debug\delicacymapOnCE.exe"
+				ProgramDatabaseFile=""
+				SubSystem="0"
+				SuppressStartupBanner="true"/>
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="DEBUG,_DEBUG,DEBUG,_DEBUG,UNDER_CE,WINCE,_WINDOWS,_UNICODE,UNICODE,_WIN32,QT_NO_PRINTER,QT_NO_PRINTDIALOG,ARMV4I,_ARMV4I_,armv4i,_ARM_,ARM,_M_ARM,ARM,__arm__,Q_OS_WINCE_WM,QT_NO_PRINTER,QT_NO_PRINTDIALOG,_WIN32_WCE=0x502,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST,_DEBUG"/>
 		</Configuration>
 	</Configurations>
 	<Files>
@@ -128,13 +130,15 @@
 			<File
 				RelativePath="ConnectionManager.cpp"/>
 			<File
+				RelativePath="GPSLocationSvc_wince.cpp"/>
+			<File
 				RelativePath="LocationSvc.cpp"/>
 			<File
 				RelativePath="..\protocol-buffer-src\MapProtocol.pb.cc"/>
 			<File
 				RelativePath="bluetoothmanager.cpp"/>
 			<File
-				RelativePath="bluetoothmanager_win.cpp"/>
+				RelativePath="bluetoothmanager_wince.cpp"/>
 			<File
 				RelativePath="main.cpp"/>
 			<File
@@ -142,7 +146,7 @@
 			<File
 				RelativePath="mapview.cpp"/>
 			<File
-				RelativePath="mapview_win32.cpp"/>
+				RelativePath="mapview_wince.cpp"/>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -151,26 +155,28 @@
 			<File
 				RelativePath="ConnectionManager.h">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="ConnectionManager.h;F:\QT\qt-win-4.5.2\bin\moc.exe"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.5.2\include\QtCore&quot; -I&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.5.2\include\QtGui&quot; -I&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.5.2\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-win-4.5.2\mkspecs\default -D_MSC_VER=1500 -DWIN32 ConnectionManager.h -o release\moc_ConnectionManager.cpp"
+						AdditionalDependencies="ConnectionManager.h;F:\QT\qt-4.6.0-tp1\bin\moc.exe"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\moc.exe  -DUNDER_CE -DWINCE -D_WINDOWS -D_UNICODE -DUNICODE -D_WIN32 -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -DARMV4I -D_ARMV4I_ -Darmv4i -D_ARM_ -DARM -D_M_ARM -DARM -D__arm__ -DQ_OS_WINCE_WM -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -D_WIN32_WCE=0x502 -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot; -I&quot;..\..\qt-4.6.0-tp1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-4.6.0-tp1\mkspecs\default -D_MSC_VER=1500 ConnectionManager.h -o release\moc_ConnectionManager.cpp"
 						Description="MOC ConnectionManager.h"
 						Outputs="release\moc_ConnectionManager.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="ConnectionManager.h;F:\QT\qt-win-4.5.2\bin\moc.exe"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.5.2\include\QtCore&quot; -I&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.5.2\include\QtGui&quot; -I&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.5.2\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-win-4.5.2\mkspecs\default -D_MSC_VER=1500 -DWIN32 ConnectionManager.h -o debug\moc_ConnectionManager.cpp"
+						AdditionalDependencies="ConnectionManager.h;F:\QT\qt-4.6.0-tp1\bin\moc.exe"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\moc.exe  -DUNDER_CE -DWINCE -D_WINDOWS -D_UNICODE -DUNICODE -D_WIN32 -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -DARMV4I -D_ARMV4I_ -Darmv4i -D_ARM_ -DARM -D_M_ARM -DARM -D__arm__ -DQ_OS_WINCE_WM -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -D_WIN32_WCE=0x502 -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot; -I&quot;..\..\qt-4.6.0-tp1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-4.6.0-tp1\mkspecs\default -D_MSC_VER=1500 ConnectionManager.h -o debug\moc_ConnectionManager.cpp"
 						Description="MOC ConnectionManager.h"
 						Outputs="debug\moc_ConnectionManager.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="GPSLocationSvc_wince.h"/>
 			<File
 				RelativePath="LocationSvc.h"/>
 			<File
@@ -178,7 +184,7 @@
 			<File
 				RelativePath="bluetoothmanager.h"/>
 			<File
-				RelativePath="bluetoothmanager_win.h"/>
+				RelativePath="bluetoothmanager_win_common.h"/>
 			<File
 				RelativePath="bluetoothmanager_wince.h"/>
 			<File
@@ -186,47 +192,47 @@
 			<File
 				RelativePath="mainwindow.h">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\moc.exe;mainwindow.h"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.5.2\include\QtCore&quot; -I&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.5.2\include\QtGui&quot; -I&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.5.2\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-win-4.5.2\mkspecs\default -D_MSC_VER=1500 -DWIN32 mainwindow.h -o release\moc_mainwindow.cpp"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\moc.exe;mainwindow.h"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\moc.exe  -DUNDER_CE -DWINCE -D_WINDOWS -D_UNICODE -DUNICODE -D_WIN32 -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -DARMV4I -D_ARMV4I_ -Darmv4i -D_ARM_ -DARM -D_M_ARM -DARM -D__arm__ -DQ_OS_WINCE_WM -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -D_WIN32_WCE=0x502 -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot; -I&quot;..\..\qt-4.6.0-tp1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-4.6.0-tp1\mkspecs\default -D_MSC_VER=1500 mainwindow.h -o release\moc_mainwindow.cpp"
 						Description="MOC mainwindow.h"
 						Outputs="release\moc_mainwindow.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\moc.exe;mainwindow.h"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.5.2\include\QtCore&quot; -I&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.5.2\include\QtGui&quot; -I&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.5.2\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-win-4.5.2\mkspecs\default -D_MSC_VER=1500 -DWIN32 mainwindow.h -o debug\moc_mainwindow.cpp"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\moc.exe;mainwindow.h"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\moc.exe  -DUNDER_CE -DWINCE -D_WINDOWS -D_UNICODE -DUNICODE -D_WIN32 -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -DARMV4I -D_ARMV4I_ -Darmv4i -D_ARM_ -DARM -D_M_ARM -DARM -D__arm__ -DQ_OS_WINCE_WM -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -D_WIN32_WCE=0x502 -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot; -I&quot;..\..\qt-4.6.0-tp1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-4.6.0-tp1\mkspecs\default -D_MSC_VER=1500 mainwindow.h -o debug\moc_mainwindow.cpp"
 						Description="MOC mainwindow.h"
 						Outputs="debug\moc_mainwindow.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="mapview.h">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\moc.exe;mapview.h"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.5.2\include\QtCore&quot; -I&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.5.2\include\QtGui&quot; -I&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.5.2\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-win-4.5.2\mkspecs\default -D_MSC_VER=1500 -DWIN32 mapview.h -o release\moc_mapview.cpp"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\moc.exe;mapview.h"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\moc.exe  -DUNDER_CE -DWINCE -D_WINDOWS -D_UNICODE -DUNICODE -D_WIN32 -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -DARMV4I -D_ARMV4I_ -Darmv4i -D_ARM_ -DARM -D_M_ARM -DARM -D__arm__ -DQ_OS_WINCE_WM -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -D_WIN32_WCE=0x502 -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot; -I&quot;..\..\qt-4.6.0-tp1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-4.6.0-tp1\mkspecs\default -D_MSC_VER=1500 mapview.h -o release\moc_mapview.cpp"
 						Description="MOC mapview.h"
 						Outputs="release\moc_mapview.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\moc.exe;mapview.h"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.5.2\include\QtCore&quot; -I&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.5.2\include\QtGui&quot; -I&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.5.2\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-win-4.5.2\mkspecs\default -D_MSC_VER=1500 -DWIN32 mapview.h -o debug\moc_mapview.cpp"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\moc.exe;mapview.h"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\moc.exe  -DUNDER_CE -DWINCE -D_WINDOWS -D_UNICODE -DUNICODE -D_WIN32 -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -DARMV4I -D_ARMV4I_ -Darmv4i -D_ARM_ -DARM -D_M_ARM -DARM -D__arm__ -DQ_OS_WINCE_WM -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -D_WIN32_WCE=0x502 -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot; -I&quot;..\..\qt-4.6.0-tp1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-4.6.0-tp1\mkspecs\default -D_MSC_VER=1500 mapview.h -o debug\moc_mapview.cpp"
 						Description="MOC mapview.h"
 						Outputs="debug\moc_mapview.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -234,24 +240,24 @@
 			<File
 				RelativePath="simplerpccontroller.h">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\moc.exe;simplerpccontroller.h"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.5.2\include\QtCore&quot; -I&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.5.2\include\QtGui&quot; -I&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.5.2\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-win-4.5.2\mkspecs\default -D_MSC_VER=1500 -DWIN32 simplerpccontroller.h -o release\moc_simplerpccontroller.cpp"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\moc.exe;simplerpccontroller.h"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\moc.exe  -DUNDER_CE -DWINCE -D_WINDOWS -D_UNICODE -DUNICODE -D_WIN32 -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -DARMV4I -D_ARMV4I_ -Darmv4i -D_ARM_ -DARM -D_M_ARM -DARM -D__arm__ -DQ_OS_WINCE_WM -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -D_WIN32_WCE=0x502 -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot; -I&quot;..\..\qt-4.6.0-tp1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-4.6.0-tp1\mkspecs\default -D_MSC_VER=1500 simplerpccontroller.h -o release\moc_simplerpccontroller.cpp"
 						Description="MOC simplerpccontroller.h"
 						Outputs="release\moc_simplerpccontroller.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\moc.exe;simplerpccontroller.h"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.5.2\include\QtCore&quot; -I&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.5.2\include\QtGui&quot; -I&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.5.2\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-win-4.5.2\mkspecs\default -D_MSC_VER=1500 -DWIN32 simplerpccontroller.h -o debug\moc_simplerpccontroller.cpp"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\moc.exe;simplerpccontroller.h"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\moc.exe  -DUNDER_CE -DWINCE -D_WINDOWS -D_UNICODE -DUNICODE -D_WIN32 -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -DARMV4I -D_ARMV4I_ -Darmv4i -D_ARM_ -DARM -D_M_ARM -DARM -D__arm__ -DQ_OS_WINCE_WM -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -D_WIN32_WCE=0x502 -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot; -I&quot;..\..\qt-4.6.0-tp1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-4.6.0-tp1\mkspecs\default -D_MSC_VER=1500 simplerpccontroller.h -o debug\moc_simplerpccontroller.cpp"
 						Description="MOC simplerpccontroller.h"
 						Outputs="debug\moc_simplerpccontroller.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -261,24 +267,24 @@
 			<File
 				RelativePath="twowaystream.h">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\moc.exe;twowaystream.h"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.5.2\include\QtCore&quot; -I&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.5.2\include\QtGui&quot; -I&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.5.2\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-win-4.5.2\mkspecs\default -D_MSC_VER=1500 -DWIN32 twowaystream.h -o release\moc_twowaystream.cpp"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\moc.exe;twowaystream.h"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\moc.exe  -DUNDER_CE -DWINCE -D_WINDOWS -D_UNICODE -DUNICODE -D_WIN32 -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -DARMV4I -D_ARMV4I_ -Darmv4i -D_ARM_ -DARM -D_M_ARM -DARM -D__arm__ -DQ_OS_WINCE_WM -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -D_WIN32_WCE=0x502 -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot; -I&quot;..\..\qt-4.6.0-tp1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-4.6.0-tp1\mkspecs\default -D_MSC_VER=1500 twowaystream.h -o release\moc_twowaystream.cpp"
 						Description="MOC twowaystream.h"
 						Outputs="release\moc_twowaystream.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\moc.exe;twowaystream.h"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.5.2\include\QtCore&quot; -I&quot;..\..\qt-win-4.5.2\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.5.2\include\QtGui&quot; -I&quot;..\..\qt-win-4.5.2\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.5.2\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.5.2\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-win-4.5.2\mkspecs\default -D_MSC_VER=1500 -DWIN32 twowaystream.h -o debug\moc_twowaystream.cpp"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\moc.exe;twowaystream.h"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\moc.exe  -DUNDER_CE -DWINCE -D_WINDOWS -D_UNICODE -DUNICODE -D_WIN32 -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -DARMV4I -D_ARMV4I_ -Darmv4i -D_ARM_ -DARM -D_M_ARM -DARM -D__arm__ -DQ_OS_WINCE_WM -DQT_NO_PRINTER -DQT_NO_PRINTDIALOG -D_WIN32_WCE=0x502 -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;..\..\qt-4.6.0-tp1\include\QtCore&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtNetwork&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtGui&quot; -I&quot;..\..\qt-4.6.0-tp1\include\QtWebKit&quot; -I&quot;..\..\qt-4.6.0-tp1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-4.6.0-tp1\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-4.6.0-tp1\mkspecs\default -D_MSC_VER=1500 twowaystream.h -o debug\moc_twowaystream.cpp"
 						Description="MOC twowaystream.h"
 						Outputs="debug\moc_twowaystream.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 			</File>
 		</Filter>
@@ -289,73 +295,73 @@
 			<File
 				RelativePath="debug\moc_ConnectionManager.cpp">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="release\moc_ConnectionManager.cpp">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="debug\moc_mainwindow.cpp">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="release\moc_mainwindow.cpp">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="debug\moc_mapview.cpp">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="release\moc_mapview.cpp">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="debug\moc_simplerpccontroller.cpp">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="release\moc_simplerpccontroller.cpp">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="debug\moc_twowaystream.cpp">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="release\moc_twowaystream.cpp">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="debug\qrc_webpage.cpp">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
 				RelativePath="release\qrc_webpage.cpp">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
 					ExcludedFromBuild="true"/>
 			</File>
 			<File
@@ -371,47 +377,47 @@
 			<File
 				RelativePath="mainwindow.ui">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\uic.exe;mainwindow.ui"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\uic.exe mainwindow.ui -o ui_mainwindow.h"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\uic.exe;mainwindow.ui"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\uic.exe mainwindow.ui -o ui_mainwindow.h"
 						Description="UIC mainwindow.ui"
 						Outputs="ui_mainwindow.h"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\uic.exe;mainwindow.ui"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\uic.exe mainwindow.ui -o ui_mainwindow.h"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\uic.exe;mainwindow.ui"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\uic.exe mainwindow.ui -o ui_mainwindow.h"
 						Description="UIC mainwindow.ui"
 						Outputs="ui_mainwindow.h"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="mapview.ui">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\uic.exe;QtWebKit\QWebView;mapview.ui"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\uic.exe mapview.ui -o ui_mapview.h"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\uic.exe;QtWebKit\QWebView;mapview.ui"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\uic.exe mapview.ui -o ui_mapview.h"
 						Description="UIC mapview.ui"
 						Outputs="ui_mapview.h"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\uic.exe;QtWebKit\QWebView;mapview.ui"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\uic.exe mapview.ui -o ui_mapview.h"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\uic.exe;QtWebKit\QWebView;mapview.ui"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\uic.exe mapview.ui -o ui_mapview.h"
 						Description="UIC mapview.ui"
 						Outputs="ui_mapview.h"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 			</File>
 		</Filter>
@@ -433,24 +439,24 @@
 			<File
 				RelativePath="webpage.qrc">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\rcc.exe;webpage.qrc;webpages\images\icon1-shadow.png;webpages\images\icon1.png;webpages\index.htm;webpages\main.js;webpages\markermanager.js"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\rcc.exe -name webpage webpage.qrc -o release\qrc_webpage.cpp"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\rcc.exe;webpage.qrc;webpages\images\icon1-shadow.png;webpages\images\icon1.png;webpages\index.htm;webpages\main.js;webpages\markermanager.js"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\rcc.exe -name webpage webpage.qrc -o release\qrc_webpage.cpp"
 						Description="RCC webpage.qrc"
 						Outputs="release\qrc_webpage.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.5.2\bin\rcc.exe;webpage.qrc;webpages\images\icon1-shadow.png;webpages\images\icon1.png;webpages\index.htm;webpages\main.js;webpages\markermanager.js"
-						CommandLine="F:\QT\qt-win-4.5.2\bin\rcc.exe -name webpage webpage.qrc -o debug\qrc_webpage.cpp"
+						AdditionalDependencies="F:\QT\qt-4.6.0-tp1\bin\rcc.exe;webpage.qrc;webpages\images\icon1-shadow.png;webpages\images\icon1.png;webpages\index.htm;webpages\main.js;webpages\markermanager.js"
+						CommandLine="F:\QT\qt-4.6.0-tp1\bin\rcc.exe -name webpage webpage.qrc -o debug\qrc_webpage.cpp"
 						Description="RCC webpage.qrc"
 						Outputs="debug\qrc_webpage.cpp"
-						Path="f:\QT\qt-win-4.5.2\bin"/>
+						Path="f:\QT\qt-4.6.0-tp1\bin"/>
 				</FileConfiguration>
 			</File>
 		</Filter>
