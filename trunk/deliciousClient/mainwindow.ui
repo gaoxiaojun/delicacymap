@@ -6,61 +6,581 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>240</width>
-    <height>320</height>
+    <width>446</width>
+    <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>delicacymap</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>240</width>
-     <height>24</height>
-    </rect>
+  <widget class="QWidget" name="centralwidget">
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
-   <widget class="QAction" name="menuZoomOut">
-    <property name="Text">
-     <string>Zoom Out</string>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/Icons/Resources/images/background.png);</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
     </property>
-   </widget>
-   <widget class="QAction" name="menuGPSLoc">
-    <property name="Text">
-     <string>Where am I</string>
+    <property name="margin">
+     <number>0</number>
     </property>
-   </widget>
-   <widget class="QAction" name="menuBTHfind">
-    <property name="Text">
-     <string>BTH Endpoints</string>
-    </property>
-   </widget>
-   <widget class="QAction" name="menuZoomIn">
-    <property name="Text">
-     <string>Zoom In</string>
-    </property>
-   </widget>
-   <widget class="QAction" name="menuConfig">
-    <property name="Text">
-     <string>Config</string>
-    </property>
-   </widget>
-   <widget class="QAction" name="menuExit">
-    <property name="Text">
-     <string>Exit</string>
-    </property>
-   </widget>
-   <addaction name="menuZoomOut"/>
-   <addaction name="menuZoomIn"/>
-   <addaction name="menuGPSLoc"/>
-   <addaction name="menuConfig"/>
-   <addaction name="menuExit"/>
-   <addaction name="menuBTHfind"/>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>用户状态：在线</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>当前位置：西直门</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QToolButton" name="toolButton_A">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>A</string>
+        </property>
+        <property name="icon">
+         <iconset resource="mainwindow.qrc">
+          <normaloff>:/Icons/Resources/images/submit_comments.png</normaloff>:/Icons/Resources/images/submit_comments.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_B">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>B</string>
+        </property>
+        <property name="icon">
+         <iconset resource="mainwindow.qrc">
+          <normaloff>:/Icons/Resources/images/favourite.png</normaloff>:/Icons/Resources/images/favourite.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_C">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>C</string>
+        </property>
+        <property name="icon">
+         <iconset resource="mainwindow.qrc">
+          <normaloff>:/Icons/Resources/images/add_friends.png</normaloff>:/Icons/Resources/images/add_friends.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_D">
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+        <property name="icon">
+         <iconset resource="mainwindow.qrc">
+          <normaloff>:/Icons/Resources/images/view_friends.png</normaloff>:/Icons/Resources/images/view_friends.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit">
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_E">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>E</string>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page_2">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();
+</string>
+          </property>
+          <property name="tabShape">
+           <enum>QTabWidget::Rounded</enum>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <property name="elideMode">
+           <enum>Qt::ElideNone</enum>
+          </property>
+          <widget class="QWidget" name="tab_1">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+           </property>
+           <attribute name="title">
+            <string>菜式收藏</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="tab_2">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+           </property>
+           <attribute name="title">
+            <string>历史评论</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTabWidget" name="tabWidget_2">
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>餐厅推荐</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="tab_3">
+           <attribute name="title">
+            <string>近期优惠</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="tab_4">
+           <attribute name="title">
+            <string>我的收藏</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QToolButton" name="toolButton_L">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_R">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="pushButton_L">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 40%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_R">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 40%);
+background-image: url();</string>
+        </property>
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
+  <action name="actionA">
+   <property name="text">
+    <string>A</string>
+   </property>
+  </action>
+  <action name="actionB">
+   <property name="text">
+    <string>B</string>
+   </property>
+  </action>
+  <action name="actionC">
+   <property name="text">
+    <string>C</string>
+   </property>
+  </action>
+  <action name="actionD">
+   <property name="text">
+    <string>D</string>
+   </property>
+  </action>
+  <action name="actionE">
+   <property name="text">
+    <string>E</string>
+   </property>
+  </action>
+  <action name="actionL">
+   <property name="text">
+    <string>L</string>
+   </property>
+  </action>
+  <action name="actionR">
+   <property name="text">
+    <string>R</string>
+   </property>
+  </action>
+  <action name="actionPL">
+   <property name="text">
+    <string>PL</string>
+   </property>
+  </action>
+  <action name="actionPR">
+   <property name="text">
+    <string>PR</string>
+   </property>
+  </action>
  </widget>
- <resources/>
- <connections/>
+ <resources>
+  <include location="mainwindow.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>toolButton_A</sender>
+   <signal>clicked()</signal>
+   <receiver>actionA</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>10</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButton_B</sender>
+   <signal>clicked()</signal>
+   <receiver>actionB</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>30</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButton_C</sender>
+   <signal>clicked()</signal>
+   <receiver>actionC</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>49</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButton_D</sender>
+   <signal>clicked()</signal>
+   <receiver>actionD</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButton_E</sender>
+   <signal>clicked()</signal>
+   <receiver>actionE</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>551</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButton_L</sender>
+   <signal>clicked()</signal>
+   <receiver>actionL</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>13</x>
+     <y>341</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButton_R</sender>
+   <signal>clicked()</signal>
+   <receiver>actionR</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>564</x>
+     <y>341</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_L</sender>
+   <signal>clicked()</signal>
+   <receiver>actionPL</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>144</x>
+     <y>365</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_R</sender>
+   <signal>clicked()</signal>
+   <receiver>actionPR</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>432</x>
+     <y>365</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

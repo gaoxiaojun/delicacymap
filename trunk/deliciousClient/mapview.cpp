@@ -16,7 +16,8 @@ mapview::mapview(QWidget *parent, int width, int height)
     ui.setupUi(this);
 
     QString html("Load html error!!!");
-    QFile f(":/webpages/index.htm");
+    //QFile f(":/webpages/index.htm");
+	QFile f("E:/Development/Qt/project/DMgoogle/trunk/deliciousClient/webpages/index.htm");
     if (f.open(QIODevice::ReadOnly))
     {
     	QTextStream stream(&f);
@@ -38,6 +39,7 @@ mapview::mapview(QWidget *parent, int width, int height)
     QWebSettings::setMaximumPagesInCache(0);
     QWebSettings::setObjectCacheCapacities(0.5*1024*1024, 1*1024*1024, 0.5*1024*1024);
     
+	qDebug()<<"Done Webkit Init"<<endl;
     //===========================Done Webkit Init=====================================
 	
 	mapListener = new MapListener(this);
