@@ -20,10 +20,11 @@ int main(int argc, char *argv[])
     mainwindow.show();
 #endif
 
-    mapview navi(NULL, mainwindow.size().width(), mainwindow.size().height());
-    mainwindow.setCentralWidget(&navi);
-    navi.setFocus();
-    mainwindow.connectmenuevent();
+    //mapview navi(NULL, mainwindow.size().width(), mainwindow.size().height());
+	//mainwindow.m_ui->stackedWidget->insertWidget(1,&navi);
+    //mainwindow.setCentralWidget(&navi);
+    //navi.setFocus();
+    //mainwindow.connectmenuevent();
 
 	//ConnectionManager connectionManager;
 
