@@ -1,1 +1,1 @@
-F:\QT\qt-4.6.0-tp1\bin\qmake -t vcapp
+F:\QT\qt-4.6.0-beta1\bin\qmake -t vcapp
