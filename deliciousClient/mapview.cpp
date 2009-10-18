@@ -16,7 +16,7 @@ mapview::mapview(QWidget *parent, int width, int height)
     ui.setupUi(this);
 
     QString html("Load html error!!!");
-    QFile f(":/webpages/index.html");
+    QFile f(":/webpages/index.htm");
     if (f.open(QIODevice::ReadOnly))
     {
     	QTextStream stream(&f);
