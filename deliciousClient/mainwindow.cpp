@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     m_ui->setupUi(this);
 #if _WIN32_WCE
-    menuBar()->setDefaultAction(m_ui->menuZoomOut);
+    //menuBar()->setDefaultAction(m_ui->menuZoomOut);
 #endif
     //connect(m_ui->menuExit, SIGNAL(triggered()), this, SLOT(close()));
 	//qDebug()<<this->m_ui->stackedWidget->widget(1)->size().width()<<endl;
