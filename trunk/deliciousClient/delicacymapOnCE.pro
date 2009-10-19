@@ -12,9 +12,9 @@ LIBPATH += ../protocol-buffer-src/lib
 # Input
 win32:CONFIG += console
 QT += webkit \
-    network
+      network
 FORMS += mapview.ui \
-    mainwindow.ui
+         mainwindow.ui
 HEADERS += mapview.h \
            bluetoothmanager.h \
            ConnectionManager.h \
@@ -36,7 +36,8 @@ SOURCES += main.cpp \
            mainwindow.cpp \
            ../protocol-buffer-src/MapProtocol.pb.cc
 
-RESOURCES += webpage.qrc  #for the convinience of development
+RESOURCES += webpage.qrc \
+             mainwindow.qrc
 
 # DEPLOYMENT_PLUGIN += qsqlite qjpeg qgif qmng
 

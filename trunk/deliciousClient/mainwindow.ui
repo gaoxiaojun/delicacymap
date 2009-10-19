@@ -18,7 +18,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/Icons/Resources/images/background.png);</string>
+    <string notr="true">background-image: url(:/Icons/Resources/image/background.png);</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
@@ -82,7 +82,7 @@ background-image: url();</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/images/submit_comments.png</normaloff>:/Icons/Resources/images/submit_comments.png</iconset>
+          <normaloff>:/Icons/Resources/image/submit_comments.png</normaloff>:/Icons/Resources/image/submit_comments.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -106,7 +106,7 @@ background-image: url();</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/images/favourite.png</normaloff>:/Icons/Resources/images/favourite.png</iconset>
+          <normaloff>:/Icons/Resources/image/favourite.png</normaloff>:/Icons/Resources/image/favourite.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -130,7 +130,7 @@ background-image: url();</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/images/add_friends.png</normaloff>:/Icons/Resources/images/add_friends.png</iconset>
+          <normaloff>:/Icons/Resources/image/add_friends.png</normaloff>:/Icons/Resources/image/add_friends.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -157,7 +157,7 @@ background-image: url();</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/images/view_friends.png</normaloff>:/Icons/Resources/images/view_friends.png</iconset>
+          <normaloff>:/Icons/Resources/image/view_friends.png</normaloff>:/Icons/Resources/image/view_friends.png</iconset>
         </property>
         <property name="iconSize">
          <size>
