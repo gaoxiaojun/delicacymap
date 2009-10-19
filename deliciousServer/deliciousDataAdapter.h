@@ -18,7 +18,7 @@ public://destructor
 
 public://singleton impl
     static deliciousDataAdapter* GetInstance();
-    static void Initialize();
+	static void Initialize(const std::string& connstr);
 public://query methods
     size_t QueryRestaurantWithinLocation( double longtitude, double latitude, double lontitude_to, double latitude_to, int level, CallbackFunc callback );
 
