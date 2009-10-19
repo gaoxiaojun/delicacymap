@@ -33,13 +33,13 @@ deliciousDataAdapter::~deliciousDataAdapter(void)
 deliciousDataAdapter* deliciousDataAdapter::GetInstance()
 {
     if (!_single)
-        Initialize();
+        Initialize("delicacyDB.db3"); //TODO: give more rational solution.
     return _single;
 }
 
-void deliciousDataAdapter::Initialize()
+void deliciousDataAdapter::Initialize(const string& dbfile)
 {
-    _single = new deliciousDataAdapter("delicacyDB.db3");
+    _single = new deliciousDataAdapter(dbfile);
 }
 
 void deliciousDataAdapter::ExecuteNormal( char* query, CallbackFunc callback )

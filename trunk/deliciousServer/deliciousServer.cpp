@@ -7,13 +7,16 @@
 #include "deliciousDataAdapter.h"
 #include <string>
 #include <exception>
+#include <iostream>
 #include <pantheios/backends/bec.file.h>
 #include <boost/array.hpp>
 #include <boost/thread.hpp>
 #include <boost/foreach.hpp>
+#include <boost/program_options.hpp>
 
 using namespace std;
 using namespace boost::asio;
+using namespace boost::program_options;
 
 extern "C"
 const char PANTHEIOS_FE_PROCESS_IDENTITY[]  =   "deliciousServer";
@@ -23,18 +26,34 @@ static const int MonitorPort = 24000;
 boost::asio::io_service io;
 rclib::network::TCPServer<naked_conn> *serverd;
 
-bool InitializeComponents();
+bool InitializeComponents(const string& dbpath);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+	options_description desc("Allowed options for delicious server:");
+	desc.add_options()
+		("help", "Output this message.")
+		("db", value<string>()->default_value("delicacyDB.db3"), "Opens sqlite database at given location.")
+		("logpath", value<string>()->default_value("delicious.log"), "Write run log to given path.");
+
+	variables_map vm;
+	store(parse_command_line(argc, argv, desc), vm);
+	notify(vm);    
+
+	if (vm.count("help")) {
+		cout << desc << "\n";
+		return 1;
+	}
+
     //////////////////////////////////////////////////////////////////////////
-    pantheios_be_file_setFilePath("delicious.log");
+    pantheios_be_file_setFilePath(vm["logpath"].as<string>().c_str());
     //////////////////////////////////////////////////////////////////////////
 
     pantheios::log_NOTICE("Server launched.");
     
-    if (!InitializeComponents())
+    if (!InitializeComponents(vm["db"].as<string>()))
     {
         pantheios::log_NOTICE("Initialize Faile. Terminating...");
         return -1;
@@ -53,14 +72,14 @@ int _tmain(int argc, _TCHAR* argv[])
     return 0;
 }
 
-bool InitializeComponents()
+bool InitializeComponents(const string& dbpath)
 {
     pantheios::log_NOTICE("Begin Initialize.");
     try
     {
         serverd = new rclib::network::TCPServer<naked_conn>(io, MonitorPort);
         pantheios::log_INFORMATIONAL("Network daemon initialized.");
-        deliciousDataAdapter::Initialize();
+        deliciousDataAdapter::Initialize(dbpath);
         pantheios::log_INFORMATIONAL("Database initialized.");
 
         pantheios::log_NOTICE("Initialization Finished Successfully.");
