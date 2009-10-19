@@ -1,9 +1,0 @@
-[deliciousServer.5964, 2009/5/10 20:58:22.018; Notice]: Server launched.
-[deliciousServer.5964, 2009/5/10 20:58:22.018; Notice]: Begin Initialize.
-[deliciousServer.5964, 2009/5/10 20:58:22.079; Informational]: Network daemon initialized.
-[deliciousServer.5964, 2009/5/10 20:58:22.080; Critical]: unable to open database file
-[deliciousServer.5964, 2009/5/10 20:58:22.080; Notice]: Initialize Faile. Terminating...
-[deliciousServer.3960, 2009/5/17 2:07:07.678; Notice]: Server launched.
-[deliciousServer.3960, 2009/5/17 2:07:07.679; Notice]: Begin Initialize.
-[deliciousServer.3960, 2009/5/17 2:07:07.704; Critical]: The requested name is valid, but no data of the requested type was found
-[deliciousServer.3960, 2009/5/17 2:07:07.704; Notice]: Initialize Faile. Terminating...
