@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	interfaceTransit_map();
 
-	m_ui->centralwidget->setStyleSheet("background-image: url(:/Icons/Resources/images/background.png)");
+	//m_ui->centralwidget->setStyleSheet("background-image: url(:/Icons/Resources/images/background.png)");
 
 }
 

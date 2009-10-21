@@ -15,6 +15,7 @@ QT += webkit \
       network
 FORMS += mapview.ui \
          mainwindow.ui
+		 
 HEADERS += mapview.h \
            bluetoothmanager.h \
            ConnectionManager.h \
