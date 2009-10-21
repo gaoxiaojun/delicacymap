@@ -7,6 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>446</width>
+    <height>424</height>
     <height>492</height>
    </rect>
   </property>
@@ -21,6 +22,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
+    <string notr="true">background-image: url(:/Icons/Resources/images/background.png);</string>
     <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -121,7 +123,7 @@ background-image: url();</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/image/submit_comments.png</normaloff>:/Icons/Resources/image/submit_comments.png</iconset>
+          <normaloff>:/Icons/Resources/images/submit_comments.png</normaloff>:/Icons/Resources/images/submit_comments.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -145,7 +147,7 @@ background-image: url();</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/image/favourite.png</normaloff>:/Icons/Resources/image/favourite.png</iconset>
+          <normaloff>:/Icons/Resources/images/favourite.png</normaloff>:/Icons/Resources/images/favourite.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -169,7 +171,7 @@ background-image: url();</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/image/add_friends.png</normaloff>:/Icons/Resources/image/add_friends.png</iconset>
+          <normaloff>:/Icons/Resources/images/add_friends.png</normaloff>:/Icons/Resources/images/add_friends.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -196,7 +198,7 @@ background-image: url();</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/image/view_friends.png</normaloff>:/Icons/Resources/image/view_friends.png</iconset>
+          <normaloff>:/Icons/Resources/images/view_friends.png</normaloff>:/Icons/Resources/images/view_friends.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -312,6 +314,29 @@ background-image: url();</string>
            <attribute name="title">
             <string>历史评论</string>
            </attribute>
+           <widget class="QPushButton" name="pushButton">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>190</y>
+              <width>75</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>PushButton</string>
+            </property>
+           </widget>
+           <widget class="QTextEdit" name="textEdit">
+            <property name="geometry">
+             <rect>
+              <x>180</x>
+              <y>50</y>
+              <width>211</width>
+              <height>201</height>
+             </rect>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>

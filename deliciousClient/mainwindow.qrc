@@ -1,11 +1,11 @@
 <RCC>
   <qresource prefix="Icons" >
-    <file>Resources/image/background.png</file>
-    <file>Resources/image/add_favourite.png</file>
-    <file>Resources/image/add_friends.png</file>
-    <file>Resources/image/favourite.png</file>
-    <file>Resources/image/submit_comments.png</file>
-    <file>Resources/image/view_comments.png</file>
-    <file>Resources/image/view_friends.png</file>
+    <file>Resources/images/add_favourite.png</file>
+    <file>Resources/images/add_friends.png</file>
+    <file>Resources/images/background.png</file>
+    <file>Resources/images/favourite.png</file>
+    <file>Resources/images/submit_comments.png</file>
+    <file>Resources/images/view_comments.png</file>
+    <file>Resources/images/view_friends.png</file>
   </qresource>
 </RCC>
