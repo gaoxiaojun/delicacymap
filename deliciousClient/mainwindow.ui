@@ -7,18 +7,21 @@
     <x>0</x>
     <y>0</y>
     <width>446</width>
-    <height>424</height>
+    <height>492</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>delicacymap</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url(:/Icons/Resources/image/background.png);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/Icons/Resources/image/background.png);</string>
+    <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
@@ -31,12 +34,26 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgba(0, 0, 0, 0%);
 background-image: url();</string>
         </property>
         <property name="text">
-         <string>用户状态：在线</string>
+         <string notr="true">用户状态：在线</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::PlainText</enum>
+        </property>
+        <property name="margin">
+         <number>5</number>
+        </property>
+        <property name="indent">
+         <number>3</number>
         </property>
        </widget>
       </item>
@@ -45,22 +62,44 @@ background-image: url();</string>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::MinimumExpanding</enum>
+        </property>
         <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
-          <height>20</height>
+          <height>25</height>
          </size>
         </property>
        </spacer>
       </item>
       <item>
        <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgba(0, 0, 0, 0%);
 background-image: url();</string>
         </property>
         <property name="text">
-         <string>当前位置：西直门</string>
+         <string notr="true">当前位置：西直门</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::PlainText</enum>
+        </property>
+        <property name="margin">
+         <number>5</number>
+        </property>
+        <property name="indent">
+         <number>-1</number>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::NoTextInteraction</set>
         </property>
        </widget>
       </item>
@@ -225,16 +264,14 @@ background-image: url();</string>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="styleSheet">
-       <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
+       <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
       </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
       <widget class="QWidget" name="page_2">
        <property name="styleSheet">
-        <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
+        <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">
@@ -246,23 +283,23 @@ background-image: url();</string>
         <item>
          <widget class="QTabWidget" name="tabWidget">
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();
-</string>
+           <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
           </property>
           <property name="tabShape">
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="elideMode">
            <enum>Qt::ElideNone</enum>
           </property>
+          <property name="documentMode">
+           <bool>true</bool>
+          </property>
           <widget class="QWidget" name="tab_1">
            <property name="styleSheet">
-            <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
+            <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
            </property>
            <attribute name="title">
             <string>菜式收藏</string>
@@ -270,8 +307,7 @@ background-image: url();</string>
           </widget>
           <widget class="QWidget" name="tab_2">
            <property name="styleSheet">
-            <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
+            <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
            </property>
            <attribute name="title">
             <string>历史评论</string>
@@ -295,19 +331,31 @@ background-image: url();</string>
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
+          </property>
+          <property name="documentMode">
+           <bool>true</bool>
           </property>
           <widget class="QWidget" name="tab">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
+           </property>
            <attribute name="title">
             <string>餐厅推荐</string>
            </attribute>
           </widget>
           <widget class="QWidget" name="tab_3">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
+           </property>
            <attribute name="title">
             <string>近期优惠</string>
            </attribute>
           </widget>
           <widget class="QWidget" name="tab_4">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
+           </property>
            <attribute name="title">
             <string>我的收藏</string>
            </attribute>
