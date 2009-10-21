@@ -7,7 +7,6 @@
     <x>0</x>
     <y>0</y>
     <width>446</width>
-    <height>424</height>
     <height>492</height>
    </rect>
   </property>
@@ -18,12 +17,8 @@
    <string notr="true">background-image: url(:/Icons/Resources/image/background.png);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/Icons/Resources/images/background.png);</string>
-    <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
+    <string notr="true">background-image: url();background-color: rgba(0, 0, 0,0%);</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
@@ -40,10 +35,6 @@
          <font>
           <pointsize>9</pointsize>
          </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
         </property>
         <property name="text">
          <string notr="true">用户状态：在线</string>
@@ -84,10 +75,6 @@ background-image: url();</string>
           <bold>false</bold>
          </font>
         </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
-        </property>
         <property name="text">
          <string notr="true">当前位置：西直门</string>
         </property>
@@ -114,16 +101,12 @@ background-image: url();</string>
       </property>
       <item>
        <widget class="QToolButton" name="toolButton_A">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
-        </property>
         <property name="text">
          <string>A</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/images/submit_comments.png</normaloff>:/Icons/Resources/images/submit_comments.png</iconset>
+          <normaloff>:/Icons/Resources/image/submit_comments.png</normaloff>:/Icons/Resources/image/submit_comments.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -138,16 +121,12 @@ background-image: url();</string>
       </item>
       <item>
        <widget class="QToolButton" name="toolButton_B">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
-        </property>
         <property name="text">
          <string>B</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/images/favourite.png</normaloff>:/Icons/Resources/images/favourite.png</iconset>
+          <normaloff>:/Icons/Resources/image/favourite.png</normaloff>:/Icons/Resources/image/favourite.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -162,16 +141,12 @@ background-image: url();</string>
       </item>
       <item>
        <widget class="QToolButton" name="toolButton_C">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
-        </property>
         <property name="text">
          <string>C</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/images/add_friends.png</normaloff>:/Icons/Resources/images/add_friends.png</iconset>
+          <normaloff>:/Icons/Resources/image/add_friends.png</normaloff>:/Icons/Resources/image/add_friends.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -189,16 +164,12 @@ background-image: url();</string>
         <property name="autoFillBackground">
          <bool>false</bool>
         </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
-        </property>
         <property name="text">
          <string>D</string>
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/images/view_friends.png</normaloff>:/Icons/Resources/images/view_friends.png</iconset>
+          <normaloff>:/Icons/Resources/image/view_friends.png</normaloff>:/Icons/Resources/image/view_friends.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -232,10 +203,6 @@ background-image: url();</string>
           <height>0</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
-        </property>
        </widget>
       </item>
       <item>
@@ -249,10 +216,6 @@ background-image: url();</string>
         <property name="autoFillBackground">
          <bool>false</bool>
         </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
-        </property>
         <property name="text">
          <string>E</string>
         </property>
@@ -265,16 +228,10 @@ background-image: url();</string>
     </item>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
-      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
       <widget class="QWidget" name="page_2">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
-       </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">
          <number>0</number>
@@ -284,14 +241,11 @@ background-image: url();</string>
         </property>
         <item>
          <widget class="QTabWidget" name="tabWidget">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
-          </property>
           <property name="tabShape">
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="elideMode">
            <enum>Qt::ElideNone</enum>
@@ -300,17 +254,16 @@ background-image: url();</string>
            <bool>true</bool>
           </property>
           <widget class="QWidget" name="tab_1">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
+           <property name="font">
+            <font>
+             <kerning>true</kerning>
+            </font>
            </property>
            <attribute name="title">
             <string>菜式收藏</string>
            </attribute>
           </widget>
           <widget class="QWidget" name="tab_2">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
-           </property>
            <attribute name="title">
             <string>历史评论</string>
            </attribute>
@@ -362,25 +315,16 @@ background-image: url();</string>
            <bool>true</bool>
           </property>
           <widget class="QWidget" name="tab">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
-           </property>
            <attribute name="title">
             <string>餐厅推荐</string>
            </attribute>
           </widget>
           <widget class="QWidget" name="tab_3">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
-           </property>
            <attribute name="title">
             <string>近期优惠</string>
            </attribute>
           </widget>
           <widget class="QWidget" name="tab_4">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgba(0, 0, 0, 0%);</string>
-           </property>
            <attribute name="title">
             <string>我的收藏</string>
            </attribute>
@@ -395,10 +339,6 @@ background-image: url();</string>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <widget class="QToolButton" name="toolButton_L">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
-        </property>
         <property name="text">
          <string>...</string>
         </property>
@@ -419,10 +359,6 @@ background-image: url();</string>
       </item>
       <item>
        <widget class="QToolButton" name="toolButton_R">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(0, 0, 0, 0%);
-background-image: url();</string>
-        </property>
         <property name="text">
          <string>...</string>
         </property>
@@ -437,10 +373,6 @@ background-image: url();</string>
       </property>
       <item>
        <widget class="QPushButton" name="pushButton_L">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(255, 255, 255, 40%);
-background-image: url();</string>
-        </property>
         <property name="text">
          <string>PushButton</string>
         </property>
@@ -451,10 +383,6 @@ background-image: url();</string>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_R">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(255, 255, 255, 40%);
-background-image: url();</string>
-        </property>
         <property name="text">
          <string>PushButton</string>
         </property>
