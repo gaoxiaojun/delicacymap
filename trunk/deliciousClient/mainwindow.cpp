@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "mapview.h"
 #include "bluetoothmanager.h"
+#include "CustomEvents.h"
 
 #include <QMenuBar>
 #include <QDebug>
@@ -26,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	interfaceTransit_map();
 
 	//m_ui->centralwidget->setStyleSheet("background-image: url(:/Icons/Resources/images/background.png)");
-
+	bool suc = connect(m_ui->testRPC,SIGNAL(clicked()),this,SLOT(TestRPC()));
 }
 
 MainWindow::~MainWindow()
@@ -43,6 +44,20 @@ void MainWindow::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void MainWindow::customEvent( QEvent *e )
+{
+	QMainWindow::customEvent(e);
+	RestaurantListEvent* rlist = dynamic_cast<RestaurantListEvent*>(e);
+	if (rlist)
+	{
+		QTextEdit *text = m_ui->textEdit;
+		for (int i=0;i<rlist->rlist->restaurants_size();++i)
+		{
+			text->append(QString::fromUtf8(rlist->rlist->restaurants(i).name().c_str()));
+		}
+	}
 }
 
 void MainWindow::BTHFind()
@@ -138,4 +153,28 @@ void MainWindow::interfaceTransit_favourite()
 
 
 	connect(m_ui->actionPL,SIGNAL(triggered()),this,SLOT(interfaceTransit_map()));
+}
+
+void MainWindow::TestRPC()
+{
+	QTextEdit* textbox = m_ui->textEdit;
+	textbox->append("Test Begin. Connected to 127.0.0.1\n");
+	ProtocolBuffer::RestaurantList *rlist = new ProtocolBuffer::RestaurantList();
+	ProtocolBuffer::Query *query = new ProtocolBuffer::Query();
+	google::protobuf::Closure *done = google::protobuf::NewCallback(this, &MainWindow::TestResult, textbox, rlist);
+	query->mutable_area()->mutable_southwest()->set_latitude(0.0);
+	query->mutable_area()->mutable_southwest()->set_longitude(0.0);
+	query->mutable_area()->mutable_northeast()->set_latitude(10000.0);
+	query->mutable_area()->mutable_northeast()->set_longitude(10000.0);
+	query->set_level(8);
+	query->set_n(1000);
+	connman.getStub()->GetRestaurants(&connman.controller, query, rlist, done);
+
+}
+
+void MainWindow::TestResult( QTextEdit* textbox, ProtocolBuffer::RestaurantList * rlist )
+{
+	RestaurantListEvent* ev = new RestaurantListEvent();
+	ev->rlist = rlist;
+	QApplication::postEvent(this, ev);
 }

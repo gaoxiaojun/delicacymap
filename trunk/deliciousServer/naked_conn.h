@@ -31,8 +31,6 @@ public://methods
 
     void close();
 
-    bool write(const char* bytes, size_t size);
-
     boost::asio::ip::tcp::socket& socket() {return _s;}
 
     virtual void CallMethod(const google::protobuf::MethodDescriptor* method,
@@ -58,9 +56,11 @@ private://methods handling different rpc request types
 private://data
     boost::asio::ip::tcp::socket _s;
     boost::array<char, MaxInputBufSize> inputbuf;
+	boost::array<boost::asio::const_buffer, 2> bufs;
     ProtocolBuffer::Query query;
     protorpc::Message income, outcome;
     ProtocolBuffer::DMService *service;
     AsioRpcController *controller;
-    size_t readsize;
+    size_t readsize, writesize;
+	std::string outputbuf;
 };

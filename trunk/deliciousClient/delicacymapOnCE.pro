@@ -67,11 +67,12 @@ win32:!wince* {
 	           bluetoothmanager_win.cpp
     HEADERS += bluetoothmanager_wince.h \
 			   bluetoothmanager_win.h
-	LIBS += Ws2_32.lib \
-            protorpcpp_win32_release.lib
+	LIBS += Ws2_32.lib
     CONFIG(debug, debug|release) {
-        LIBS += libprotobuf_win32_debug.lib
+        LIBS += libprotobuf_win32_debug.lib \
+                protorpcpp_win32_debug.lib
     } else {
-        LIBS += libprotobuf_win32_release.lib
+        LIBS += libprotobuf_win32_release.lib \
+                protorpcpp_win32_release.lib
     }
 }

@@ -16,7 +16,7 @@ public:
 	ConnectionManager();
 	~ConnectionManager();
 	::ProtocolBuffer::DMService::Stub* getStub();
-protected:
+/*protected:*/
 	QTcpSocket *socket;
 	::ProtocolBuffer::DMService::Stub *stub;
 	::protorpc::TwoWayStream *channel;

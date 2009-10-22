@@ -267,7 +267,7 @@
            <attribute name="title">
             <string>历史评论</string>
            </attribute>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="testRPC">
             <property name="geometry">
              <rect>
               <x>40</x>
