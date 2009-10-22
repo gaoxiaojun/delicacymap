@@ -4,7 +4,9 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QTextEdit>
 #include "mapview.h"
-#include "ConnectionManager.h"
+#include "MapDataSource.h"
+
+class ProtobufDataEvent;
 
 namespace Ui {
     class MainWindow;
@@ -22,7 +24,8 @@ protected:
 	virtual void customEvent(QEvent *e);
 	void clearConnections();
 
-	void TestResult(QTextEdit*, ProtocolBuffer::RestaurantList *);
+	void postEvent(ProtobufDataEvent*);
+
 private slots:
     void BTHFind();
 	void TestRPC();
@@ -33,7 +36,7 @@ private slots:
 private:
     Ui::MainWindow *m_ui;
 	mapview *navi;
-	ConnectionManager connman;
+	MapDataSource connman;
 };
 
 #endif // MAINWINDOW_H
