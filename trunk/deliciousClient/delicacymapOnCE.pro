@@ -18,7 +18,7 @@ FORMS += mapview.ui \
 		 
 HEADERS += mapview.h \
            bluetoothmanager.h \
-           ConnectionManager.h \
+           MapDataSource.h \
            LocationSvc.h \
            mainwindow.h \
            callentry.h \
@@ -27,12 +27,13 @@ HEADERS += mapview.h \
            streamcallbackinfo.h \
            twowayrpccontroller.h \
            twowaystream.h \
+           CustomEvents.h \
            ../protocol-buffer-src/MapProtocol.pb.h
 
 SOURCES += main.cpp \
            mapview.cpp \
            bluetoothmanager.cpp \
-           ConnectionManager.cpp \
+           MapDataSource.cpp \
            LocationSvc.cpp \
            mainwindow.cpp \
            ../protocol-buffer-src/MapProtocol.pb.cc

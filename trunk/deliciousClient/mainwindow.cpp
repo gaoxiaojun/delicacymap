@@ -3,9 +3,12 @@
 #include "mapview.h"
 #include "bluetoothmanager.h"
 #include "CustomEvents.h"
+#include "..\protocol-buffer-src\MapProtocol.pb.h"
 
 #include <QMenuBar>
 #include <QDebug>
+
+using namespace ProtocolBuffer;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -27,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	interfaceTransit_map();
 
 	//m_ui->centralwidget->setStyleSheet("background-image: url(:/Icons/Resources/images/background.png)");
-	bool suc = connect(m_ui->testRPC,SIGNAL(clicked()),this,SLOT(TestRPC()));
+	connect(m_ui->testRPC,SIGNAL(clicked()),this,SLOT(TestRPC()));
 }
 
 MainWindow::~MainWindow()
@@ -49,13 +52,30 @@ void MainWindow::changeEvent(QEvent *e)
 void MainWindow::customEvent( QEvent *e )
 {
 	QMainWindow::customEvent(e);
-	RestaurantListEvent* rlist = dynamic_cast<RestaurantListEvent*>(e);
-	if (rlist)
+	ProtobufDataEvent *pe = (ProtobufDataEvent*)e;
+	QTextEdit *text = m_ui->textEdit;
+	switch (e->type())
 	{
-		QTextEdit *text = m_ui->textEdit;
-		for (int i=0;i<rlist->rlist->restaurants_size();++i)
+	case ProtobufDataEvent::RestaurantListRecv:
 		{
-			text->append(QString::fromUtf8(rlist->rlist->restaurants(i).name().c_str()));
+			ProtocolBuffer::RestaurantList* rlist = (RestaurantList*)pe->data;
+			for (int i=0;i<rlist->restaurants_size();++i)
+			{
+				text->append(QString("name=") + QString::fromUtf8(rlist->restaurants(i).name().c_str()) + QString(";RID=") + 
+					QString::number(rlist->restaurants(i).rid()) + QString("\n"));
+			}
+			delete rlist;
+			break;
+		}
+	case ProtobufDataEvent::CommentListRecvs:
+		{
+			CommentList *clist = (CommentList*)pe->data;
+			for (int i=0;i<clist->comments_size();++i)
+			{
+				text->append(QString("content=") + QString::fromUtf8(clist->comments(i).content().c_str()) + QString(";UID=") + 
+					QString::number(clist->comments(i).uid()) + QString("\n"));
+			}
+			delete clist;
 		}
 	}
 }
@@ -158,23 +178,35 @@ void MainWindow::interfaceTransit_favourite()
 void MainWindow::TestRPC()
 {
 	QTextEdit* textbox = m_ui->textEdit;
+
+	//GetRestaurants
 	textbox->append("Test Begin. Connected to 127.0.0.1\n");
+	textbox->append("Restaurants found:\n");
 	ProtocolBuffer::RestaurantList *rlist = new ProtocolBuffer::RestaurantList();
 	ProtocolBuffer::Query *query = new ProtocolBuffer::Query();
-	google::protobuf::Closure *done = google::protobuf::NewCallback(this, &MainWindow::TestResult, textbox, rlist);
+	ProtobufDataEvent* ev = new ProtobufDataEvent(ProtobufDataEvent::RestaurantListRecv);
+	ev->data = rlist;
+	google::protobuf::Closure *done = google::protobuf::NewCallback(this, &MainWindow::postEvent, ev);
 	query->mutable_area()->mutable_southwest()->set_latitude(0.0);
 	query->mutable_area()->mutable_southwest()->set_longitude(0.0);
 	query->mutable_area()->mutable_northeast()->set_latitude(10000.0);
 	query->mutable_area()->mutable_northeast()->set_longitude(10000.0);
 	query->set_level(8);
 	query->set_n(1000);
-	connman.getStub()->GetRestaurants(&connman.controller, query, rlist, done);
+	connman.GetRestaurants(query, rlist, done);
 
+	//GetLastestCommentsOfRestaurant
+	textbox->append("Latest comment for RID=1");
+	query->set_rid(1);
+	CommentList* clist = new CommentList();
+	ProtobufDataEvent* e = new ProtobufDataEvent(ProtobufDataEvent::CommentListRecvs);
+	e->data = clist;
+	google::protobuf::Closure *done2 = google::protobuf::NewCallback(this, &MainWindow::postEvent, e);
+	connman.GetLastestCommentsOfRestaurant(query, clist, done2);
+	delete query;
 }
 
-void MainWindow::TestResult( QTextEdit* textbox, ProtocolBuffer::RestaurantList * rlist )
+void MainWindow::postEvent( ProtobufDataEvent* e )
 {
-	RestaurantListEvent* ev = new RestaurantListEvent();
-	ev->rlist = rlist;
-	QApplication::postEvent(this, ev);
+	QApplication::postEvent(this, e);
 }

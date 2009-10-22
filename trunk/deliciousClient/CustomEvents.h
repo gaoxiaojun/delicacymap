@@ -1,9 +1,9 @@
 #include <QEvent>
-#include "MapProtocol.pb.h"
 
-class RestaurantListEvent : public QEvent
+class ProtobufDataEvent : public QEvent
 {
 public:
-	RestaurantListEvent():QEvent(QEvent::Type(User+1)){}
-	ProtocolBuffer::RestaurantList* rlist;
+	enum EventType { RestaurantListRecv=QEvent::User+1, CommentListRecvs };
+	ProtobufDataEvent(EventType t):QEvent((QEvent::Type)t){}
+	void* data;
 };
