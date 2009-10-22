@@ -25,15 +25,22 @@ void DMServiceLocalDBImpl::GetRestaurants( ::google::protobuf::RpcController* co
     //validate query
     if (request->has_area() && request->has_level())
     {
-        adapter->QueryRestaurantWithinLocation(
-            request->area().southwest().longitude(),
-            request->area().southwest().latitude(),
-            request->area().northeast().longitude(),
-            request->area().northeast().latitude(),
-            request->level(),
-            bind(&DMServiceLocalDBImpl::GetRestaurantsCallback, this, _1, response));
-
-        pantheios::log_DEBUG(response->DebugString());
+		try
+		{
+			adapter->QueryRestaurantWithinLocation(
+				request->area().southwest().longitude(),
+				request->area().southwest().latitude(),
+				request->area().northeast().longitude(),
+				request->area().northeast().latitude(),
+				request->level(),
+				bind(&DMServiceLocalDBImpl::GetRestaurantsCallback, this, _1, response));
+			pantheios::log_DEBUG(response->DebugString());
+		}
+		catch (const std::exception &e)
+		{
+			pantheios::log_ERROR(e.what());
+			controller->SetFailed("Error calling GetRestaurants().");
+		}
     }
     else
     {
@@ -130,6 +137,8 @@ void DMServiceLocalDBImpl::GetRestaurantsCallback( const DBRow& row, RestaurantL
     newr->set_name(row["Name"]);
     newr->set_rating(row.GetValueAs<int>("Rating"));
     newr->set_rid(row.GetValueAs<int>("RID"));
+	newr->mutable_type()->set_name(row["ReadableText"]);
+	newr->mutable_type()->set_tid(row.GetValueAs<int>("TID"));
 
     newr->mutable_location()->set_longitude(row.GetValueAs<double>("Longtitude"));
     newr->mutable_location()->set_latitude(row.GetValueAs<double>("Latitude"));

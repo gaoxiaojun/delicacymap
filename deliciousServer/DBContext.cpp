@@ -58,7 +58,8 @@ DBResult* DBContext::Execute( const std::string &sql )
     if (err != SQLITE_OK)
     {
         exception &e = exception(errmsg, err);
-        sqlite3_free(errmsg);
+		// TODO: this leaks!
+        //sqlite3_free(errmsg);
         throw e;
     }
 

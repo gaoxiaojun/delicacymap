@@ -53,24 +53,18 @@ void naked_conn::readrequest()
             , placeholders::bytes_transferred));
 }
 
-bool naked_conn::write(const char* bytes, size_t size)
-{
-    pantheios::log_INFORMATIONAL("Writing ", pantheios::integer(size), " through tcp connection");
-    array<const_buffer, 2> bufs;
-    bufs[0] = buffer((void*)&size, 4);
-    bufs[1] = buffer(bytes, size);
-    _s.async_send(bufs
-        , boost::bind(&naked_conn::handle_write
-            , shared_from_this()
-            , boost::asio::placeholders::error
-            , boost::asio::placeholders::bytes_transferred));
-    return true;
-}
-
 void naked_conn::write( google::protobuf::Message* msg )
 {
-    string &buf = msg->SerializeAsString();
-    write(buf.c_str(), buf.length());
+    msg->SerializeToString(&outputbuf);
+	pantheios::log_INFORMATIONAL("Writing ", pantheios::integer(outputbuf.size()+4), " through tcp connection");
+	writesize = (outputbuf.size());
+	bufs[0] = buffer((void*)&writesize, 4);
+	bufs[1] = buffer(outputbuf);
+	_s.async_send(bufs
+	    , boost::bind(&naked_conn::handle_write
+	        , shared_from_this()
+	        , boost::asio::placeholders::error
+	        , boost::asio::placeholders::bytes_transferred));
 }
 
 void naked_conn::close()
@@ -97,6 +91,7 @@ void naked_conn::handle_read( const boost::system::error_code& err, size_t bytes
     else
     {
         //handle rpc request and send back reply
+		readsize = ntohl(readsize);
         income.ParseFromArray(inputbuf.c_array(), readsize);
         if (income.has_type())
         {
@@ -168,7 +163,7 @@ void naked_conn::handle_request()
         const MethodDescriptor* desc = service->GetDescriptor()->FindMethodByName(income.name());
         if (income.has_buffer())
         {
-            query.ParseFromString(income.buffer().c_str());
+            query.ParseFromString(income.buffer());
             Message* response = service->GetResponsePrototype(desc).New();
             controller->Reset();
             Closure *closure = NewCallback(this, &naked_conn::rpccalldone, income.id(), static_cast<Message*>(response));
