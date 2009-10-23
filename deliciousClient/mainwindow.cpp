@@ -3,6 +3,7 @@
 #include "mapview.h"
 #include "bluetoothmanager.h"
 #include "CustomEvents.h"
+#include "QTProtobufWaitResponse.h"
 #include "..\protocol-buffer-src\MapProtocol.pb.h"
 
 #include <QMenuBar>
@@ -178,6 +179,7 @@ void MainWindow::interfaceTransit_favourite()
 void MainWindow::TestRPC()
 {
 	QTextEdit* textbox = m_ui->textEdit;
+	QTProtobufWaitResponse synccall;
 
 	//GetRestaurants
 	textbox->append("Test Begin. Connected to 127.0.0.1\n");
@@ -195,27 +197,32 @@ void MainWindow::TestRPC()
 	query->set_n(1000);
 	query->set_rid(1);
 	query->set_uid(1);
-	connman.GetRestaurants(query, rlist, done);
+	connman.GetRestaurants(query, rlist, synccall.getClosure());
+	synccall.wait();
+	for (int i=0;i<rlist->restaurants_size();++i)
+	{
+		textbox->append(QString("name=") + QString::fromUtf8(rlist->restaurants(i).name().c_str()) + QString(";RID=") + 
+			QString::number(rlist->restaurants(i).rid()) + QString("\n"));
+	}
 
 	//GetLastestCommentsOfRestaurant
 	textbox->append("Latest comment for RID=1");
 	CommentList* clist = new CommentList();
-	ProtobufDataEvent* e = new ProtobufDataEvent(ProtobufDataEvent::CommentListRecvs);
-	e->data = clist;
-	google::protobuf::Closure *done2 = google::protobuf::NewCallback(this, &MainWindow::postEvent, e);
-	connman.GetLastestCommentsOfRestaurant(query, clist, done2);
+	connman.GetLastestCommentsOfRestaurant(query, clist, synccall.getClosure());
+	synccall.wait();
+	for (int i=0;i<clist->comments_size();++i)
+	{
+		textbox->append(QString("content=") + QString::fromUtf8(clist->comments(i).content().c_str()) + QString(";UID=") + 
+			QString::number(clist->comments(i).uid()) + QString("\n"));
+	}
 	
 
 	textbox->append("Latest comment for UID=1");
-	
-	for (int i=0;i<30;i++)
-	{
-		CommentList* userclst = new CommentList();
-		ProtobufDataEvent* uce = new ProtobufDataEvent(ProtobufDataEvent::CommentListRecvs);
-		uce->data = userclst;
-		google::protobuf::Closure *done3 = google::protobuf::NewCallback(this, &MainWindow::postEvent, uce);
-		connman.GetLastestCommentsByUser(query, userclst, done3);
-	}
+	CommentList* userclst = new CommentList();
+	ProtobufDataEvent* uce = new ProtobufDataEvent(ProtobufDataEvent::CommentListRecvs);
+	uce->data = userclst;
+	google::protobuf::Closure *done3 = google::protobuf::NewCallback(this, &MainWindow::postEvent, uce);
+	connman.GetLastestCommentsByUser(query, userclst, done3);
 
 	delete query;
 }
