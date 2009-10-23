@@ -24,6 +24,7 @@ HEADERS += mapview.h \
            CustomEvents.h \
            QTProtobufChannel.h \
            QTProbufController.h \
+           QTProtobufWaitResponse.cpp \
            ../protocol-buffer-src/Message.pb.h \
            ../protocol-buffer-src/MapProtocol.pb.h
 
@@ -35,6 +36,7 @@ SOURCES += main.cpp \
            mainwindow.cpp \
            QTProtobufChannel.cpp \
            QTProbufController.cpp \
+           QTProtobufWaitResponse.cpp \
            ../protocol-buffer-src/Message.pb.cc \
            ../protocol-buffer-src/MapProtocol.pb.cc
 
