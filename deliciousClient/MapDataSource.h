@@ -2,9 +2,10 @@
 
 #include <QtCore>
 #include "../protocol-buffer-src/MapProtocol.pb.h"
-#include "twowaystream.h"
-#include "simplerpccontroller.h"
+#undef abort
+#include "QTProbufController.h"
 
+class QTProtobufChannel;
 
 class MapDataSource : public QObject
 {
@@ -16,9 +17,13 @@ public:
 
 	void GetRestaurants(ProtocolBuffer::Query *, ProtocolBuffer::RestaurantList *, google::protobuf::Closure *);
 	void GetLastestCommentsOfRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
+	void GetLastestCommentsByUser(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
+	void GetCommentsOfUserSince(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
+	void GetCommentsOfRestaurantSince(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
+
 
 protected:
 	::ProtocolBuffer::DMService::Stub *stub;
-	::protorpc::TwoWayStream *channel;
-	::protorpc::SimpleRpcController	controller;
+	QTProtobufChannel *channel;
+	QTProbufController	controller;
 };

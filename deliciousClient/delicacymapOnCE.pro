@@ -21,13 +21,10 @@ HEADERS += mapview.h \
            MapDataSource.h \
            LocationSvc.h \
            mainwindow.h \
-           callentry.h \
-           prototools.h \
-           simplerpccontroller.h \
-           streamcallbackinfo.h \
-           twowayrpccontroller.h \
-           twowaystream.h \
            CustomEvents.h \
+           QTProtobufChannel.h \
+           QTProbufController.h \
+           ../protocol-buffer-src/Message.pb.h \
            ../protocol-buffer-src/MapProtocol.pb.h
 
 SOURCES += main.cpp \
@@ -36,6 +33,9 @@ SOURCES += main.cpp \
            MapDataSource.cpp \
            LocationSvc.cpp \
            mainwindow.cpp \
+           QTProtobufChannel.cpp \
+           QTProbufController.cpp \
+           ../protocol-buffer-src/Message.pb.cc \
            ../protocol-buffer-src/MapProtocol.pb.cc
 
 RESOURCES += webpage.qrc \
@@ -59,8 +59,7 @@ wince* {
     LIBS += bthutil.lib \
             ws2.lib \
             Gpsapi.lib \
-            libprotobuf_wince_release.lib \
-            protorpcpp_wince_release.lib
+            libprotobuf_wince_release.lib
 }
 
 win32:!wince* {
@@ -70,10 +69,8 @@ win32:!wince* {
 			   bluetoothmanager_win.h
 	LIBS += Ws2_32.lib
     CONFIG(debug, debug|release) {
-        LIBS += libprotobuf_win32_debug.lib \
-                protorpcpp_win32_debug.lib
+        LIBS += libprotobuf_win32_debug.lib
     } else {
-        LIBS += libprotobuf_win32_release.lib \
-                protorpcpp_win32_release.lib
+        LIBS += libprotobuf_win32_release.lib
     }
 }

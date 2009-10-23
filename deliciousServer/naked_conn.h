@@ -40,7 +40,7 @@ public://methods
         google::protobuf::Closure* done);
 
 private://methods
-    void readrequest();
+    void readrequest(int);
 
     void handle_read(const boost::system::error_code& err, size_t bytes_transferred);
     void handle_write(const boost::system::error_code& err, size_t /*bytes_transferred*/);
