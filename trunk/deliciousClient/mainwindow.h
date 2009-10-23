@@ -4,6 +4,7 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QTextEdit>
 #include "mapview.h"
+#undef abort
 #include "MapDataSource.h"
 
 class ProtobufDataEvent;

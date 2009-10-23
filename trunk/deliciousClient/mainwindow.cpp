@@ -193,16 +193,30 @@ void MainWindow::TestRPC()
 	query->mutable_area()->mutable_northeast()->set_longitude(10000.0);
 	query->set_level(8);
 	query->set_n(1000);
+	query->set_rid(1);
+	query->set_uid(1);
 	connman.GetRestaurants(query, rlist, done);
 
 	//GetLastestCommentsOfRestaurant
 	textbox->append("Latest comment for RID=1");
-	query->set_rid(1);
 	CommentList* clist = new CommentList();
 	ProtobufDataEvent* e = new ProtobufDataEvent(ProtobufDataEvent::CommentListRecvs);
 	e->data = clist;
 	google::protobuf::Closure *done2 = google::protobuf::NewCallback(this, &MainWindow::postEvent, e);
 	connman.GetLastestCommentsOfRestaurant(query, clist, done2);
+	
+
+	textbox->append("Latest comment for UID=1");
+	
+	for (int i=0;i<30;i++)
+	{
+		CommentList* userclst = new CommentList();
+		ProtobufDataEvent* uce = new ProtobufDataEvent(ProtobufDataEvent::CommentListRecvs);
+		uce->data = userclst;
+		google::protobuf::Closure *done3 = google::protobuf::NewCallback(this, &MainWindow::postEvent, uce);
+		connman.GetLastestCommentsByUser(query, userclst, done3);
+	}
+
 	delete query;
 }
 

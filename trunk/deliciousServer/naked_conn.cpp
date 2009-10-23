@@ -38,19 +38,26 @@ void naked_conn::prepare()
 void naked_conn::start()
 {
     pantheios::log_INFORMATIONAL("Connection Start. remote machine: ", _s.remote_endpoint().address().to_string(), ":", pantheios::integer(_s.remote_endpoint().port()));
-    readrequest();
+    readrequest(0);
 }
 
-void naked_conn::readrequest()
+void naked_conn::readrequest(int stage)
 {
-    array<mutable_buffer, 2> bufs;
-    bufs[0] = buffer((void*)&readsize, 4);
-    bufs[1] = buffer(inputbuf);
-    _s.async_receive(bufs
-        , bind(&naked_conn::handle_read
-            , shared_from_this()
-            , placeholders::error
-            , placeholders::bytes_transferred));
+	if (stage == 0)
+	{
+		_s.async_receive(buffer((void*)&readsize, 4)
+			, bind(&naked_conn::readrequest
+			, shared_from_this()
+			, 1));
+	}
+	else if (stage == 1)
+	{
+		_s.async_receive(buffer(inputbuf, ntohl(readsize))
+			, bind(&naked_conn::handle_read
+			, shared_from_this()
+			, placeholders::error
+			, placeholders::bytes_transferred));
+	}
 }
 
 void naked_conn::write( google::protobuf::Message* msg )
@@ -121,7 +128,7 @@ void naked_conn::handle_write( const boost::system::error_code& err, size_t /*by
     if (err)
         pantheios::log_ERROR("write msg err '", err.message() , "' . errcode: ", pantheios::integer(err.value()));
     else
-        readrequest();
+        readrequest(0);
 }
 
 void naked_conn::rpccalldone( google::protobuf::uint32 id, google::protobuf::Message* msg )
