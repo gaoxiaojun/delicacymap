@@ -40,8 +40,7 @@ SOURCES += main.cpp \
            ../protocol-buffer-src/Message.pb.cc \
            ../protocol-buffer-src/MapProtocol.pb.cc
 
-RESOURCES += webpage.qrc \
-             mainwindow.qrc
+RESOURCES += webpage.qrc
 
 # DEPLOYMENT_PLUGIN += qsqlite qjpeg qgif qmng
 
@@ -58,6 +57,7 @@ wince* {
     HEADERS += bluetoothmanager_wince.h \
 			   bluetoothmanager_win_common.h \
                GPSLocationSvc_wince.h
+    RESOURCES += mainwindow_480_800.qrc
     LIBS += bthutil.lib \
             ws2.lib \
             Gpsapi.lib \
@@ -69,6 +69,7 @@ win32:!wince* {
 	           bluetoothmanager_win.cpp
     HEADERS += bluetoothmanager_wince.h \
 			   bluetoothmanager_win.h
+    RESOURCES += mainwindow.qrc
 	LIBS += Ws2_32.lib
     CONFIG(debug, debug|release) {
         LIBS += libprotobuf_win32_debug.lib
