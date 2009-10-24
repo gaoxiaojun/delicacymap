@@ -14,7 +14,7 @@
    <string>delicacymap</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-image: url(:/Icons/Resources/image/background.png);</string>
+   <string notr="true">background-image: url(:/Icons/background.png);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -106,7 +106,7 @@
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/image/submit_comments.png</normaloff>:/Icons/Resources/image/submit_comments.png</iconset>
+          <normaloff>:/Icons/submit_comments.png</normaloff>:/Icons/submit_comments.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -126,7 +126,7 @@
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/image/favourite.png</normaloff>:/Icons/Resources/image/favourite.png</iconset>
+          <normaloff>:/Icons/favourite.png</normaloff>:/Icons/favourite.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -146,7 +146,7 @@
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/image/add_friends.png</normaloff>:/Icons/Resources/image/add_friends.png</iconset>
+          <normaloff>:/Icons/add_friends.png</normaloff>:/Icons/add_friends.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -169,7 +169,7 @@
         </property>
         <property name="icon">
          <iconset resource="mainwindow.qrc">
-          <normaloff>:/Icons/Resources/image/view_friends.png</normaloff>:/Icons/Resources/image/view_friends.png</iconset>
+          <normaloff>:/Icons/view_friends.png</normaloff>:/Icons/view_friends.png</iconset>
         </property>
         <property name="iconSize">
          <size>
