@@ -180,51 +180,58 @@ void MainWindow::TestRPC()
 {
 	QTextEdit* textbox = m_ui->textEdit;
 	QTProtobufWaitResponse synccall;
+	ProtocolBuffer::RestaurantList rlist;
+	CommentList clist;
+	Comment c;
+	ProtocolBuffer::Query query;
 
-	//GetRestaurants
+	// fill all parameters
+	query.mutable_area()->mutable_southwest()->set_latitude(0.0);
+	query.mutable_area()->mutable_southwest()->set_longitude(0.0);
+	query.mutable_area()->mutable_northeast()->set_latitude(10000.0);
+	query.mutable_area()->mutable_northeast()->set_longitude(10000.0);
+	query.set_level(8);
+	query.set_n(1000);
+	query.set_rid(1);
+	query.set_uid(1);
+	query.set_msg("test msg");
+
 	textbox->append("Test Begin. Connected to 127.0.0.1\n");
+	//GetRestaurants
 	textbox->append("Restaurants found:\n");
-	ProtocolBuffer::RestaurantList *rlist = new ProtocolBuffer::RestaurantList();
-	ProtocolBuffer::Query *query = new ProtocolBuffer::Query();
-	ProtobufDataEvent* ev = new ProtobufDataEvent(ProtobufDataEvent::RestaurantListRecv);
-	ev->data = rlist;
-	google::protobuf::Closure *done = google::protobuf::NewCallback(this, &MainWindow::postEvent, ev);
-	query->mutable_area()->mutable_southwest()->set_latitude(0.0);
-	query->mutable_area()->mutable_southwest()->set_longitude(0.0);
-	query->mutable_area()->mutable_northeast()->set_latitude(10000.0);
-	query->mutable_area()->mutable_northeast()->set_longitude(10000.0);
-	query->set_level(8);
-	query->set_n(1000);
-	query->set_rid(1);
-	query->set_uid(1);
-	connman.GetRestaurants(query, rlist, synccall.getClosure());
+	connman.GetRestaurants(&query, &rlist, synccall.getClosure());
 	synccall.wait();
-	for (int i=0;i<rlist->restaurants_size();++i)
+	for (int i=0;i<rlist.restaurants_size();++i)
 	{
-		textbox->append(QString("name=") + QString::fromUtf8(rlist->restaurants(i).name().c_str()) + QString(";RID=") + 
-			QString::number(rlist->restaurants(i).rid()) + QString("\n"));
+		textbox->append(QString("name=") + QString::fromUtf8(rlist.restaurants(i).name().c_str()) + QString(";RID=") + 
+			QString::number(rlist.restaurants(i).rid()) + QString("\n"));
 	}
 
 	//GetLastestCommentsOfRestaurant
 	textbox->append("Latest comment for RID=1");
-	CommentList* clist = new CommentList();
-	connman.GetLastestCommentsOfRestaurant(query, clist, synccall.getClosure());
+	connman.GetLastestCommentsOfRestaurant(&query, &clist, synccall.getClosure());
 	synccall.wait();
-	for (int i=0;i<clist->comments_size();++i)
+	for (int i=0;i<clist.comments_size();++i)
 	{
-		textbox->append(QString("content=") + QString::fromUtf8(clist->comments(i).content().c_str()) + QString(";UID=") + 
-			QString::number(clist->comments(i).uid()) + QString("\n"));
+		textbox->append(QString("content=") + QString::fromUtf8(clist.comments(i).content().c_str()) + QString(";UID=") + 
+			QString::number(clist.comments(i).uid()) + QString("\n"));
 	}
 	
 
 	textbox->append("Latest comment for UID=1");
-	CommentList* userclst = new CommentList();
-	ProtobufDataEvent* uce = new ProtobufDataEvent(ProtobufDataEvent::CommentListRecvs);
-	uce->data = userclst;
-	google::protobuf::Closure *done3 = google::protobuf::NewCallback(this, &MainWindow::postEvent, uce);
-	connman.GetLastestCommentsByUser(query, userclst, done3);
+	connman.GetLastestCommentsByUser(&query, &clist, synccall.getClosure());
+	synccall.wait();
+	for (int i=0;i<clist.comments_size();++i)
+	{
+		textbox->append(QString("content=") + QString::fromUtf8(clist.comments(i).content().c_str()) + QString(";UID=") + 
+			QString::number(clist.comments(i).uid()) + QString("\n"));
+	}
 
-	delete query;
+	textbox->append("Adding new comment.");
+	connman.AddCommentForRestaurant(&query, &c, synccall.getClosure());
+	synccall.wait();
+	textbox->append(QString("content=") + QString::fromUtf8(c.content().c_str()) + QString(";UID=") + 
+		QString::number(c.uid()) + QString("\n"));
 }
 
 void MainWindow::postEvent( ProtobufDataEvent* e )

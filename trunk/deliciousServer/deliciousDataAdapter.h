@@ -6,6 +6,20 @@
 
 class DBContext;
 class DBRow;
+class DBResult;
+
+class DBResultWrap
+{
+public:
+	DBResultWrap(DBResult*, DBContext*);
+	DBResultWrap(const DBResultWrap&);
+	~DBResultWrap();
+
+	DBResult* getResult() const;
+private:
+	mutable DBResult* result;
+	mutable DBContext* context;
+};
 
 class deliciousDataAdapter
 {
@@ -29,6 +43,8 @@ public://query methods
     size_t QueryLastestCommentsByUser( int uid, int n, CallbackFunc callback );
 
     size_t QueryCommentsOfUserSince( int uid, const std::string& timestamp, CallbackFunc callback );
+
+	const DBResultWrap PostCommentForRestaurant( int rid, int uid, const std::string& msg, const std::string* const image );
 
 private://methods
     void ExecuteNormal( char* query, CallbackFunc callback );

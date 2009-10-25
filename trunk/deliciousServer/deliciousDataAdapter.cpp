@@ -44,6 +44,30 @@ void deliciousDataAdapter::Initialize(const string& dbfile)
     _single = new deliciousDataAdapter(dbfile);
 }
 
+DBResultWrap::DBResultWrap( DBResult* result, DBContext* context )
+{
+	this->result = result;
+	this->context = context;
+}
+
+DBResultWrap::DBResultWrap( const DBResultWrap& rhs )
+{
+	this->result = rhs.result;
+	rhs.result = NULL;
+	this->context = rhs.context;
+	rhs.context = NULL;
+}
+DBResultWrap::~DBResultWrap()
+{
+	context->Free(&result);
+}
+
+DBResult* DBResultWrap::getResult() const
+{
+	return result;
+}
+
+
 void deliciousDataAdapter::ExecuteNormal( char* query, CallbackFunc callback )
 {
     DBResult* ret = dbconn->Execute(query);
@@ -84,11 +108,11 @@ size_t deliciousDataAdapter::QueryLatestCommentsOfRestaurant( int rid, int n, Ca
 		")");
     char querystr[500];
     sprintf_s(querystr, sizeof(querystr),
-          "SELECT Comments.* \
-          FROM Relation_Restaurant_Comment NATURAL INNER JOIN Comments \
-          WHERE rid=%d \
-          ORDER BY addtime \
-          LIMIT %d;"
+          "SELECT Comments.* "
+          "FROM Relation_Restaurant_Comment NATURAL INNER JOIN Comments "
+          "WHERE rid=%d "
+          "ORDER BY addtime "
+          "LIMIT %d;"
           , rid
           , n);
 
@@ -104,9 +128,9 @@ size_t deliciousDataAdapter::QueryCommentsOfRestaurantSince( int rid, const std:
 		"')");
     char querystr[500];
     sprintf_s(querystr, sizeof(querystr),
-          "SELECT Comments.* \
-          FROM Relation_Restaurant_Comment NATURAL INNER JOIN Comments \
-          WHERE rid=%d AND addtime >= '%s';"
+          "SELECT Comments.* "
+          "FROM Relation_Restaurant_Comment NATURAL INNER JOIN Comments "
+          "WHERE rid=%d AND addtime >= '%s';"
           , rid
           , timestamp.c_str());
 
@@ -122,11 +146,11 @@ size_t deliciousDataAdapter::QueryLastestCommentsByUser( int uid, int n, Callbac
 		")");
     char querystr[500];
     sprintf_s(querystr, sizeof(querystr),
-          "SELECT *  \
-          FROM Comments \
-          WHERE uid=%d \
-          ORDER BY addtime \
-          LIMIT %d;"
+          "SELECT * "
+          "FROM Comments "
+          "WHERE uid=%d "
+          "ORDER BY addtime "
+          "LIMIT %d;"
           , uid
           , n);
 
@@ -142,13 +166,34 @@ size_t deliciousDataAdapter::QueryCommentsOfUserSince( int uid, const std::strin
 		"')");
     char querystr[500];
     sprintf_s(querystr, sizeof(querystr),
-          "SELECT * \
-          FROM Comments \
-          WHERE uid == %d AND addtime >= '%s' \
-          ORDER BY addtime;"
+          "SELECT * "
+          "FROM Comments "
+          "WHERE uid == %d AND addtime >= '%s' "
+          "ORDER BY addtime;"
           , uid
           , timestamp.c_str());
 
     ExecuteNormal(querystr, callback);
     return 0;
+}
+
+const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int uid, const std::string& msg, const std::string* const image )
+{
+	pantheios::log_INFORMATIONAL("PostCommentForRestaurant(",
+		"rid=", pantheios::integer(rid),
+		",uid=", pantheios::integer(uid),
+		",msg=", msg,
+		"')");
+	// Validate user Input!!!!!
+	// user input, query might be very long.
+	char querystr[4096];
+	// single query run atomicity in sqlite, so this has no problem.
+	sprintf_s(querystr, sizeof(querystr),
+		"INSERT INTO Comments (UID, Comment) VALUES(%d, \"%s\");"
+		"INSERT INTO Relation_Restaurant_Comment (rid, cid) values (%d, (select last_insert_rowid()));"
+		"SELECT * from Comments NATURAL INNER JOIN Relation_Restaurant_Comment WHERE Relation_Restaurant_Comment.rowid = (select last_insert_rowid());"
+		, uid
+		, msg.c_str()
+		, rid);
+	return DBResultWrap(dbconn->Execute(querystr), dbconn);
 }

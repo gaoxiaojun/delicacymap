@@ -25,7 +25,7 @@ message Time
 
 message Comment
 {
-    required bytes                                           content                     = 1;    //Html style comment
+    required string                                          content                     = 1;    //Html style comment
     required ProtocolBuffer.Time                             timeStamp                   = 2;    //Submit time
     required uint32                                          UID                         = 3;    //Submitter ID (user ID)
 }
@@ -84,6 +84,8 @@ message Query
     optional uint32                                          RID                         = 4;
     optional uint32                                          UID                         = 5;
     optional uint32                                          n                           = 6;
+    optional string                                          msg                         = 7;
+    optional bytes                                           image                       = 8;
 }
 
 service DMService 
@@ -94,5 +96,5 @@ service DMService
     rpc GetCommentsOfUserSince                 (ProtocolBuffer.Query)        returns (CommentList);
     rpc GetCommentsOfRestaurantSince           (ProtocolBuffer.Query)        returns (CommentList);
     
-    rpc AddCommentForRestaurant                (ProtocolBuffer.Query)        returns (CommentList);
+    rpc AddCommentForRestaurant                (ProtocolBuffer.Query)        returns (Comment);
 }

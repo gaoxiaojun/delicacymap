@@ -380,14 +380,14 @@ class Comment : public ::google::protobuf::Message {
   
   // accessors -------------------------------------------------------
   
-  // required bytes content = 1;
+  // required string content = 1;
   inline bool has_content() const;
   inline void clear_content();
   static const int kContentFieldNumber = 1;
   inline const ::std::string& content() const;
   inline void set_content(const ::std::string& value);
   inline void set_content(const char* value);
-  inline void set_content(const void* value, size_t size);
+  inline void set_content(const char* value, size_t size);
   inline ::std::string* mutable_content();
   
   // required .ProtocolBuffer.Time timeStamp = 2;
@@ -1247,6 +1247,26 @@ class Query : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 n() const;
   inline void set_n(::google::protobuf::uint32 value);
   
+  // optional string msg = 7;
+  inline bool has_msg() const;
+  inline void clear_msg();
+  static const int kMsgFieldNumber = 7;
+  inline const ::std::string& msg() const;
+  inline void set_msg(const ::std::string& value);
+  inline void set_msg(const char* value);
+  inline void set_msg(const char* value, size_t size);
+  inline ::std::string* mutable_msg();
+  
+  // optional bytes image = 8;
+  inline bool has_image() const;
+  inline void clear_image();
+  static const int kImageFieldNumber = 8;
+  inline const ::std::string& image() const;
+  inline void set_image(const ::std::string& value);
+  inline void set_image(const char* value);
+  inline void set_image(const void* value, size_t size);
+  inline ::std::string* mutable_image();
+  
  private:
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
@@ -1257,11 +1277,15 @@ class Query : public ::google::protobuf::Message {
   ::google::protobuf::uint32 rid_;
   ::google::protobuf::uint32 uid_;
   ::google::protobuf::uint32 n_;
+  ::std::string* msg_;
+  static const ::std::string _default_msg_;
+  ::std::string* image_;
+  static const ::std::string _default_image_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(8 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -1314,7 +1338,7 @@ class DMService : public ::google::protobuf::Service {
                        ::google::protobuf::Closure* done);
   virtual void AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                        const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::CommentList* response,
+                       ::ProtocolBuffer::Comment* response,
                        ::google::protobuf::Closure* done);
   
   // implements Service ----------------------------------------------
@@ -1367,7 +1391,7 @@ class DMService_Stub : public DMService {
                        ::google::protobuf::Closure* done);
   void AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                        const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::CommentList* response,
+                       ::ProtocolBuffer::Comment* response,
                        ::google::protobuf::Closure* done);
  private:
   ::google::protobuf::RpcChannel* channel_;
@@ -1503,7 +1527,7 @@ inline ::std::string* Time::mutable_timestamp() {
 
 // Comment
 
-// required bytes content = 1;
+// required string content = 1;
 inline bool Comment::has_content() const {
   return _has_bit(0);
 }
@@ -1530,7 +1554,7 @@ inline void Comment::set_content(const char* value) {
   }
   content_->assign(value);
 }
-inline void Comment::set_content(const void* value, size_t size) {
+inline void Comment::set_content(const char* value, size_t size) {
   _set_bit(0);
   if (content_ == &_default_content_) {
     content_ = new ::std::string;
@@ -2122,6 +2146,90 @@ inline ::google::protobuf::uint32 Query::n() const {
 inline void Query::set_n(::google::protobuf::uint32 value) {
   _set_bit(5);
   n_ = value;
+}
+
+// optional string msg = 7;
+inline bool Query::has_msg() const {
+  return _has_bit(6);
+}
+inline void Query::clear_msg() {
+  if (msg_ != &_default_msg_) {
+    msg_->clear();
+  }
+  _clear_bit(6);
+}
+inline const ::std::string& Query::msg() const {
+  return *msg_;
+}
+inline void Query::set_msg(const ::std::string& value) {
+  _set_bit(6);
+  if (msg_ == &_default_msg_) {
+    msg_ = new ::std::string;
+  }
+  msg_->assign(value);
+}
+inline void Query::set_msg(const char* value) {
+  _set_bit(6);
+  if (msg_ == &_default_msg_) {
+    msg_ = new ::std::string;
+  }
+  msg_->assign(value);
+}
+inline void Query::set_msg(const char* value, size_t size) {
+  _set_bit(6);
+  if (msg_ == &_default_msg_) {
+    msg_ = new ::std::string;
+  }
+  msg_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Query::mutable_msg() {
+  _set_bit(6);
+  if (msg_ == &_default_msg_) {
+    msg_ = new ::std::string;
+  }
+  return msg_;
+}
+
+// optional bytes image = 8;
+inline bool Query::has_image() const {
+  return _has_bit(7);
+}
+inline void Query::clear_image() {
+  if (image_ != &_default_image_) {
+    image_->clear();
+  }
+  _clear_bit(7);
+}
+inline const ::std::string& Query::image() const {
+  return *image_;
+}
+inline void Query::set_image(const ::std::string& value) {
+  _set_bit(7);
+  if (image_ == &_default_image_) {
+    image_ = new ::std::string;
+  }
+  image_->assign(value);
+}
+inline void Query::set_image(const char* value) {
+  _set_bit(7);
+  if (image_ == &_default_image_) {
+    image_ = new ::std::string;
+  }
+  image_->assign(value);
+}
+inline void Query::set_image(const void* value, size_t size) {
+  _set_bit(7);
+  if (image_ == &_default_image_) {
+    image_ = new ::std::string;
+  }
+  image_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Query::mutable_image() {
+  _set_bit(7);
+  if (image_ == &_default_image_) {
+    image_ = new ::std::string;
+  }
+  return image_;
 }
 
 

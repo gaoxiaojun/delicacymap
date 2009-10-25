@@ -41,13 +41,13 @@ public:
     DBResult(void);
     ~DBResult(void);
 
-    const string& ColumnName(size_t index);
-    size_t RowsCount();
-    size_t ColCount();
+    const string& ColumnName(size_t index) const;
+    size_t RowsCount() const;
+    size_t ColCount() const;
     const string& Value(size_t Row, size_t Col);
 
-    const DBRow& operator[](int index);
-    const DBRow& GetRow(size_t index);
+    const DBRow& operator[](int index) const;
+    const DBRow& GetRow(size_t index) const;
 
 private:
     size_t ResolveColumnName(const std::string& colname);
@@ -58,5 +58,4 @@ private:
     std::vector<DBRow> data;
     std::vector<std::string> colnames;
 };
-
 

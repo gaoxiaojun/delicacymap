@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 #if _WIN32_WCE
     mainwindow.showFullScreen();
 #else
-    mainwindow.resize(640, 480);
+    //mainwindow.resize(480, 600);
     mainwindow.show();
 #endif
 
