@@ -240,13 +240,15 @@ void protobuf_AssignDesc_MapProtocol_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(RestaurantType));
   Query_descriptor_ = file->message_type(11);
-  static const int Query_offsets_[6] = {
+  static const int Query_offsets_[8] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, area_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, level_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, time_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, rid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, uid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, n_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, msg_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, image_),
   };
   Query_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -339,7 +341,7 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
     " \002(\001\"`\n\004Area\022+\n\tnortheast\030\001 \002(\0132\030.Protoc"
     "olBuffer.Location\022+\n\tsouthwest\030\002 \002(\0132\030.P"
     "rotocolBuffer.Location\"\031\n\004Time\022\021\n\ttimeSt"
-    "amp\030\001 \002(\t\"P\n\007Comment\022\017\n\007content\030\001 \002(\014\022\'\n"
+    "amp\030\001 \002(\t\"P\n\007Comment\022\017\n\007content\030\001 \002(\t\022\'\n"
     "\ttimeStamp\030\002 \002(\0132\024.ProtocolBuffer.Time\022\013"
     "\n\003UID\030\003 \002(\r\"\032\n\010Currency\022\016\n\006amount\030\001 \002(\001\""
     "\030\n\005Error\022\017\n\007message\030\001 \002(\t\"\225\001\n\004User\022\013\n\003UI"
@@ -355,23 +357,24 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
     "taurants\030\001 \003(\0132\032.ProtocolBuffer.Restaura"
     "nt\"8\n\013CommentList\022)\n\010comments\030\001 \003(\0132\027.Pr"
     "otocolBuffer.Comment\"+\n\016RestaurantType\022\013"
-    "\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t\"\203\001\n\005Query\022\"\n\004a"
+    "\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t\"\237\001\n\005Query\022\"\n\004a"
     "rea\030\001 \001(\0132\024.ProtocolBuffer.Area\022\r\n\005level"
     "\030\002 \001(\r\022\"\n\004time\030\003 \001(\0132\024.ProtocolBuffer.Ti"
-    "me\022\013\n\003RID\030\004 \001(\r\022\013\n\003UID\030\005 \001(\r\022\t\n\001n\030\006 \001(\r2"
-    "\353\003\n\tDMService\022G\n\016GetRestaurants\022\025.Protoc"
-    "olBuffer.Query\032\036.ProtocolBuffer.Restaura"
-    "ntList\022T\n\036GetLastestCommentsOfRestaurant"
-    "\022\025.ProtocolBuffer.Query\032\033.ProtocolBuffer"
-    ".CommentList\022N\n\030GetLastestCommentsByUser"
-    "\022\025.ProtocolBuffer.Query\032\033.ProtocolBuffer"
-    ".CommentList\022L\n\026GetCommentsOfUserSince\022\025"
-    ".ProtocolBuffer.Query\032\033.ProtocolBuffer.C"
-    "ommentList\022R\n\034GetCommentsOfRestaurantSin"
-    "ce\022\025.ProtocolBuffer.Query\032\033.ProtocolBuff"
-    "er.CommentList\022M\n\027AddCommentForRestauran"
-    "t\022\025.ProtocolBuffer.Query\032\033.ProtocolBuffe"
-    "r.CommentListB\002H\001", 1497);
+    "me\022\013\n\003RID\030\004 \001(\r\022\013\n\003UID\030\005 \001(\r\022\t\n\001n\030\006 \001(\r\022"
+    "\013\n\003msg\030\007 \001(\t\022\r\n\005image\030\010 \001(\0142\347\003\n\tDMServic"
+    "e\022G\n\016GetRestaurants\022\025.ProtocolBuffer.Que"
+    "ry\032\036.ProtocolBuffer.RestaurantList\022T\n\036Ge"
+    "tLastestCommentsOfRestaurant\022\025.ProtocolB"
+    "uffer.Query\032\033.ProtocolBuffer.CommentList"
+    "\022N\n\030GetLastestCommentsByUser\022\025.ProtocolB"
+    "uffer.Query\032\033.ProtocolBuffer.CommentList"
+    "\022L\n\026GetCommentsOfUserSince\022\025.ProtocolBuf"
+    "fer.Query\032\033.ProtocolBuffer.CommentList\022R"
+    "\n\034GetCommentsOfRestaurantSince\022\025.Protoco"
+    "lBuffer.Query\032\033.ProtocolBuffer.CommentLi"
+    "st\022I\n\027AddCommentForRestaurant\022\025.Protocol"
+    "Buffer.Query\032\027.ProtocolBuffer.CommentB\002H"
+    "\001", 1521);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MapProtocol.proto", &protobuf_RegisterTypes);
   Location::default_instance_ = new Location();
@@ -1207,14 +1210,17 @@ bool Comment::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required bytes content = 1;
+      // required string content = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
           goto handle_uninterpreted;
         }
-        DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+        DO_(::google::protobuf::internal::WireFormatLite::ReadString(
               input, this->mutable_content()));
+        ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          this->content().data(), this->content().length(),
+          ::google::protobuf::internal::WireFormat::PARSE);
         if (input->ExpectTag(18)) goto parse_timeStamp;
         break;
       }
@@ -1270,9 +1276,12 @@ void Comment::SerializeWithCachedSizes(
     return;
   }
   
-  // required bytes content = 1;
+  // required string content = 1;
   if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytes(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->content().data(), this->content().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
       1, this->content(), output);
   }
   
@@ -1295,10 +1304,13 @@ void Comment::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Comment::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required bytes content = 1;
+  // required string content = 1;
   if (_has_bit(0)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->content().data(), this->content().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->content(), target);
   }
   
@@ -1325,10 +1337,10 @@ int Comment::ByteSize() const {
   int total_size = 0;
   
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required bytes content = 1;
+    // required string content = 1;
     if (has_content()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::BytesSize(
+        ::google::protobuf::internal::WireFormatLite::StringSize(
           this->content());
     }
     
@@ -3342,6 +3354,8 @@ void RestaurantType::Swap(RestaurantType* other) {
 
 // ===================================================================
 
+const ::std::string Query::_default_msg_;
+const ::std::string Query::_default_image_;
 #ifndef _MSC_VER
 const int Query::kAreaFieldNumber;
 const int Query::kLevelFieldNumber;
@@ -3349,6 +3363,8 @@ const int Query::kTimeFieldNumber;
 const int Query::kRIDFieldNumber;
 const int Query::kUIDFieldNumber;
 const int Query::kNFieldNumber;
+const int Query::kMsgFieldNumber;
+const int Query::kImageFieldNumber;
 #endif  // !_MSC_VER
 
 Query::Query() {
@@ -3373,6 +3389,8 @@ void Query::SharedCtor() {
   rid_ = 0u;
   uid_ = 0u;
   n_ = 0u;
+  msg_ = const_cast< ::std::string*>(&_default_msg_);
+  image_ = const_cast< ::std::string*>(&_default_image_);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -3381,6 +3399,12 @@ Query::~Query() {
 }
 
 void Query::SharedDtor() {
+  if (msg_ != &_default_msg_) {
+    delete msg_;
+  }
+  if (image_ != &_default_image_) {
+    delete image_;
+  }
   if (this != default_instance_) {
     delete area_;
     delete time_;
@@ -3414,6 +3438,16 @@ void Query::Clear() {
     rid_ = 0u;
     uid_ = 0u;
     n_ = 0u;
+    if (_has_bit(6)) {
+      if (msg_ != &_default_msg_) {
+        msg_->clear();
+      }
+    }
+    if (_has_bit(7)) {
+      if (image_ != &_default_image_) {
+        image_->clear();
+      }
+    }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -3502,6 +3536,35 @@ bool Query::MergePartialFromCodedStream(
         DO_(::google::protobuf::internal::WireFormatLite::ReadUInt32(
               input, &n_));
         _set_bit(5);
+        if (input->ExpectTag(58)) goto parse_msg;
+        break;
+      }
+      
+      // optional string msg = 7;
+      case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          goto handle_uninterpreted;
+        }
+       parse_msg:
+        DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+              input, this->mutable_msg()));
+        ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          this->msg().data(), this->msg().length(),
+          ::google::protobuf::internal::WireFormat::PARSE);
+        if (input->ExpectTag(66)) goto parse_image;
+        break;
+      }
+      
+      // optional bytes image = 8;
+      case 8: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          goto handle_uninterpreted;
+        }
+       parse_image:
+        DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+              input, this->mutable_image()));
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -3562,6 +3625,21 @@ void Query::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->n(), output);
   }
   
+  // optional string msg = 7;
+  if (_has_bit(6)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->msg().data(), this->msg().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      7, this->msg(), output);
+  }
+  
+  // optional bytes image = 8;
+  if (_has_bit(7)) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytes(
+      8, this->image(), output);
+  }
+  
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -3602,6 +3680,23 @@ void Query::SerializeWithCachedSizes(
   // optional uint32 n = 6;
   if (_has_bit(5)) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->n(), target);
+  }
+  
+  // optional string msg = 7;
+  if (_has_bit(6)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->msg().data(), this->msg().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        7, this->msg(), target);
+  }
+  
+  // optional bytes image = 8;
+  if (_has_bit(7)) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        8, this->image(), target);
   }
   
   if (!unknown_fields().empty()) {
@@ -3657,6 +3752,20 @@ int Query::ByteSize() const {
           this->n());
     }
     
+    // optional string msg = 7;
+    if (has_msg()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->msg());
+    }
+    
+    // optional bytes image = 8;
+    if (has_image()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->image());
+    }
+    
   }
   if (!unknown_fields().empty()) {
     total_size +=
@@ -3700,6 +3809,12 @@ void Query::MergeFrom(const Query& from) {
     if (from._has_bit(5)) {
       set_n(from.n());
     }
+    if (from._has_bit(6)) {
+      set_msg(from.msg());
+    }
+    if (from._has_bit(7)) {
+      set_image(from.image());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -3735,6 +3850,8 @@ void Query::Swap(Query* other) {
     std::swap(rid_, other->rid_);
     std::swap(uid_, other->uid_);
     std::swap(n_, other->n_);
+    std::swap(msg_, other->msg_);
+    std::swap(image_, other->image_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -3806,7 +3923,7 @@ void DMService::GetCommentsOfRestaurantSince(::google::protobuf::RpcController* 
 
 void DMService::AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                          const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::CommentList*,
+                         ::ProtocolBuffer::Comment*,
                          ::google::protobuf::Closure* done) {
   controller->SetFailed("Method AddCommentForRestaurant() not implemented.");
   done->Run();
@@ -3852,7 +3969,7 @@ void DMService::CallMethod(const ::google::protobuf::MethodDescriptor* method,
     case 5:
       AddCommentForRestaurant(controller,
              ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::CommentList*>(response),
+             ::google::protobuf::down_cast< ::ProtocolBuffer::Comment*>(response),
              done);
       break;
     default:
@@ -3898,7 +4015,7 @@ const ::google::protobuf::Message& DMService::GetResponsePrototype(
     case 4:
       return ::ProtocolBuffer::CommentList::default_instance();
     case 5:
-      return ::ProtocolBuffer::CommentList::default_instance();
+      return ::ProtocolBuffer::Comment::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *reinterpret_cast< ::google::protobuf::Message*>(NULL);
@@ -3953,7 +4070,7 @@ void DMService_Stub::GetCommentsOfRestaurantSince(::google::protobuf::RpcControl
 }
 void DMService_Stub::AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                               const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::CommentList* response,
+                              ::ProtocolBuffer::Comment* response,
                               ::google::protobuf::Closure* done) {
   channel_->CallMethod(descriptor()->method(5),
                        controller, request, response, done);

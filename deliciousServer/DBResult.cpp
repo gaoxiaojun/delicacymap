@@ -30,18 +30,18 @@ void DBResult::AppendData( int argc, char** argv, char** colname )
     data.push_back(newrow);
 }
 
-const string& DBResult::ColumnName( size_t index )
+const string& DBResult::ColumnName( size_t index ) const
 {
     assert(index < ColCount());
     return colnames[index];
 }
 
-size_t DBResult::RowsCount()
+size_t DBResult::RowsCount() const
 {
     return data.size();
 }
 
-size_t DBResult::ColCount()
+size_t DBResult::ColCount() const
 {
     return colnames.size();
 }
@@ -52,12 +52,12 @@ const string& DBResult::Value( size_t Row, size_t Col )
     return data[Row][Col];
 }
 
-const DBRow& DBResult::GetRow( size_t index )
+const DBRow& DBResult::GetRow( size_t index ) const
 {
     return data[index];
 }
 
-const DBRow& DBResult::operator[]( int index )
+const DBRow& DBResult::operator[]( int index ) const
 {
     return GetRow(index);
 }

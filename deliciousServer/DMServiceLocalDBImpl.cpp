@@ -131,6 +131,38 @@ void DMServiceLocalDBImpl::GetCommentsOfUserSince( ::google::protobuf::RpcContro
     done->Run();
 }
 
+void DMServiceLocalDBImpl::AddCommentForRestaurant( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::Comment* response, ::google::protobuf::Closure* done )
+{
+	if (request->has_uid() && request->has_rid() && request->has_msg())
+	{
+		DBResultWrap ret = adapter->PostCommentForRestaurant( 
+			request->rid(), 
+			request->uid(),
+			request->msg(),
+			request->has_image() ? &request->image() : NULL);
+
+		if (ret.getResult()->RowsCount())
+		{
+			const DBRow& newcomment = ret.getResult()->GetRow(0);
+			response->set_uid( newcomment.GetValueAs<int>("UID") );
+			response->set_content( newcomment["Comment"] );
+			response->mutable_timestamp()->set_timestamp( newcomment["AddTime"] );
+		}
+		else
+		{
+			pantheios::log_WARNING("AddCommentForRestaurant() did not return any results, SQLite error?.");
+			controller->SetFailed("Add Comment failed.");
+		}
+	}
+	else
+	{
+		pantheios::log_WARNING("calling AddCommentForRestaurant() with wrong request message.");
+		controller->SetFailed("calling AddCommentForRestaurant() with wrong request message.");
+	}
+
+	done->Run();
+}
+
 void DMServiceLocalDBImpl::GetRestaurantsCallback( const DBRow& row, RestaurantList* result )
 {
     Restaurant *newr = result->add_restaurants();

@@ -26,22 +26,66 @@ void MapDataSource::GetRestaurants( ProtocolBuffer::Query *query, ProtocolBuffer
 	getStub()->GetRestaurants(&controller, query, rlist, done);
 }
 
+void MapDataSource::GetRestaurants( double lattitude_from, double longitude_from, double latitude_to, double longitude_to, int level, ProtocolBuffer::RestaurantList *rlist, google::protobuf::Closure *done )
+{
+	query.Clear();
+	query.mutable_area()->mutable_southwest()->set_latitude(lattitude_from);
+	query.mutable_area()->mutable_southwest()->set_longitude(longitude_from);
+	query.mutable_area()->mutable_northeast()->set_latitude(latitude_to);
+	query.mutable_area()->mutable_northeast()->set_longitude(longitude_to);
+	query.set_level(level);
+	GetRestaurants(&query, rlist, done);
+}
 void MapDataSource::GetLastestCommentsOfRestaurant( ProtocolBuffer::Query *query, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
 {
 	getStub()->GetLastestCommentsOfRestaurant(&controller, query, clist, done);
 }
 
+void MapDataSource::GetLastestCommentsOfRestaurant( int rid, int max_entry, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
+{
+	query.Clear();
+	query.set_rid(rid);
+	query.set_n(max_entry);
+	GetLastestCommentsOfRestaurant(&query, clist, done);
+}
 void MapDataSource::GetLastestCommentsByUser( ProtocolBuffer::Query *query, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
 {
 	getStub()->GetLastestCommentsByUser(&controller, query, clist, done);
 }
 
+void MapDataSource::GetLastestCommentsByUser( int uid, int max_entry, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
+{
+	query.Clear();
+	query.set_uid(uid);
+	query.set_n(max_entry);
+	GetLastestCommentsByUser(&query, clist, done);
+}
 void MapDataSource::GetCommentsOfUserSince( ProtocolBuffer::Query *query, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
 {
 	getStub()->GetCommentsOfUserSince(&controller, query, clist, done);
 }
 
+void MapDataSource::GetCommentsOfUserSince( int uid, const std::string& datetime, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
+{
+	query.Clear();
+	query.set_uid(uid);
+	query.mutable_time()->set_timestamp(datetime);
+	GetCommentsOfUserSince(&query, clist, done);
+}
 void MapDataSource::GetCommentsOfRestaurantSince( ProtocolBuffer::Query *query, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
 {
 	getStub()->GetCommentsOfRestaurantSince(&controller, query, clist, done);
+}
+
+void MapDataSource::GetCommentsOfRestaurantSince( int rid, const std::string& datetime, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
+{
+	query.Clear();
+	query.set_rid(rid);
+	query.mutable_time()->set_timestamp(datetime);
+	GetCommentsOfUserSince(&query, clist, done);
+}
+
+void MapDataSource::AddCommentForRestaurant( ProtocolBuffer::Query *query, ProtocolBuffer::Comment *comment, google::protobuf::Closure *done )
+{
+	getStub()->AddCommentForRestaurant(&controller, query, comment, done);
 }

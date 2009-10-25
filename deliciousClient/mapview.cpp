@@ -68,18 +68,18 @@ void mapview::keyPressEvent( QKeyEvent *event )
     case Qt::Key_Return:
         zoomin();
 		break;
-//     case Qt::Key_Left:
-//         scroll(OFFSET_PER_BUTTON_PUSH, 0);
-//         break;
-//     case Qt::Key_Right:
-//         scroll(-OFFSET_PER_BUTTON_PUSH, 0);
-//         break;
-//     case Qt::Key_Up:
-//         scroll(0, OFFSET_PER_BUTTON_PUSH);
-//         break;
-//     case Qt::Key_Down:
-//         scroll(0, -OFFSET_PER_BUTTON_PUSH);
-//         break;
+    case Qt::Key_Left:
+        scroll(-OFFSET_PER_BUTTON_PUSH, 0);
+        break;
+    case Qt::Key_Right:
+        scroll(OFFSET_PER_BUTTON_PUSH, 0);
+        break;
+    case Qt::Key_Up:
+        scroll(0, -OFFSET_PER_BUTTON_PUSH);
+        break;
+    case Qt::Key_Down:
+        scroll(0, +OFFSET_PER_BUTTON_PUSH);
+        break;
 	case Qt::Key_Space:
 		qDebug()<<"Space"<<endl;
 		makeMarkerByXY(size().width()/2,size().height()/2,QString("marker %1").arg(markerCount));
@@ -99,7 +99,7 @@ void mapview::keyPressEvent( QKeyEvent *event )
 
 void mapview::scroll( int xoffset, int yoffset )
 {
-    page()->mainFrame()->evaluateJavaScript(QString("map.panBy(new GSize(%1,%2));").arg(xoffset).arg(yoffset));
+    page()->mainFrame()->evaluateJavaScript(QString("map.panBy(%1, %2);").arg(xoffset).arg(yoffset));
 }
 
 void mapview::resizeEvent( QResizeEvent *e )
