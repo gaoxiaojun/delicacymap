@@ -17,6 +17,28 @@ struct CallEntry
 	google::protobuf::Message* response;
 };
 
+class QTProtobufChannelDriver : public QObject
+{
+	Q_OBJECT
+public slots:
+	void writeMessage(google::protobuf::Message* m);
+	void start(QHostAddress *_addr, unsigned short _port, QWaitCondition* notify);
+private slots:
+	void readMessage();
+public:
+	QTProtobufChannelDriver(QHash<int,CallEntry> *currentCalls);
+	~QTProtobufChannelDriver();
+
+	bool started();
+private:
+	QTcpSocket *_tcps;
+	std::string _writebuffer;
+	std::string _readbuffer;
+	int _buffer_index, _msgsize;
+	protorpc::Message response;
+	QHash<int,CallEntry>* _currentCalls;
+};
+
 // light weight rpc channel, not intended to be used in multi threaded environment.
 class QTProtobufChannel :
 	public QThread,
@@ -28,6 +50,7 @@ public:
 	~QTProtobufChannel(void);
 
 	void start();
+	bool started();
 	void close();
 
 	// override RpcChannel::CallMethod
@@ -37,17 +60,17 @@ protected:
 	// override QThread::run
 	void run();
 
+signals:
+	void writeMessage(google::protobuf::Message* m);
+	void requetStart(QHostAddress *_addr, unsigned short _port, QWaitCondition* notify);
+
 private:
 	bool readMessage(google::protobuf::Message* m);
-	void writeMessage(google::protobuf::Message* m);
 private:
-	QTcpSocket _tcps;
+	QTProtobufChannelDriver *_helper;
 	QHostAddress _addr;
 	unsigned short _port;
+	protorpc::Message _reqholder;
 	int _callid;
 	QHash<int,CallEntry> _currentCalls;
-	protorpc::Message _reqholder;
-	std::string _writebuffer;
-	std::string _readbuffer;
-	int _buffer_index, _msgsize;
 };
