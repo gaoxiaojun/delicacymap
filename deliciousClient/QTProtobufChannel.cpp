@@ -5,8 +5,7 @@ QTProtobufChannel::QTProtobufChannel( const QHostAddress &serveraddr, unsigned s
 :_addr(serveraddr), _port(port)
 {
 	_callid = 0;
-	_reqholder.set_type(protorpc::REQUEST);
-	_buffer_index = -1;
+	QThread::start();
 }
 QTProtobufChannel::~QTProtobufChannel(void)
 {
@@ -15,53 +14,82 @@ QTProtobufChannel::~QTProtobufChannel(void)
 
 void QTProtobufChannel::start()
 {
-	if (_tcps.state() == QTcpSocket::UnconnectedState)
+	QMutex guard;
+	QMutexLocker lock(&guard);
+	QWaitCondition cond;
+	emit requetStart(&_addr, _port, &cond);
+	if (!cond.wait(&guard, 5000))
 	{
-		_tcps.connectToHost(_addr, _port);
-		if (!_tcps.waitForConnected(3000))
-		{
-			throw _tcps.error();
-		}
-	}
-	if (!this->isRunning())
-	{
-		QThread::start();
+		throw std::exception("Connect fails");
 	}
 }
 
 void QTProtobufChannel::close()
 {
-	_tcps.disconnect();
+	exit();
 	wait();
 }
 
 void QTProtobufChannel::CallMethod( const google::protobuf::MethodDescriptor* method, google::protobuf::RpcController* controller, const google::protobuf::Message* request, google::protobuf::Message* response, google::protobuf::Closure* done )
 {
-	start();
+	if (!started())
+		start();
 
+	_reqholder.set_type(protorpc::REQUEST);
 	_reqholder.set_id(_callid);
 	_reqholder.set_name(method->name());
 	_reqholder.set_buffer(request->SerializeAsString());
 	_currentCalls.insert(_callid++, CallEntry(done, response));
-	writeMessage(&_reqholder);
+	emit writeMessage(&_reqholder);
 }
 
 void QTProtobufChannel::run()
 {
-	// prequist: socket is connected
-	protorpc::Message response;
-	while (_tcps.state() == QTcpSocket::ConnectedState)
+	_helper = new QTProtobufChannelDriver(&_currentCalls);
+
+	connect(this, SIGNAL(writeMessage(google::protobuf::Message*)), _helper, SLOT(writeMessage( google::protobuf::Message*  )));
+	connect(this, SIGNAL(requetStart(QHostAddress*, unsigned short, QWaitCondition* )), _helper, SLOT(start(QHostAddress*, unsigned short, QWaitCondition*)));
+
+	exec();
+
+	delete _helper;
+}
+
+bool QTProtobufChannel::started()
+{
+	return _helper->started();
+}
+
+void QTProtobufChannelDriver::readMessage()
+{
+	// uses _buffer_index and _msgsize and _readbuffer
+	// this does not use multiple waits, so the run time is predictable
+	// which will help what will happen when the application terminates and destruct this object
+	// the down side is, we might not be able to receive the whole msg in one call.
+	// so _buffer_index indicates where to store the new income data.
+
+	if (_buffer_index == -1 && _tcps->bytesAvailable() >= 4)
 	{
-		if (readMessage(&response))
+		_tcps->read((char*)&_msgsize, 4);
+		_readbuffer.reserve(_msgsize);
+		_buffer_index = 0;
+	}
+	if (_buffer_index >= 0)
+	{
+		_buffer_index += _tcps->read((char*)_readbuffer.c_str() + _buffer_index, _msgsize - _buffer_index);
+		if (_buffer_index == _msgsize)
 		{
+			//full msg received
+			response.ParseFromArray(_readbuffer.c_str(), _msgsize);
+			_buffer_index = -1;
 			switch (response.type())
 			{
 			case protorpc::RESPONSE:
-				if (_currentCalls.contains(response.id()))
+				if (_currentCalls->contains(response.id()))
 				{
-					CallEntry entry = _currentCalls.value(response.id());
+					CallEntry entry = _currentCalls->value(response.id());
 					entry.response->ParseFromString(response.buffer());
-					_currentCalls.remove(response.id());
+					_currentCalls->remove(response.id());
 					entry.done->Run();
 				}
 				break;
@@ -72,7 +100,23 @@ void QTProtobufChannel::run()
 	}
 }
 
-void QTProtobufChannel::writeMessage( google::protobuf::Message* m )
+QTProtobufChannelDriver::QTProtobufChannelDriver(QHash<int,CallEntry> *currentCalls)
+{
+	this->_currentCalls = currentCalls;
+	_buffer_index = -1;
+	_tcps = new QTcpSocket();
+
+	connect(_tcps, SIGNAL(readyRead()), this, SLOT(readMessage()));
+}
+
+QTProtobufChannelDriver::~QTProtobufChannelDriver()
+{
+	_tcps->abort();
+	_tcps->close();
+	delete _tcps;
+}
+
+void QTProtobufChannelDriver::writeMessage( google::protobuf::Message* m )
 {
 	int msgsize = m->ByteSize();
 	char sizebuf[4];
@@ -81,41 +125,26 @@ void QTProtobufChannel::writeMessage( google::protobuf::Message* m )
 	sizebuf[2] = (msgsize&0x0000FF00) >> 8;
 	sizebuf[3] = (msgsize&0x000000FF);
 
-	if(_tcps.write(sizebuf,4) < 0)
+	if(_tcps->write(sizebuf,4) < 0)
 	{
-		throw _tcps.errorString().toUtf8().constData();
+		throw _tcps->errorString().toUtf8().constData();
 	}
 	m->SerializeToString(&_writebuffer);
-	if(_tcps.write(_writebuffer.c_str(), msgsize) < 0)
-		throw _tcps.error();
+	if(_tcps->write(_writebuffer.c_str(), msgsize) < 0)
+		throw _tcps->error();
 }
 
-bool QTProtobufChannel::readMessage( google::protobuf::Message* m )
+void QTProtobufChannelDriver::start( QHostAddress *_addr, unsigned short _port, QWaitCondition* notify )
 {
-	// uses _buffer_index and _msgsize and _readbuffer
-	// this does not use multiple waits, so the run time is predictable
-	// which will help what will happen when the application terminates and destruct this object
-	// the down side is, we might not be able to receive the whole msg in one call.
-	// so _buffer_index indicates where to store the new income data.
-	if (_tcps.waitForReadyRead(500))
+	if (_tcps->state() == QTcpSocket::UnconnectedState)
 	{
-		if (_buffer_index == -1 && _tcps.bytesAvailable() >= 4)
-		{
-			_tcps.read((char*)&_msgsize, 4);
-			_readbuffer.reserve(_msgsize);
-			_buffer_index = 0;
-		}
-		if (_buffer_index >= 0)
-		{
-			_buffer_index += _tcps.read((char*)_readbuffer.c_str() + _buffer_index, _msgsize - _buffer_index);
-			if (_buffer_index == _msgsize)
-			{
-				//full msg received
-				m->ParseFromArray(_readbuffer.c_str(), _msgsize);
-				_buffer_index = -1;
-				return true;
-			}
-		}
+		_tcps->connectToHost(*_addr, _port);
+		_tcps->waitForConnected(5000);
+		notify->wakeOne();
 	}
-	return false;
+}
+
+bool QTProtobufChannelDriver::started()
+{
+	return _tcps->state() == QTcpSocket::ConnectedState;
 }
