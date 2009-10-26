@@ -30,6 +30,7 @@ public:
 	~QTProtobufChannelDriver();
 
 	bool started();
+	QAbstractSocket::SocketError networkError() const;
 private:
 	QTcpSocket *_tcps;
 	std::string _writebuffer;

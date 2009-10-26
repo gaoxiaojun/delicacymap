@@ -23,14 +23,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	//qDebug()<<this->m_ui->stackedWidget->widget(1)->size().width()<<endl;
 	//qDebug()<<this->m_ui->stackedWidget->widget(1)->size().height()<<endl;
 
-	navi = new mapview(NULL,this->m_ui->stackedWidget->widget(0)->size().width() ,this->m_ui->stackedWidget->widget(0)->size().height());
+	navi = new mapview(this);
 	int index = this->m_ui->stackedWidget->insertWidget(0,navi);
 	qDebug()<<index<<endl;
 	this->m_ui->stackedWidget->setCurrentWidget(navi);
 
 	interfaceTransit_map();
 
-	//m_ui->centralwidget->setStyleSheet("background-image: url(:/Icons/Resources/images/background.png)");
 	connect(m_ui->testRPC,SIGNAL(clicked()),this,SLOT(TestRPC()));
 }
 

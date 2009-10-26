@@ -13,8 +13,7 @@ LIBPATH += ../protocol-buffer-src/lib
 win32:CONFIG += console
 QT += webkit \
       network
-FORMS += mapview.ui \
-         mainwindow.ui
+FORMS += mainwindow.ui
 		 
 HEADERS += mapview.h \
            bluetoothmanager.h \

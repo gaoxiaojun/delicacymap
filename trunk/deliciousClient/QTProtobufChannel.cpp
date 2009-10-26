@@ -20,7 +20,7 @@ void QTProtobufChannel::start()
 	emit requetStart(&_addr, _port, &cond);
 	if (!cond.wait(&guard, 5000))
 	{
-		throw std::exception("Connect fails");
+		throw _helper->networkError();
 	}
 }
 
@@ -111,7 +111,7 @@ QTProtobufChannelDriver::QTProtobufChannelDriver(QHash<int,CallEntry> *currentCa
 
 QTProtobufChannelDriver::~QTProtobufChannelDriver()
 {
-	_tcps->abort();
+	//_tcps->abort();
 	_tcps->close();
 	delete _tcps;
 }
@@ -147,4 +147,9 @@ void QTProtobufChannelDriver::start( QHostAddress *_addr, unsigned short _port, 
 bool QTProtobufChannelDriver::started()
 {
 	return _tcps->state() == QTcpSocket::ConnectedState;
+}
+
+QAbstractSocket::SocketError QTProtobufChannelDriver::networkError() const
+{
+	return _tcps->error();
 }

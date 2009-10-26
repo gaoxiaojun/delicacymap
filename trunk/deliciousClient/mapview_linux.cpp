@@ -1,4 +1,5 @@
-//////////////////////////////////Platform Dependent Methods-Linux///////////////////////////////////////
+//////////////////////////////////Platform Dependent Methods-Linux///////////////////////////////////////
+
 #include "mapview.h"
 #include <QWebFrame>
 
@@ -9,5 +10,6 @@ void mapview::setupmapconfiguration()
                                             "map.enableScrollWheelZoom();"
                                             "map.disableGoogleBar();"
                                             );
+	resize(this->width(), this->height());
 }
 
