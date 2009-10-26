@@ -110,8 +110,8 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>20</width>
-          <height>20</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="autoRaise">
@@ -130,8 +130,8 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>20</width>
-          <height>20</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="autoRaise">
@@ -150,8 +150,8 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>20</width>
-          <height>20</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="autoRaise">
@@ -173,8 +173,8 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>20</width>
-          <height>20</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="autoRaise">

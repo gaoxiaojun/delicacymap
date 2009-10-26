@@ -10,22 +10,15 @@
 
 #define OFFSET_PER_BUTTON_PUSH 100
 
-mapview::mapview(QWidget *parent, int width, int height)
+mapview::mapview(QWidget *parent)
     : QWebView(parent)
 {
-    ui.setupUi(this);
-
     QString html("Load html error!!!");
     QFile f(":/webpages/index.htm");
     if (f.open(QIODevice::ReadOnly))
     {
     	QTextStream stream(&f);
-#ifdef _WIN32_WCE
-        html = stream.readAll().arg(width/2).arg(height/2);
-        setZoomFactor(2);
-#else
-        html = stream.readAll().arg(width).arg(height+40);
-#endif
+        html = stream.readAll();
     }
     else
         html += QString("\nerror code: %1!!!").arg(f.error());

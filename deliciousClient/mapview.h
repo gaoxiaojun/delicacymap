@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QWebView>
 #include <QObject>
-#include "ui_mapview.h"
 #include <QList>
 #include <QVector>
 #include "../protocol-buffer-src/MapProtocol.pb.h"
@@ -44,7 +43,7 @@ class mapview : public QWebView
     Q_OBJECT
 
 public:
-    mapview(QWidget *parent = 0, int width = 240, int height = 320);
+    mapview(QWidget *parent = 0);
     ~mapview();
     void scroll(int xoffset, int yoffset);
     void centerAt(double latitude, double longtitude);
@@ -67,7 +66,6 @@ private slots:
     static void GPSCallback(void* context, LocationSvc*);
 
 private:
-    Ui::mapviewClass ui;
 	MapListener* mapListener;
 	QVector<LatLng> bupt,bnu;
 	int markerCount;
