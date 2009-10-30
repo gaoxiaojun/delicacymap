@@ -109,7 +109,7 @@ size_t deliciousDataAdapter::QueryLatestCommentsOfRestaurant( int rid, int n, Ca
     char querystr[500];
     sprintf_s(querystr, sizeof(querystr),
           "SELECT Comments.* "
-          "FROM Relation_Restaurant_Comment NATURAL INNER JOIN Comments "
+          "FROM Comments "
           "WHERE rid=%d "
           "ORDER BY addtime "
           "LIMIT %d;"
@@ -189,11 +189,10 @@ const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int 
 	char querystr[4096];
 	// single query run atomicity in sqlite, so this has no problem.
 	sprintf_s(querystr, sizeof(querystr),
-		"INSERT INTO Comments (UID, Comment) VALUES(%d, \"%s\");"
-		"INSERT INTO Relation_Restaurant_Comment (rid, cid) values (%d, (select last_insert_rowid()));"
-		"SELECT * from Comments NATURAL INNER JOIN Relation_Restaurant_Comment WHERE Relation_Restaurant_Comment.rowid = (select last_insert_rowid());"
+		"INSERT INTO Comments (UID, RID, Comment) VALUES(%d, %d, \"%s\");"
+		"SELECT * from Comments WHERE Comments.rowid = (select last_insert_rowid());"
 		, uid
-		, msg.c_str()
-		, rid);
+		, rid
+		, msg.c_str());
 	return DBResultWrap(dbconn->Execute(querystr), dbconn);
 }
