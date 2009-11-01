@@ -24,6 +24,8 @@ protected:
     virtual void changeEvent(QEvent *e);
 	virtual void customEvent(QEvent *e);
 	void clearConnections();
+	
+	void addRestrauntsToMap(const ProtocolBuffer::RestaurantList &rlist);
 
 	void postEvent(ProtobufDataEvent*);
 
