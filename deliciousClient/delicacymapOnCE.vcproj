@@ -1,377 +1,591 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="delicacymapOnCE"
-	ProjectGUID="{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}"
-	Keyword="Qt4VSv1.0">
+	ProjectGUID="{2BBECDDB-FC20-3B90-9CAB-DFF66A9359A9}"
+	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="."
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			ConfigurationType="1"
 			IntermediateDirectory="debug\"
-			UseOfMfc="0">
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot;,&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot;,&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot;,&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot;,&quot;..\..\qt-win-4.6.0-beta1\include&quot;,&quot;.&quot;,&quot;.\rclib\include&quot;,&quot;..\protocol-buffer-src&quot;,&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot;,&quot;debug&quot;,&quot;.&quot;,..\..\qt-win-4.6.0-beta1\mkspecs\default"
-				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
-				AssemblerListingLocation="debug\"
-				BufferSecurityCheck="false"
-				DebugInformationFormat="3"
-				ExceptionHandling="1"
-				GeneratePreprocessedFile="0"
-				ObjectFile="debug\"
-				Optimization ="4"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"
-				ProgramDataBaseFileName=".\"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="true"
-				SuppressStartupBanner="true"
-				TreatWChar_tAsBuiltInType="false"
-				WarningLevel="3"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Ws2_32.lib libprotobuf_win32_debug.lib f:\QT\qt-win-4.6.0-beta1\lib\QtWebKitd4.lib f:\QT\qt-win-4.6.0-beta1\lib\QtGuid4.lib f:\QT\qt-win-4.6.0-beta1\lib\QtNetworkd4.lib f:\QT\qt-win-4.6.0-beta1\lib\QtCored4.lib"
-				AdditionalLibraryDirectories="..\protocol-buffer-src\lib,f:\QT\qt-win-4.6.0-beta1\lib"
-				GenerateDebugInformation="true"
-				IgnoreImportLibrary="true"
-				LinkTimeCodeGeneration="0"
-				OutputFile="debug\delicacymapOnCE.exe"
-				ProgramDatabaseFile=""
-				SubSystem="1"
-				SuppressStartupBanner="true"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
+				WarningLevel="0"
 				DefaultCharType="0"
 				EnableErrorChecks="1"
-				WarningLevel="0"/>
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
+				Optimization="4"
+				AdditionalIncludeDirectories="&quot;$(QTDIR)\include\QtCore&quot;,&quot;$(QTDIR)\include\QtNetwork&quot;,&quot;$(QTDIR)\include\QtGui&quot;,&quot;$(QTDIR)\include\QtWebKit&quot;,&quot;$(QTDIR)\include&quot;,&quot;.&quot;,&quot;.\rclib\include&quot;,&quot;..\protocol-buffer-src&quot;,&quot;$(QTDIR)\include\ActiveQt&quot;,&quot;debug&quot;,&quot;.&quot;,$(QTDIR)\mkspecs\win32-msvc2008,E:\Development\boost\boost_1_40_0"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"
+				GeneratePreprocessedFile="0"
+				ExceptionHandling="1"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="false"
+				TreatWChar_tAsBuiltInType="false"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="debug\"
+				ObjectFile="debug\"
+				ProgramDataBaseFileName=".\"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,_DEBUG"/>
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,_DEBUG"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalDependencies="Ws2_32.lib libprotobuf_win32_debug.lib QtWebKitd4.lib QtGuid4.lib QtNetworkd4.lib QtCored4.lib "
+				OutputFile="debug\delicacymapOnCE.exe"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="$(QTDIR)\lib,..\protocol-buffer-src\lib"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=""
+				SubSystem="1"
+				LinkTimeCodeGeneration="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="."
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			ConfigurationType="1"
 			IntermediateDirectory="release\"
-			UseOfMfc="0"
-			WholeProgramOptimization="true">
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot;,&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot;,&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot;,&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot;,&quot;..\..\qt-win-4.6.0-beta1\include&quot;,&quot;.&quot;,&quot;.\rclib\include&quot;,&quot;..\protocol-buffer-src&quot;,&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot;,&quot;release&quot;,&quot;.&quot;,..\..\qt-win-4.6.0-beta1\mkspecs\default"
-				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
-				AssemblerListingLocation="release\"
-				BufferSecurityCheck="false"
-				DebugInformationFormat="0"
-				ExceptionHandling="1"
-				GeneratePreprocessedFile="0"
-				ObjectFile="release\"
-				Optimization ="2"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_NO_DEBUG,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,NDEBUG"
-				ProgramDataBaseFileName=".\"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="true"
-				SuppressStartupBanner="true"
-				TreatWChar_tAsBuiltInType="false"
-				WarningLevel="3"
-				WholeProgramOptimization="true"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Ws2_32.lib libprotobuf_win32_release.lib f:\QT\qt-win-4.6.0-beta1\lib\QtWebKit4.lib f:\QT\qt-win-4.6.0-beta1\lib\QtGui4.lib f:\QT\qt-win-4.6.0-beta1\lib\QtNetwork4.lib f:\QT\qt-win-4.6.0-beta1\lib\QtCore4.lib"
-				AdditionalLibraryDirectories="..\protocol-buffer-src\lib,f:\QT\qt-win-4.6.0-beta1\lib"
-				GenerateDebugInformation="false"
-				IgnoreImportLibrary="true"
-				LinkIncremental="1"
-				LinkTimeCodeGeneration="1"
-				OutputFile="release\delicacymapOnCE.exe"
-				ProgramDatabaseFile=""
-				SubSystem="1"
-				SuppressStartupBanner="true"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
+				WarningLevel="0"
 				DefaultCharType="0"
 				EnableErrorChecks="1"
-				WarningLevel="0"/>
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
+				Optimization="2"
+				AdditionalIncludeDirectories="&quot;$(QTDIR)\include\QtCore&quot;,&quot;$(QTDIR)\include\QtNetwork&quot;,&quot;$(QTDIR)\include\QtGui&quot;,&quot;$(QTDIR)\include\QtWebKit&quot;,&quot;$(QTDIR)\include&quot;,&quot;.&quot;,&quot;.\rclib\include&quot;,&quot;..\protocol-buffer-src&quot;,&quot;$(QTDIR)\include\ActiveQt&quot;,&quot;release&quot;,&quot;.&quot;,$(QTDIR)\mkspecs\win32-msvc2008,E:\Development\boost\boost_1_40_0"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_NO_DEBUG,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,NDEBUG"
+				GeneratePreprocessedFile="0"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				TreatWChar_tAsBuiltInType="false"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="release\"
+				ObjectFile="release\"
+				ProgramDataBaseFileName=".\"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_NO_DEBUG,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"/>
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_NO_DEBUG,QT_WEBKIT_LIB,QT_GUI_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalDependencies="Ws2_32.lib libprotobuf_win32_release.lib QtWebKit4.lib QtGui4.lib QtNetwork4.lib QtCore4.lib "
+				OutputFile="release\delicacymapOnCE.exe"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="$(QTDIR)\lib,..\protocol-buffer-src\lib"
+				GenerateDebugInformation="false"
+				ProgramDatabaseFile=""
+				SubSystem="1"
+				LinkTimeCodeGeneration="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
 			<File
-				RelativePath="LocationSvc.cpp"/>
+				RelativePath="bluetoothmanager.cpp"
+				>
+			</File>
 			<File
-				RelativePath="MapDataSource.cpp"/>
+				RelativePath="bluetoothmanager_win.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\protocol-buffer-src\MapProtocol.pb.cc"/>
+				RelativePath="LocationSvc.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\protocol-buffer-src\Message.pb.cc"/>
+				RelativePath="main.cpp"
+				>
+			</File>
 			<File
-				RelativePath="QTProbufController.cpp"/>
+				RelativePath="mainwindow.cpp"
+				>
+			</File>
 			<File
-				RelativePath="QTProtobufChannel.cpp"/>
+				RelativePath="MapDataSource.cpp"
+				>
+			</File>
 			<File
-				RelativePath="QTProtobufWaitResponse.cpp"/>
+				RelativePath="..\protocol-buffer-src\MapProtocol.pb.cc"
+				>
+			</File>
 			<File
-				RelativePath="bluetoothmanager.cpp"/>
+				RelativePath="mapview.cpp"
+				>
+			</File>
 			<File
-				RelativePath="bluetoothmanager_win.cpp"/>
+				RelativePath="mapview_win32.cpp"
+				>
+			</File>
 			<File
-				RelativePath="main.cpp"/>
+				RelativePath="..\protocol-buffer-src\Message.pb.cc"
+				>
+			</File>
 			<File
-				RelativePath="mainwindow.cpp"/>
+				RelativePath="QTProbufController.cpp"
+				>
+			</File>
 			<File
-				RelativePath="mapview.cpp"/>
+				RelativePath="QTProtobufChannel.cpp"
+				>
+			</File>
 			<File
-				RelativePath="mapview_win32.cpp"/>
+				RelativePath="QTProtobufWaitResponse.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 			<File
-				RelativePath="CustomEvents.h"/>
-			<File
-				RelativePath="LocationSvc.h"/>
-			<File
-				RelativePath="MapDataSource.h">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe;MapDataSource.h"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-win-4.6.0-beta1\mkspecs\default -D_MSC_VER=1500 -DWIN32 MapDataSource.h -o debug\moc_MapDataSource.cpp"
-						Description="MOC MapDataSource.h"
-						Outputs="debug\moc_MapDataSource.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe;MapDataSource.h"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-win-4.6.0-beta1\mkspecs\default -D_MSC_VER=1500 -DWIN32 MapDataSource.h -o release\moc_MapDataSource.cpp"
-						Description="MOC MapDataSource.h"
-						Outputs="release\moc_MapDataSource.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
-				</FileConfiguration>
+				RelativePath="bluetoothmanager.h"
+				>
 			</File>
 			<File
-				RelativePath="..\protocol-buffer-src\MapProtocol.pb.h"/>
-			<File
-				RelativePath="..\protocol-buffer-src\Message.pb.h"/>
-			<File
-				RelativePath="QTProbufController.h"/>
-			<File
-				RelativePath="QTProtobufChannel.h">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe;QTProtobufChannel.h"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-win-4.6.0-beta1\mkspecs\default -D_MSC_VER=1500 -DWIN32 QTProtobufChannel.h -o debug\moc_QTProtobufChannel.cpp"
-						Description="MOC QTProtobufChannel.h"
-						Outputs="debug\moc_QTProtobufChannel.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe;QTProtobufChannel.h"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-win-4.6.0-beta1\mkspecs\default -D_MSC_VER=1500 -DWIN32 QTProtobufChannel.h -o release\moc_QTProtobufChannel.cpp"
-						Description="MOC QTProtobufChannel.h"
-						Outputs="release\moc_QTProtobufChannel.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
-				</FileConfiguration>
+				RelativePath="bluetoothmanager_win.h"
+				>
 			</File>
 			<File
-				RelativePath="QTProtobufWaitResponse.cpp"/>
+				RelativePath="bluetoothmanager_wince.h"
+				>
+			</File>
 			<File
-				RelativePath="bluetoothmanager.h"/>
+				RelativePath="CustomEvents.h"
+				>
+			</File>
 			<File
-				RelativePath="bluetoothmanager_win.h"/>
+				RelativePath="LocationSvc.h"
+				>
+			</File>
 			<File
-				RelativePath="bluetoothmanager_wince.h"/>
-			<File
-				RelativePath="mainwindow.h">
+				RelativePath="mainwindow.h"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe;mainwindow.h"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-win-4.6.0-beta1\mkspecs\default -D_MSC_VER=1500 -DWIN32 mainwindow.h -o debug\moc_mainwindow.cpp"
 						Description="MOC mainwindow.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtWebKit\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\.&quot; -I&quot;.\rclib\include\.&quot; -I&quot;.\..\protocol-buffer-src\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;.\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;E:\Development\boost\boost_1_40_0\.&quot; &quot;mainwindow.h&quot; -o &quot;debug\moc_mainwindow.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;mainwindow.h"
 						Outputs="debug\moc_mainwindow.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe;mainwindow.h"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-win-4.6.0-beta1\mkspecs\default -D_MSC_VER=1500 -DWIN32 mainwindow.h -o release\moc_mainwindow.cpp"
 						Description="MOC mainwindow.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtWebKit\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\.&quot; -I&quot;.\rclib\include\.&quot; -I&quot;.\..\protocol-buffer-src\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;.\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;E:\Development\boost\boost_1_40_0\.&quot; &quot;mainwindow.h&quot; -o &quot;release\moc_mainwindow.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;mainwindow.h"
 						Outputs="release\moc_mainwindow.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="mapview.h">
+				RelativePath="MapDataSource.h"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe;mapview.h"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-win-4.6.0-beta1\mkspecs\default -D_MSC_VER=1500 -DWIN32 mapview.h -o debug\moc_mapview.cpp"
+						Description="MOC MapDataSource.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtWebKit\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\.&quot; -I&quot;.\rclib\include\.&quot; -I&quot;.\..\protocol-buffer-src\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;.\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;E:\Development\boost\boost_1_40_0\.&quot; &quot;MapDataSource.h&quot; -o &quot;debug\moc_MapDataSource.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;MapDataSource.h"
+						Outputs="debug\moc_MapDataSource.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC MapDataSource.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtWebKit\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\.&quot; -I&quot;.\rclib\include\.&quot; -I&quot;.\..\protocol-buffer-src\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;.\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;E:\Development\boost\boost_1_40_0\.&quot; &quot;MapDataSource.h&quot; -o &quot;release\moc_MapDataSource.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;MapDataSource.h"
+						Outputs="release\moc_MapDataSource.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\protocol-buffer-src\MapProtocol.pb.h"
+				>
+			</File>
+			<File
+				RelativePath="mapview.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
 						Description="MOC mapview.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtWebKit\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\.&quot; -I&quot;.\rclib\include\.&quot; -I&quot;.\..\protocol-buffer-src\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;.\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;E:\Development\boost\boost_1_40_0\.&quot; &quot;mapview.h&quot; -o &quot;debug\moc_mapview.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;mapview.h"
 						Outputs="debug\moc_mapview.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe;mapview.h"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-win-4.6.0-beta1\mkspecs\default -D_MSC_VER=1500 -DWIN32 mapview.h -o release\moc_mapview.cpp"
 						Description="MOC mapview.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtWebKit\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\.&quot; -I&quot;.\rclib\include\.&quot; -I&quot;.\..\protocol-buffer-src\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;.\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;E:\Development\boost\boost_1_40_0\.&quot; &quot;mapview.h&quot; -o &quot;release\moc_mapview.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;mapview.h"
 						Outputs="release\moc_mapview.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\protocol-buffer-src\Message.pb.h"
+				>
+			</File>
+			<File
+				RelativePath="QTProbufController.h"
+				>
+			</File>
+			<File
+				RelativePath="QTProtobufChannel.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC QTProtobufChannel.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtWebKit\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\.&quot; -I&quot;.\rclib\include\.&quot; -I&quot;.\..\protocol-buffer-src\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;.\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;E:\Development\boost\boost_1_40_0\.&quot; &quot;QTProtobufChannel.h&quot; -o &quot;debug\moc_QTProtobufChannel.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;QTProtobufChannel.h"
+						Outputs="debug\moc_QTProtobufChannel.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC QTProtobufChannel.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtWebKit\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\.&quot; -I&quot;.\rclib\include\.&quot; -I&quot;.\..\protocol-buffer-src\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;.\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;E:\Development\boost\boost_1_40_0\.&quot; &quot;QTProtobufChannel.h&quot; -o &quot;release\moc_QTProtobufChannel.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;QTProtobufChannel.h"
+						Outputs="release\moc_QTProtobufChannel.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="QTProtobufWaitResponse.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
 			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
-			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
+			>
 			<File
-				RelativePath="debug\moc_MapDataSource.cpp">
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
-			</File>
-			<File
-				RelativePath="release\moc_MapDataSource.cpp">
+				RelativePath="release\moc_mainwindow.cpp"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_QTProtobufChannel.cpp">
+				RelativePath="debug\moc_mainwindow.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_QTProtobufChannel.cpp">
+				RelativePath="release\moc_MapDataSource.cpp"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_mainwindow.cpp">
+				RelativePath="debug\moc_MapDataSource.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_mainwindow.cpp">
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
-			</File>
-			<File
-				RelativePath="debug\moc_mapview.cpp">
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
-			</File>
-			<File
-				RelativePath="release\moc_mapview.cpp">
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
-			</File>
-			<File
-				RelativePath="debug\qrc_mainwindow.cpp">
+				RelativePath="debug\moc_mapview.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\qrc_mainwindow.cpp">
+				RelativePath="release\moc_mapview.cpp"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\qrc_webpage.cpp">
+				RelativePath="debug\moc_QTProtobufChannel.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\qrc_webpage.cpp">
+				RelativePath="release\moc_QTProtobufChannel.cpp"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ui_mainwindow.h"/>
+				RelativePath="release\qrc_mainwindow.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\qrc_mainwindow.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\qrc_webpage.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\qrc_webpage.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="ui_mainwindow.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Form Files"
 			Filter="ui"
 			UniqueIdentifier="{99349809-55BA-4b9d-BF79-8FDBB0286EB3}"
-			ParseFiles="false">
+			ParseFiles="false"
+			>
 			<File
-				RelativePath="mainwindow.ui">
+				RelativePath="mainwindow.ui"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\uic.exe;mainwindow.ui"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\uic.exe mainwindow.ui -o ui_mainwindow.h"
 						Description="UIC mainwindow.ui"
+						CommandLine="$(QTDIR)\bin\uic.exe mainwindow.ui -o ui_mainwindow.h&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe;mainwindow.ui"
 						Outputs="ui_mainwindow.h"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\uic.exe;mainwindow.ui"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\uic.exe mainwindow.ui -o ui_mainwindow.h"
 						Description="UIC mainwindow.ui"
+						CommandLine="$(QTDIR)\bin\uic.exe mainwindow.ui -o ui_mainwindow.h&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe;mainwindow.ui"
 						Outputs="ui_mainwindow.h"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+					/>
 				</FileConfiguration>
 			</File>
 		</Filter>
@@ -379,79 +593,118 @@
 			Name="Resource Files"
 			Filter="qrc;*"
 			UniqueIdentifier="{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}"
-			ParseFiles="false">
+			ParseFiles="false"
+			>
 			<File
-				RelativePath="Resources\image\add_favourite.png"/>
+				RelativePath="Resources\image\add_favourite.png"
+				>
+			</File>
 			<File
-				RelativePath="Resources\image\add_friends.png"/>
+				RelativePath="Resources\image\add_friends.png"
+				>
+			</File>
 			<File
-				RelativePath="Resources\image\background.png"/>
+				RelativePath="Resources\image\background.png"
+				>
+			</File>
 			<File
-				RelativePath="Resources\image\favourite.png"/>
+				RelativePath="Resources\image\favourite.png"
+				>
+			</File>
 			<File
-				RelativePath="webpages\images\icon1-shadow.png"/>
+				RelativePath="webpages\images\icon1-shadow.png"
+				>
+			</File>
 			<File
-				RelativePath="webpages\images\icon1.png"/>
+				RelativePath="webpages\images\icon1.png"
+				>
+			</File>
 			<File
-				RelativePath="webpages\index.htm"/>
+				RelativePath="webpages\index.htm"
+				>
+			</File>
 			<File
-				RelativePath="webpages\main.js"/>
+				RelativePath="webpages\main.js"
+				>
+			</File>
 			<File
-				RelativePath="mainwindow.qrc">
+				RelativePath="mainwindow.qrc"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\rcc.exe;Resources\image\add_favourite.png;Resources\image\add_friends.png;Resources\image\background.png;Resources\image\favourite.png;Resources\image\submit_comments.png;Resources\image\view_comments.png;Resources\image\view_friends.png;mainwindow.qrc"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\rcc.exe -name mainwindow mainwindow.qrc -o debug\qrc_mainwindow.cpp"
 						Description="RCC mainwindow.qrc"
+						CommandLine="$(QTDIR)\bin\rcc.exe -name mainwindow mainwindow.qrc -o debug\qrc_mainwindow.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;mainwindow.qrc"
 						Outputs="debug\qrc_mainwindow.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\rcc.exe;Resources\image\add_favourite.png;Resources\image\add_friends.png;Resources\image\background.png;Resources\image\favourite.png;Resources\image\submit_comments.png;Resources\image\view_comments.png;Resources\image\view_friends.png;mainwindow.qrc"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\rcc.exe -name mainwindow mainwindow.qrc -o release\qrc_mainwindow.cpp"
 						Description="RCC mainwindow.qrc"
+						CommandLine="$(QTDIR)\bin\rcc.exe -name mainwindow mainwindow.qrc -o release\qrc_mainwindow.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;mainwindow.qrc"
 						Outputs="release\qrc_mainwindow.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="webpages\markermanager.js"/>
+				RelativePath="webpages\markermanager.js"
+				>
+			</File>
 			<File
-				RelativePath="Resources\image\submit_comments.png"/>
+				RelativePath="Resources\image\submit_comments.png"
+				>
+			</File>
 			<File
-				RelativePath="Resources\image\view_comments.png"/>
+				RelativePath="Resources\image\view_comments.png"
+				>
+			</File>
 			<File
-				RelativePath="Resources\image\view_friends.png"/>
+				RelativePath="Resources\image\view_friends.png"
+				>
+			</File>
 			<File
-				RelativePath="webpage.qrc">
+				RelativePath="webpage.qrc"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\rcc.exe;webpage.qrc;webpages\images\icon1-shadow.png;webpages\images\icon1.png;webpages\index.htm;webpages\main.js;webpages\markermanager.js"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\rcc.exe -name webpage webpage.qrc -o debug\qrc_webpage.cpp"
 						Description="RCC webpage.qrc"
+						CommandLine="$(QTDIR)\bin\rcc.exe -name webpage webpage.qrc -o debug\qrc_webpage.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;webpage.qrc"
 						Outputs="debug\qrc_webpage.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\rcc.exe;webpage.qrc;webpages\images\icon1-shadow.png;webpages\images\icon1.png;webpages\index.htm;webpages\main.js;webpages\markermanager.js"
-						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\rcc.exe -name webpage webpage.qrc -o release\qrc_webpage.cpp"
 						Description="RCC webpage.qrc"
+						CommandLine="$(QTDIR)\bin\rcc.exe -name webpage webpage.qrc -o release\qrc_webpage.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;webpage.qrc"
 						Outputs="release\qrc_webpage.cpp"
-						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+					/>
 				</FileConfiguration>
 			</File>
 		</Filter>
 	</Files>
 	<Globals>
+		<Global
+			Name="QtVersion"
+			Value="4.5.3"
+		/>
+		<Global
+			Name="QtVersion Win32"
+			Value="4.5.3"
+		/>
 	</Globals>
 </VisualStudioProject>

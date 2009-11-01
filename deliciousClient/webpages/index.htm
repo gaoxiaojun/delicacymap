@@ -49,8 +49,8 @@
 		//markerManager = new MarkerManager(map);
 		directions = new GDirections();
 		   
-		
-		//initIcon(); //still has problems
+		//var myMarker = createMarkerByXY(40,40,"foo");
+		//myMarker.setMap(map);
 
 		//GEvent.addListener(map,'click',mapClicked); //map click, marker click are all captured by mapClicked
 		//GEvent.addListener(directions,"load",refreshRoute); //redraw route after a success query
@@ -143,19 +143,25 @@
 	function createMarkerByXY(x,y,markerTitle)
 	{
 		var pos = map.fromContainerPixelToLatLng(new GPoint(x,y));
-		var opts = {title:markerTitle};
+		var opts = {position:pos,
+					title:markerTitle
+					};
 		//var opts = {icon:baseIcon, title:markerTitle};
-		tempMarker = new GMarker(pos,opts);
+		return new GMarker(opts);
 	}
 	
 	//Almost the same as createMarkerByXY,
 	//except that the parameters "lat","lng",specify absolute geo positions
-	function makeMarkerByLatLng(lat,lng,markerTitle)
+  function makeMarkerByLatLng(lat,lng,markerTitle)
 	{
-		var pos = new GLatLng(lat,lng);
-		var opts = {title:markerTitle};
-		tempMarker = new GMarker(pos,opts);
-	}	
+		alert("aa");
+		var pos = new google.maps.LatLng(lat,lng);
+		var opts = {position: pos, 
+					map: map, 
+					title:"Hello World!"
+					};
+		tempMarker = new google.maps.Marker(opts);
+	}
 	
 	//]]>
 	</script>

@@ -8,6 +8,8 @@
 
 #include <QMenuBar>
 #include <QDebug>
+#include <QWebFrame>
+
 
 using namespace ProtocolBuffer;
 
@@ -137,20 +139,21 @@ void MainWindow::interfaceTransit_map()
 
 void MainWindow::interfaceTransit_comment()
 {
-	clearConnections();
+	navi->page()->mainFrame()->evaluateJavaScript(QString("makeMarkerByLatLng(39.96067508327288, 116.35796070098877,'asdf');"));
+	//clearConnections();
 
-	m_ui->toolButton_L->setText("lock");
-	m_ui->toolButton_R->setText("delete");
-	m_ui->pushButton_L->setText("Back");
-	m_ui->pushButton_R->setText("Detail");
+	//m_ui->toolButton_L->setText("lock");
+	//m_ui->toolButton_R->setText("delete");
+	//m_ui->pushButton_L->setText("Back");
+	//m_ui->pushButton_R->setText("Detail");
 
-	m_ui->stackedWidget->setCurrentIndex(1);
-	m_ui->lineEdit->setVisible(false);
-	m_ui->toolButton_C->setVisible(false);
-	m_ui->toolButton_D->setVisible(false);
+	//m_ui->stackedWidget->setCurrentIndex(1);
+	//m_ui->lineEdit->setVisible(false);
+	//m_ui->toolButton_C->setVisible(false);
+	//m_ui->toolButton_D->setVisible(false);
 
 
-	connect(m_ui->actionPL,SIGNAL(triggered()),this,SLOT(interfaceTransit_map()));
+	//connect(m_ui->actionPL,SIGNAL(triggered()),this,SLOT(interfaceTransit_map()));
 }
 
 
@@ -236,4 +239,21 @@ void MainWindow::TestRPC()
 void MainWindow::postEvent( ProtobufDataEvent* e )
 {
 	QApplication::postEvent(this, e);
+}
+
+
+
+
+//---------------------------------Marker Administration--------------------------------------------------
+
+void MainWindow::addRestrauntsToMap(const ProtocolBuffer::RestaurantList &rlist)
+{
+	int num = rlist.restaurants_size();
+	for (int i=0; i<num; i++)
+	{
+		double	lat = rlist.restaurants(i).location().latitude();
+		double	lng = rlist.restaurants(i).location().longitude();
+		int		rid = rlist.restaurants(i).rid(); 
+
+	}
 }
