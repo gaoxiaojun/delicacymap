@@ -700,11 +700,11 @@
 	<Globals>
 		<Global
 			Name="QtVersion"
-			Value="4.5.3"
+			Value="4.6.0"
 		/>
 		<Global
 			Name="QtVersion Win32"
-			Value="4.5.3"
+			Value="4.6.0"
 		/>
 	</Globals>
 </VisualStudioProject>

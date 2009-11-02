@@ -139,7 +139,9 @@ void MainWindow::interfaceTransit_map()
 
 void MainWindow::interfaceTransit_comment()
 {
-	navi->page()->mainFrame()->evaluateJavaScript(QString("makeMarkerByLatLng(39.96067508327288, 116.35796070098877,'asdf');"));
+	navi->page()->mainFrame()->evaluateJavaScript(QString("addRestaurant(1,39.96067508327288, 116.35796070098877,'asdf');"));
+	navi->page()->mainFrame()->evaluateJavaScript(QString("addRestaurant(2,39.96041193087462, 116.35959148406982,'asdf');"));
+
 	//clearConnections();
 
 	//m_ui->toolButton_L->setText("lock");
@@ -152,30 +154,36 @@ void MainWindow::interfaceTransit_comment()
 	//m_ui->toolButton_C->setVisible(false);
 	//m_ui->toolButton_D->setVisible(false);
 
-
 	//connect(m_ui->actionPL,SIGNAL(triggered()),this,SLOT(interfaceTransit_map()));
 }
 
 
 void MainWindow::interfaceTransit_favourite()
 {
-	clearConnections();
-
-	m_ui->toolButton_L->setText("Archive");
-	m_ui->toolButton_R->setText("share");
-	m_ui->pushButton_L->setText("Back");
-	m_ui->pushButton_R->setText("Detail");
-
-	m_ui->stackedWidget->setCurrentIndex(2);
-	m_ui->lineEdit->setVisible(false);
-	m_ui->toolButton_A->setVisible(false);
-	m_ui->toolButton_B->setVisible(false);
-	m_ui->toolButton_C->setVisible(false);
-	m_ui->toolButton_D->setVisible(false);
-	m_ui->toolButton_E->setVisible(false);
+	qDebug()<<"click"<<endl;
+	//navi->page()->mainFrame()->evaluateJavaScript(QString("alert('aa');"));
+	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(1);"));
+	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(2);"));
 
 
-	connect(m_ui->actionPL,SIGNAL(triggered()),this,SLOT(interfaceTransit_map()));
+
+	//clearConnections();
+
+	//m_ui->toolButton_L->setText("Archive");
+	//m_ui->toolButton_R->setText("share");
+	//m_ui->pushButton_L->setText("Back");
+	//m_ui->pushButton_R->setText("Detail");
+
+	//m_ui->stackedWidget->setCurrentIndex(2);
+	//m_ui->lineEdit->setVisible(false);
+	//m_ui->toolButton_A->setVisible(false);
+	//m_ui->toolButton_B->setVisible(false);
+	//m_ui->toolButton_C->setVisible(false);
+	//m_ui->toolButton_D->setVisible(false);
+	//m_ui->toolButton_E->setVisible(false);
+
+
+	//connect(m_ui->actionPL,SIGNAL(triggered()),this,SLOT(interfaceTransit_map()));
 }
 
 void MainWindow::TestRPC()
@@ -254,6 +262,6 @@ void MainWindow::addRestrauntsToMap(const ProtocolBuffer::RestaurantList &rlist)
 		double	lat = rlist.restaurants(i).location().latitude();
 		double	lng = rlist.restaurants(i).location().longitude();
 		int		rid = rlist.restaurants(i).rid(); 
-
 	}
+	
 }
