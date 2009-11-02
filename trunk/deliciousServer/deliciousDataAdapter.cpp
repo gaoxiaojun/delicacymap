@@ -19,10 +19,13 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
     {
         dbconn = NULL;
         dbconn = new DBContext(connstr); 
+		DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
+		dbconn->Free(&ret);
     }
     catch (exception&)
     {
         delete dbconn;
+		dbconn = NULL;
         throw;
     }
 }

@@ -175,7 +175,15 @@ void naked_conn::handle_request()
             controller->Reset();
             Closure *closure = NewCallback(this, &naked_conn::rpccalldone, income.id(), static_cast<Message*>(response));
             controller->NotifyOnCancel(closure);
-            service->CallMethod(desc, controller, &query, response, closure);
+			try
+			{
+				service->CallMethod(desc, controller, &query, response, closure);
+			}
+			catch (const std::exception& e)
+			{
+				pantheios::log_ERROR("Error Calling method ", income.name(), ". Error msg: ", e.what());
+				closure->Run();
+			}
         }
     }
     else

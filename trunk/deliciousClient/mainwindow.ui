@@ -252,8 +252,30 @@
     </item>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="styleSheet">
+       <string notr="true">QTabWidget::pane {
+border: 0;
+}
+QTabBar{
+border-width: 0;
+}
+QTabBar::tab {
+background-color: rgba(255, 255, 255, 55);
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+border-bottom-width: 0;
+min-width: 100px;
+padding: 2px;
+}
+QTabBar::tab:selected {
+background-color: rgba(255, 255, 255, 145);
+}
+QTabBar::tab:hover {
+background-color: rgba(255, 255, 255, 200);
+}</string>
+      </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_2">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -265,11 +287,14 @@
         </property>
         <item>
          <widget class="QTabWidget" name="tabWidget">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="tabShape">
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="elideMode">
            <enum>Qt::ElideNone</enum>
