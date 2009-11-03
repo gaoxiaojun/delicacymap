@@ -36,14 +36,30 @@ namespace delicousDBManager
     {
         public MainWindow()
         {
-            InitializeComponent();
-            Map.Source = new Uri(Environment.CurrentDirectory + @"\get_location.htm", UriKind.Absolute);
-            Map.ObjectForScripting = new Helper(this);
+            try
+            {
+                InitializeComponent();
+                Map.Source = new Uri(Environment.CurrentDirectory + @"\get_location.htm", UriKind.Absolute);
+                Map.ObjectForScripting = new Helper(this);
+                delicacyDBTableAdapters.RestaurantsTableAdapter adapter = new delicousDBManager.delicacyDBTableAdapters.RestaurantsTableAdapter();
+                delicacyDBTableAdapters.RestaurantTypesTableAdapter typeadapter = new delicousDBManager.delicacyDBTableAdapters.RestaurantTypesTableAdapter();
+                adapter.Fill(restaurants);
+                typeadapter.Fill(types);
+                RestaurantTypes.ItemsSource = types;
+                RList.ItemsSource = restaurants;
+            }
+            catch (Exception e)
+            {
+
+            }
         }
+
+        private delicacyDB.RestaurantsDataTable restaurants = new delicacyDB.RestaurantsDataTable();
+        private delicacyDB.RestaurantTypesDataTable types = new delicacyDB.RestaurantTypesDataTable();
 
         public void SetLocation(double latitude, double longitude)
         {
-            latlong.Text = latitude + ", " + longitude;
+            //latlong.Text = latitude + ", " + longitude;
         }
     }
 }
