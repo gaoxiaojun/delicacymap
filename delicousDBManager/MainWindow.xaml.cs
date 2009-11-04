@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data;
 //using System.Data.SQLite;
 
 namespace delicousDBManager
@@ -59,7 +60,13 @@ namespace delicousDBManager
 
         public void SetLocation(double latitude, double longitude)
         {
-            //latlong.Text = latitude + ", " + longitude;
+            if (Details.DataContext != null)
+            {
+                DataRowView v = (DataRowView)Details.DataContext;
+                delicacyDB.RestaurantsRow row = (delicacyDB.RestaurantsRow)v.Row;
+                row.Latitude = latitude;
+                row.Longtitude = longitude;
+            }
         }
     }
 }

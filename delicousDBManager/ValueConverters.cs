@@ -6,6 +6,31 @@ using System.Windows.Data;
 
 namespace delicousDBManager
 {
+    public class GetTIDFromRestaurant : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value != null)
+            {
+                System.Data.DataRowView view = (System.Data.DataRowView)value;
+                delicacyDB.RestaurantsRow restaurant = (delicacyDB.RestaurantsRow)view.Row;
+                delicacyDB.Relation_Restaurant_RestaurantTypeRow[] rows = restaurant.GetRelation_Restaurant_RestaurantTypeRows();
+                return rows.Length == 0 ? 0 : rows[0].TID;
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+
     public class RestaurantTypeConverter : IValueConverter
     {
         private static Dictionary<long, string> dict = new Dictionary<long, string>();
