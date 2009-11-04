@@ -5,6 +5,7 @@
     Title="Delicacy Database Management" Height="600" Width="1000">
     <Window.Resources>
         <local:ValueSubtract x:Key="Subtractor"/>
+        <local:GetTIDFromRestaurant x:Key="GetTIDFromRestaurant"/>
     </Window.Resources>
     <TabControl HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
@@ -54,11 +55,23 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
                         <Label>Restaurant Type:</Label>
-                        <ComboBox Name="RestaurantTypes" DisplayMemberPath="ReadableText" SelectedValue="{Binding Path=TID}"/>
+                        <ComboBox Name="RestaurantTypes" DisplayMemberPath="ReadableText" SelectedValue="{Binding Converter={StaticResource GetTIDFromRestaurant},Mode=OneWay}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
                         <Label>Average Expense:</Label>
                         <TextBox Width="150" Text ="{Binding AverageExpense}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
+                        <Label>Latitude:</Label>
+                        <TextBox Width="150" Text ="{Binding Latitude}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+                        <Label>Longitude:</Label>
+                        <TextBox Width="150" Text ="{Binding Longtitude}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1">
+                        <Label>Rating:</Label>
+                        <TextBox Width="150" Text ="{Binding Rating}"/>
                     </StackPanel>
                 </Grid>
             </Grid>
