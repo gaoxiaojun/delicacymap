@@ -1011,10 +1011,10 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public UsersRow AddUsersRow(long UID, string Password, string Nickname, System.DateTime JoinTime, double LastNE, double LastSW) {
+            public UsersRow AddUsersRow(string Password, string Nickname, System.DateTime JoinTime, double LastNE, double LastSW) {
                 UsersRow rowUsersRow = ((UsersRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        UID,
+                        null,
                         Password,
                         Nickname,
                         JoinTime,
@@ -1069,6 +1069,8 @@ namespace delicousDBManager {
                 base.Columns.Add(this.columnLastSW);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnUID}, true));
+                this.columnUID.AutoIncrement = true;
+                this.columnUID.AutoIncrementSeed = 1;
                 this.columnUID.AllowDBNull = false;
                 this.columnUID.Unique = true;
                 this.columnPassword.AllowDBNull = false;
