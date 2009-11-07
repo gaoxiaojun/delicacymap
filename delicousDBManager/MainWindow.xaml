@@ -20,7 +20,7 @@
                     <RowDefinition Height="75"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2.3*"/>
+                    <ColumnDefinition Width="1.7*"/>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <ListBox Name="RList"
@@ -39,7 +39,7 @@
                       Grid.Column="0" 
                       Grid.ColumnSpan="2" 
                       ShowGridLines="False" 
-                      Name="Details"
+                      Name="RestaurantDetails"
                       DataContext="{Binding ElementName=RList, Path=SelectedItem}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -80,7 +80,7 @@
                         New Entry
                     </Button>
                     <Button Grid.Row="2" Grid.Column="2" Click="Restaurant_Save_Click">
-                        <Button.Style>
+                        <!--<Button.Style>
                             <Style>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Row.RowState}">
@@ -91,7 +91,7 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </Button.Style>
+                        </Button.Style>-->
                         <Button.Content>Save</Button.Content>
                     </Button>
                 </Grid>
@@ -101,10 +101,50 @@
             <Grid />
         </TabItem>
         <TabItem Header="Users">
-            <Grid />
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Left">
+                    <StackPanel Orientation="Horizontal"
+                                DockPanel.Dock="Bottom">
+                        <Button Content="New" Click="User_NewEntry_Click"/>
+                        <Button Content="Delete" Click="User_Delete_Click"/>
+                    </StackPanel>
+                    <ListBox Name="UserList" 
+                         DisplayMemberPath="Nickname"
+                         SelectedValuePath="Row"
+                         Width="120"/>
+                </DockPanel>
+                <ListBox Name="UserList_Target" 
+                         DisplayMemberPath="Nickname"
+                         SelectedValuePath="Row"
+                         DockPanel.Dock="Right"
+                         Width="120"/>
+                <GroupBox DockPanel.Dock="Top"
+                          Header="Basic Info">
+                    <Grid Name="UserDetails" DataContext="{Binding ElementName=UserList, Path=SelectedItem}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text ="{Binding Nickname}"/>
+                        <Label Grid.Row="0" Grid.Column="2" Content="Password:"/>
+                        <TextBox Grid.Row="0" Grid.Column="3" Text ="{Binding Password}"/>
+                        <Button Grid.Row="1" Grid.Column="3" Content="Save" Click="User_Save_Click"/>
+                    </Grid>
+                </GroupBox>
+                <TextBox></TextBox>
+            </DockPanel>
         </TabItem>
         <TabItem Header="Comments">
-            <Grid />
+            <Grid>
+                
+            </Grid>
         </TabItem>
     </TabControl>
 </Window>

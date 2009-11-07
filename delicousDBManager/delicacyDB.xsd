@@ -498,64 +498,64 @@
         <xs:element name="Comments" msprop:Generator_UserTableName="Comments" msprop:Generator_RowDeletedName="CommentsRowDeleted" msprop:Generator_RowChangedName="CommentsRowChanged" msprop:Generator_RowClassName="CommentsRow" msprop:Generator_RowChangingName="CommentsRowChanging" msprop:Generator_RowEvArgName="CommentsRowChangeEvent" msprop:Generator_RowEvHandlerName="CommentsRowChangeEventHandler" msprop:Generator_TableClassName="CommentsDataTable" msprop:Generator_TableVarName="tableComments" msprop:Generator_RowDeletingName="CommentsRowDeleting" msprop:Generator_TablePropName="Comments">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="CID" msprop:Generator_UserColumnName="CID" msprop:Generator_ColumnVarNameInTable="columnCID" msprop:Generator_ColumnPropNameInRow="CID" msprop:Generator_ColumnPropNameInTable="CIDColumn" type="xs:long" />
-              <xs:element name="RID" msprop:Generator_UserColumnName="RID" msprop:Generator_ColumnVarNameInTable="columnRID" msprop:Generator_ColumnPropNameInRow="RID" msprop:Generator_ColumnPropNameInTable="RIDColumn" type="xs:long" />
-              <xs:element name="Comment" msprop:Generator_UserColumnName="Comment" msprop:Generator_ColumnVarNameInTable="columnComment" msprop:Generator_ColumnPropNameInRow="Comment" msprop:Generator_ColumnPropNameInTable="CommentColumn">
+              <xs:element name="CID" msprop:Generator_UserColumnName="CID" msprop:Generator_ColumnPropNameInRow="CID" msprop:Generator_ColumnVarNameInTable="columnCID" msprop:Generator_ColumnPropNameInTable="CIDColumn" type="xs:long" />
+              <xs:element name="RID" msprop:Generator_UserColumnName="RID" msprop:Generator_ColumnPropNameInRow="RID" msprop:Generator_ColumnVarNameInTable="columnRID" msprop:Generator_ColumnPropNameInTable="RIDColumn" type="xs:long" />
+              <xs:element name="Comment" msprop:Generator_UserColumnName="Comment" msprop:Generator_ColumnPropNameInRow="Comment" msprop:Generator_ColumnVarNameInTable="columnComment" msprop:Generator_ColumnPropNameInTable="CommentColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="2147483647" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="AddTime" msprop:Generator_UserColumnName="AddTime" msprop:Generator_ColumnVarNameInTable="columnAddTime" msprop:Generator_ColumnPropNameInRow="AddTime" msprop:Generator_ColumnPropNameInTable="AddTimeColumn" type="xs:dateTime" />
-              <xs:element name="UID" msprop:Generator_UserColumnName="UID" msprop:Generator_ColumnVarNameInTable="columnUID" msprop:Generator_ColumnPropNameInRow="UID" msprop:Generator_ColumnPropNameInTable="UIDColumn" type="xs:long" />
-              <xs:element name="TimeZone" msprop:Generator_UserColumnName="TimeZone" msprop:Generator_ColumnVarNameInTable="columnTimeZone" msprop:Generator_ColumnPropNameInRow="TimeZone" msprop:Generator_ColumnPropNameInTable="TimeZoneColumn" type="xs:int" />
+              <xs:element name="AddTime" msprop:Generator_UserColumnName="AddTime" msprop:Generator_ColumnPropNameInRow="AddTime" msprop:Generator_ColumnVarNameInTable="columnAddTime" msprop:Generator_ColumnPropNameInTable="AddTimeColumn" type="xs:dateTime" />
+              <xs:element name="UID" msprop:Generator_UserColumnName="UID" msprop:Generator_ColumnPropNameInRow="UID" msprop:Generator_ColumnVarNameInTable="columnUID" msprop:Generator_ColumnPropNameInTable="UIDColumn" type="xs:long" />
+              <xs:element name="TimeZone" msprop:Generator_UserColumnName="TimeZone" msprop:Generator_ColumnPropNameInRow="TimeZone" msprop:Generator_ColumnVarNameInTable="columnTimeZone" msprop:Generator_ColumnPropNameInTable="TimeZoneColumn" type="xs:int" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="Users" msprop:Generator_UserTableName="Users" msprop:Generator_RowDeletedName="UsersRowDeleted" msprop:Generator_RowChangedName="UsersRowChanged" msprop:Generator_RowClassName="UsersRow" msprop:Generator_RowChangingName="UsersRowChanging" msprop:Generator_RowEvArgName="UsersRowChangeEvent" msprop:Generator_RowEvHandlerName="UsersRowChangeEventHandler" msprop:Generator_TableClassName="UsersDataTable" msprop:Generator_TableVarName="tableUsers" msprop:Generator_RowDeletingName="UsersRowDeleting" msprop:Generator_TablePropName="Users">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="UID" msprop:Generator_UserColumnName="UID" msprop:Generator_ColumnVarNameInTable="columnUID" msprop:Generator_ColumnPropNameInRow="UID" msprop:Generator_ColumnPropNameInTable="UIDColumn" type="xs:long" />
-              <xs:element name="Password" msprop:Generator_UserColumnName="Password" msprop:Generator_ColumnVarNameInTable="columnPassword" msprop:Generator_ColumnPropNameInRow="Password" msprop:Generator_ColumnPropNameInTable="PasswordColumn">
+              <xs:element name="UID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_UserColumnName="UID" msprop:Generator_ColumnPropNameInRow="UID" msprop:Generator_ColumnVarNameInTable="columnUID" msprop:Generator_ColumnPropNameInTable="UIDColumn" type="xs:long" />
+              <xs:element name="Password" msprop:Generator_UserColumnName="Password" msprop:Generator_ColumnPropNameInRow="Password" msprop:Generator_ColumnVarNameInTable="columnPassword" msprop:Generator_ColumnPropNameInTable="PasswordColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="128" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Nickname" msprop:Generator_UserColumnName="Nickname" msprop:Generator_ColumnVarNameInTable="columnNickname" msprop:Generator_ColumnPropNameInRow="Nickname" msprop:Generator_ColumnPropNameInTable="NicknameColumn">
+              <xs:element name="Nickname" msprop:Generator_UserColumnName="Nickname" msprop:Generator_ColumnPropNameInRow="Nickname" msprop:Generator_ColumnVarNameInTable="columnNickname" msprop:Generator_ColumnPropNameInTable="NicknameColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="JoinTime" msprop:Generator_UserColumnName="JoinTime" msprop:Generator_ColumnVarNameInTable="columnJoinTime" msprop:Generator_ColumnPropNameInRow="JoinTime" msprop:Generator_ColumnPropNameInTable="JoinTimeColumn" type="xs:dateTime" />
-              <xs:element name="LastNE" msprop:Generator_UserColumnName="LastNE" msprop:Generator_ColumnVarNameInTable="columnLastNE" msprop:Generator_ColumnPropNameInRow="LastNE" msprop:Generator_ColumnPropNameInTable="LastNEColumn" type="xs:double" minOccurs="0" />
-              <xs:element name="LastSW" msprop:Generator_UserColumnName="LastSW" msprop:Generator_ColumnVarNameInTable="columnLastSW" msprop:Generator_ColumnPropNameInRow="LastSW" msprop:Generator_ColumnPropNameInTable="LastSWColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="JoinTime" msprop:Generator_UserColumnName="JoinTime" msprop:Generator_ColumnPropNameInRow="JoinTime" msprop:Generator_ColumnVarNameInTable="columnJoinTime" msprop:Generator_ColumnPropNameInTable="JoinTimeColumn" type="xs:dateTime" />
+              <xs:element name="LastNE" msprop:Generator_UserColumnName="LastNE" msprop:Generator_ColumnPropNameInRow="LastNE" msprop:Generator_ColumnVarNameInTable="columnLastNE" msprop:Generator_ColumnPropNameInTable="LastNEColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="LastSW" msprop:Generator_UserColumnName="LastSW" msprop:Generator_ColumnPropNameInRow="LastSW" msprop:Generator_ColumnVarNameInTable="columnLastSW" msprop:Generator_ColumnPropNameInTable="LastSWColumn" type="xs:double" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="Courses" msprop:Generator_UserTableName="Courses" msprop:Generator_RowDeletedName="CoursesRowDeleted" msprop:Generator_RowChangedName="CoursesRowChanged" msprop:Generator_RowClassName="CoursesRow" msprop:Generator_RowChangingName="CoursesRowChanging" msprop:Generator_RowEvArgName="CoursesRowChangeEvent" msprop:Generator_RowEvHandlerName="CoursesRowChangeEventHandler" msprop:Generator_TableClassName="CoursesDataTable" msprop:Generator_TableVarName="tableCourses" msprop:Generator_RowDeletingName="CoursesRowDeleting" msprop:Generator_TablePropName="Courses">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="DID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_UserColumnName="DID" msprop:Generator_ColumnVarNameInTable="columnDID" msprop:Generator_ColumnPropNameInRow="DID" msprop:Generator_ColumnPropNameInTable="DIDColumn" type="xs:long" />
-              <xs:element name="ImagePath" msprop:Generator_UserColumnName="ImagePath" msprop:Generator_ColumnVarNameInTable="columnImagePath" msprop:Generator_ColumnPropNameInRow="ImagePath" msprop:Generator_ColumnPropNameInTable="ImagePathColumn" minOccurs="0">
+              <xs:element name="DID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_UserColumnName="DID" msprop:Generator_ColumnPropNameInRow="DID" msprop:Generator_ColumnVarNameInTable="columnDID" msprop:Generator_ColumnPropNameInTable="DIDColumn" type="xs:long" />
+              <xs:element name="ImagePath" msprop:Generator_UserColumnName="ImagePath" msprop:Generator_ColumnPropNameInRow="ImagePath" msprop:Generator_ColumnVarNameInTable="columnImagePath" msprop:Generator_ColumnPropNameInTable="ImagePathColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="1024" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn">
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Description" msprop:Generator_UserColumnName="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" minOccurs="0">
+              <xs:element name="Description" msprop:Generator_UserColumnName="Description" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />
@@ -568,9 +568,9 @@
         <xs:element name="Relation_Restaurant_Course" msprop:Generator_UserTableName="Relation_Restaurant_Course" msprop:Generator_RowDeletedName="Relation_Restaurant_CourseRowDeleted" msprop:Generator_RowChangedName="Relation_Restaurant_CourseRowChanged" msprop:Generator_RowClassName="Relation_Restaurant_CourseRow" msprop:Generator_RowChangingName="Relation_Restaurant_CourseRowChanging" msprop:Generator_RowEvArgName="Relation_Restaurant_CourseRowChangeEvent" msprop:Generator_RowEvHandlerName="Relation_Restaurant_CourseRowChangeEventHandler" msprop:Generator_TableClassName="Relation_Restaurant_CourseDataTable" msprop:Generator_TableVarName="tableRelation_Restaurant_Course" msprop:Generator_RowDeletingName="Relation_Restaurant_CourseRowDeleting" msprop:Generator_TablePropName="Relation_Restaurant_Course">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="RID" msprop:Generator_UserColumnName="RID" msprop:Generator_ColumnVarNameInTable="columnRID" msprop:Generator_ColumnPropNameInRow="RID" msprop:Generator_ColumnPropNameInTable="RIDColumn" type="xs:long" />
-              <xs:element name="DID" msprop:Generator_UserColumnName="DID" msprop:Generator_ColumnVarNameInTable="columnDID" msprop:Generator_ColumnPropNameInRow="DID" msprop:Generator_ColumnPropNameInTable="DIDColumn" type="xs:long" />
-              <xs:element name="RestaurantSpecificImagePath" msprop:Generator_UserColumnName="RestaurantSpecificImagePath" msprop:Generator_ColumnVarNameInTable="columnRestaurantSpecificImagePath" msprop:Generator_ColumnPropNameInRow="RestaurantSpecificImagePath" msprop:Generator_ColumnPropNameInTable="RestaurantSpecificImagePathColumn" minOccurs="0">
+              <xs:element name="RID" msprop:Generator_UserColumnName="RID" msprop:Generator_ColumnPropNameInRow="RID" msprop:Generator_ColumnVarNameInTable="columnRID" msprop:Generator_ColumnPropNameInTable="RIDColumn" type="xs:long" />
+              <xs:element name="DID" msprop:Generator_UserColumnName="DID" msprop:Generator_ColumnPropNameInRow="DID" msprop:Generator_ColumnVarNameInTable="columnDID" msprop:Generator_ColumnPropNameInTable="DIDColumn" type="xs:long" />
+              <xs:element name="RestaurantSpecificImagePath" msprop:Generator_UserColumnName="RestaurantSpecificImagePath" msprop:Generator_ColumnPropNameInRow="RestaurantSpecificImagePath" msprop:Generator_ColumnVarNameInTable="columnRestaurantSpecificImagePath" msprop:Generator_ColumnPropNameInTable="RestaurantSpecificImagePathColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="1024" />
@@ -583,52 +583,52 @@
         <xs:element name="Relation_Restaurant_RestaurantType" msprop:Generator_UserTableName="Relation_Restaurant_RestaurantType" msprop:Generator_RowDeletedName="Relation_Restaurant_RestaurantTypeRowDeleted" msprop:Generator_RowChangedName="Relation_Restaurant_RestaurantTypeRowChanged" msprop:Generator_RowClassName="Relation_Restaurant_RestaurantTypeRow" msprop:Generator_RowChangingName="Relation_Restaurant_RestaurantTypeRowChanging" msprop:Generator_RowEvArgName="Relation_Restaurant_RestaurantTypeRowChangeEvent" msprop:Generator_RowEvHandlerName="Relation_Restaurant_RestaurantTypeRowChangeEventHandler" msprop:Generator_TableClassName="Relation_Restaurant_RestaurantTypeDataTable" msprop:Generator_TableVarName="tableRelation_Restaurant_RestaurantType" msprop:Generator_RowDeletingName="Relation_Restaurant_RestaurantTypeRowDeleting" msprop:Generator_TablePropName="Relation_Restaurant_RestaurantType">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="RID" msprop:Generator_UserColumnName="RID" msprop:Generator_ColumnVarNameInTable="columnRID" msprop:Generator_ColumnPropNameInRow="RID" msprop:Generator_ColumnPropNameInTable="RIDColumn" type="xs:long" />
-              <xs:element name="TID" msprop:Generator_UserColumnName="TID" msprop:Generator_ColumnVarNameInTable="columnTID" msprop:Generator_ColumnPropNameInRow="TID" msprop:Generator_ColumnPropNameInTable="TIDColumn" type="xs:long" />
+              <xs:element name="RID" msprop:Generator_UserColumnName="RID" msprop:Generator_ColumnPropNameInRow="RID" msprop:Generator_ColumnVarNameInTable="columnRID" msprop:Generator_ColumnPropNameInTable="RIDColumn" type="xs:long" />
+              <xs:element name="TID" msprop:Generator_UserColumnName="TID" msprop:Generator_ColumnPropNameInRow="TID" msprop:Generator_ColumnVarNameInTable="columnTID" msprop:Generator_ColumnPropNameInTable="TIDColumn" type="xs:long" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="Relation_User_Restaurant" msprop:Generator_UserTableName="Relation_User_Restaurant" msprop:Generator_RowDeletedName="Relation_User_RestaurantRowDeleted" msprop:Generator_RowChangedName="Relation_User_RestaurantRowChanged" msprop:Generator_RowClassName="Relation_User_RestaurantRow" msprop:Generator_RowChangingName="Relation_User_RestaurantRowChanging" msprop:Generator_RowEvArgName="Relation_User_RestaurantRowChangeEvent" msprop:Generator_RowEvHandlerName="Relation_User_RestaurantRowChangeEventHandler" msprop:Generator_TableClassName="Relation_User_RestaurantDataTable" msprop:Generator_TableVarName="tableRelation_User_Restaurant" msprop:Generator_RowDeletingName="Relation_User_RestaurantRowDeleting" msprop:Generator_TablePropName="Relation_User_Restaurant">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="UID" msprop:Generator_UserColumnName="UID" msprop:Generator_ColumnVarNameInTable="columnUID" msprop:Generator_ColumnPropNameInRow="UID" msprop:Generator_ColumnPropNameInTable="UIDColumn" type="xs:long" />
-              <xs:element name="RID" msprop:Generator_UserColumnName="RID" msprop:Generator_ColumnVarNameInTable="columnRID" msprop:Generator_ColumnPropNameInRow="RID" msprop:Generator_ColumnPropNameInTable="RIDColumn" type="xs:long" />
-              <xs:element name="Relation" msprop:Generator_UserColumnName="Relation" msprop:Generator_ColumnVarNameInTable="columnRelation" msprop:Generator_ColumnPropNameInRow="Relation" msprop:Generator_ColumnPropNameInTable="RelationColumn" type="xs:int" />
+              <xs:element name="UID" msprop:Generator_UserColumnName="UID" msprop:Generator_ColumnPropNameInRow="UID" msprop:Generator_ColumnVarNameInTable="columnUID" msprop:Generator_ColumnPropNameInTable="UIDColumn" type="xs:long" />
+              <xs:element name="RID" msprop:Generator_UserColumnName="RID" msprop:Generator_ColumnPropNameInRow="RID" msprop:Generator_ColumnVarNameInTable="columnRID" msprop:Generator_ColumnPropNameInTable="RIDColumn" type="xs:long" />
+              <xs:element name="Relation" msprop:Generator_UserColumnName="Relation" msprop:Generator_ColumnPropNameInRow="Relation" msprop:Generator_ColumnVarNameInTable="columnRelation" msprop:Generator_ColumnPropNameInTable="RelationColumn" type="xs:int" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="Relation_User_User" msprop:Generator_UserTableName="Relation_User_User" msprop:Generator_RowDeletedName="Relation_User_UserRowDeleted" msprop:Generator_RowChangedName="Relation_User_UserRowChanged" msprop:Generator_RowClassName="Relation_User_UserRow" msprop:Generator_RowChangingName="Relation_User_UserRowChanging" msprop:Generator_RowEvArgName="Relation_User_UserRowChangeEvent" msprop:Generator_RowEvHandlerName="Relation_User_UserRowChangeEventHandler" msprop:Generator_TableClassName="Relation_User_UserDataTable" msprop:Generator_TableVarName="tableRelation_User_User" msprop:Generator_RowDeletingName="Relation_User_UserRowDeleting" msprop:Generator_TablePropName="Relation_User_User">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="UID_Host" msprop:Generator_UserColumnName="UID_Host" msprop:Generator_ColumnVarNameInTable="columnUID_Host" msprop:Generator_ColumnPropNameInRow="UID_Host" msprop:Generator_ColumnPropNameInTable="UID_HostColumn" type="xs:long" />
-              <xs:element name="UID_Target" msprop:Generator_UserColumnName="UID_Target" msprop:Generator_ColumnVarNameInTable="columnUID_Target" msprop:Generator_ColumnPropNameInRow="UID_Target" msprop:Generator_ColumnPropNameInTable="UID_TargetColumn" type="xs:long" />
-              <xs:element name="Relation" msprop:Generator_UserColumnName="Relation" msprop:Generator_ColumnVarNameInTable="columnRelation" msprop:Generator_ColumnPropNameInRow="Relation" msprop:Generator_ColumnPropNameInTable="RelationColumn" type="xs:int" />
+              <xs:element name="UID_Host" msprop:Generator_UserColumnName="UID_Host" msprop:Generator_ColumnPropNameInRow="UID_Host" msprop:Generator_ColumnVarNameInTable="columnUID_Host" msprop:Generator_ColumnPropNameInTable="UID_HostColumn" type="xs:long" />
+              <xs:element name="UID_Target" msprop:Generator_UserColumnName="UID_Target" msprop:Generator_ColumnPropNameInRow="UID_Target" msprop:Generator_ColumnVarNameInTable="columnUID_Target" msprop:Generator_ColumnPropNameInTable="UID_TargetColumn" type="xs:long" />
+              <xs:element name="Relation" msprop:Generator_UserColumnName="Relation" msprop:Generator_ColumnPropNameInRow="Relation" msprop:Generator_ColumnVarNameInTable="columnRelation" msprop:Generator_ColumnPropNameInTable="RelationColumn" type="xs:int" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="Restaurants" msprop:Generator_UserTableName="Restaurants" msprop:Generator_RowDeletedName="RestaurantsRowDeleted" msprop:Generator_RowChangedName="RestaurantsRowChanged" msprop:Generator_RowClassName="RestaurantsRow" msprop:Generator_RowChangingName="RestaurantsRowChanging" msprop:Generator_RowEvArgName="RestaurantsRowChangeEvent" msprop:Generator_RowEvHandlerName="RestaurantsRowChangeEventHandler" msprop:Generator_TableClassName="RestaurantsDataTable" msprop:Generator_TableVarName="tableRestaurants" msprop:Generator_RowDeletingName="RestaurantsRowDeleting" msprop:Generator_TablePropName="Restaurants">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="RID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_UserColumnName="RID" msprop:Generator_ColumnVarNameInTable="columnRID" msprop:Generator_ColumnPropNameInRow="RID" msprop:Generator_ColumnPropNameInTable="RIDColumn" type="xs:long" minOccurs="0" />
-              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn">
+              <xs:element name="RID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_UserColumnName="RID" msprop:Generator_ColumnPropNameInRow="RID" msprop:Generator_ColumnVarNameInTable="columnRID" msprop:Generator_ColumnPropNameInTable="RIDColumn" type="xs:long" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="500" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Longtitude" msprop:Generator_UserColumnName="Longtitude" msprop:Generator_ColumnVarNameInTable="columnLongtitude" msprop:Generator_ColumnPropNameInRow="Longtitude" msprop:Generator_ColumnPropNameInTable="LongtitudeColumn" type="xs:double" />
-              <xs:element name="Latitude" msprop:Generator_UserColumnName="Latitude" msprop:Generator_ColumnVarNameInTable="columnLatitude" msprop:Generator_ColumnPropNameInRow="Latitude" msprop:Generator_ColumnPropNameInTable="LatitudeColumn" type="xs:double" />
-              <xs:element name="Rating" msprop:Generator_UserColumnName="Rating" msprop:Generator_ColumnVarNameInTable="columnRating" msprop:Generator_ColumnPropNameInRow="Rating" msprop:Generator_ColumnPropNameInTable="RatingColumn" type="xs:int" />
-              <xs:element name="AverageExpense" msprop:Generator_UserColumnName="AverageExpense" msprop:Generator_ColumnVarNameInTable="columnAverageExpense" msprop:Generator_ColumnPropNameInRow="AverageExpense" msprop:Generator_ColumnPropNameInTable="AverageExpenseColumn" type="xs:decimal" />
+              <xs:element name="Longtitude" msprop:Generator_UserColumnName="Longtitude" msprop:Generator_ColumnPropNameInRow="Longtitude" msprop:Generator_ColumnVarNameInTable="columnLongtitude" msprop:Generator_ColumnPropNameInTable="LongtitudeColumn" type="xs:double" />
+              <xs:element name="Latitude" msprop:Generator_UserColumnName="Latitude" msprop:Generator_ColumnPropNameInRow="Latitude" msprop:Generator_ColumnVarNameInTable="columnLatitude" msprop:Generator_ColumnPropNameInTable="LatitudeColumn" type="xs:double" />
+              <xs:element name="Rating" msprop:Generator_UserColumnName="Rating" msprop:Generator_ColumnPropNameInRow="Rating" msprop:Generator_ColumnVarNameInTable="columnRating" msprop:Generator_ColumnPropNameInTable="RatingColumn" type="xs:int" />
+              <xs:element name="AverageExpense" msprop:Generator_UserColumnName="AverageExpense" msprop:Generator_ColumnPropNameInRow="AverageExpense" msprop:Generator_ColumnVarNameInTable="columnAverageExpense" msprop:Generator_ColumnPropNameInTable="AverageExpenseColumn" type="xs:decimal" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="RestaurantTypes" msprop:Generator_UserTableName="RestaurantTypes" msprop:Generator_RowDeletedName="RestaurantTypesRowDeleted" msprop:Generator_RowChangedName="RestaurantTypesRowChanged" msprop:Generator_RowClassName="RestaurantTypesRow" msprop:Generator_RowChangingName="RestaurantTypesRowChanging" msprop:Generator_RowEvArgName="RestaurantTypesRowChangeEvent" msprop:Generator_RowEvHandlerName="RestaurantTypesRowChangeEventHandler" msprop:Generator_TableClassName="RestaurantTypesDataTable" msprop:Generator_TableVarName="tableRestaurantTypes" msprop:Generator_RowDeletingName="RestaurantTypesRowDeleting" msprop:Generator_TablePropName="RestaurantTypes">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="TID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_UserColumnName="TID" msprop:Generator_ColumnVarNameInTable="columnTID" msprop:Generator_ColumnPropNameInRow="TID" msprop:Generator_ColumnPropNameInTable="TIDColumn" type="xs:long" />
-              <xs:element name="ReadableText" msprop:Generator_UserColumnName="ReadableText" msprop:Generator_ColumnVarNameInTable="columnReadableText" msprop:Generator_ColumnPropNameInRow="ReadableText" msprop:Generator_ColumnPropNameInTable="ReadableTextColumn">
+              <xs:element name="TID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_UserColumnName="TID" msprop:Generator_ColumnPropNameInRow="TID" msprop:Generator_ColumnVarNameInTable="columnTID" msprop:Generator_ColumnPropNameInTable="TIDColumn" type="xs:long" />
+              <xs:element name="ReadableText" msprop:Generator_UserColumnName="ReadableText" msprop:Generator_ColumnPropNameInRow="ReadableText" msprop:Generator_ColumnVarNameInTable="columnReadableText" msprop:Generator_ColumnPropNameInTable="ReadableTextColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="20" />
