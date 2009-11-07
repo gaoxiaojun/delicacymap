@@ -2641,10 +2641,10 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public RestaurantsRow AddRestaurantsRow(long RID, string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense) {
+            public RestaurantsRow AddRestaurantsRow(string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense) {
                 RestaurantsRow rowRestaurantsRow = ((RestaurantsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        RID,
+                        null,
                         Name,
                         Longtitude,
                         Latitude,
@@ -2699,6 +2699,8 @@ namespace delicousDBManager {
                 base.Columns.Add(this.columnAverageExpense);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnRID}, true));
+                this.columnRID.AutoIncrement = true;
+                this.columnRID.AutoIncrementSeed = 1;
                 this.columnRID.AllowDBNull = false;
                 this.columnRID.Unique = true;
                 this.columnName.AllowDBNull = false;
@@ -7229,8 +7231,13 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(long Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((long)(Original_RID));
+        public virtual int Delete(global::System.Nullable<long> Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
+            if ((Original_RID.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[0].Value = ((long)(Original_RID.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
             if ((Original_Name == null)) {
                 throw new global::System.ArgumentNullException("Original_Name");
             }
@@ -7260,8 +7267,13 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(long RID, string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense) {
-            this.Adapter.InsertCommand.Parameters[0].Value = ((long)(RID));
+        public virtual int Insert(global::System.Nullable<long> RID, string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense) {
+            if ((RID.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[0].Value = ((long)(RID.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
             if ((Name == null)) {
                 throw new global::System.ArgumentNullException("Name");
             }
@@ -7291,8 +7303,13 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(long RID, string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense, long Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
-            this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(RID));
+        public virtual int Update(global::System.Nullable<long> RID, string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense, global::System.Nullable<long> Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
+            if ((RID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(RID.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
             if ((Name == null)) {
                 throw new global::System.ArgumentNullException("Name");
             }
@@ -7303,7 +7320,12 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this.Adapter.UpdateCommand.Parameters[3].Value = ((double)(Latitude));
             this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Rating));
             this.Adapter.UpdateCommand.Parameters[5].Value = ((decimal)(AverageExpense));
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((long)(Original_RID));
+            if ((Original_RID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((long)(Original_RID.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
             if ((Original_Name == null)) {
                 throw new global::System.ArgumentNullException("Original_Name");
             }
@@ -7333,7 +7355,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense, long Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
+        public virtual int Update(string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense, global::System.Nullable<long> Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
             return this.Update(Original_RID, Name, Longtitude, Latitude, Rating, AverageExpense, Original_RID, Original_Name, Original_Longtitude, Original_Latitude, Original_Rating, Original_AverageExpense);
         }
     }
