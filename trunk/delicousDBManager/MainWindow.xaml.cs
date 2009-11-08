@@ -16,6 +16,8 @@ using System.Security.Cryptography;
 
 namespace delicousDBManager
 {
+    public enum UserRelationship {Friend=0, BlackList};
+
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -25,6 +27,9 @@ namespace delicousDBManager
                 InitializeComponent();
                 Map.Source = new Uri(Environment.CurrentDirectory + @"\get_location.htm", UriKind.Absolute);
                 Map.ObjectForScripting = new Helper(this);
+
+                #region DataBase Initialization
+
                 Adapters.Relation_Restaurant_RestaurantTypeTableAdapter = new delicousDBManager.delicacyDBTableAdapters.Relation_Restaurant_RestaurantTypeTableAdapter();
                 Adapters.Relation_User_RestaurantTableAdapter = new delicousDBManager.delicacyDBTableAdapters.Relation_User_RestaurantTableAdapter();
                 Adapters.Relation_User_UserTableAdapter = new delicousDBManager.delicacyDBTableAdapters.Relation_User_UserTableAdapter();
@@ -43,10 +48,13 @@ namespace delicousDBManager
                 Adapters.UsersTableAdapter.Fill(dbset.Users);
                 Adapters.CommentsTableAdapter.Fill(dbset.Comments);
 
+                #endregion
+
                 RestaurantTypes.ItemsSource = dbset.RestaurantTypes;
                 RList.ItemsSource = dbset.Restaurants;
                 UserList.ItemsSource = dbset.Users;
                 UserList_Target.ItemsSource = dbset.Users;
+                CommentsList.ItemsSource = dbset.Comments;
             }
             catch (Exception e)
             {
@@ -54,9 +62,17 @@ namespace delicousDBManager
             }
         }
 
-        private delicacyDB dbset = new delicacyDB();
+        private static delicacyDB dbset = new delicacyDB();
+        public static delicousDBManager.delicacyDB Dbset
+        {
+            get { return dbset; }
+        }
+        private static delicacyDBTableAdapters.TableAdapterManager adapters = new delicousDBManager.delicacyDBTableAdapters.TableAdapterManager();
 
-        private delicacyDBTableAdapters.TableAdapterManager Adapters = new delicousDBManager.delicacyDBTableAdapters.TableAdapterManager();
+        private static delicacyDBTableAdapters.TableAdapterManager Adapters
+        {
+            get { return adapters; }
+        }
 
         #region Tab Restaurants
 
@@ -199,8 +215,8 @@ namespace delicousDBManager
                     {
                         row.Password = MD5(row.Password);
                     }
-                    row.JoinTime = DateTime.Now;
-                    Adapters.UsersTableAdapter.Update(row);
+                    
+                    Adapters.UsersTableAdapter.Update(dbset);
                 }
                 catch (System.Exception ex)
                 {
@@ -209,6 +225,23 @@ namespace delicousDBManager
                     {
                         row.RejectChanges();
                     }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Tab Comments
+
+        private void Comments_UserName_Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Hyperlink source = sender as Hyperlink;
+            if (source != null)
+            {
+                var row = (source.DataContext as DataRowView).Row as delicacyDB.CommentsRow;
+                if (row != null)
+                {
+
                 }
             }
         }

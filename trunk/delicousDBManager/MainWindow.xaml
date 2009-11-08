@@ -2,11 +2,21 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:delicousDBManager"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:SysData="clr-namespace:System.Data;assembly=System.Data"
     Title="Delicacy Database Management" Height="600" Width="1000">
     <Window.Resources>
         <local:ValueSubtract x:Key="Subtractor"/>
         <local:GetTIDFromRestaurant x:Key="GetTIDFromRestaurant"/>
+        <local:GetNameFromUIDConverter x:Key="GetNameFromUID"/>
+        <local:RelationBetween2Converter x:Key="RelationFrom2"/>
+        <ObjectDataProvider MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}"
+                            x:Key="UserRelationValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:UserRelationship" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </Window.Resources>
     <TabControl HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
@@ -120,30 +130,64 @@
                          Width="120"/>
                 <GroupBox DockPanel.Dock="Top"
                           Header="Basic Info">
-                    <Grid Name="UserDetails" DataContext="{Binding ElementName=UserList, Path=SelectedItem}">
+                    <Grid Name="UserDetails" ShowGridLines="False"  DataContext="{Binding ElementName=UserList, Path=SelectedItem}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.7*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.7*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.7*"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
                         <TextBox Grid.Row="0" Grid.Column="1" Text ="{Binding Nickname}"/>
                         <Label Grid.Row="0" Grid.Column="2" Content="Password:"/>
                         <TextBox Grid.Row="0" Grid.Column="3" Text ="{Binding Password}"/>
-                        <Button Grid.Row="1" Grid.Column="3" Content="Save" Click="User_Save_Click"/>
+                        <Label Grid.Row="0" Grid.Column="4" Content="JoinTime"/>
+                        <TextBox Grid.Row="0" Grid.Column="5" Text="{Binding JoinTime}" />
+                        
+                        <Button Grid.Row="1" Grid.Column="4" Content="Save" Click="User_Save_Click"/>
                     </Grid>
                 </GroupBox>
-                <TextBox></TextBox>
+                <ListBox ItemsSource="{Binding Source={StaticResource UserRelationValues}}">
+                    <ListBox.SelectedItem>
+                        <MultiBinding Converter="{StaticResource RelationFrom2}">
+                            <Binding ElementName="UserList" Path="SelectedItem"/>
+                            <Binding ElementName="UserList_Target" Path="SelectedItem"/>
+                        </MultiBinding>
+                    </ListBox.SelectedItem>
+                </ListBox>
             </DockPanel>
         </TabItem>
         <TabItem Header="Comments">
             <Grid>
-                
+                <ListView Name="CommentsList"
+                          VirtualizingStackPanel.IsVirtualizing="True" 
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          >
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="True">
+                            <GridViewColumn Header="SubmitBy" Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <Hyperlink Click="Comments_UserName_Hyperlink_Click">
+                                                <TextBlock Text="{Binding UID, Converter={StaticResource GetNameFromUID}}"/>
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Content" DisplayMemberBinding="{Binding Comment}"/>
+                            <GridViewColumn Header="Photo" DisplayMemberBinding="{Binding PhotoPath}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                          
             </Grid>
         </TabItem>
     </TabControl>
