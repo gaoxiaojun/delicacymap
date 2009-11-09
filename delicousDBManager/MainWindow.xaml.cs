@@ -16,7 +16,7 @@ using System.Security.Cryptography;
 
 namespace delicousDBManager
 {
-    public enum UserRelationship {Friend=0, BlackList};
+    public enum UserRelationship {Friend=0, BlackList, Unspecified = -1};
 
     public partial class MainWindow : Window
     {
@@ -24,6 +24,7 @@ namespace delicousDBManager
         {
             try
             {
+                this.Resources["RelationUserUser"] = Dbset.Relation_User_User;
                 InitializeComponent();
                 Map.Source = new Uri(Environment.CurrentDirectory + @"\get_location.htm", UriKind.Absolute);
                 Map.ObjectForScripting = new Helper(this);
@@ -189,7 +190,7 @@ namespace delicousDBManager
                 row.Nickname = string.Empty;
                 row.Password = string.Empty;
                 row.JoinTime = DateTime.Now;
-                dbset.Users.AddUsersRow(row);
+                Dbset.Users.AddUsersRow(row);
                 UserList.SelectedValue = row;
             }
             catch (Exception ex)
@@ -198,9 +199,38 @@ namespace delicousDBManager
             }
         }
 
+        private void SaveRelation_Click(object sender, RoutedEventArgs e)
+        {
+            delicacyDB.UsersRow usr = UserList.SelectedValue as delicacyDB.UsersRow;
+            delicacyDB.UsersRow target = UserList_Target.SelectedValue as delicacyDB.UsersRow;
+            if (usr != null && target != null && usr != target && UserRelations.SelectedItem != null)
+            {
+                var relationrow = dbset.Relation_User_User.FindByUID_HostUID_Target(usr.UID, target.UID);
+                if (relationrow == null)
+                {
+                    relationrow = dbset.Relation_User_User.NewRelation_User_UserRow();
+                    relationrow.UID_Host = usr.UID;
+                    relationrow.UID_Target = target.UID;
+                    relationrow.Relation = 0;
+                    Dbset.Relation_User_User.AddRelation_User_UserRow(relationrow);
+                }
+
+                relationrow.Relation = (int)(UserRelationship)UserRelations.SelectedItem;
+                Adapters.Relation_User_UserTableAdapter.Update(relationrow);
+                var old = UserList.SelectedItem;
+                UserList.SelectedItem = null;
+                UserList.SelectedItem = old;
+            }
+        }
+
         private void User_Delete_Click(object sender, RoutedEventArgs e)
         {
-
+            delicacyDB.UsersRow row = UserList.SelectedValue as delicacyDB.UsersRow;
+            if (row != null)
+            {
+                row.Delete();
+                Adapters.UsersTableAdapter.Update(row);
+            }
         }
 
         private void User_Save_Click(object sender, RoutedEventArgs e)

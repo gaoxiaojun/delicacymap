@@ -10,6 +10,8 @@
         <local:GetTIDFromRestaurant x:Key="GetTIDFromRestaurant"/>
         <local:GetNameFromUIDConverter x:Key="GetNameFromUID"/>
         <local:RelationBetween2Converter x:Key="RelationFrom2"/>
+        <local:GetColorFromRelationConverter x:Key="ColorFromRelation"/>
+        <local:GetColorFromRelationBetween2Converter x:Key="ColorFromRelation2"/>
         <ObjectDataProvider MethodName="GetValues"
                             ObjectType="{x:Type sys:Enum}"
                             x:Key="UserRelationValues">
@@ -124,10 +126,22 @@
                          Width="120"/>
                 </DockPanel>
                 <ListBox Name="UserList_Target" 
-                         DisplayMemberPath="Nickname"
                          SelectedValuePath="Row"
                          DockPanel.Dock="Right"
-                         Width="120"/>
+                         Width="120">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Nickname}">
+                                <TextBlock.Foreground>
+                                    <MultiBinding Converter="{StaticResource ColorFromRelation2}">
+                                        <Binding ElementName="UserList" Path="SelectedValue"/>
+                                        <Binding Path="Row"/>
+                                    </MultiBinding>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <GroupBox DockPanel.Dock="Top"
                           Header="Basic Info">
                     <Grid Name="UserDetails" ShowGridLines="False"  DataContext="{Binding ElementName=UserList, Path=SelectedItem}">
@@ -153,14 +167,24 @@
                         <Button Grid.Row="1" Grid.Column="4" Content="Save" Click="User_Save_Click"/>
                     </Grid>
                 </GroupBox>
-                <ListBox ItemsSource="{Binding Source={StaticResource UserRelationValues}}">
-                    <ListBox.SelectedItem>
-                        <MultiBinding Converter="{StaticResource RelationFrom2}">
-                            <Binding ElementName="UserList" Path="SelectedItem"/>
-                            <Binding ElementName="UserList_Target" Path="SelectedItem"/>
-                        </MultiBinding>
-                    </ListBox.SelectedItem>
-                </ListBox>
+                <GroupBox Header="User Relations:">
+                    <DockPanel>
+                        <Button Width="80" Height="25" Click="SaveRelation_Click"  Content="Set" HorizontalAlignment="Right" DockPanel.Dock="Bottom"/>
+                        <ListBox Name="UserRelations" ItemsSource="{Binding Source={StaticResource UserRelationValues}}">
+                            <ListBox.SelectedItem>
+                                <MultiBinding Converter="{StaticResource RelationFrom2}">
+                                    <Binding ElementName="UserList" Path="SelectedValue"/>
+                                    <Binding ElementName="UserList_Target" Path="SelectedValue"/>
+                                </MultiBinding>
+                            </ListBox.SelectedItem>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text ="{Binding}" Foreground="{Binding Converter={StaticResource ColorFromRelation}}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </GroupBox>
             </DockPanel>
         </TabItem>
         <TabItem Header="Comments">
