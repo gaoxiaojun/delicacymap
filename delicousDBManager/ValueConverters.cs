@@ -277,7 +277,7 @@ namespace delicousDBManager
                     return parameter;
                 }
             }
-            return new object[0];
+            return Binding.DoNothing;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

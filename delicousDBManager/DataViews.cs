@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Linq;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace delicousDBManager
@@ -176,6 +177,36 @@ namespace delicousDBManager
             : base(null, true)
         {
             this.Restaurant = row;
+
+            // This is not Elegant! Figure something else out! 
+            MainWindow.Dbset.Relation_Restaurant_Course.Relation_Restaurant_CourseRowDeleting += new delicacyDB.Relation_Restaurant_CourseRowChangeEventHandler(Relation_Restaurant_Course_Relation_Restaurant_CourseRowDeleted);
+            MainWindow.Dbset.Relation_Restaurant_Course.Relation_Restaurant_CourseRowChanged += new delicacyDB.Relation_Restaurant_CourseRowChangeEventHandler(Relation_Restaurant_Course_Relation_Restaurant_CourseRowChanged);
+        }
+
+        void Relation_Restaurant_Course_Relation_Restaurant_CourseRowChanged(object sender, delicacyDB.Relation_Restaurant_CourseRowChangeEvent e)
+        {
+            if (e.Action == System.Data.DataRowAction.Add && !HasDummyChild)
+            {
+                if (e.Row.RID == this.Restaurant.RID)
+                {
+                    Children.Add(new CourseTreeViewItem(this, e.Row.CoursesRow));
+                }
+            }
+        }
+
+        void Relation_Restaurant_Course_Relation_Restaurant_CourseRowDeleted(object sender, delicacyDB.Relation_Restaurant_CourseRowChangeEvent e)
+        {
+            if (!HasDummyChild)
+            {
+                if (e.Row.RID == this.Restaurant.RID)
+                {
+                    var view = Children.First(c => ((CourseTreeViewItem)c).Course.DID == e.Row.DID);
+                    if (view != null)
+                    {
+                        Children.Remove(view);
+                    }
+                }
+            }
         }
 
         public delicacyDB.RestaurantsRow Restaurant
