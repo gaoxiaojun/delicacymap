@@ -66,14 +66,14 @@ namespace delicousDBManager
         #endregion
     }
 
-    public class GetColorFromRelationBetween2Converter : IMultiValueConverter
+    public class GetColorFromUserRelationBetween2Converter : IMultiValueConverter
     {
         #region IMultiValueConverter Members
 
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var relation = new RelationBetween2Converter().Convert(values, targetType, parameter, culture);
-            return new GetColorFromRelationConverter().Convert(relation, targetType, parameter, culture);
+            return new GetColorFromUserRelationConverter().Convert(relation, targetType, parameter, culture);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
@@ -85,7 +85,7 @@ namespace delicousDBManager
     }
 
     [ValueConversion(typeof(UserRelationship), typeof(SolidColorBrush))]
-    public class GetColorFromRelationConverter : IValueConverter
+    public class GetColorFromUserRelationConverter : IValueConverter
     {
 
         #region IValueConverter Members
@@ -104,6 +104,37 @@ namespace delicousDBManager
                         break;
                     case UserRelationship.BlackList:
                         c = Colors.DarkGray;
+                        break;
+                }
+            }
+            return new SolidColorBrush(c);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+    [ValueConversion(typeof(UserRestaurantRelationship), typeof(SolidColorBrush))]
+    public class GetColorFromUserRestaurantRelationConverter : IValueConverter
+    {
+
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            Color c = Colors.Black;
+
+            if (value is UserRestaurantRelationship)
+            {
+                UserRestaurantRelationship relation = (UserRestaurantRelationship)value;
+                switch (relation)
+                {
+                    case UserRestaurantRelationship.Favorite:
+                        c = Colors.DarkSalmon;
                         break;
                 }
             }
@@ -154,6 +185,30 @@ namespace delicousDBManager
 
             long id = (long)value;
             return MainWindow.Dbset.Restaurants.FindByRID(id).Name;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+    // Get Course Name From DID
+    [ValueConversion(typeof(long), typeof(string))]
+    public class GetNameFromDIDConverter : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (targetType != typeof(string))
+                throw new InvalidCastException();
+
+            delicacyDB.CoursesRow row = value is DBNull ? null : MainWindow.Dbset.Courses.FindByDID((long)value);
+
+            return row == null ? string.Empty : row.Name;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

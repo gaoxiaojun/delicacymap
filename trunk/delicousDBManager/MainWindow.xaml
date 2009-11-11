@@ -10,14 +10,23 @@
         <local:GetTIDFromRestaurant x:Key="GetTIDFromRestaurant"/>
         <local:GetNameFromUIDConverter x:Key="GetNameFromUID"/>
         <local:GetNameFromRIDConverter x:Key="GetNameFromRID"/>
+        <local:GetNameFromDIDConverter x:Key="GetNameFromDID"/>
         <local:RelationBetween2Converter x:Key="RelationFrom2"/>
-        <local:GetColorFromRelationConverter x:Key="ColorFromRelation"/>
-        <local:GetColorFromRelationBetween2Converter x:Key="ColorFromRelation2"/>
+        <local:GetColorFromUserRestaurantRelationConverter x:Key="ColorFromUserRestaurantRelation"/>
+        <local:GetColorFromUserRelationConverter x:Key="ColorFromRelation"/>
+        <local:GetColorFromUserRelationBetween2Converter x:Key="ColorFromRelation2"/>
         <ObjectDataProvider MethodName="GetValues"
                             ObjectType="{x:Type sys:Enum}"
                             x:Key="UserRelationValues">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="local:UserRelationship" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}"
+                            x:Key="UserRestaurantRelationValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:UserRestaurantRelationship" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
@@ -115,8 +124,22 @@
         </TabItem>
         
         <!-- Courses -->
-        <TabItem Header="Courses">
-            <Grid />
+        <TabItem Header="Courses" Name="TabCourse">
+            <Grid>
+                <ListView Name="CourseList"
+                          VirtualizingStackPanel.IsVirtualizing="True" 
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          SelectedValuePath="Row"
+                          >
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="True">
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="Photo URL" DisplayMemberBinding="{Binding ImagePath}"/>
+                            <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
         </TabItem>
         
         <!-- User -->
@@ -194,7 +217,17 @@
                     </DockPanel>
                 </GroupBox>
                 <GroupBox Header="User Relation with Restaurants:" DockPanel.Dock="Bottom">
-                    <TextBlock>TODO: Feature to be added soon</TextBlock>
+                    <StackPanel>
+                        <ListBox Name="UserRestaurantRelations" ItemsSource="{Binding Source={StaticResource UserRestaurantRelationValues}}">
+ 
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text ="{Binding}" Foreground="{Binding Converter={StaticResource ColorFromUserRestaurantRelation}}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <TextBlock>TODO: Feature to be added soon</TextBlock>
+                    </StackPanel>
                 </GroupBox>
             </DockPanel>
         </TabItem>
@@ -234,8 +267,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock>
-                                            <Hyperlink Click="Comments_Restaurant_Hyperlink_Click">
-                                                <TextBlock Text="{Binding RID, Converter={StaticResource GetNameFromRID}}"/>
+                                            <Hyperlink Click="Comments_Course_Hyperlink_Click">
+                                                <TextBlock Text="{Binding DID, Converter={StaticResource GetNameFromDID}}"/>
                                             </Hyperlink>
                                         </TextBlock>
                                     </DataTemplate>

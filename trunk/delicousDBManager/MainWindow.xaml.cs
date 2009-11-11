@@ -45,11 +45,12 @@ namespace delicousDBManager
 
                 #endregion
 
-                RestaurantTypes.ItemsSource = dbset.RestaurantTypes;
-                RList.ItemsSource = dbset.Restaurants;
-                UserList.ItemsSource = dbset.Users;
-                UserList_Target.ItemsSource = dbset.Users;
-                CommentsList.ItemsSource = dbset.Comments;
+                RestaurantTypes.ItemsSource = Dbset.RestaurantTypes;
+                RList.ItemsSource = Dbset.Restaurants;
+                UserList.ItemsSource = Dbset.Users;
+                UserList_Target.ItemsSource = Dbset.Users;
+                CommentsList.ItemsSource = Dbset.Comments;
+                CourseList.ItemsSource = Dbset.Courses;
             }
             catch (Exception e)
             {
@@ -310,6 +311,20 @@ namespace delicousDBManager
                 {
                     RList.SelectedValue = Dbset.Restaurants.FindByRID(row.RID);
                     Tabs.SelectedItem = TabRestaurant;
+                }
+            }
+        }
+
+        private void Comments_Course_Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Hyperlink source = sender as Hyperlink;
+            if (source != null)
+            {
+                var row = (source.DataContext as DataRowView).Row as delicacyDB.CommentsRow;
+                if (row != null)
+                {
+                    CourseList.SelectedValue = Dbset.Courses.FindByDID(row.DID);
+                    Tabs.SelectedItem = TabCourse;
                 }
             }
         }
