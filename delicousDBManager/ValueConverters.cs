@@ -17,8 +17,7 @@ namespace delicousDBManager
         {
             if (value != null)
             {
-                DataRowView view = (DataRowView)value;
-                delicacyDB.RestaurantsRow restaurant = (delicacyDB.RestaurantsRow)view.Row;
+                delicacyDB.RestaurantsRow restaurant = (delicacyDB.RestaurantsRow)value;
                 delicacyDB.Relation_Restaurant_RestaurantTypeRow[] rows = restaurant.GetRelation_Restaurant_RestaurantTypeRows();
                 return rows.Length == 0 ? 0 : rows[0].TID;
             }
@@ -27,7 +26,7 @@ namespace delicousDBManager
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return Binding.DoNothing;
         }
 
         #endregion
@@ -104,7 +103,7 @@ namespace delicousDBManager
                         c = Colors.LightGreen;
                         break;
                     case UserRelationship.BlackList:
-                        c = Colors.LightSlateGray;
+                        c = Colors.DarkGray;
                         break;
                 }
             }
@@ -132,6 +131,29 @@ namespace delicousDBManager
 
             long id = (long)value;
             return MainWindow.Dbset.Users.FindByUID(id).Nickname;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+    // Get Restaurant Name From RID
+    [ValueConversion(typeof(long), typeof(string))]
+    public class GetNameFromRIDConverter : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (targetType != typeof(string))
+                throw new InvalidCastException();
+
+            long id = (long)value;
+            return MainWindow.Dbset.Restaurants.FindByRID(id).Name;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
