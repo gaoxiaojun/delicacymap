@@ -16,8 +16,6 @@ using System.Security.Cryptography;
 
 namespace delicousDBManager
 {
-    public enum UserRelationship {Friend=0, BlackList, Unspecified = -1};
-
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -35,19 +33,15 @@ namespace delicousDBManager
                 Adapters.Relation_User_RestaurantTableAdapter = new delicousDBManager.delicacyDBTableAdapters.Relation_User_RestaurantTableAdapter();
                 Adapters.Relation_User_UserTableAdapter = new delicousDBManager.delicacyDBTableAdapters.Relation_User_UserTableAdapter();
                 Adapters.Relation_Restaurant_CourseTableAdapter = new delicousDBManager.delicacyDBTableAdapters.Relation_Restaurant_CourseTableAdapter();
+                Adapters.Relation_Restaurant_CourseTableAdapter = new delicousDBManager.delicacyDBTableAdapters.Relation_Restaurant_CourseTableAdapter();
                 Adapters.RestaurantsTableAdapter = new delicousDBManager.delicacyDBTableAdapters.RestaurantsTableAdapter();
                 Adapters.RestaurantTypesTableAdapter = new delicousDBManager.delicacyDBTableAdapters.RestaurantTypesTableAdapter();
                 Adapters.UsersTableAdapter = new delicousDBManager.delicacyDBTableAdapters.UsersTableAdapter();
                 Adapters.CommentsTableAdapter = new delicousDBManager.delicacyDBTableAdapters.CommentsTableAdapter();
+                Adapters.CoursesTableAdapter = new delicousDBManager.delicacyDBTableAdapters.CoursesTableAdapter();
 
-                Adapters.Relation_Restaurant_RestaurantTypeTableAdapter.Fill(dbset.Relation_Restaurant_RestaurantType);
-                Adapters.Relation_Restaurant_CourseTableAdapter.Fill(dbset.Relation_Restaurant_Course);
-                Adapters.Relation_User_UserTableAdapter.Fill(dbset.Relation_User_User);
-                Adapters.Relation_User_RestaurantTableAdapter.Fill(dbset.Relation_User_Restaurant);
-                Adapters.RestaurantsTableAdapter.Fill(dbset.Restaurants);
-                Adapters.RestaurantTypesTableAdapter.Fill(dbset.RestaurantTypes);
-                Adapters.UsersTableAdapter.Fill(dbset.Users);
-                Adapters.CommentsTableAdapter.Fill(dbset.Comments);
+                FillTables();
+
 
                 #endregion
 
@@ -61,6 +55,20 @@ namespace delicousDBManager
             {
                 MessageBox.Show(e.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void FillTables()
+        {
+            Adapters.Relation_Restaurant_RestaurantTypeTableAdapter.Fill(Dbset.Relation_Restaurant_RestaurantType);
+            Adapters.Relation_Restaurant_CourseTableAdapter.Fill(Dbset.Relation_Restaurant_Course);
+            Adapters.Relation_User_UserTableAdapter.Fill(Dbset.Relation_User_User);
+            Adapters.Relation_User_RestaurantTableAdapter.Fill(Dbset.Relation_User_Restaurant);
+            Adapters.Relation_Restaurant_CourseTableAdapter.Fill(Dbset.Relation_Restaurant_Course);
+            Adapters.RestaurantsTableAdapter.Fill(Dbset.Restaurants);
+            Adapters.RestaurantTypesTableAdapter.Fill(Dbset.RestaurantTypes);
+            Adapters.UsersTableAdapter.Fill(Dbset.Users);
+            Adapters.CommentsTableAdapter.Fill(Dbset.Comments);
+            Adapters.CoursesTableAdapter.Fill(Dbset.Courses);
         }
 
         private static delicacyDB dbset = new delicacyDB();
@@ -141,10 +149,25 @@ namespace delicousDBManager
             }
         }
 
+        private Binding backupRTypeBinding = null;
+
         private void RList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (RList.SelectedItem != null)
             {
+                // This is a known limitation of OneWay binding. the binding is automatically removed after an user
+                // manually specified a value. To work around this, we have to use TwoWay binding or save the binding 
+                // and restore it later
+
+                var oldbinding = BindingOperations.GetBinding( RestaurantTypes, ComboBox.SelectedValueProperty);
+                if (oldbinding != null)
+                {
+                    backupRTypeBinding = oldbinding;
+                }
+                else if (backupRTypeBinding != null)
+                {
+                    RestaurantTypes.SetBinding(ComboBox.SelectedValueProperty, backupRTypeBinding);
+                }
                 delicacyDB.RestaurantsRow row = (delicacyDB.RestaurantsRow)RList.SelectedValue;
                 if (row.Latitude != 0)
                 {
@@ -271,7 +294,22 @@ namespace delicousDBManager
                 var row = (source.DataContext as DataRowView).Row as delicacyDB.CommentsRow;
                 if (row != null)
                 {
+                    UserList.SelectedValue = Dbset.Users.FindByUID(row.UID);
+                    Tabs.SelectedItem = TabUser;
+                }
+            }
+        }
 
+        private void Comments_Restaurant_Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Hyperlink source = sender as Hyperlink;
+            if (source != null)
+            {
+                var row = (source.DataContext as DataRowView).Row as delicacyDB.CommentsRow;
+                if (row != null)
+                {
+                    RList.SelectedValue = Dbset.Restaurants.FindByRID(row.RID);
+                    Tabs.SelectedItem = TabRestaurant;
                 }
             }
         }

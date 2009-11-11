@@ -9,6 +9,7 @@
         <local:ValueSubtract x:Key="Subtractor"/>
         <local:GetTIDFromRestaurant x:Key="GetTIDFromRestaurant"/>
         <local:GetNameFromUIDConverter x:Key="GetNameFromUID"/>
+        <local:GetNameFromRIDConverter x:Key="GetNameFromRID"/>
         <local:RelationBetween2Converter x:Key="RelationFrom2"/>
         <local:GetColorFromRelationConverter x:Key="ColorFromRelation"/>
         <local:GetColorFromRelationBetween2Converter x:Key="ColorFromRelation2"/>
@@ -20,12 +21,15 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
-    <TabControl HorizontalAlignment="Left" 
+    <TabControl Name="Tabs"
+                HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
                 Margin="2"
                 Width="{Binding Converter={StaticResource Subtractor},ConverterParameter=20,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=ActualWidth}" 
                 Height="{Binding Converter={StaticResource Subtractor},ConverterParameter=42,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=ActualHeight}">
-        <TabItem Header="Restaurants">
+        
+        <!-- Restaurants -->
+        <TabItem Header="Restaurants" Name="TabRestaurant">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -70,7 +74,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
                         <Label>Restaurant Type:</Label>
-                        <ComboBox Name="RestaurantTypes" DisplayMemberPath="ReadableText" SelectedValuePath="TID"  SelectedValue="{Binding Converter={StaticResource GetTIDFromRestaurant},Mode=OneWay}"/>
+                        <ComboBox Name="RestaurantTypes" DisplayMemberPath="ReadableText" SelectedValuePath="TID"  SelectedValue="{Binding Path=Row,Converter={StaticResource GetTIDFromRestaurant},Mode=OneWay}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
                         <Label>Average Expense:</Label>
@@ -109,10 +113,14 @@
                 </Grid>
             </Grid>
         </TabItem>
+        
+        <!-- Courses -->
         <TabItem Header="Courses">
             <Grid />
         </TabItem>
-        <TabItem Header="Users">
+        
+        <!-- User -->
+        <TabItem Header="Users" Name="TabUser">
             <DockPanel>
                 <DockPanel DockPanel.Dock="Left">
                     <StackPanel Orientation="Horizontal"
@@ -167,7 +175,7 @@
                         <Button Grid.Row="1" Grid.Column="4" Content="Save" Click="User_Save_Click"/>
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="User Relations:">
+                <GroupBox Header="User Relations:" DockPanel.Dock="Top">
                     <DockPanel>
                         <Button Width="80" Height="25" Click="SaveRelation_Click"  Content="Set" HorizontalAlignment="Right" DockPanel.Dock="Bottom"/>
                         <ListBox Name="UserRelations" ItemsSource="{Binding Source={StaticResource UserRelationValues}}">
@@ -185,8 +193,13 @@
                         </ListBox>
                     </DockPanel>
                 </GroupBox>
+                <GroupBox Header="User Relation with Restaurants:" DockPanel.Dock="Bottom">
+                    <TextBlock>TODO: Feature to be added soon</TextBlock>
+                </GroupBox>
             </DockPanel>
         </TabItem>
+        
+        <!-- Comment -->
         <TabItem Header="Comments">
             <Grid>
                 <ListView Name="CommentsList"
@@ -195,7 +208,7 @@
                           >
                     <ListView.View>
                         <GridView AllowsColumnReorder="True">
-                            <GridViewColumn Header="SubmitBy" Width="60">
+                            <GridViewColumn Header="SubmitBy" Width="80">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock>
@@ -206,8 +219,31 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
+                            <GridViewColumn Header="Related Restaurant">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <Hyperlink Click="Comments_Restaurant_Hyperlink_Click">
+                                                <TextBlock Text="{Binding RID, Converter={StaticResource GetNameFromRID}}"/>
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Related Course">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <Hyperlink Click="Comments_Restaurant_Hyperlink_Click">
+                                                <TextBlock Text="{Binding RID, Converter={StaticResource GetNameFromRID}}"/>
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="Content" DisplayMemberBinding="{Binding Comment}"/>
-                            <GridViewColumn Header="Photo" DisplayMemberBinding="{Binding PhotoPath}"/>
+                            <GridViewColumn Header="Photo URL" DisplayMemberBinding="{Binding PhotoPath}"/>
+                            <GridViewColumn Header="Post Time" DisplayMemberBinding="{Binding AddTime}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
