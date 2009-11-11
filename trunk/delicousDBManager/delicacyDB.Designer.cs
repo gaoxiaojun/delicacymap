@@ -1623,6 +1623,13 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public Relation_Restaurant_CourseRow FindByRIDDID(long RID, long DID) {
+                return ((Relation_Restaurant_CourseRow)(this.Rows.Find(new object[] {
+                            RID,
+                            DID})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
                 Relation_Restaurant_CourseDataTable cln = ((Relation_Restaurant_CourseDataTable)(base.Clone()));
                 cln.InitVars();
@@ -1649,6 +1656,9 @@ namespace delicousDBManager {
                 base.Columns.Add(this.columnDID);
                 this.columnRestaurantSpecificImagePath = new global::System.Data.DataColumn("RestaurantSpecificImagePath", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRestaurantSpecificImagePath);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnRID,
+                                this.columnDID}, true));
                 this.columnRID.AllowDBNull = false;
                 this.columnDID.AllowDBNull = false;
                 this.columnRestaurantSpecificImagePath.MaxLength = 1024;
@@ -5826,12 +5836,44 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             tableMapping.ColumnMappings.Add("DID", "DID");
             tableMapping.ColumnMappings.Add("RestaurantSpecificImagePath", "RestaurantSpecificImagePath");
             this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new global::System.Data.SQLite.SQLiteCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [Relation_Restaurant_Course] WHERE (([RID] = @Original_RID) AND ([DID] = @Original_DID) AND ((@IsNull_RestaurantSpecificImagePath = 1 AND [RestaurantSpecificImagePath] IS NULL) OR ([RestaurantSpecificImagePath] = @Original_RestaurantSpecificImagePath)))";
+            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
+            global::System.Data.SQLite.SQLiteParameter param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Original_RID";
+            param.DbType = global::System.Data.DbType.Int64;
+            param.DbType = global::System.Data.DbType.Int64;
+            param.SourceColumn = "RID";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Original_DID";
+            param.DbType = global::System.Data.DbType.Int64;
+            param.DbType = global::System.Data.DbType.Int64;
+            param.SourceColumn = "DID";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@IsNull_RestaurantSpecificImagePath";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.DbType = global::System.Data.DbType.Int32;
+            param.SourceColumn = "RestaurantSpecificImagePath";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Original_RestaurantSpecificImagePath";
+            param.DbType = global::System.Data.DbType.String;
+            param.SourceColumn = "RestaurantSpecificImagePath";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO [Relation_Restaurant_Course] ([RID], [DID], [RestaurantSpecificImageP" +
                 "ath]) VALUES (@RID, @DID, @RestaurantSpecificImagePath)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            global::System.Data.SQLite.SQLiteParameter param = new global::System.Data.SQLite.SQLiteParameter();
+            param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@RID";
             param.DbType = global::System.Data.DbType.Int64;
             param.DbType = global::System.Data.DbType.Int64;
@@ -5848,6 +5890,55 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.DbType = global::System.Data.DbType.String;
             param.SourceColumn = "RestaurantSpecificImagePath";
             this._adapter.InsertCommand.Parameters.Add(param);
+            this._adapter.UpdateCommand = new global::System.Data.SQLite.SQLiteCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [Relation_Restaurant_Course] SET [RID] = @RID, [DID] = @DID, [RestaurantSpecificImagePath] = @RestaurantSpecificImagePath WHERE (([RID] = @Original_RID) AND ([DID] = @Original_DID) AND ((@IsNull_RestaurantSpecificImagePath = 1 AND [RestaurantSpecificImagePath] IS NULL) OR ([RestaurantSpecificImagePath] = @Original_RestaurantSpecificImagePath)))";
+            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@RID";
+            param.DbType = global::System.Data.DbType.Int64;
+            param.DbType = global::System.Data.DbType.Int64;
+            param.SourceColumn = "RID";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@DID";
+            param.DbType = global::System.Data.DbType.Int64;
+            param.DbType = global::System.Data.DbType.Int64;
+            param.SourceColumn = "DID";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@RestaurantSpecificImagePath";
+            param.DbType = global::System.Data.DbType.String;
+            param.SourceColumn = "RestaurantSpecificImagePath";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Original_RID";
+            param.DbType = global::System.Data.DbType.Int64;
+            param.DbType = global::System.Data.DbType.Int64;
+            param.SourceColumn = "RID";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Original_DID";
+            param.DbType = global::System.Data.DbType.Int64;
+            param.DbType = global::System.Data.DbType.Int64;
+            param.SourceColumn = "DID";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@IsNull_RestaurantSpecificImagePath";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.DbType = global::System.Data.DbType.Int32;
+            param.SourceColumn = "RestaurantSpecificImagePath";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Original_RestaurantSpecificImagePath";
+            param.DbType = global::System.Data.DbType.String;
+            param.SourceColumn = "RestaurantSpecificImagePath";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5861,8 +5952,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._commandCollection = new global::System.Data.SQLite.SQLiteCommand[1];
             this._commandCollection[0] = new global::System.Data.SQLite.SQLiteCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT [RID], [DID], [RestaurantSpecificImagePath] FROM [Relation_Restaurant_Cour" +
-                "se]";
+            this._commandCollection[0].CommandText = "SELECT        RID, DID, RestaurantSpecificImagePath\r\nFROM            Relation_Res" +
+                "taurant_Course";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -5915,6 +6006,36 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(long Original_RID, long Original_DID, string Original_RestaurantSpecificImagePath) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((long)(Original_RID));
+            this.Adapter.DeleteCommand.Parameters[1].Value = ((long)(Original_DID));
+            if ((Original_RestaurantSpecificImagePath == null)) {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_RestaurantSpecificImagePath));
+            }
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
         public virtual int Insert(long RID, long DID, string RestaurantSpecificImagePath) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((long)(RID));
@@ -5939,6 +6060,51 @@ namespace delicousDBManager.delicacyDBTableAdapters {
                     this.Adapter.InsertCommand.Connection.Close();
                 }
             }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(long RID, long DID, string RestaurantSpecificImagePath, long Original_RID, long Original_DID, string Original_RestaurantSpecificImagePath) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(RID));
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((long)(DID));
+            if ((RestaurantSpecificImagePath == null)) {
+                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(RestaurantSpecificImagePath));
+            }
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((long)(Original_RID));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((long)(Original_DID));
+            if ((Original_RestaurantSpecificImagePath == null)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(Original_RestaurantSpecificImagePath));
+            }
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(string RestaurantSpecificImagePath, long Original_RID, long Original_DID, string Original_RestaurantSpecificImagePath) {
+            return this.Update(Original_RID, Original_DID, RestaurantSpecificImagePath, Original_RID, Original_DID, Original_RestaurantSpecificImagePath);
         }
     }
     

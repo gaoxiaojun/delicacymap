@@ -220,7 +220,22 @@ namespace delicousDBManager
 
         private void Course_Remove_Click(object sender, RoutedEventArgs e)
         {
+            if (RestaurantCourseTree.SelectedItem != null && RestaurantCourseTree.SelectedItem is CourseTreeViewItem)
+            {
+                CourseTreeViewItem courseview = (CourseTreeViewItem)RestaurantCourseTree.SelectedItem;
+                var restaurant = ((RestaurantTreeViewItem)courseview.Parent).Restaurant;
+                var course = courseview.Course;
 
+                if (restaurant != null && course != null)
+                {
+                    var row = Dbset.Relation_Restaurant_Course.FindByRIDDID(restaurant.RID, course.DID);
+                    if (row != null)
+                    {
+                        row.Delete();
+                        Adapters.Relation_Restaurant_CourseTableAdapter.Update(row);
+                    }
+                }
+            }
         }
 
         #endregion
