@@ -7,6 +7,7 @@
     Title="Delicacy Database Management" Height="600" Width="1000">
     <Window.Resources>
         <local:ValueSubtract x:Key="Subtractor"/>
+        <local:ValueMatchConverter x:Key="ValueMatch"/>
         <local:GetTIDFromRestaurant x:Key="GetTIDFromRestaurant"/>
         <local:GetNameFromUIDConverter x:Key="GetNameFromUID"/>
         <local:GetNameFromRIDConverter x:Key="GetNameFromRID"/>
@@ -29,6 +30,19 @@
                 <x:Type TypeName="local:UserRestaurantRelationship" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        
+        <!-- Styles -->
+        <Style TargetType="{x:Type TreeViewItem}" x:Key="treeviewsstyle">
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
     </Window.Resources>
     <TabControl Name="Tabs"
                 HorizontalAlignment="Left" 
@@ -125,21 +139,69 @@
         
         <!-- Courses -->
         <TabItem Header="Courses" Name="TabCourse">
-            <Grid>
+            <DockPanel>
+                <!-- Course List -->
                 <ListView Name="CourseList"
+                          Width="280"
                           VirtualizingStackPanel.IsVirtualizing="True" 
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
                           SelectedValuePath="Row"
+                          DockPanel.Dock="Left"
                           >
                     <ListView.View>
                         <GridView AllowsColumnReorder="True">
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="Photo URL" DisplayMemberBinding="{Binding ImagePath}"/>
-                            <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                            <GridViewColumn Header="Name" Width="90" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="Photo URL" Width="90" DisplayMemberBinding="{Binding ImagePath}"/>
+                            <GridViewColumn Header="Description" Width="90" DisplayMemberBinding="{Binding Description}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
-            </Grid>
+                
+                <TreeView Name="RestaurantCourseTree"
+                          DockPanel.Dock="Right"
+                          ItemContainerStyle="{StaticResource treeviewsstyle}"
+                          VirtualizingStackPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          Width="140"
+                          >
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type local:RestaurantTreeViewItem}"
+                                                  ItemsSource="{Binding Children}">
+                            <TextBlock Text="{Binding Path=Restaurant.Name}"/>
+                        </HierarchicalDataTemplate>
+                        <DataTemplate DataType="{x:Type local:CourseTreeViewItem}">
+                            <DataTemplate.Resources>
+                                <SolidColorBrush Color="LightGray" x:Key="LightGrayBrush"/>
+                            </DataTemplate.Resources>
+                            <TextBlock Name="CourseNameTemplateBlock"  Text="{Binding Path=Course.Name}">
+                                <TextBlock.Background>
+                                    <MultiBinding Converter="{StaticResource ValueMatch}" ConverterParameter="{StaticResource LightGrayBrush}">
+                                        <Binding ElementName="CourseList" Path="SelectedValue"/>
+                                        <Binding Path="Course"/>
+                                    </MultiBinding>
+                                </TextBlock.Background>
+                            </TextBlock>
+                        </DataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
+
+                <DockPanel DockPanel.Dock="Top">
+                    <StackPanel DockPanel.Dock="Bottom">
+                        <Button Content=">>" Click="Course_Add_Click">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=CourseList,Path=SelectedItem}" Value="{x:Null}">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Content="&lt;&lt;" Click="Course_Remove_Click"/>
+                    </StackPanel>
+                </DockPanel>
+            </DockPanel>
         </TabItem>
         
         <!-- User -->

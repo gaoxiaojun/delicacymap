@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using System.Security.Cryptography;
+using System.Collections.ObjectModel;
 
 namespace delicousDBManager
 {
@@ -51,6 +52,9 @@ namespace delicousDBManager
                 UserList_Target.ItemsSource = Dbset.Users;
                 CommentsList.ItemsSource = Dbset.Comments;
                 CourseList.ItemsSource = Dbset.Courses;
+                RestaurantCourseTree.ItemsSource = new ObservableCollection<RestaurantTreeViewItem>(
+                    from c in Dbset.Restaurants
+                    select new RestaurantTreeViewItem(c));
             }
             catch (Exception e)
             {
@@ -187,6 +191,38 @@ namespace delicousDBManager
         #endregion
 
         #region Tab Courses
+
+        private void Course_Add_Click(object sender, RoutedEventArgs e)
+        {
+            if (CourseList.SelectedItem != null && RestaurantCourseTree.SelectedItem != null)
+            {
+                delicacyDB.RestaurantsRow restaurant = null;
+                if (RestaurantCourseTree.SelectedItem is RestaurantTreeViewItem)
+                {
+                    restaurant = ((RestaurantTreeViewItem)RestaurantCourseTree.SelectedItem).Restaurant;
+                }
+                else if (RestaurantCourseTree.SelectedItem is CourseTreeViewItem)
+                {
+                    restaurant = ((RestaurantTreeViewItem)((CourseTreeViewItem)RestaurantCourseTree.SelectedItem).Parent).Restaurant;
+                }
+
+                if (restaurant != null)
+                {
+                    delicacyDB.CoursesRow c = (delicacyDB.CoursesRow)CourseList.SelectedValue;
+                    var relationrow = Dbset.Relation_Restaurant_Course.NewRelation_Restaurant_CourseRow();
+                    relationrow.CoursesRow = c;
+                    relationrow.RestaurantsRow = restaurant;
+                    Dbset.Relation_Restaurant_Course.AddRelation_Restaurant_CourseRow(relationrow);
+                    Adapters.Relation_Restaurant_CourseTableAdapter.Update(relationrow);
+                }
+            }
+        }
+
+        private void Course_Remove_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region Tab Users
