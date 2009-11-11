@@ -93,7 +93,7 @@ namespace delicousDBManager
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             Color c = Colors.Black;
-            
+
             if (value is UserRelationship)
             {
                 UserRelationship relation = (UserRelationship)value;
@@ -263,4 +263,30 @@ namespace delicousDBManager
 
         #endregion
     }
+
+    public class ValueMatchConverter : IMultiValueConverter
+    {
+        #region IMultiValueConverter Members
+
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (values != null && values.Length == 2 && values[0] != null && values[1] != null)
+            {
+                if (values[0] == values[1])
+                {
+                    return parameter;
+                }
+            }
+            return new object[0];
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+
 }
