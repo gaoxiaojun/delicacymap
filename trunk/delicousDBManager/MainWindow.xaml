@@ -4,7 +4,9 @@
     xmlns:local="clr-namespace:delicousDBManager"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:SysData="clr-namespace:System.Data;assembly=System.Data"
-    Title="Delicacy Database Management" Height="600" Width="1000">
+    Title="Delicacy Database Management" 
+    Height="600" Width="1000"
+    MinHeight="400" MinWidth="600">
     <Window.Resources>
         <local:ValueSubtract x:Key="Subtractor"/>
         <local:ValueMatchConverter x:Key="ValueMatch"/>
@@ -115,10 +117,9 @@
                         <Label>Rating:</Label>
                         <TextBox Width="150" Text ="{Binding Rating}"/>
                     </StackPanel>
-                    <Button Grid.Row="2" Grid.Column="0" Click="Restaurant_NewEntry_Click">
-                        New Entry
-                    </Button>
-                    <Button Grid.Row="2" Grid.Column="2" Click="Restaurant_Save_Click">
+                    <Button Grid.Row="2" Grid.Column="0" Width="150" HorizontalAlignment="Left" Click="Restaurant_NewEntry_Click" Content="New Entry"/>
+                    <Button Grid.Row="2" Grid.Column="1" Width="150" Click="Restaurant_DeleteEntry_Click" Content="Delete Entry"/>
+                    <Button Grid.Row="2" Grid.Column="2" Width="150" HorizontalAlignment="Right" Click="Restaurant_Save_Click" Content="Save">
                         <!--<Button.Style>
                             <Style>
                                 <Style.Triggers>
@@ -131,7 +132,6 @@
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>-->
-                        <Button.Content>Save</Button.Content>
                     </Button>
                 </Grid>
             </Grid>
@@ -175,7 +175,7 @@
                             </DataTemplate.Resources>
                             <TextBlock Name="CourseNameTemplateBlock"  Text="{Binding Path=Course.Name}">
                                 <TextBlock.Background>
-                                    <MultiBinding Converter="{StaticResource ValueMatch}" ConverterParameter="{StaticResource LightGrayBrush}">
+                                    <MultiBinding Converter="{StaticResource ValueMatch}" ConverterParameter="{StaticResource LightGrayBrush}" Mode="OneWay">
                                         <Binding ElementName="CourseList" Path="SelectedValue"/>
                                         <Binding Path="Course"/>
                                     </MultiBinding>
@@ -187,7 +187,7 @@
 
                 <DockPanel DockPanel.Dock="Top">
                     <StackPanel DockPanel.Dock="Bottom">
-                        <Button Content=">>" Click="Course_Add_Click">
+                        <Button Content=">>" Click="Course_AddToRestaurant_Click">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
                                     <Style.Triggers>
@@ -198,8 +198,40 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Content="&lt;&lt;" Click="Course_Remove_Click"/>
+                        <Button Content="&lt;&lt;" Click="Course_RemoveFromRestaurant_Click"/>
                     </StackPanel>
+                    <GroupBox Header="Course Details" DockPanel.Dock="Top" DataContext="{Binding ElementName=CourseList,Path=SelectedItem,Mode=OneWay}">
+                        <DockPanel>
+                            <Grid DockPanel.Dock="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Column="0" Grid.Row="0" Content="Photo URL:"/>
+                                <TextBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding ImagePath}"/>
+                                <Label Grid.Column="0" Grid.Row="1" Content="Name:"/>
+                                <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Name}"/>
+                                <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Stretch="Uniform" />
+                            </Grid>
+                            
+                            <DockPanel DockPanel.Dock="Bottom">
+                                <Button Content="New Course" DockPanel.Dock="Left" Width="100" Click="Course_Add_Click"/>
+                                <Button Content="Save Course" DockPanel.Dock="Right" Width="100" Click="Course_Save_Click"/>
+                                <Button Content="Delete Course" Width="100" Click="Course_Delete_Click"/>
+                            </DockPanel>
+                            
+                            <DockPanel DockPanel.Dock="Bottom">
+                                <Label DockPanel.Dock="Left" Content="Description:"/>
+                                <TextBox DockPanel.Dock="Right" AcceptsReturn="True" Text="{Binding Description}"/>
+                            </DockPanel>
+
+                        </DockPanel>
+                    </GroupBox>
                 </DockPanel>
             </DockPanel>
         </TabItem>
@@ -208,11 +240,10 @@
         <TabItem Header="Users" Name="TabUser">
             <DockPanel>
                 <DockPanel DockPanel.Dock="Left">
-                    <StackPanel Orientation="Horizontal"
-                                DockPanel.Dock="Bottom">
-                        <Button Content="New" Click="User_NewEntry_Click"/>
-                        <Button Content="Delete" Click="User_Delete_Click"/>
-                    </StackPanel>
+                    <DockPanel DockPanel.Dock="Bottom">
+                        <Button Content="New" Width="50" Click="User_NewEntry_Click" DockPanel.Dock="Left" HorizontalAlignment="Left"/>
+                        <Button Content="Delete" Width="50" Click="User_Delete_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                    </DockPanel>
                     <ListBox Name="UserList" 
                          DisplayMemberPath="Nickname"
                          SelectedValuePath="Row"

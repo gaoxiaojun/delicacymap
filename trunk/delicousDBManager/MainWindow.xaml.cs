@@ -120,6 +120,24 @@ namespace delicousDBManager
             }
         }
 
+        private void Restaurant_DeleteEntry_Click(object sender, RoutedEventArgs e)
+        {
+            if (RestaurantDetails.DataContext != null)
+            {
+                try
+                {
+                    DataRowView v = (DataRowView)RestaurantDetails.DataContext;
+                    delicacyDB.RestaurantsRow row = (delicacyDB.RestaurantsRow)v.Row;
+                    row.Delete();
+                    Adapters.RestaurantsTableAdapter.Update(row);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
         private void Restaurant_Save_Click(object sender, RoutedEventArgs e)
         {
             if (RestaurantDetails.DataContext != null)
@@ -192,7 +210,7 @@ namespace delicousDBManager
 
         #region Tab Courses
 
-        private void Course_Add_Click(object sender, RoutedEventArgs e)
+        private void Course_AddToRestaurant_Click(object sender, RoutedEventArgs e)
         {
             if (CourseList.SelectedItem != null && RestaurantCourseTree.SelectedItem != null)
             {
@@ -218,7 +236,7 @@ namespace delicousDBManager
             }
         }
 
-        private void Course_Remove_Click(object sender, RoutedEventArgs e)
+        private void Course_RemoveFromRestaurant_Click(object sender, RoutedEventArgs e)
         {
             if (RestaurantCourseTree.SelectedItem != null && RestaurantCourseTree.SelectedItem is CourseTreeViewItem)
             {
@@ -236,6 +254,21 @@ namespace delicousDBManager
                     }
                 }
             }
+        }
+
+        private void Course_Add_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Course_Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Course_Delete_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         #endregion
