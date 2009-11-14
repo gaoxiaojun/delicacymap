@@ -50,6 +50,7 @@ namespace delicousDBManager
                 RList.ItemsSource = Dbset.Restaurants;
                 UserList.ItemsSource = Dbset.Users;
                 UserList_Target.ItemsSource = Dbset.Users;
+                User_RestaurantList.ItemsSource = dbset.Restaurants;
                 CommentsList.ItemsSource = Dbset.Comments;
                 CourseList.ItemsSource = Dbset.Courses;
                 RestaurantCourseTree.ItemsSource = new ObservableCollection<RestaurantTreeViewItem>(
@@ -86,6 +87,21 @@ namespace delicousDBManager
         private static delicacyDBTableAdapters.TableAdapterManager Adapters
         {
             get { return adapters; }
+        }
+
+        private void RevertChange(DataRowView view)
+        {
+            if (view != null)
+            {
+                view.Row.RejectChanges();
+
+                // Workaround to update List Content
+                foreach (DataColumn c in view.Row.Table.Columns)
+                {
+                    view.Row[c] = view.Row[c];
+                }
+                view.Row.RejectChanges();
+            }
         }
 
         #region Tab Restaurants
@@ -206,6 +222,11 @@ namespace delicousDBManager
             }
         }
 
+        private void RestaurantDetails_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            RevertChange(e.OldValue as DataRowView);
+        }
+
         #endregion
 
         #region Tab Courses
@@ -258,17 +279,36 @@ namespace delicousDBManager
 
         private void Course_Add_Click(object sender, RoutedEventArgs e)
         {
-
+            var crow = Dbset.Courses.NewCoursesRow();
+            crow.Name = string.Empty;
+            Dbset.Courses.AddCoursesRow(crow);
+            CourseList.SelectedValue = crow;
         }
 
         private void Course_Save_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView v = CourseDetail.DataContext as DataRowView;
+            if (v != null)
+            {
+                var crow = (delicacyDB.CoursesRow)v.Row;
+                Adapters.CoursesTableAdapter.Update(crow);
+            }
         }
 
         private void Course_Delete_Click(object sender, RoutedEventArgs e)
         {
+            DataRowView v = CourseDetail.DataContext as DataRowView;
+            if (v != null)
+            {
+                v.Row.Delete();
+                Adapters.CoursesTableAdapter.Update(v.Row);
+            }
+        }
 
+        private void CourseDetail_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            DataRowView view = e.OldValue as DataRowView;
+            RevertChange(view);
         }
 
         #endregion
@@ -331,6 +371,25 @@ namespace delicousDBManager
             }
         }
 
+        private void RemoveRelation_Click(object sender, RoutedEventArgs e)
+        {
+            delicacyDB.UsersRow usr = UserList.SelectedValue as delicacyDB.UsersRow;
+            delicacyDB.UsersRow target = UserList_Target.SelectedValue as delicacyDB.UsersRow;
+            if (usr != null && target != null && usr != target)
+            {
+                var relationrow = dbset.Relation_User_User.FindByUID_HostUID_Target(usr.UID, target.UID);
+                if (relationrow != null)
+                {
+                    relationrow.Delete();
+                    Adapters.Relation_User_UserTableAdapter.Update(relationrow);
+
+                    var old = UserList.SelectedItem;
+                    UserList.SelectedItem = null;
+                    UserList.SelectedItem = old;
+                }
+            }
+        }
+
         private void User_Delete_Click(object sender, RoutedEventArgs e)
         {
             delicacyDB.UsersRow row = UserList.SelectedValue as delicacyDB.UsersRow;
@@ -363,6 +422,58 @@ namespace delicousDBManager
                     {
                         row.RejectChanges();
                     }
+                }
+            }
+        }
+
+        private void UserDetails_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            RevertChange(e.OldValue as DataRowView);
+        }
+
+        private void SetUserRestaurantRelation(object sender, RoutedEventArgs e)
+        {
+            var userrow = UserList.SelectedValue as delicacyDB.UsersRow;
+            var restaurantrow = User_RestaurantList.SelectedValue as delicacyDB.RestaurantsRow;
+
+            if (userrow != null && restaurantrow != null && UserRestaurantRelations.SelectedItem != null)
+            {
+                var relationrow = Dbset.Relation_User_Restaurant.FindByUIDRID(userrow.UID, restaurantrow.RID);
+                if (relationrow == null)
+                {
+                    relationrow = Dbset.Relation_User_Restaurant.NewRelation_User_RestaurantRow();
+                    relationrow.RestaurantsRow = restaurantrow;
+                    relationrow.UsersRow = userrow;
+                    relationrow.Relation = 0;
+                    Dbset.Relation_User_Restaurant.AddRelation_User_RestaurantRow(relationrow);
+                }
+                relationrow.Relation = (int)(UserRelationship)UserRestaurantRelations.SelectedItem;
+                Adapters.Relation_User_RestaurantTableAdapter.Update(relationrow);
+
+                // workaround
+                var old = UserList.SelectedItem;
+                UserList.SelectedItem = null;
+                UserList.SelectedItem = old;
+            }
+        }
+
+        private void RemoveUserRestaurantRelation(object sender, RoutedEventArgs e)
+        {
+            var userrow = UserList.SelectedValue as delicacyDB.UsersRow;
+            var restaurantrow = User_RestaurantList.SelectedValue as delicacyDB.RestaurantsRow;
+
+            if (userrow != null && restaurantrow != null)
+            {
+                var relationrow = Dbset.Relation_User_Restaurant.FindByUIDRID(userrow.UID, restaurantrow.RID);
+                if (relationrow != null)
+                {
+                    relationrow.Delete();
+                    Adapters.Relation_User_RestaurantTableAdapter.Update(relationrow);
+
+                    // workaround
+                    var old = UserList.SelectedItem;
+                    UserList.SelectedItem = null;
+                    UserList.SelectedItem = old;
                 }
             }
         }

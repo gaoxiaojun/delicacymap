@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 
 namespace delicousDBManager
 {
@@ -176,11 +177,25 @@ namespace delicousDBManager
         public RestaurantTreeViewItem(delicacyDB.RestaurantsRow row)
             : base(null, true)
         {
+            if (row == null)
+                throw new ArgumentNullException("row");
+
             this.Restaurant = row;
 
             // This is not Elegant! Figure something else out! 
+            MainWindow.Dbset.Restaurants.ColumnChanged += new System.Data.DataColumnChangeEventHandler(Restaurants_ColumnChanged);
+
             MainWindow.Dbset.Relation_Restaurant_Course.Relation_Restaurant_CourseRowDeleting += new delicacyDB.Relation_Restaurant_CourseRowChangeEventHandler(Relation_Restaurant_Course_Relation_Restaurant_CourseRowDeleted);
             MainWindow.Dbset.Relation_Restaurant_Course.Relation_Restaurant_CourseRowChanged += new delicacyDB.Relation_Restaurant_CourseRowChangeEventHandler(Relation_Restaurant_Course_Relation_Restaurant_CourseRowChanged);
+        }
+
+        void Restaurants_ColumnChanged(object sender, System.Data.DataColumnChangeEventArgs e)
+        {
+            // for now, we only show name in the tree, so let's filter out some events
+            if (e.Row == Restaurant && e.Row.RowState != System.Data.DataRowState.Unchanged && e.Column == MainWindow.Dbset.Restaurants.NameColumn)
+            {
+                OnPropertyChanged("Restaurant");
+            }
         }
 
         void Relation_Restaurant_Course_Relation_Restaurant_CourseRowChanged(object sender, delicacyDB.Relation_Restaurant_CourseRowChangeEvent e)
