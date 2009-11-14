@@ -15,9 +15,11 @@
         <local:GetNameFromRIDConverter x:Key="GetNameFromRID"/>
         <local:GetNameFromDIDConverter x:Key="GetNameFromDID"/>
         <local:RelationBetween2Converter x:Key="RelationFrom2"/>
+        <local:RelationBetweenUserRestaurantConverter x:Key="RelationFromUserRestaurant"/>
         <local:GetColorFromUserRestaurantRelationConverter x:Key="ColorFromUserRestaurantRelation"/>
         <local:GetColorFromUserRelationConverter x:Key="ColorFromRelation"/>
         <local:GetColorFromUserRelationBetween2Converter x:Key="ColorFromRelation2"/>
+        <local:GetColorFromUserRestaurantRelationBetween2Converter x:Key="ColorFromUserRestaurantRelation2"/>
         <ObjectDataProvider MethodName="GetValues"
                             ObjectType="{x:Type sys:Enum}"
                             x:Key="UserRelationValues">
@@ -81,7 +83,8 @@
                       Grid.ColumnSpan="2" 
                       ShowGridLines="False" 
                       Name="RestaurantDetails"
-                      DataContext="{Binding ElementName=RList, Path=SelectedItem}">
+                      DataContext="{Binding ElementName=RList, Path=SelectedItem, Mode=OneWay}"
+                      DataContextChanged="RestaurantDetails_DataContextChanged">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -200,7 +203,11 @@
                         </Button>
                         <Button Content="&lt;&lt;" Click="Course_RemoveFromRestaurant_Click"/>
                     </StackPanel>
-                    <GroupBox Header="Course Details" DockPanel.Dock="Top" DataContext="{Binding ElementName=CourseList,Path=SelectedItem,Mode=OneWay}">
+                    <GroupBox Name="CourseDetail"
+                              Header="Course Details"
+                              DockPanel.Dock="Top"
+                              DataContext="{Binding ElementName=CourseList,Path=SelectedItem,Mode=OneWay}"
+                              DataContextChanged="CourseDetail_DataContextChanged">
                         <DockPanel>
                             <Grid DockPanel.Dock="Top">
                                 <Grid.ColumnDefinitions>
@@ -268,7 +275,10 @@
                 </ListBox>
                 <GroupBox DockPanel.Dock="Top"
                           Header="Basic Info">
-                    <Grid Name="UserDetails" ShowGridLines="False"  DataContext="{Binding ElementName=UserList, Path=SelectedItem}">
+                    <Grid Name="UserDetails" 
+                          ShowGridLines="False" 
+                          DataContext="{Binding ElementName=UserList, Path=SelectedItem, Mode=OneWay}"
+                          DataContextChanged="UserDetails_DataContextChanged">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
@@ -293,7 +303,10 @@
                 </GroupBox>
                 <GroupBox Header="User Relations:" DockPanel.Dock="Top">
                     <DockPanel>
-                        <Button Width="80" Height="25" Click="SaveRelation_Click"  Content="Set" HorizontalAlignment="Right" DockPanel.Dock="Bottom"/>
+                        <StackPanel HorizontalAlignment="Right" DockPanel.Dock="Right">
+                            <Button Width="80" Height="25" Click="SaveRelation_Click" Content="Set"/>
+                            <Button Width="80" Height="25" Click="RemoveRelation_Click" Content="Remove"/>
+                        </StackPanel>
                         <ListBox Name="UserRelations" ItemsSource="{Binding Source={StaticResource UserRelationValues}}">
                             <ListBox.SelectedItem>
                                 <MultiBinding Converter="{StaticResource RelationFrom2}">
@@ -309,18 +322,45 @@
                         </ListBox>
                     </DockPanel>
                 </GroupBox>
+                
+                <!-- User Relation with Restaurants  -->
                 <GroupBox Header="User Relation with Restaurants:" DockPanel.Dock="Bottom">
-                    <StackPanel>
-                        <ListBox Name="UserRestaurantRelations" ItemsSource="{Binding Source={StaticResource UserRestaurantRelationValues}}">
- 
+                    <DockPanel>
+                        <ListBox Name="UserRestaurantRelations" DockPanel.Dock="Top"  ItemsSource="{Binding Source={StaticResource UserRestaurantRelationValues}}">
+                            <ListBox.SelectedItem>
+                                <MultiBinding Converter="{StaticResource RelationFromUserRestaurant}">
+                                    <Binding ElementName="UserList" Path="SelectedValue"/>
+                                    <Binding ElementName="User_RestaurantList" Path="SelectedValue"/>
+                                </MultiBinding>
+                            </ListBox.SelectedItem>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text ="{Binding}" Foreground="{Binding Converter={StaticResource ColorFromUserRestaurantRelation}}"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <TextBlock>TODO: Feature to be added soon</TextBlock>
-                    </StackPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center">
+                            <Button Margin="2,2,10,2" Width="60" Content="Set" Click="SetUserRestaurantRelation"/>
+                            <Button Margin="10,2,2,2" Width="60" Content="Remove" Click="RemoveUserRestaurantRelation"/>
+                        </StackPanel>
+                        <ListBox Name="User_RestaurantList"
+                                 DockPanel.Dock="Bottom"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                 SelectedValuePath="Row">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}">
+                                <TextBlock.Foreground>
+                                    <MultiBinding Converter="{StaticResource ColorFromUserRestaurantRelation2}">
+                                        <Binding ElementName="UserList" Path="SelectedValue"/>
+                                        <Binding Path="Row"/>
+                                    </MultiBinding>
+                                </TextBlock.Foreground>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
                 </GroupBox>
             </DockPanel>
         </TabItem>

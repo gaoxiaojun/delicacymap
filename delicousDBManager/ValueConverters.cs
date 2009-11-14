@@ -66,6 +66,37 @@ namespace delicousDBManager
         #endregion
     }
 
+    // Get Relationship between 2 users
+    [ValueConversion(typeof(DataRow), typeof(UserRelationship))]
+    public class RelationBetweenUserRestaurantConverter : IMultiValueConverter
+    {
+        #region IMultiValueConverter Members
+
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (values == null || values.Length != 2 || values[0] == null || values[1] == null)
+                return null;
+
+            var source = values[0] as delicacyDB.UsersRow;
+            var target = values[1] as delicacyDB.RestaurantsRow;
+
+            var row = MainWindow.Dbset.Relation_User_Restaurant.FindByUIDRID(source.UID, target.RID);
+            if (row != null)
+            {
+                int relation = row.Relation;
+                return (UserRestaurantRelationship)relation;
+            }
+            return null;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return new object[0];
+        }
+
+        #endregion
+    }
+
     public class GetColorFromUserRelationBetween2Converter : IMultiValueConverter
     {
         #region IMultiValueConverter Members
@@ -74,6 +105,24 @@ namespace delicousDBManager
         {
             var relation = new RelationBetween2Converter().Convert(values, targetType, parameter, culture);
             return new GetColorFromUserRelationConverter().Convert(relation, targetType, parameter, culture);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return new object[0];
+        }
+
+        #endregion
+    }
+
+    public class GetColorFromUserRestaurantRelationBetween2Converter : IMultiValueConverter
+    {
+        #region IMultiValueConverter Members
+
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var relation = new RelationBetweenUserRestaurantConverter().Convert(values, targetType, parameter, culture);
+            return new GetColorFromUserRestaurantRelationConverter().Convert(relation, targetType, parameter, culture);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
