@@ -160,23 +160,36 @@ namespace delicousDBManager
             {
                 try
                 {
+                    // Update Restaurant info
                     DataRowView v = (DataRowView)RestaurantDetails.DataContext;
                     delicacyDB.RestaurantsRow row = (delicacyDB.RestaurantsRow)v.Row;
                     Adapters.RestaurantsTableAdapter.Update(row);
-                    if (RestaurantTypes.SelectedValue != null)
+
+                    // Update Restaurant type
+                    if (RestaurantTypes.SelectedItem != null || !string.IsNullOrEmpty(RestaurantTypes.Text))
                     {
+                        delicacyDB.RestaurantTypesRow typerow = null;
+
+                        // New type is used. insert it into RestaurantTypes table
+                        if (RestaurantTypes.SelectedItem == null)
+                        {
+                            typerow = Dbset.RestaurantTypes.AddRestaurantTypesRow(RestaurantTypes.Text);
+                            Adapters.RestaurantTypesTableAdapter.Update(typerow);
+                        }
+                        else
+                            typerow = (delicacyDB.RestaurantTypesRow)((DataRowView)RestaurantTypes.SelectedItem).Row;
+
                         var RtypeRows = row.GetRelation_Restaurant_RestaurantTypeRows();
                         delicacyDB.Relation_Restaurant_RestaurantTypeRow row0 = null;
                         if (RtypeRows.Length != 0)
                         {
                             row0 = RtypeRows[0];
                             row0.RID = row.RID;
-                            row0.TID = (long)RestaurantTypes.SelectedValue;
+                            row0.RestaurantTypesRow = typerow;
                         }
                         else
                         {
-                            row0 = dbset.Relation_Restaurant_RestaurantType.AddRelation_Restaurant_RestaurantTypeRow(row,
-                                ((delicacyDB.RestaurantTypesRow)((DataRowView)RestaurantTypes.SelectedItem).Row));
+                            row0 = dbset.Relation_Restaurant_RestaurantType.AddRelation_Restaurant_RestaurantTypeRow(row, typerow);
                         }
                         Adapters.Relation_Restaurant_RestaurantTypeTableAdapter.Update(row0);
                     }
@@ -524,7 +537,12 @@ namespace delicousDBManager
             }
         }
 
-        #endregion
+        private void CommentDetails_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            RevertChange(e.OldValue as DataRowView);
+        }
+
+        #endregion        
 
     }
 
