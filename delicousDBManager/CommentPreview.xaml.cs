@@ -18,9 +18,12 @@ namespace delicousDBManager
     /// </summary>
     public partial class CommentPreview : Window
     {
-        public CommentPreview()
+        public CommentPreview(delicacyDB.CommentsRow comment)
         {
             InitializeComponent();
+            this.CommentRow = comment;
         }
+
+        private delicacyDB.CommentsRow CommentRow;
     }
 }
