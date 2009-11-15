@@ -726,10 +726,10 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public CommentsRow AddCommentsRow(long CID, RestaurantsRow parentRestaurantsRowByFK_Comments_1, string Comment, System.DateTime AddTime, UsersRow parentUsersRowByFK_Comments_0, int TimeZone, string PhotoPath, CoursesRow parentCoursesRowByFK_Comments_01) {
+            public CommentsRow AddCommentsRow(RestaurantsRow parentRestaurantsRowByFK_Comments_1, string Comment, System.DateTime AddTime, UsersRow parentUsersRowByFK_Comments_0, int TimeZone, string PhotoPath, CoursesRow parentCoursesRowByFK_Comments_01) {
                 CommentsRow rowCommentsRow = ((CommentsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        CID,
+                        null,
                         null,
                         Comment,
                         AddTime,
@@ -801,6 +801,8 @@ namespace delicousDBManager {
                 base.Columns.Add(this.columnDID);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnCID}, true));
+                this.columnCID.AutoIncrement = true;
+                this.columnCID.AutoIncrementSeed = 1;
                 this.columnCID.AllowDBNull = false;
                 this.columnCID.Unique = true;
                 this.columnRID.AllowDBNull = false;
@@ -4366,7 +4368,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [Comments] WHERE (([CID] = @Original_CID) AND ([RID] = @Original_RID) AND ([Comment] = @Original_Comment) AND ([AddTime] = @Original_AddTime) AND ([UID] = @Original_UID) AND ([TimeZone] = @Original_TimeZone) AND ((@IsNull_PhotoPath = 1 AND [PhotoPath] IS NULL) OR ([PhotoPath] = @Original_PhotoPath)) AND ((@IsNull_DID = 1 AND [DID] IS NULL) OR ([DID] = @Original_DID)))";
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [Comments] WHERE (([CID] = @Original_CID))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::System.Data.SQLite.SQLiteParameter param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@Original_CID";
@@ -4375,81 +4377,11 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "CID";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_RID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "RID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_Comment";
-            param.DbType = global::System.Data.DbType.String;
-            param.SourceColumn = "Comment";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_AddTime";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.SourceColumn = "AddTime";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_UID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "UID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_TimeZone";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.DbType = global::System.Data.DbType.Int32;
-            param.SourceColumn = "TimeZone";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@IsNull_PhotoPath";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.DbType = global::System.Data.DbType.Int32;
-            param.SourceColumn = "PhotoPath";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_PhotoPath";
-            param.DbType = global::System.Data.DbType.String;
-            param.SourceColumn = "PhotoPath";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@IsNull_DID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.DbType = global::System.Data.DbType.Int32;
-            param.SourceColumn = "DID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_DID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "DID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Comments] ([CID], [RID], [Comment], [AddTime], [UID], [TimeZone], [P" +
-                "hotoPath], [DID]) VALUES (@CID, @RID, @Comment, @AddTime, @UID, @TimeZone, @Phot" +
-                "oPath, @DID)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [Comments] ([RID], [Comment], [AddTime], [UID], [TimeZone], [PhotoPat" +
+                "h], [DID]) VALUES (@RID, @Comment, @AddTime, @UID, @TimeZone, @PhotoPath, @DID)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@CID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "CID";
-            this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@RID";
             param.DbType = global::System.Data.DbType.Int64;
@@ -4492,14 +4424,10 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [Comments] SET [CID] = @CID, [RID] = @RID, [Comment] = @Comment, [AddTime] = @AddTime, [UID] = @UID, [TimeZone] = @TimeZone, [PhotoPath] = @PhotoPath, [DID] = @DID WHERE (([CID] = @Original_CID) AND ([RID] = @Original_RID) AND ([Comment] = @Original_Comment) AND ([AddTime] = @Original_AddTime) AND ([UID] = @Original_UID) AND ([TimeZone] = @Original_TimeZone) AND ((@IsNull_PhotoPath = 1 AND [PhotoPath] IS NULL) OR ([PhotoPath] = @Original_PhotoPath)) AND ((@IsNull_DID = 1 AND [DID] IS NULL) OR ([DID] = @Original_DID)))";
+            this._adapter.UpdateCommand.CommandText = "UPDATE [Comments] SET [RID] = @RID, [Comment] = @Comment, [AddTime] = @AddTime, [" +
+                "UID] = @UID, [TimeZone] = @TimeZone, [PhotoPath] = @PhotoPath, [DID] = @DID WHER" +
+                "E (([CID] = @Original_CID))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@CID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "CID";
-            this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@RID";
             param.DbType = global::System.Data.DbType.Int64;
@@ -4547,69 +4475,6 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "CID";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_RID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "RID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_Comment";
-            param.DbType = global::System.Data.DbType.String;
-            param.SourceColumn = "Comment";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_AddTime";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.SourceColumn = "AddTime";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_UID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "UID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_TimeZone";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.DbType = global::System.Data.DbType.Int32;
-            param.SourceColumn = "TimeZone";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@IsNull_PhotoPath";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.DbType = global::System.Data.DbType.Int32;
-            param.SourceColumn = "PhotoPath";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_PhotoPath";
-            param.DbType = global::System.Data.DbType.String;
-            param.SourceColumn = "PhotoPath";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@IsNull_DID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.DbType = global::System.Data.DbType.Int32;
-            param.SourceColumn = "DID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@Original_DID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "DID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4623,7 +4488,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._commandCollection = new global::System.Data.SQLite.SQLiteCommand[1];
             this._commandCollection[0] = new global::System.Data.SQLite.SQLiteCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT        CID, RID, Comment, AddTime, UID, TimeZone, PhotoPath, DID\r\nFROM    " +
+            this._commandCollection[0].CommandText = "SELECT        RID, Comment, AddTime, UID, TimeZone, PhotoPath, DID, CID\r\nFROM    " +
                 "        Comments";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
@@ -4638,16 +4503,6 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             }
             int returnValue = this.Adapter.Fill(dataTable);
             return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual delicacyDB.CommentsDataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            delicacyDB.CommentsDataTable dataTable = new delicacyDB.CommentsDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4678,34 +4533,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(long Original_CID, long Original_RID, string Original_Comment, System.DateTime Original_AddTime, long Original_UID, int Original_TimeZone, string Original_PhotoPath, global::System.Nullable<long> Original_DID) {
+        public virtual int Delete(long Original_CID) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((long)(Original_CID));
-            this.Adapter.DeleteCommand.Parameters[1].Value = ((long)(Original_RID));
-            if ((Original_Comment == null)) {
-                throw new global::System.ArgumentNullException("Original_Comment");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_Comment));
-            }
-            this.Adapter.DeleteCommand.Parameters[3].Value = ((System.DateTime)(Original_AddTime));
-            this.Adapter.DeleteCommand.Parameters[4].Value = ((long)(Original_UID));
-            this.Adapter.DeleteCommand.Parameters[5].Value = ((int)(Original_TimeZone));
-            if ((Original_PhotoPath == null)) {
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[7].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((string)(Original_PhotoPath));
-            }
-            if ((Original_DID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((long)(Original_DID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[9].Value = global::System.DBNull.Value;
-            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -4725,29 +4554,28 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(long CID, long RID, string Comment, System.DateTime AddTime, long UID, int TimeZone, string PhotoPath, global::System.Nullable<long> DID) {
-            this.Adapter.InsertCommand.Parameters[0].Value = ((long)(CID));
-            this.Adapter.InsertCommand.Parameters[1].Value = ((long)(RID));
+        public virtual int Insert(long RID, string Comment, System.DateTime AddTime, long UID, int TimeZone, string PhotoPath, global::System.Nullable<long> DID) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((long)(RID));
             if ((Comment == null)) {
                 throw new global::System.ArgumentNullException("Comment");
             }
             else {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(Comment));
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Comment));
             }
-            this.Adapter.InsertCommand.Parameters[3].Value = ((System.DateTime)(AddTime));
-            this.Adapter.InsertCommand.Parameters[4].Value = ((long)(UID));
-            this.Adapter.InsertCommand.Parameters[5].Value = ((int)(TimeZone));
+            this.Adapter.InsertCommand.Parameters[2].Value = ((System.DateTime)(AddTime));
+            this.Adapter.InsertCommand.Parameters[3].Value = ((long)(UID));
+            this.Adapter.InsertCommand.Parameters[4].Value = ((int)(TimeZone));
             if ((PhotoPath == null)) {
-                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[6].Value = ((string)(PhotoPath));
+                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(PhotoPath));
             }
             if ((DID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[7].Value = ((long)(DID.Value));
+                this.Adapter.InsertCommand.Parameters[6].Value = ((long)(DID.Value));
             }
             else {
-                this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
+                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -4768,73 +4596,30 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(
-                    long CID, 
-                    long RID, 
-                    string Comment, 
-                    System.DateTime AddTime, 
-                    long UID, 
-                    int TimeZone, 
-                    string PhotoPath, 
-                    global::System.Nullable<long> DID, 
-                    long Original_CID, 
-                    long Original_RID, 
-                    string Original_Comment, 
-                    System.DateTime Original_AddTime, 
-                    long Original_UID, 
-                    int Original_TimeZone, 
-                    string Original_PhotoPath, 
-                    global::System.Nullable<long> Original_DID) {
-            this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(CID));
-            this.Adapter.UpdateCommand.Parameters[1].Value = ((long)(RID));
+        public virtual int Update(long RID, string Comment, System.DateTime AddTime, long UID, int TimeZone, string PhotoPath, global::System.Nullable<long> DID, long Original_CID) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(RID));
             if ((Comment == null)) {
                 throw new global::System.ArgumentNullException("Comment");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(Comment));
+                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Comment));
             }
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((System.DateTime)(AddTime));
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((long)(UID));
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(TimeZone));
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((System.DateTime)(AddTime));
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((long)(UID));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(TimeZone));
             if ((PhotoPath == null)) {
-                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(PhotoPath));
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(PhotoPath));
             }
             if ((DID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((long)(DID.Value));
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((long)(DID.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[8].Value = ((long)(Original_CID));
-            this.Adapter.UpdateCommand.Parameters[9].Value = ((long)(Original_RID));
-            if ((Original_Comment == null)) {
-                throw new global::System.ArgumentNullException("Original_Comment");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_Comment));
-            }
-            this.Adapter.UpdateCommand.Parameters[11].Value = ((System.DateTime)(Original_AddTime));
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((long)(Original_UID));
-            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(Original_TimeZone));
-            if ((Original_PhotoPath == null)) {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(Original_PhotoPath));
-            }
-            if ((Original_DID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((long)(Original_DID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
-            }
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((long)(Original_CID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -4849,13 +4634,6 @@ namespace delicousDBManager.delicacyDBTableAdapters {
                     this.Adapter.UpdateCommand.Connection.Close();
                 }
             }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(long RID, string Comment, System.DateTime AddTime, long UID, int TimeZone, string PhotoPath, global::System.Nullable<long> DID, long Original_CID, long Original_RID, string Original_Comment, System.DateTime Original_AddTime, long Original_UID, int Original_TimeZone, string Original_PhotoPath, global::System.Nullable<long> Original_DID) {
-            return this.Update(Original_CID, RID, Comment, AddTime, UID, TimeZone, PhotoPath, DID, Original_CID, Original_RID, Original_Comment, Original_AddTime, Original_UID, Original_TimeZone, Original_PhotoPath, Original_DID);
         }
     }
     
@@ -5537,16 +5315,6 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             }
             int returnValue = this.Adapter.Fill(dataTable);
             return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual delicacyDB.CoursesDataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            delicacyDB.CoursesDataTable dataTable = new delicacyDB.CoursesDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

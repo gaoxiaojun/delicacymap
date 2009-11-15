@@ -23,7 +23,6 @@ namespace delicousDBManager
         {
             try
             {
-                this.Resources["RelationUserUser"] = Dbset.Relation_User_User;
                 InitializeComponent();
                 Map.Source = new Uri(Environment.CurrentDirectory + @"\get_location.htm", UriKind.Absolute);
                 Map.ObjectForScripting = new Helper(this);
@@ -91,7 +90,7 @@ namespace delicousDBManager
 
         private void RevertChange(DataRowView view)
         {
-            if (view != null)
+            if (view != null && view.Row.RowState == DataRowState.Modified)
             {
                 view.Row.RejectChanges();
 
@@ -211,7 +210,7 @@ namespace delicousDBManager
                 // manually specified a value. To work around this, we have to use TwoWay binding or save the binding 
                 // and restore it later
 
-                var oldbinding = BindingOperations.GetBinding( RestaurantTypes, ComboBox.SelectedValueProperty);
+                var oldbinding = BindingOperations.GetBinding(RestaurantTypes, ComboBox.SelectedValueProperty);
                 if (oldbinding != null)
                 {
                     backupRTypeBinding = oldbinding;
@@ -229,7 +228,7 @@ namespace delicousDBManager
                     }
                     catch (System.Exception ex)
                     {
-                    	
+
                     }
                 }
             }
@@ -425,15 +424,15 @@ namespace delicousDBManager
                     {
                         row.Password = MD5(row.Password);
                     }
-                    
-                    Adapters.UsersTableAdapter.Update(dbset);
+
+                    Adapters.UsersTableAdapter.Update(row);
                 }
                 catch (System.Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                     if (row != null)
                     {
-                        row.RejectChanges();
+                        RevertChange(UserDetails.DataContext as DataRowView);
                     }
                 }
             }
@@ -542,7 +541,72 @@ namespace delicousDBManager
             RevertChange(e.OldValue as DataRowView);
         }
 
-        #endregion        
+        private void Comment_New_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var row = Dbset.Comments.NewCommentsRow();
+                row.UID = row.RID = row.DID = 0;
+                row.Comment = string.Empty;
+                row.AddTime = DateTime.Now;
+                row.TimeZone = 8;
+                Dbset.Comments.AddCommentsRow(row);
+                CommentsList.SelectedValue = row;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void Comment_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                delicacyDB.CommentsRow row = CommentsList.SelectedValue as delicacyDB.CommentsRow;
+                if (row != null)
+                {
+                    row.Delete();
+                    Adapters.CommentsTableAdapter.Update(row);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void Comment_Preview_Click(object sender, RoutedEventArgs e)
+        {
+            if (CommentDetail.DataContext != null)
+            {
+                var previewwindow = new CommentPreview(CommentDetail.DataContext as delicacyDB.CommentsRow);
+                previewwindow.Show();
+            }
+        }
+
+        private void Comment_Save_Click(object sender, RoutedEventArgs e)
+        {
+            delicacyDB.CommentsRow row = null;
+            if (CommentDetail.DataContext != null)
+            {
+                try
+                {
+                    row = (delicacyDB.CommentsRow)((DataRowView)CommentDetail.DataContext).Row;
+                    Adapters.CommentsTableAdapter.Update(row);
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (row != null)
+                    {
+                        RevertChange(CommentDetail.DataContext as DataRowView);
+                    }
+                }
+            }
+        }
+
+        #endregion
 
     }
 

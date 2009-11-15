@@ -210,7 +210,8 @@ namespace delicousDBManager
                 throw new InvalidCastException();
 
             long id = (long)value;
-            return MainWindow.Dbset.Users.FindByUID(id).Nickname;
+            var usr = MainWindow.Dbset.Users.FindByUID(id);
+            return usr == null ? null : usr.Nickname;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -242,7 +243,8 @@ namespace delicousDBManager
                 throw new InvalidCastException();
 
             long id = (long)value;
-            return MainWindow.Dbset.Restaurants.FindByRID(id).Name;
+            var r = MainWindow.Dbset.Restaurants.FindByRID(id);
+            return r == null ? null : r.Name;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
