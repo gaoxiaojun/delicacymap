@@ -215,7 +215,16 @@ namespace delicousDBManager
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            string usrname = value as string;
+            if (!string.IsNullOrEmpty(usrname))
+            {
+                var users = from c in MainWindow.Dbset.Users
+                                  where c.Nickname == usrname
+                                  select c.UID;
+                if (users.Count() == 1)
+                    return users.First();
+            }
+            return null;
         }
 
         #endregion
@@ -238,7 +247,16 @@ namespace delicousDBManager
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            string rname = value as string;
+            if (!string.IsNullOrEmpty(rname))
+            {
+                var restaurants = from c in MainWindow.Dbset.Restaurants
+                             where c.Name == rname
+                             select c.RID;
+                if (restaurants.Count() == 1)
+                    return restaurants.First();
+            }
+            return null;
         }
 
         #endregion
@@ -262,7 +280,16 @@ namespace delicousDBManager
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            string coursename = value as string;
+            if (!string.IsNullOrEmpty(coursename))
+            {
+                var course = from c in MainWindow.Dbset.Courses
+                             where c.Name == coursename
+                             select c.DID;
+                if (course.Count() == 1)
+                    return course.First();
+            }
+            return null;
         }
 
         #endregion
@@ -337,5 +364,44 @@ namespace delicousDBManager
         #endregion
     }
 
+    public class ValueOrConverter : IMultiValueConverter
+    {
+
+        #region IMultiValueConverter Members
+
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            bool result = false;
+            foreach (bool r in values)
+            {
+                result = result || r;
+            }
+            return result;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+    public class DebuggingConverter : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value;
+        }
+
+        #endregion
+    }
 
 }
