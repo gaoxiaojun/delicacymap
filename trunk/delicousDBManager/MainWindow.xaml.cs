@@ -29,6 +29,8 @@ namespace delicousDBManager
 
                 #region DataBase Initialization
 
+                ChooseDatabaseToOpen();
+
                 Adapters.Relation_Restaurant_RestaurantTypeTableAdapter = new delicousDBManager.delicacyDBTableAdapters.Relation_Restaurant_RestaurantTypeTableAdapter();
                 Adapters.Relation_User_RestaurantTableAdapter = new delicousDBManager.delicacyDBTableAdapters.Relation_User_RestaurantTableAdapter();
                 Adapters.Relation_User_UserTableAdapter = new delicousDBManager.delicacyDBTableAdapters.Relation_User_UserTableAdapter();
@@ -59,6 +61,39 @@ namespace delicousDBManager
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ChooseDatabaseToOpen()
+        {
+            string dbconnstr = Properties.Settings.Default.delicacyDBConnectionString;
+            while (dbconnstr == null || !OpenDatabase(dbconnstr))
+            {
+                Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+                dialog.InitialDirectory = Environment.CurrentDirectory;
+                dialog.Filter = "sqlite3 database|*.db3";
+                if (dialog.ShowDialog() == true)
+                    dbconnstr = "data source=" + dialog.FileName;
+                else
+                    dbconnstr = null;
+            }
+        }
+
+        private bool OpenDatabase(string connstring)
+        {
+            if (string.IsNullOrEmpty(connstring))
+                return false;
+
+            try
+            {
+                var connection = new System.Data.SQLite.SQLiteConnection(connstring);
+                connection.Open();
+                Adapters.Connection = connection;
+                return true;
+            }
+            catch (System.Data.SQLite.SQLiteException)
+            {
+                return false;
             }
         }
 
@@ -580,7 +615,7 @@ namespace delicousDBManager
         {
             if (CommentDetail.DataContext != null)
             {
-                var previewwindow = new CommentPreview(CommentDetail.DataContext as delicacyDB.CommentsRow);
+                var previewwindow = new CommentPreview((delicacyDB.CommentsRow)((DataRowView)CommentDetail.DataContext).Row);
                 previewwindow.Show();
             }
         }
