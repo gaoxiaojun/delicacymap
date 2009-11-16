@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace delicousDBManager
 {
@@ -22,6 +23,23 @@ namespace delicousDBManager
         {
             InitializeComponent();
             this.CommentRow = comment;
+
+            string tempfilename = System.IO.Path.GetTempFileName() + ".htm";
+            using (FileStream file = new FileStream(tempfilename, FileMode.Create, FileAccess.Write))
+                using (StreamWriter writer = new StreamWriter(file))
+                {
+                    writer.Write( "<html>" +
+                                    "<body>");
+                    if (!comment.IsPhotoPathNull() && !string.IsNullOrEmpty(comment.PhotoPath))
+                    {
+                        writer.Write("<img src='" + comment.PhotoPath + "'/>");
+                    }
+                    writer.Write("<p>");
+                    writer.Write(comment.Comment);
+                    writer.Write("</p></body></html>");
+                }
+
+            browser.Source = new Uri(tempfilename, UriKind.Absolute);
         }
 
         private delicacyDB.CommentsRow CommentRow;
