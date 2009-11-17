@@ -16,6 +16,7 @@ QT += webkit \
 FORMS += mainwindow.ui
 		 
 HEADERS += mapview.h \
+           MapListener.h \
            md5.h \
            bluetoothmanager.h \
            MapDataSource.h \
@@ -29,6 +30,7 @@ HEADERS += mapview.h \
            ../protocol-buffer-src/MapProtocol.pb.h
 
 SOURCES += main.cpp \
+           MapListener.cpp \
            md5.cpp \
            mapview.cpp \
            bluetoothmanager.cpp \

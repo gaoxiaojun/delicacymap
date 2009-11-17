@@ -156,17 +156,17 @@ void mapview::placeMarker(int minZoom,int maxZoom)
 	++markerCount;
 }
 
-void mapview::makeMarkerByLatLng(double lat, double lng, QString markerTitle)
+void mapview::makeMarkerByLatLng(double lat, double lng, const QString& markerTitle)
 {
 	page()->mainFrame()->evaluateJavaScript(QString("makeMarkerByLatLng(%1,%2,'%3')").arg(lat).arg(lng).arg(markerTitle));
 }
 
-void mapview::makeMarkerByXY(int x, int y, QString markerTitle)
+void mapview::makeMarkerByXY(int x, int y, const QString& markerTitle)
 {
 	page()->mainFrame()->evaluateJavaScript(QString("createMarkerByXY(%1,%2,'%3');").arg(x).arg(y).arg(markerTitle));
 }
 
-void mapview::drawPolygon(const QVector<LatLng> &vertex,QString strokeColor,int strokeWeight, double strokeOpacity, QString fillColor,double fillOpacity)
+void mapview::drawPolygon(const QVector<LatLng> &vertex, const QString& strokeColor,int strokeWeight, double strokeOpacity, const QString& fillColor,double fillOpacity)
 {
 	QString cmd("map.addOverlay(new GPolygon([");
 	for (int i=0;i<vertex.size();i++)
@@ -198,17 +198,3 @@ void mapview::GPSCallback( void* context, LocationSvc* svc )
     qDebug()<<"New Position";
     This->whereami();
 }
-
-//---------------------------MapListener----------------------------------------
-
-void MapListener::markerClicked()
-{
-	qDebug()<<"marker clicked";
-}
-
-void MapListener::mapClicked(QString s)
-{
-	((mapview*)parent())->page()->mainFrame()->evaluateJavaScript(QString("map.panTo(tempMarker.getLatLng());")); 
-	qDebug()<<"map clicked:"<<s;
-}
-
