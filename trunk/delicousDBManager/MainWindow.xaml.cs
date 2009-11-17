@@ -24,6 +24,7 @@ namespace delicousDBManager
             try
             {
                 InitializeComponent();
+
                 Map.Source = new Uri(Environment.CurrentDirectory + @"\get_location.htm", UriKind.Absolute);
                 Map.ObjectForScripting = new Helper(this);
 
@@ -46,6 +47,8 @@ namespace delicousDBManager
 
 
                 #endregion
+
+                this.Title += " - sqlite" + ((System.Data.SQLite.SQLiteConnection)Adapters.Connection).ServerVersion;
 
                 RestaurantTypes.ItemsSource = Dbset.RestaurantTypes;
                 RList.ItemsSource = Dbset.Restaurants;

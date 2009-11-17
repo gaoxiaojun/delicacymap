@@ -8,6 +8,7 @@
 #include <QVector>
 #include "../protocol-buffer-src/MapProtocol.pb.h"
 #include "LocationSvc.h"
+#include "MapListener.h"
 
 
 struct LatLng
@@ -24,20 +25,6 @@ struct Marker
 	LatLng latlng;
 };
 
-
-
-class MapListener : public QObject
-{
-	Q_OBJECT
-
-public:
-	MapListener(QObject *parent):QObject(parent)
-	{}
-public slots:
-	void markerClicked();
-	void mapClicked(QString s);
-};
-
 class mapview : public QWebView
 {
     Q_OBJECT
@@ -49,11 +36,11 @@ public:
     void centerAt(double latitude, double longtitude);
     void resize(int w, int h);
 	void placeMarker(int minZoom = 0, int maxZoom = 19);	//place "tempMarker"
-	void makeMarkerByLatLng(double lat, double lng, QString markerTitle = "marker");
-	void makeMarkerByXY(int x, int y, QString markerTitle = "marker");	//marker generated and saved in "tempMarker"
+	void makeMarkerByLatLng(double lat, double lng, const QString& markerTitle = "marker");
+	void makeMarkerByXY(int x, int y, const QString& markerTitle = "marker");	//marker generated and saved in "tempMarker"
 	//Marker getMarkerInfo();	//get "tempMarker"'s info
 
-	void drawPolygon(const QVector<LatLng> &vertex,QString strokeColor = "#ffffff",int strokeWeight = 1, double strokeOpacity = 0.5, QString fillColor = "#ffffff",double fillOpacity = 0.5);
+	void drawPolygon(const QVector<LatLng> &vertex,const QString& strokeColor = "#ffffff",int strokeWeight = 1, double strokeOpacity = 0.5, const QString& fillColor = "#ffffff",double fillOpacity = 0.5);
 
 protected:
     void keyPressEvent( QKeyEvent *event );
