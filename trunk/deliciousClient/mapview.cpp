@@ -174,6 +174,16 @@ void mapview::makeMarkerByXY(int x, int y, const QString& markerTitle)
 	page()->mainFrame()->evaluateJavaScript(QString("createMarkerByXY(%1,%2,'%3');").arg(x).arg(y).arg(markerTitle));
 }
 
+void mapview::addRestaurant( const ProtocolBuffer::Restaurant& r )
+{
+	page()->mainFrame()->evaluateJavaScript(
+		QString("addRestaurant(%1, %2, %3, '%4');")
+			.arg(r.rid())
+			.arg(r.location().latitude())
+			.arg(r.location().longitude())
+			.arg(QString::fromUtf8(r.name().c_str(), r.name().length())));
+}
+
 void mapview::drawPolygon(const QVector<LatLng> &vertex, const QString& strokeColor,int strokeWeight, double strokeOpacity, const QString& fillColor,double fillOpacity)
 {
 	QString cmd("map.addOverlay(new GPolygon([");
