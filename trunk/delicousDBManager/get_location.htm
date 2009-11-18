@@ -13,7 +13,7 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    Marker = new google.maps.Marker({ map: map }); 
+    Marker = new google.maps.Marker({ map: map, draggable: true }); 
 	google.maps.event.addListener(map, 'click',on_map_click);
   }
   
