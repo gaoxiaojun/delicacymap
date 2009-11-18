@@ -17,6 +17,7 @@ FORMS += mainwindow.ui
 		 
 HEADERS += mapview.h \
            MapListener.h \
+           MapListenerPrivate.h \
            md5.h \
            bluetoothmanager.h \
            MapDataSource.h \
@@ -25,12 +26,13 @@ HEADERS += mapview.h \
            CustomEvents.h \
            QTProtobufChannel.h \
            QTProbufController.h \
-           QTProtobufWaitResponse.cpp \
+           QTProtobufWaitResponse.h \
            ../protocol-buffer-src/Message.pb.h \
            ../protocol-buffer-src/MapProtocol.pb.h
 
 SOURCES += main.cpp \
            MapListener.cpp \
+           MapListenerPrivate.cpp \
            md5.cpp \
            mapview.cpp \
            bluetoothmanager.cpp \

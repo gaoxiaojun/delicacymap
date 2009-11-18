@@ -132,6 +132,8 @@
 			<File
 				RelativePath="MapListener.cpp"/>
 			<File
+				RelativePath="MapListenerPrivate.cpp"/>
+			<File
 				RelativePath="..\protocol-buffer-src\MapProtocol.pb.cc"/>
 			<File
 				RelativePath="..\protocol-buffer-src\Message.pb.cc"/>
@@ -211,6 +213,29 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="MapListenerPrivate.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe;MapListenerPrivate.h"
+						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -I..\..\qt-win-4.6.0-beta1\mkspecs\default -D_MSC_VER=1500 -DWIN32 MapListenerPrivate.h -o debug\moc_MapListenerPrivate.cpp"
+						Description="MOC MapListenerPrivate.h"
+						Outputs="debug\moc_MapListenerPrivate.cpp"
+						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe;MapListenerPrivate.h"
+						CommandLine="F:\QT\qt-win-4.6.0-beta1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\qt-win-4.6.0-beta1\include\QtCore&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtNetwork&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtGui&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\QtWebKit&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include&quot; -I&quot;.&quot; -I&quot;.\rclib\include&quot; -I&quot;..\protocol-buffer-src&quot; -I&quot;..\..\qt-win-4.6.0-beta1\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -I..\..\qt-win-4.6.0-beta1\mkspecs\default -D_MSC_VER=1500 -DWIN32 MapListenerPrivate.h -o release\moc_MapListenerPrivate.cpp"
+						Description="MOC MapListenerPrivate.h"
+						Outputs="release\moc_MapListenerPrivate.cpp"
+						Path="f:\QT\qt-win-4.6.0-beta1\bin"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\protocol-buffer-src\MapProtocol.pb.h"/>
 			<File
 				RelativePath="..\protocol-buffer-src\Message.pb.h"/>
@@ -240,7 +265,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="QTProtobufWaitResponse.cpp"/>
+				RelativePath="QTProtobufWaitResponse.h"/>
 			<File
 				RelativePath="bluetoothmanager.h"/>
 			<File
@@ -320,6 +345,18 @@
 			</File>
 			<File
 				RelativePath="release\moc_MapListener.cpp">
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"/>
+			</File>
+			<File
+				RelativePath="debug\moc_MapListenerPrivate.cpp">
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"/>
+			</File>
+			<File
+				RelativePath="release\moc_MapListenerPrivate.cpp">
 				<FileConfiguration
 					Name="Debug|Win32"
 					ExcludedFromBuild="true"/>

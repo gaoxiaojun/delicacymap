@@ -2,13 +2,16 @@
 #include <QWebFrame>
 #include <QVariant>
 #include "MapListener.h"
+#include "MapListenerPrivate.h"
 #include "mapview.h"
+
 
 MapListener::MapListener( QObject *parent )
 :QObject(parent)
 {
 	this->mview = (mapview*)parent;
-	isfirstbound = true;
+	_private = new MapListenerPrivate(this);
+	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), this, SLOT(newRestaurants(ProtocolBuffer::RestaurantList*)));
 }
 
 void MapListener::markerClicked()
@@ -25,11 +28,17 @@ void MapListener::mapClicked(QString s)
 void MapListener::mapBoundChanged()
 {
 	Bound bound = getCurrentBoundFromMap();
-	if (isfirstbound)
+	if (_private->isfirstbound)
 	{
-		isfirstbound = false;
-		LastBound = bound;
+		_private->isfirstbound = false;
+		_private->LastBound = bound;
 	}
+	_private->connman.GetRestaurants(
+		bound.SW.lat, bound.SW.lng,
+		bound.NE.lat, bound.NE.lng,
+		10,
+		&_private->list,
+		_private->closure);
 }
 
 QString& trimHead(QString& str, char c)
@@ -61,4 +70,12 @@ Bound MapListener::getCurrentBoundFromMap()
 	mapbound.NE.lat = trimTail(trimHead(list[2].trimmed(), '('), ')').toDouble();
 	mapbound.NE.lng = trimTail(trimHead(list[3].trimmed(), '('), ')').toDouble();
 	return mapbound;
+}
+
+void MapListener::newRestaurants( ProtocolBuffer::RestaurantList* list )
+{
+	for (int i=0;i<list->restaurants_size();++i)
+	{
+		mview->addRestaurant(list->restaurants( i ));
+	}
 }

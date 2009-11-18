@@ -26,6 +26,8 @@ public:
     void scroll(int xoffset, int yoffset);
     void centerAt(double latitude, double longtitude);
     void resize(int w, int h);
+
+	void addRestaurant(const ProtocolBuffer::Restaurant& r);
 	void placeMarker(int minZoom = 0, int maxZoom = 19);	//place "tempMarker"
 	void makeMarkerByLatLng(double lat, double lng, const QString& markerTitle = "marker");
 	void makeMarkerByXY(int x, int y, const QString& markerTitle = "marker");	//marker generated and saved in "tempMarker"

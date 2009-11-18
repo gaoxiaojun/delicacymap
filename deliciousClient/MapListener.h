@@ -5,11 +5,20 @@
 #include <QObject>
 
 class mapview;
+class MapListenerPrivate;
+
+namespace ProtocolBuffer
+{
+	class RestaurantList;
+}
 
 struct LatLng
 {
 	LatLng() {lat=0;lng=0;}
 	LatLng(double Lat,double Lng) {lat = Lat; lng = Lng;}
+
+	bool operator(const LatLng& other) const {return lat==other.lat && lng==other.lng;}
+
 	double lat;
 	double lng;
 };
@@ -17,6 +26,8 @@ struct LatLng
 struct Bound
 {
 	LatLng SW,NE;
+
+	bool operator(const Bound& other) const {return SW==other.SW && NE==other.NE;}
 };
 
 class MapListener : public QObject
@@ -29,13 +40,15 @@ public slots:
 	void markerClicked();
 	void mapClicked(QString s);
 	void mapBoundChanged();
+	
+	void newRestaurants(ProtocolBuffer::RestaurantList*);
 
 private:
 	Bound getCurrentBoundFromMap();
+
 private:
-	Bound LastBound;
 	mapview *mview;
-	bool isfirstbound;
+	MapListenerPrivate *_private;
 };
 
 
