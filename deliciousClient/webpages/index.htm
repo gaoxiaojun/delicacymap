@@ -45,11 +45,11 @@
 		};
 		map = new google.maps.Map(document.getElementById("map"), myOptions);
 
-		restaurants = new String();
+		restaurants = new Object();
 
-		wayPoints = new Array();   
+		//wayPoints = new Array();   
 		//markerManager = new MarkerManager(map);
-		directions = new GDirections();
+		//directions = new GDirections();
 		   
 		
 		//var myMarker = createMarkerByXY(40,40,"foo");
@@ -174,7 +174,7 @@
 		var pos = new google.maps.LatLng(lat,lng);
 		var opts = {position: pos, 
 					map: map, 
-					title:"Hello World!"
+					title:markerTitle
 					};
 		return (new google.maps.Marker(opts));
 	}

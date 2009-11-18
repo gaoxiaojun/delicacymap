@@ -34,13 +34,9 @@ mapview::mapview(QWidget *parent)
     //===========================Done Webkit Init=====================================
 	
 	mapListener = new MapListener(this);
-	page()->mainFrame()->addToJavaScriptWindowObject(QString("mapListener"),mapListener);//register mapListener
-	
-	markerCount = 0;    
-
-	this->initLatLngs();	//init the bound data for BUPT and BNU
     
     connect(this, SIGNAL(loadFinished(bool)), this, SLOT(setupmapconfiguration()));
+	connect(this, SIGNAL(loadFinished(bool)), this, SLOT(MapLoaded()));
 
     loc_svc = LocationSvc::create();
 
@@ -50,6 +46,18 @@ mapview::mapview(QWidget *parent)
 mapview::~mapview()
 {
 	delete mapListener;
+}
+
+void mapview::MapLoaded()
+{
+	page()->mainFrame()->addToJavaScriptWindowObject(QString("mapListener"),mapListener);//register mapListener
+
+	// Register map bounds change event to be handle by MapListener
+	page()->mainFrame()->evaluateJavaScript("google.maps.event.addListener(map, 'bounds_changed', mapListener.mapBoundChanged);");
+
+	markerCount = 0;    
+
+	this->initLatLngs();	//init the bound data for BUPT and BNU
 }
 
 void mapview::keyPressEvent( QKeyEvent *event )
@@ -127,7 +135,7 @@ void mapview::resize( int w, int h )
 
     page()->mainFrame()->evaluateJavaScript(QString("document.getElementById('map').style.width='%1px';"
                                                     "document.getElementById('map').style.height='%2px';"
-                                                    "map.checkResize();"
+                                                    "google.maps.event.trigger(map, 'resize');"
 #ifdef _WIN32_WCE
                                                     ).arg(w/2).arg(h/2));
 #else

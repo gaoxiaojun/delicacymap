@@ -10,15 +10,6 @@
 #include "LocationSvc.h"
 #include "MapListener.h"
 
-
-struct LatLng
-{
-	LatLng() {lat=0;lng=0;}
-	LatLng(double Lat,double Lng) {lat = Lat; lng = Lng;}
-	double lat;
-	double lng;
-};
-
 struct Marker
 {
 	QString title;
@@ -48,6 +39,7 @@ protected:
 	void initLatLngs();
 
 private slots:
+	void MapLoaded();
     void setupmapconfiguration();
     void whereami();
     static void GPSCallback(void* context, LocationSvc*);
