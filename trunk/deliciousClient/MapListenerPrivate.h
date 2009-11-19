@@ -11,15 +11,20 @@ class MapListenerPrivate : public QObject
 	Q_OBJECT
 signals:
 	void RestaurantListDataArrive(ProtocolBuffer::RestaurantList* );
+	void CommentListDataArrive(ProtocolBuffer::CommentList*);
+
 public:
 
 	MapListenerPrivate(MapListener* parent);
 
 	void newRestaurantDataArrive();
+	void newCommentDataArrive();
 
 	MapDataSource connman;
-	ProtocolBuffer::RestaurantList list;
+	ProtocolBuffer::RestaurantList restaurantList;
+	ProtocolBuffer::CommentList commentList;
 	Bound LastBound;
-	google::protobuf::Closure *closure;
+	google::protobuf::Closure *restaurantClosure;
+	google::protobuf::Closure *commentClosure;
 	bool isfirstbound;	
 };

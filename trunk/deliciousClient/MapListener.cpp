@@ -11,7 +11,12 @@ MapListener::MapListener( QObject *parent )
 {
 	this->mview = (mapview*)parent;
 	_private = new MapListenerPrivate(this);
+
+	// this order is crucial. see MapListener::RestaurantListArrived() 
+	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), this, SLOT(RestaurantListArrived()));
 	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), mview, SLOT(newRestaurants(ProtocolBuffer::RestaurantList*)));
+
+	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), this, SLOT(CommentListArrived()));
 }
 
 void MapListener::markerClicked()
@@ -37,8 +42,8 @@ void MapListener::mapBoundChanged(const QString& boundstr)
 		bound.SW.lat, bound.SW.lng,
 		bound.NE.lat, bound.NE.lng,
 		10,
-		&_private->list,
-		_private->closure);
+		&_private->restaurantList,
+		_private->restaurantClosure);
 }
 
 // QString& trimHead(QString& str, char c)
@@ -73,4 +78,32 @@ Bound MapListener::googleboundToMyBound(const QString& boundstr)
 void MapListener::restaurantMarkerClicked( int rid )
 {
 
+}
+
+void MapListener::RestaurantListArrived()
+{
+	for (int i=0;i<_private->restaurantList.restaurants_size();++i)
+	{
+		const ProtocolBuffer::Restaurant& r = _private->restaurantList.restaurants(i);
+		if (!mview->isRestaurantInView(r.rid()))
+		{
+			_private->connman.GetLastestCommentsOfRestaurant(r.rid(), 5, &_private->commentList, _private->commentClosure);
+		}
+	}
+}
+
+void MapListener::CommentListArrived()
+{
+	QString rinfo;
+	char numberbuf[16];
+	for (int i=0;i<_private->commentList.comments_size();++i)
+	{
+		const ProtocolBuffer::Comment& c = _private->commentList.comments(i);
+		rinfo.append(c.content().c_str());
+	}
+	if (!rinfo.isEmpty())
+	{
+		sprintf(numberbuf, "%d", _private->commentList.comments(0).rid());
+		this->setProperty(numberbuf, rinfo);
+	}
 }

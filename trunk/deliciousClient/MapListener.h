@@ -7,11 +7,6 @@
 class mapview;
 class MapListenerPrivate;
 
-namespace ProtocolBuffer
-{
-	class RestaurantList;
-}
-
 struct LatLng
 {
 	LatLng() {lat=0;lng=0;}
@@ -33,14 +28,21 @@ struct Bound
 class MapListener : public QObject
 {
 	Q_OBJECT
+	//Q_PROPERTY(QObject RestaurantInfo READ RestaurantInfo)
 
 public:
 	MapListener(QObject *parent);
+
+	QObject RestaurantInfo() const;
 public slots:
 	void markerClicked();
 	void mapClicked(QString s);
 	void mapBoundChanged(const QString& boundstr);
 	void restaurantMarkerClicked(int rid);
+
+private slots:
+	void RestaurantListArrived();
+	void CommentListArrived();
 
 private:
 	Bound googleboundToMyBound(const QString& boundstr);

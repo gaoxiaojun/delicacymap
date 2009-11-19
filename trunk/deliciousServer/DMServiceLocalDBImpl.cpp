@@ -183,5 +183,6 @@ void DMServiceLocalDBImpl::GetCommentsCallback( const DBRow& row, ProtocolBuffer
     Comment *newc = result->add_comments();
     newc->set_content(row["Comment"]);
     newc->set_uid(row.GetValueAs<int>("UID"));
+	newc->set_rid(row.GetValueAs<int>("RID"));
     newc->mutable_timestamp()->set_timestamp(row["AddTime"]);
 }

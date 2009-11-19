@@ -24,6 +24,9 @@ class mapview : public QWebView
 public:
     mapview(QWidget *parent = 0);
     ~mapview();
+
+	bool isRestaurantInView( int rid ) { return restaurants.contains(rid); };
+
     void scroll(int xoffset, int yoffset);
     void centerAt(double latitude, double longtitude);
     void resize(int w, int h);

@@ -54,9 +54,10 @@
 		});
 		google.maps.event.addListener(map, 'dragend', function () {
 		    isdragging = false;
-		    google.maps.event.trigger(map, 'bounds_changed');
+		    bound_change();
+		    //google.maps.event.trigger(map, 'bounds_changed');
 		});
-		google.maps.event.addListener(map, 'bounds_changed', bound_change);
+		//google.maps.event.addListener(map, 'bounds_changed', bound_change);
 
 		restaurants = new Object();
 
@@ -171,7 +172,7 @@
 	        var tempRestr = makeMarkerByLatLng(lat, lng, title);
 	        google.maps.event.addListener(tempRestr, 'click', function () {
 		        mapListener.restaurantMarkerClicked(rid);
-		        infowindow.setContent(rid.toString());
+		        infowindow.setContent(mapListener[rid]);
 		        infowindow.open(map, tempRestr);
 		    });
 	        restaurants[rid] = tempRestr;

@@ -108,10 +108,12 @@ void protobuf_AssignDesc_MapProtocol_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Time));
   Comment_descriptor_ = file->message_type(3);
-  static const int Comment_offsets_[3] = {
+  static const int Comment_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, content_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, timestamp_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, uid_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, rid_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, did_),
   };
   Comment_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -341,40 +343,40 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
     " \002(\001\"`\n\004Area\022+\n\tnortheast\030\001 \002(\0132\030.Protoc"
     "olBuffer.Location\022+\n\tsouthwest\030\002 \002(\0132\030.P"
     "rotocolBuffer.Location\"\031\n\004Time\022\021\n\ttimeSt"
-    "amp\030\001 \002(\t\"P\n\007Comment\022\017\n\007content\030\001 \002(\t\022\'\n"
+    "amp\030\001 \002(\t\"j\n\007Comment\022\017\n\007content\030\001 \002(\t\022\'\n"
     "\ttimeStamp\030\002 \002(\0132\024.ProtocolBuffer.Time\022\013"
-    "\n\003UID\030\003 \002(\r\"\032\n\010Currency\022\016\n\006amount\030\001 \002(\001\""
-    "\030\n\005Error\022\017\n\007message\030\001 \002(\t\"\225\001\n\004User\022\013\n\003UI"
-    "D\030\001 \002(\r\022\022\n\nuniqueName\030\002 \002(\t\022&\n\010joinTime\030"
-    "\003 \002(\0132\024.ProtocolBuffer.Time\0223\n\013preferTyp"
-    "es\030\004 \003(\0132\036.ProtocolBuffer.RestaurantType"
-    "\022\017\n\007friends\030\005 \003(\r\"\303\001\n\nRestaurant\022*\n\010loca"
-    "tion\030\001 \002(\0132\030.ProtocolBuffer.Location\022\014\n\004"
-    "name\030\002 \002(\t\022\013\n\003RID\030\003 \002(\r\022,\n\004type\030\004 \002(\0132\036."
-    "ProtocolBuffer.RestaurantType\022\016\n\006Rating\030"
-    "\005 \002(\r\0220\n\016averageExpense\030\006 \002(\0132\030.Protocol"
-    "Buffer.Currency\"A\n\016RestaurantList\022/\n\013res"
-    "taurants\030\001 \003(\0132\032.ProtocolBuffer.Restaura"
-    "nt\"8\n\013CommentList\022)\n\010comments\030\001 \003(\0132\027.Pr"
-    "otocolBuffer.Comment\"+\n\016RestaurantType\022\013"
-    "\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t\"\237\001\n\005Query\022\"\n\004a"
-    "rea\030\001 \001(\0132\024.ProtocolBuffer.Area\022\r\n\005level"
-    "\030\002 \001(\r\022\"\n\004time\030\003 \001(\0132\024.ProtocolBuffer.Ti"
-    "me\022\013\n\003RID\030\004 \001(\r\022\013\n\003UID\030\005 \001(\r\022\t\n\001n\030\006 \001(\r\022"
-    "\013\n\003msg\030\007 \001(\t\022\r\n\005image\030\010 \001(\0142\347\003\n\tDMServic"
-    "e\022G\n\016GetRestaurants\022\025.ProtocolBuffer.Que"
-    "ry\032\036.ProtocolBuffer.RestaurantList\022T\n\036Ge"
-    "tLastestCommentsOfRestaurant\022\025.ProtocolB"
-    "uffer.Query\032\033.ProtocolBuffer.CommentList"
-    "\022N\n\030GetLastestCommentsByUser\022\025.ProtocolB"
-    "uffer.Query\032\033.ProtocolBuffer.CommentList"
-    "\022L\n\026GetCommentsOfUserSince\022\025.ProtocolBuf"
-    "fer.Query\032\033.ProtocolBuffer.CommentList\022R"
-    "\n\034GetCommentsOfRestaurantSince\022\025.Protoco"
-    "lBuffer.Query\032\033.ProtocolBuffer.CommentLi"
-    "st\022I\n\027AddCommentForRestaurant\022\025.Protocol"
-    "Buffer.Query\032\027.ProtocolBuffer.CommentB\002H"
-    "\001", 1521);
+    "\n\003UID\030\003 \002(\r\022\013\n\003RID\030\004 \002(\r\022\013\n\003DID\030\005 \001(\r\"\032\n"
+    "\010Currency\022\016\n\006amount\030\001 \002(\001\"\030\n\005Error\022\017\n\007me"
+    "ssage\030\001 \002(\t\"\225\001\n\004User\022\013\n\003UID\030\001 \002(\r\022\022\n\nuni"
+    "queName\030\002 \002(\t\022&\n\010joinTime\030\003 \002(\0132\024.Protoc"
+    "olBuffer.Time\0223\n\013preferTypes\030\004 \003(\0132\036.Pro"
+    "tocolBuffer.RestaurantType\022\017\n\007friends\030\005 "
+    "\003(\r\"\303\001\n\nRestaurant\022*\n\010location\030\001 \002(\0132\030.P"
+    "rotocolBuffer.Location\022\014\n\004name\030\002 \002(\t\022\013\n\003"
+    "RID\030\003 \002(\r\022,\n\004type\030\004 \002(\0132\036.ProtocolBuffer"
+    ".RestaurantType\022\016\n\006Rating\030\005 \002(\r\0220\n\016avera"
+    "geExpense\030\006 \002(\0132\030.ProtocolBuffer.Currenc"
+    "y\"A\n\016RestaurantList\022/\n\013restaurants\030\001 \003(\013"
+    "2\032.ProtocolBuffer.Restaurant\"8\n\013CommentL"
+    "ist\022)\n\010comments\030\001 \003(\0132\027.ProtocolBuffer.C"
+    "omment\"+\n\016RestaurantType\022\013\n\003TID\030\001 \002(\r\022\014\n"
+    "\004name\030\002 \002(\t\"\237\001\n\005Query\022\"\n\004area\030\001 \001(\0132\024.Pr"
+    "otocolBuffer.Area\022\r\n\005level\030\002 \001(\r\022\"\n\004time"
+    "\030\003 \001(\0132\024.ProtocolBuffer.Time\022\013\n\003RID\030\004 \001("
+    "\r\022\013\n\003UID\030\005 \001(\r\022\t\n\001n\030\006 \001(\r\022\013\n\003msg\030\007 \001(\t\022\r"
+    "\n\005image\030\010 \001(\0142\347\003\n\tDMService\022G\n\016GetRestau"
+    "rants\022\025.ProtocolBuffer.Query\032\036.ProtocolB"
+    "uffer.RestaurantList\022T\n\036GetLastestCommen"
+    "tsOfRestaurant\022\025.ProtocolBuffer.Query\032\033."
+    "ProtocolBuffer.CommentList\022N\n\030GetLastest"
+    "CommentsByUser\022\025.ProtocolBuffer.Query\032\033."
+    "ProtocolBuffer.CommentList\022L\n\026GetComment"
+    "sOfUserSince\022\025.ProtocolBuffer.Query\032\033.Pr"
+    "otocolBuffer.CommentList\022R\n\034GetCommentsO"
+    "fRestaurantSince\022\025.ProtocolBuffer.Query\032"
+    "\033.ProtocolBuffer.CommentList\022I\n\027AddComme"
+    "ntForRestaurant\022\025.ProtocolBuffer.Query\032\027"
+    ".ProtocolBuffer.CommentB\002H\001", 1547);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MapProtocol.proto", &protobuf_RegisterTypes);
   Location::default_instance_ = new Location();
@@ -1137,6 +1139,8 @@ const ::std::string Comment::_default_content_;
 const int Comment::kContentFieldNumber;
 const int Comment::kTimeStampFieldNumber;
 const int Comment::kUIDFieldNumber;
+const int Comment::kRIDFieldNumber;
+const int Comment::kDIDFieldNumber;
 #endif  // !_MSC_VER
 
 Comment::Comment() {
@@ -1157,6 +1161,8 @@ void Comment::SharedCtor() {
   content_ = const_cast< ::std::string*>(&_default_content_);
   timestamp_ = NULL;
   uid_ = 0u;
+  rid_ = 0u;
+  did_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1199,6 +1205,8 @@ void Comment::Clear() {
       if (timestamp_ != NULL) timestamp_->::ProtocolBuffer::Time::Clear();
     }
     uid_ = 0u;
+    rid_ = 0u;
+    did_ = 0u;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -1248,6 +1256,34 @@ bool Comment::MergePartialFromCodedStream(
         DO_(::google::protobuf::internal::WireFormatLite::ReadUInt32(
               input, &uid_));
         _set_bit(2);
+        if (input->ExpectTag(32)) goto parse_RID;
+        break;
+      }
+      
+      // required uint32 RID = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          goto handle_uninterpreted;
+        }
+       parse_RID:
+        DO_(::google::protobuf::internal::WireFormatLite::ReadUInt32(
+              input, &rid_));
+        _set_bit(3);
+        if (input->ExpectTag(40)) goto parse_DID;
+        break;
+      }
+      
+      // optional uint32 DID = 5;
+      case 5: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          goto handle_uninterpreted;
+        }
+       parse_DID:
+        DO_(::google::protobuf::internal::WireFormatLite::ReadUInt32(
+              input, &did_));
+        _set_bit(4);
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -1296,6 +1332,16 @@ void Comment::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->uid(), output);
   }
   
+  // required uint32 RID = 4;
+  if (_has_bit(3)) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->rid(), output);
+  }
+  
+  // optional uint32 DID = 5;
+  if (_has_bit(4)) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->did(), output);
+  }
+  
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -1324,6 +1370,16 @@ void Comment::SerializeWithCachedSizes(
   // required uint32 UID = 3;
   if (_has_bit(2)) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->uid(), target);
+  }
+  
+  // required uint32 RID = 4;
+  if (_has_bit(3)) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->rid(), target);
+  }
+  
+  // optional uint32 DID = 5;
+  if (_has_bit(4)) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->did(), target);
   }
   
   if (!unknown_fields().empty()) {
@@ -1356,6 +1412,20 @@ int Comment::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->uid());
+    }
+    
+    // required uint32 RID = 4;
+    if (has_rid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->rid());
+    }
+    
+    // optional uint32 DID = 5;
+    if (has_did()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->did());
     }
     
   }
@@ -1392,6 +1462,12 @@ void Comment::MergeFrom(const Comment& from) {
     if (from._has_bit(2)) {
       set_uid(from.uid());
     }
+    if (from._has_bit(3)) {
+      set_rid(from.rid());
+    }
+    if (from._has_bit(4)) {
+      set_did(from.did());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -1409,7 +1485,7 @@ void Comment::CopyFrom(const Comment& from) {
 }
 
 bool Comment::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
   
   if (has_timestamp()) {
     if (!this->timestamp().IsInitialized()) return false;
@@ -1422,6 +1498,8 @@ void Comment::Swap(Comment* other) {
     std::swap(content_, other->content_);
     std::swap(timestamp_, other->timestamp_);
     std::swap(uid_, other->uid_);
+    std::swap(rid_, other->rid_);
+    std::swap(did_, other->did_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
