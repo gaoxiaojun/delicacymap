@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QList>
 #include <QVector>
+#include <QSet>
 #include "../protocol-buffer-src/MapProtocol.pb.h"
 #include "LocationSvc.h"
 #include "MapListener.h"
@@ -35,6 +36,9 @@ public:
 
 	void drawPolygon(const QVector<LatLng> &vertex,const QString& strokeColor = "#ffffff",int strokeWeight = 1, double strokeOpacity = 0.5, const QString& fillColor = "#ffffff",double fillOpacity = 0.5);
 
+public slots:
+	void newRestaurants(ProtocolBuffer::RestaurantList*);
+
 protected:
     void keyPressEvent( QKeyEvent *event );
     void resizeEvent(QResizeEvent *e);
@@ -47,9 +51,10 @@ private slots:
     static void GPSCallback(void* context, LocationSvc*);
 
 private:
-	MapListener* mapListener;
+	QSet<int> restaurants;
 	QVector<LatLng> bupt,bnu;
 	int markerCount;
+	MapListener* mapListener;
     LocationSvc *loc_svc;
 
 public slots:

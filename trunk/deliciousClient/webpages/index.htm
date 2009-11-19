@@ -27,6 +27,8 @@
 	var route;	  //(type: GPolyLine), instance of the route polyline
 	var baseIcon;   //(type: GIcon), instance of the costumized icon
 	var restaurants;
+	var isdragging=false;
+	var infowindow;     //global info window, only one is needed.
 	
 	
 	function load() 
@@ -44,6 +46,17 @@
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 		map = new google.maps.Map(document.getElementById("map"), myOptions);
+		
+		infowindow = new google.maps.InfoWindow({});
+		
+		google.maps.event.addListener(map, 'dragstart', function () {
+		    isdragging = true;
+		});
+		google.maps.event.addListener(map, 'dragend', function () {
+		    isdragging = false;
+		    google.maps.event.trigger(map, 'bounds_changed');
+		});
+		google.maps.event.addListener(map, 'bounds_changed', bound_change);
 
 		restaurants = new Object();
 
@@ -136,19 +149,40 @@
 		}
 		window.mapListener.mapClicked(s);
 	}
+	
+	var previousbound = new google.maps.LatLngBounds();
+	function bound_change() 
+	{
+	    if (!isdragging)
+	    {
+	        var curbound = map.getBounds();
+	        if (!curbound.equals(previousbound))
+	        {
+	            previousbound = curbound;
+	            mapListener.mapBoundChanged(curbound.toUrlValue());
+	        }
+	    }
+	}
 
 	function addRestaurant(rid, lat, lng, title) 
 	{
-	    var tempRestr = makeMarkerByLatLng(lat, lng, title);
-	    //restaurants["a"] = tempRestr;
-	    restaurants[rid.toString()] = tempRestr;
+	    if (restaurants[rid] == null)
+	    {
+	        var tempRestr = makeMarkerByLatLng(lat, lng, title);
+	        google.maps.event.addListener(tempRestr, 'click', function () {
+		        mapListener.restaurantMarkerClicked(rid);
+		        infowindow.setContent(rid.toString());
+		        infowindow.open(map, tempRestr);
+		    });
+	        restaurants[rid] = tempRestr;
+	    }
 	}
 
 	function removeRestaurant(rid)
 	{
 	    //alert("jj");
-	    restaurants[rid.toString()].setMap(null);
-	    delete resturants[rid.toString()];
+	    restaurants[rid].setMap(null);
+	    delete resturants[rid];
 	}
 
 
