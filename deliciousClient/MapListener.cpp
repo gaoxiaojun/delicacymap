@@ -11,7 +11,7 @@ MapListener::MapListener( QObject *parent )
 {
 	this->mview = (mapview*)parent;
 	_private = new MapListenerPrivate(this);
-	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), this, SLOT(newRestaurants(ProtocolBuffer::RestaurantList*)));
+	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), mview, SLOT(newRestaurants(ProtocolBuffer::RestaurantList*)));
 }
 
 void MapListener::markerClicked()
@@ -25,9 +25,9 @@ void MapListener::mapClicked(QString s)
 	qDebug()<<"map clicked:"<<s;
 }
 
-void MapListener::mapBoundChanged()
+void MapListener::mapBoundChanged(const QString& boundstr)
 {
-	Bound bound = getCurrentBoundFromMap();
+	Bound bound = googleboundToMyBound(boundstr);
 	if (_private->isfirstbound)
 	{
 		_private->isfirstbound = false;
@@ -41,41 +41,36 @@ void MapListener::mapBoundChanged()
 		_private->closure);
 }
 
-QString& trimHead(QString& str, char c)
-{
-	while (str.startsWith(c))
-		str.remove(0,1);
-	return str;
-}
+// QString& trimHead(QString& str, char c)
+// {
+// 	while (str.startsWith(c))
+// 		str.remove(0,1);
+// 	return str;
+// }
+// 
+// QString& trimTail(QString& str, char c)
+// {
+// 	while (str.endsWith(c))
+// 		str.chop(1);
+// 	return str;
+// }
 
-QString& trimTail(QString& str, char c)
+Bound MapListener::googleboundToMyBound(const QString& boundstr)
 {
-	while (str.endsWith(c))
-		str.chop(1);
-	return str;
-}
+	assert(boundstr.length() > 0);
 
-Bound MapListener::getCurrentBoundFromMap()
-{
-	QVariant bound = mview->page()->mainFrame()->evaluateJavaScript(QString("map.getBounds().toString()"));
-	QString s = bound.value<QString>();
-	assert(s.length() > 0);
-
-	QStringList list = s.split(',');
+	QStringList list = boundstr.split(',');
 	assert(list.count() == 4);
 
 	Bound mapbound;
-	mapbound.SW.lat = trimTail(trimHead(list[0].trimmed(), '('), ')').toDouble();
-	mapbound.SW.lng = trimTail(trimHead(list[1].trimmed(), '('), ')').toDouble();
-	mapbound.NE.lat = trimTail(trimHead(list[2].trimmed(), '('), ')').toDouble();
-	mapbound.NE.lng = trimTail(trimHead(list[3].trimmed(), '('), ')').toDouble();
+	mapbound.SW.lat = list[0].toDouble();
+	mapbound.SW.lng = list[1].toDouble();
+	mapbound.NE.lat = list[2].toDouble();
+	mapbound.NE.lng = list[3].toDouble();
 	return mapbound;
 }
 
-void MapListener::newRestaurants( ProtocolBuffer::RestaurantList* list )
+void MapListener::restaurantMarkerClicked( int rid )
 {
-	for (int i=0;i<list->restaurants_size();++i)
-	{
-		mview->addRestaurant(list->restaurants( i ));
-	}
+
 }

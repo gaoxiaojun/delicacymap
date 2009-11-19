@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QtDebug>
+#include <QStringBuilder>
 #include <boost/bind.hpp>
 
 #define OFFSET_PER_BUTTON_PUSH 100
@@ -51,9 +52,6 @@ mapview::~mapview()
 void mapview::MapLoaded()
 {
 	page()->mainFrame()->addToJavaScriptWindowObject(QString("mapListener"),mapListener);//register mapListener
-
-	// Register map bounds change event to be handle by MapListener
-	page()->mainFrame()->evaluateJavaScript("google.maps.event.addListener(map, 'bounds_changed', mapListener.mapBoundChanged);");
 
 	markerCount = 0;    
 
@@ -182,6 +180,24 @@ void mapview::addRestaurant( const ProtocolBuffer::Restaurant& r )
 			.arg(r.location().latitude())
 			.arg(r.location().longitude())
 			.arg(QString::fromUtf8(r.name().c_str(), r.name().length())));
+}
+
+void mapview::newRestaurants( ProtocolBuffer::RestaurantList* list )
+{
+	QString script;
+	for (int i=0;i<list->restaurants_size();++i)
+		if (!restaurants.contains(list->restaurants( i ).rid()))
+		{
+			const ProtocolBuffer::Restaurant& r = list->restaurants( i );
+			restaurants.insert(r.rid());
+			script.append(QString("addRestaurant(%1, %2, %3, '%4');")
+				.arg(r.rid())
+				.arg(r.location().latitude())
+				.arg(r.location().longitude())
+				.arg(QString::fromUtf8(r.name().c_str(), r.name().length())));
+		}
+	//if (script.)
+	page()->mainFrame()->evaluateJavaScript(script);
 }
 
 void mapview::drawPolygon(const QVector<LatLng> &vertex, const QString& strokeColor,int strokeWeight, double strokeOpacity, const QString& fillColor,double fillOpacity)
