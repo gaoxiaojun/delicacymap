@@ -196,8 +196,8 @@ void mapview::newRestaurants( ProtocolBuffer::RestaurantList* list )
 				.arg(r.location().longitude())
 				.arg(QString::fromUtf8(r.name().c_str(), r.name().length())));
 		}
-	//if (script.)
-	page()->mainFrame()->evaluateJavaScript(script);
+	if (!script.isEmpty())
+		page()->mainFrame()->evaluateJavaScript(script);
 }
 
 void mapview::drawPolygon(const QVector<LatLng> &vertex, const QString& strokeColor,int strokeWeight, double strokeOpacity, const QString& fillColor,double fillOpacity)
