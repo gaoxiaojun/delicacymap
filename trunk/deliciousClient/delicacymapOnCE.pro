@@ -27,6 +27,7 @@ HEADERS += mapview.h \
            QTProtobufChannel.h \
            QTProbufController.h \
            QTProtobufWaitResponse.h \
+           DisplaySchema.h \
            ../protocol-buffer-src/Message.pb.h \
            ../protocol-buffer-src/MapProtocol.pb.h
 
@@ -42,6 +43,7 @@ SOURCES += main.cpp \
            QTProtobufChannel.cpp \
            QTProbufController.cpp \
            QTProtobufWaitResponse.cpp \
+           DisplaySchema.cpp \
            ../protocol-buffer-src/Message.pb.cc \
            ../protocol-buffer-src/MapProtocol.pb.cc
 

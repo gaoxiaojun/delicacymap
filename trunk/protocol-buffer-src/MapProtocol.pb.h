@@ -503,18 +503,18 @@ class Currency : public ::google::protobuf::Message {
   
   // accessors -------------------------------------------------------
   
-  // required double amount = 1;
+  // required float amount = 1;
   inline bool has_amount() const;
   inline void clear_amount();
   static const int kAmountFieldNumber = 1;
-  inline double amount() const;
-  inline void set_amount(double value);
+  inline float amount() const;
+  inline void set_amount(float value);
   
  private:
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
-  double amount_;
+  float amount_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
@@ -849,10 +849,17 @@ class Restaurant : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 rating() const;
   inline void set_rating(::google::protobuf::uint32 value);
   
-  // required .ProtocolBuffer.Currency averageExpense = 6;
+  // required uint32 CommentCount = 6;
+  inline bool has_commentcount() const;
+  inline void clear_commentcount();
+  static const int kCommentCountFieldNumber = 6;
+  inline ::google::protobuf::uint32 commentcount() const;
+  inline void set_commentcount(::google::protobuf::uint32 value);
+  
+  // required .ProtocolBuffer.Currency averageExpense = 7;
   inline bool has_averageexpense() const;
   inline void clear_averageexpense();
-  static const int kAverageExpenseFieldNumber = 6;
+  static const int kAverageExpenseFieldNumber = 7;
   inline const ::ProtocolBuffer::Currency& averageexpense() const;
   inline ::ProtocolBuffer::Currency* mutable_averageexpense();
   
@@ -866,12 +873,13 @@ class Restaurant : public ::google::protobuf::Message {
   ::google::protobuf::uint32 rid_;
   ::ProtocolBuffer::RestaurantType* type_;
   ::google::protobuf::uint32 rating_;
+  ::google::protobuf::uint32 commentcount_;
   ::ProtocolBuffer::Currency* averageexpense_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -1654,7 +1662,7 @@ inline void Comment::set_did(::google::protobuf::uint32 value) {
 
 // Currency
 
-// required double amount = 1;
+// required float amount = 1;
 inline bool Currency::has_amount() const {
   return _has_bit(0);
 }
@@ -1662,10 +1670,10 @@ inline void Currency::clear_amount() {
   amount_ = 0;
   _clear_bit(0);
 }
-inline double Currency::amount() const {
+inline float Currency::amount() const {
   return amount_;
 }
-inline void Currency::set_amount(double value) {
+inline void Currency::set_amount(float value) {
   _set_bit(0);
   amount_ = value;
 }
@@ -1957,19 +1965,35 @@ inline void Restaurant::set_rating(::google::protobuf::uint32 value) {
   rating_ = value;
 }
 
-// required .ProtocolBuffer.Currency averageExpense = 6;
-inline bool Restaurant::has_averageexpense() const {
+// required uint32 CommentCount = 6;
+inline bool Restaurant::has_commentcount() const {
   return _has_bit(5);
+}
+inline void Restaurant::clear_commentcount() {
+  commentcount_ = 0u;
+  _clear_bit(5);
+}
+inline ::google::protobuf::uint32 Restaurant::commentcount() const {
+  return commentcount_;
+}
+inline void Restaurant::set_commentcount(::google::protobuf::uint32 value) {
+  _set_bit(5);
+  commentcount_ = value;
+}
+
+// required .ProtocolBuffer.Currency averageExpense = 7;
+inline bool Restaurant::has_averageexpense() const {
+  return _has_bit(6);
 }
 inline void Restaurant::clear_averageexpense() {
   if (averageexpense_ != NULL) averageexpense_->::ProtocolBuffer::Currency::Clear();
-  _clear_bit(5);
+  _clear_bit(6);
 }
 inline const ::ProtocolBuffer::Currency& Restaurant::averageexpense() const {
   return averageexpense_ != NULL ? *averageexpense_ : *default_instance_->averageexpense_;
 }
 inline ::ProtocolBuffer::Currency* Restaurant::mutable_averageexpense() {
-  _set_bit(5);
+  _set_bit(6);
   if (averageexpense_ == NULL) averageexpense_ = new ::ProtocolBuffer::Currency;
   return averageexpense_;
 }

@@ -92,10 +92,11 @@ size_t deliciousDataAdapter::QueryRestaurantWithinLocation( double longtitude_fr
 		")");
     char querystr[500];
     sprintf_s(querystr, sizeof(querystr),
-          "SELECT * "
-          "FROM Restaurants NATURAL INNER JOIN Relation_Restaurant_RestaurantType NATURAL INNER JOIN RestaurantTypes "
+          "SELECT Restaurants.*, count(cid) as CommentCount, RestaurantTypes.* "
+          "FROM Restaurants NATURAL INNER JOIN Relation_Restaurant_RestaurantType NATURAL INNER JOIN RestaurantTypes LEFT OUTER JOIN comments ON Restaurants.rid = Comments.rid "
           "WHERE Longtitude BETWEEN %.10f AND %.10f "
-                "AND Latitude BETWEEN %.10f AND %.10f"
+                "AND Latitude BETWEEN %.10f AND %.10f "
+		  "GROUP BY rid"
         , longtitude_from, lontitude_to
         , latitude_from, latitude_to);
     

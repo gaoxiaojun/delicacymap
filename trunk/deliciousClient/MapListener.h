@@ -6,6 +6,7 @@
 
 class mapview;
 class MapListenerPrivate;
+struct CommentCallEntry;
 
 struct LatLng
 {
@@ -42,7 +43,7 @@ public slots:
 
 private slots:
 	void RestaurantListArrived();
-	void CommentListArrived();
+	/*void CommentListArrived(CommentCallEntry*);*/
 
 private:
 	Bound googleboundToMyBound(const QString& boundstr);

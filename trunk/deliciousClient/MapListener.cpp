@@ -4,6 +4,7 @@
 #include "MapListener.h"
 #include "MapListenerPrivate.h"
 #include "mapview.h"
+#include "DisplaySchema.h"
 
 
 MapListener::MapListener( QObject *parent )
@@ -16,7 +17,7 @@ MapListener::MapListener( QObject *parent )
 	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), this, SLOT(RestaurantListArrived()));
 	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), mview, SLOT(newRestaurants(ProtocolBuffer::RestaurantList*)));
 
-	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), this, SLOT(CommentListArrived()));
+	//connect(_private, SIGNAL(CommentListDataArrive(CommentCallEntry*)), this, SLOT(CommentListArrived(CommentCallEntry*)));
 }
 
 void MapListener::markerClicked()
@@ -87,23 +88,31 @@ void MapListener::RestaurantListArrived()
 		const ProtocolBuffer::Restaurant& r = _private->restaurantList.restaurants(i);
 		if (!mview->isRestaurantInView(r.rid()))
 		{
-			_private->connman.GetLastestCommentsOfRestaurant(r.rid(), 5, &_private->commentList, _private->commentClosure);
+			//CommentCallEntry* entry = _private->getCommentList();
+			//_private->connman.GetLastestCommentsOfRestaurant(r.rid(), 5, &entry->list, entry->callback);
+			char numberbuf[16];
+			sprintf(numberbuf, "%d", r.rid());
+			this->setProperty(numberbuf, DisplaySchemas::RestaurantInfoWindowSchema(&r));
 		}
 	}
 }
 
-void MapListener::CommentListArrived()
-{
-	QString rinfo;
-	char numberbuf[16];
-	for (int i=0;i<_private->commentList.comments_size();++i)
-	{
-		const ProtocolBuffer::Comment& c = _private->commentList.comments(i);
-		rinfo.append(c.content().c_str());
-	}
-	if (!rinfo.isEmpty())
-	{
-		sprintf(numberbuf, "%d", _private->commentList.comments(0).rid());
-		this->setProperty(numberbuf, rinfo);
-	}
-}
+// void MapListener::CommentListArrived(CommentCallEntry* entry)
+// {
+// 	QString rinfo;
+// 	char numberbuf[16];
+// 	
+// 	ProtocolBuffer::CommentList& list = entry->list;
+// 	for (int i=0;i<list.comments_size();++i)
+// 	{
+// 		const ProtocolBuffer::Comment& c = list.comments(i);
+// 		rinfo.append(c.content().c_str());
+// 	}
+// 	if (!rinfo.isEmpty())
+// 	{
+// 		sprintf(numberbuf, "%d", list.comments(0).rid());
+// 		rinfo.append("\n").append(numberbuf);
+// 		this->setProperty(numberbuf, rinfo);
+// 	}
+// 	_private->returnCommentList(entry);
+// }

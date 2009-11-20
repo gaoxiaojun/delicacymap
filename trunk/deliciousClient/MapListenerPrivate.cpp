@@ -4,15 +4,43 @@ MapListenerPrivate::MapListenerPrivate(MapListener* parent)
 {
 	isfirstbound = true;
 	restaurantClosure = google::protobuf::NewPermanentCallback(this, &MapListenerPrivate::newRestaurantDataArrive);
-	commentClosure = google::protobuf::NewPermanentCallback(this, &MapListenerPrivate::newCommentDataArrive);
+}
+
+MapListenerPrivate::~MapListenerPrivate()
+{
+	// this is not completely right. if some request are still in the rpc channel, this may leak
+// 	while (!commentLists.empty())
+// 		delete commentLists.pop();
 }
 
 void MapListenerPrivate::newRestaurantDataArrive( )
 {
 	emit RestaurantListDataArrive(&restaurantList);
 }
-
-void MapListenerPrivate::newCommentDataArrive()
-{
-	emit CommentListDataArrive(&commentList);
-}
+// 
+// void MapListenerPrivate::newCommentDataArrive(CommentCallEntry *entry)
+// {
+// 	emit CommentListDataArrive(entry);
+// }
+// 
+// void MapListenerPrivate::moreCommentList()
+// {
+// 	for (int i=0;i<4;++i)
+// 	{
+// 		CommentCallEntry* entry = new CommentCallEntry;
+// 		entry->callback = google::protobuf::NewPermanentCallback(this, &MapListenerPrivate::newCommentDataArrive, entry);
+// 		commentLists.push(entry);
+// 	}
+// }
+// 
+// CommentCallEntry* MapListenerPrivate::getCommentList()
+// {
+// 	if (commentLists.empty())
+// 		moreCommentList();
+// 	return commentLists.pop();
+// }
+// 
+// void MapListenerPrivate::returnCommentList( CommentCallEntry* l )
+// {
+// 	commentLists.push(l);
+// }
