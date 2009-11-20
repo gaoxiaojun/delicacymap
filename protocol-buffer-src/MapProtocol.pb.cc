@@ -176,12 +176,13 @@ void protobuf_AssignDesc_MapProtocol_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(User));
   Restaurant_descriptor_ = file->message_type(7);
-  static const int Restaurant_offsets_[6] = {
+  static const int Restaurant_offsets_[7] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, location_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, name_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, rid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, type_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, rating_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, commentcount_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, averageexpense_),
   };
   Restaurant_reflection_ =
@@ -346,37 +347,38 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
     "amp\030\001 \002(\t\"j\n\007Comment\022\017\n\007content\030\001 \002(\t\022\'\n"
     "\ttimeStamp\030\002 \002(\0132\024.ProtocolBuffer.Time\022\013"
     "\n\003UID\030\003 \002(\r\022\013\n\003RID\030\004 \002(\r\022\013\n\003DID\030\005 \001(\r\"\032\n"
-    "\010Currency\022\016\n\006amount\030\001 \002(\001\"\030\n\005Error\022\017\n\007me"
+    "\010Currency\022\016\n\006amount\030\001 \002(\002\"\030\n\005Error\022\017\n\007me"
     "ssage\030\001 \002(\t\"\225\001\n\004User\022\013\n\003UID\030\001 \002(\r\022\022\n\nuni"
     "queName\030\002 \002(\t\022&\n\010joinTime\030\003 \002(\0132\024.Protoc"
     "olBuffer.Time\0223\n\013preferTypes\030\004 \003(\0132\036.Pro"
     "tocolBuffer.RestaurantType\022\017\n\007friends\030\005 "
-    "\003(\r\"\303\001\n\nRestaurant\022*\n\010location\030\001 \002(\0132\030.P"
+    "\003(\r\"\331\001\n\nRestaurant\022*\n\010location\030\001 \002(\0132\030.P"
     "rotocolBuffer.Location\022\014\n\004name\030\002 \002(\t\022\013\n\003"
     "RID\030\003 \002(\r\022,\n\004type\030\004 \002(\0132\036.ProtocolBuffer"
-    ".RestaurantType\022\016\n\006Rating\030\005 \002(\r\0220\n\016avera"
-    "geExpense\030\006 \002(\0132\030.ProtocolBuffer.Currenc"
-    "y\"A\n\016RestaurantList\022/\n\013restaurants\030\001 \003(\013"
-    "2\032.ProtocolBuffer.Restaurant\"8\n\013CommentL"
-    "ist\022)\n\010comments\030\001 \003(\0132\027.ProtocolBuffer.C"
-    "omment\"+\n\016RestaurantType\022\013\n\003TID\030\001 \002(\r\022\014\n"
-    "\004name\030\002 \002(\t\"\237\001\n\005Query\022\"\n\004area\030\001 \001(\0132\024.Pr"
-    "otocolBuffer.Area\022\r\n\005level\030\002 \001(\r\022\"\n\004time"
-    "\030\003 \001(\0132\024.ProtocolBuffer.Time\022\013\n\003RID\030\004 \001("
-    "\r\022\013\n\003UID\030\005 \001(\r\022\t\n\001n\030\006 \001(\r\022\013\n\003msg\030\007 \001(\t\022\r"
-    "\n\005image\030\010 \001(\0142\347\003\n\tDMService\022G\n\016GetRestau"
-    "rants\022\025.ProtocolBuffer.Query\032\036.ProtocolB"
-    "uffer.RestaurantList\022T\n\036GetLastestCommen"
-    "tsOfRestaurant\022\025.ProtocolBuffer.Query\032\033."
-    "ProtocolBuffer.CommentList\022N\n\030GetLastest"
-    "CommentsByUser\022\025.ProtocolBuffer.Query\032\033."
-    "ProtocolBuffer.CommentList\022L\n\026GetComment"
-    "sOfUserSince\022\025.ProtocolBuffer.Query\032\033.Pr"
-    "otocolBuffer.CommentList\022R\n\034GetCommentsO"
-    "fRestaurantSince\022\025.ProtocolBuffer.Query\032"
-    "\033.ProtocolBuffer.CommentList\022I\n\027AddComme"
-    "ntForRestaurant\022\025.ProtocolBuffer.Query\032\027"
-    ".ProtocolBuffer.CommentB\002H\001", 1547);
+    ".RestaurantType\022\016\n\006Rating\030\005 \002(\r\022\024\n\014Comme"
+    "ntCount\030\006 \002(\r\0220\n\016averageExpense\030\007 \002(\0132\030."
+    "ProtocolBuffer.Currency\"A\n\016RestaurantLis"
+    "t\022/\n\013restaurants\030\001 \003(\0132\032.ProtocolBuffer."
+    "Restaurant\"8\n\013CommentList\022)\n\010comments\030\001 "
+    "\003(\0132\027.ProtocolBuffer.Comment\"+\n\016Restaura"
+    "ntType\022\013\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t\"\237\001\n\005Qu"
+    "ery\022\"\n\004area\030\001 \001(\0132\024.ProtocolBuffer.Area\022"
+    "\r\n\005level\030\002 \001(\r\022\"\n\004time\030\003 \001(\0132\024.ProtocolB"
+    "uffer.Time\022\013\n\003RID\030\004 \001(\r\022\013\n\003UID\030\005 \001(\r\022\t\n\001"
+    "n\030\006 \001(\r\022\013\n\003msg\030\007 \001(\t\022\r\n\005image\030\010 \001(\0142\347\003\n\t"
+    "DMService\022G\n\016GetRestaurants\022\025.ProtocolBu"
+    "ffer.Query\032\036.ProtocolBuffer.RestaurantLi"
+    "st\022T\n\036GetLastestCommentsOfRestaurant\022\025.P"
+    "rotocolBuffer.Query\032\033.ProtocolBuffer.Com"
+    "mentList\022N\n\030GetLastestCommentsByUser\022\025.P"
+    "rotocolBuffer.Query\032\033.ProtocolBuffer.Com"
+    "mentList\022L\n\026GetCommentsOfUserSince\022\025.Pro"
+    "tocolBuffer.Query\032\033.ProtocolBuffer.Comme"
+    "ntList\022R\n\034GetCommentsOfRestaurantSince\022\025"
+    ".ProtocolBuffer.Query\032\033.ProtocolBuffer.C"
+    "ommentList\022I\n\027AddCommentForRestaurant\022\025."
+    "ProtocolBuffer.Query\032\027.ProtocolBuffer.Co"
+    "mmentB\002H\001", 1569);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MapProtocol.proto", &protobuf_RegisterTypes);
   Location::default_instance_ = new Location();
@@ -1577,13 +1579,13 @@ bool Currency::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required double amount = 1;
+      // required float amount = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED64) {
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
           goto handle_uninterpreted;
         }
-        DO_(::google::protobuf::internal::WireFormatLite::ReadDouble(
+        DO_(::google::protobuf::internal::WireFormatLite::ReadFloat(
               input, &amount_));
         _set_bit(0);
         if (input->ExpectAtEnd()) return true;
@@ -1614,9 +1616,9 @@ void Currency::SerializeWithCachedSizes(
     return;
   }
   
-  // required double amount = 1;
+  // required float amount = 1;
   if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(1, this->amount(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->amount(), output);
   }
   
   if (!unknown_fields().empty()) {
@@ -1627,9 +1629,9 @@ void Currency::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Currency::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required double amount = 1;
+  // required float amount = 1;
   if (_has_bit(0)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->amount(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->amount(), target);
   }
   
   if (!unknown_fields().empty()) {
@@ -1643,9 +1645,9 @@ int Currency::ByteSize() const {
   int total_size = 0;
   
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required double amount = 1;
+    // required float amount = 1;
     if (has_amount()) {
-      total_size += 1 + 8;
+      total_size += 1 + 4;
     }
     
   }
@@ -2338,6 +2340,7 @@ const int Restaurant::kNameFieldNumber;
 const int Restaurant::kRIDFieldNumber;
 const int Restaurant::kTypeFieldNumber;
 const int Restaurant::kRatingFieldNumber;
+const int Restaurant::kCommentCountFieldNumber;
 const int Restaurant::kAverageExpenseFieldNumber;
 #endif  // !_MSC_VER
 
@@ -2363,6 +2366,7 @@ void Restaurant::SharedCtor() {
   rid_ = 0u;
   type_ = NULL;
   rating_ = 0u;
+  commentcount_ = 0u;
   averageexpense_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -2412,7 +2416,8 @@ void Restaurant::Clear() {
       if (type_ != NULL) type_->::ProtocolBuffer::RestaurantType::Clear();
     }
     rating_ = 0u;
-    if (_has_bit(5)) {
+    commentcount_ = 0u;
+    if (_has_bit(6)) {
       if (averageexpense_ != NULL) averageexpense_->::ProtocolBuffer::Currency::Clear();
     }
   }
@@ -2491,12 +2496,26 @@ bool Restaurant::MergePartialFromCodedStream(
         DO_(::google::protobuf::internal::WireFormatLite::ReadUInt32(
               input, &rating_));
         _set_bit(4);
-        if (input->ExpectTag(50)) goto parse_averageExpense;
+        if (input->ExpectTag(48)) goto parse_CommentCount;
         break;
       }
       
-      // required .ProtocolBuffer.Currency averageExpense = 6;
+      // required uint32 CommentCount = 6;
       case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          goto handle_uninterpreted;
+        }
+       parse_CommentCount:
+        DO_(::google::protobuf::internal::WireFormatLite::ReadUInt32(
+              input, &commentcount_));
+        _set_bit(5);
+        if (input->ExpectTag(58)) goto parse_averageExpense;
+        break;
+      }
+      
+      // required .ProtocolBuffer.Currency averageExpense = 7;
+      case 7: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
           goto handle_uninterpreted;
@@ -2563,10 +2582,15 @@ void Restaurant::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->rating(), output);
   }
   
-  // required .ProtocolBuffer.Currency averageExpense = 6;
+  // required uint32 CommentCount = 6;
   if (_has_bit(5)) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->commentcount(), output);
+  }
+  
+  // required .ProtocolBuffer.Currency averageExpense = 7;
+  if (_has_bit(6)) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageNoVirtual(
-      6, this->averageexpense(), output);
+      7, this->averageexpense(), output);
   }
   
   if (!unknown_fields().empty()) {
@@ -2611,11 +2635,16 @@ void Restaurant::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->rating(), target);
   }
   
-  // required .ProtocolBuffer.Currency averageExpense = 6;
+  // required uint32 CommentCount = 6;
   if (_has_bit(5)) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->commentcount(), target);
+  }
+  
+  // required .ProtocolBuffer.Currency averageExpense = 7;
+  if (_has_bit(6)) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        6, this->averageexpense(), target);
+        7, this->averageexpense(), target);
   }
   
   if (!unknown_fields().empty()) {
@@ -2664,7 +2693,14 @@ int Restaurant::ByteSize() const {
           this->rating());
     }
     
-    // required .ProtocolBuffer.Currency averageExpense = 6;
+    // required uint32 CommentCount = 6;
+    if (has_commentcount()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->commentcount());
+    }
+    
+    // required .ProtocolBuffer.Currency averageExpense = 7;
     if (has_averageexpense()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -2712,6 +2748,9 @@ void Restaurant::MergeFrom(const Restaurant& from) {
       set_rating(from.rating());
     }
     if (from._has_bit(5)) {
+      set_commentcount(from.commentcount());
+    }
+    if (from._has_bit(6)) {
       mutable_averageexpense()->::ProtocolBuffer::Currency::MergeFrom(from.averageexpense());
     }
   }
@@ -2731,7 +2770,7 @@ void Restaurant::CopyFrom(const Restaurant& from) {
 }
 
 bool Restaurant::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
+  if ((_has_bits_[0] & 0x0000007f) != 0x0000007f) return false;
   
   if (has_location()) {
     if (!this->location().IsInitialized()) return false;
@@ -2752,6 +2791,7 @@ void Restaurant::Swap(Restaurant* other) {
     std::swap(rid_, other->rid_);
     std::swap(type_, other->type_);
     std::swap(rating_, other->rating_);
+    std::swap(commentcount_, other->commentcount_);
     std::swap(averageexpense_, other->averageexpense_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);

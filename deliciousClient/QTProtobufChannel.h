@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <QtCore>
+#include <QStack>
 #include <QThread>
 #include <QtNetwork>
 #include <google/protobuf/service.h>
@@ -8,14 +9,17 @@
 
 struct CallEntry
 {
-	CallEntry(google::protobuf::Closure* _done = NULL, google::protobuf::Message* _response = NULL)
-		: done(_done), response(_response)
+	CallEntry(google::protobuf::Closure* _done = NULL, google::protobuf::Message* _response = NULL, protorpc::Message *_request = NULL)
+		: done(_done), response(_response), request(_request)
 	{
 	}
 
 	google::protobuf::Closure* done;
 	google::protobuf::Message* response;
+	protorpc::Message* request;
 };
+
+class QTProtobufChannel;
 
 class QTProtobufChannelDriver : public QObject
 {
@@ -26,21 +30,22 @@ public slots:
 private slots:
 	void readMessage();
 public:
-	QTProtobufChannelDriver(QHash<int,CallEntry> *currentCalls);
+	QTProtobufChannelDriver(QTProtobufChannel* parent, QHash<int,CallEntry> *currentCalls);
 	~QTProtobufChannelDriver();
 
 	bool started();
 	QAbstractSocket::SocketError networkError() const;
 private:
-	QTcpSocket *_tcps;
+	protorpc::Message response;
 	std::string _writebuffer;
 	std::string _readbuffer;
-	int _buffer_index, _msgsize;
-	protorpc::Message response;
+	QTProtobufChannel* parent;
+	QTcpSocket *_tcps;
 	QHash<int,CallEntry>* _currentCalls;
+	int _buffer_index, _msgsize;
 };
 
-// light weight rpc channel, not intended to be used in multi threaded environment.
+// light weight rpc channel, not intended to be used in multi threaded environment. however, it implement a call queue, so that continuous call wont fail
 class QTProtobufChannel :
 	public QThread,
 	public google::protobuf::RpcChannel
@@ -57,6 +62,8 @@ public:
 	// override RpcChannel::CallMethod
 	void CallMethod(const google::protobuf::MethodDescriptor* method, google::protobuf::RpcController* controller, const google::protobuf::Message* request, google::protobuf::Message* response, google::protobuf::Closure* done);
 
+	void returnQueryBuffer(protorpc::Message*);
+
 protected:
 	// override QThread::run
 	void run();
@@ -67,11 +74,13 @@ signals:
 
 private:
 	bool readMessage(google::protobuf::Message* m);
+
+	void needMoreReqs();
 private:
-	QTProtobufChannelDriver *_helper;
-	QHostAddress _addr;
-	unsigned short _port;
-	protorpc::Message _reqholder;
-	int _callid;
+	QStack<protorpc::Message*> reqs;
 	QHash<int,CallEntry> _currentCalls;
+	QHostAddress _addr;
+	QTProtobufChannelDriver *_helper;
+	int _callid;
+	unsigned short _port;
 };

@@ -167,6 +167,7 @@ void DMServiceLocalDBImpl::GetRestaurantsCallback( const DBRow& row, RestaurantL
 {
     Restaurant *newr = result->add_restaurants();
     newr->set_name(row["Name"]);
+	newr->set_commentcount(row.GetValueAs<int>("CommentCount"));
     newr->set_rating(row.GetValueAs<int>("Rating"));
     newr->set_rid(row.GetValueAs<int>("RID"));
 	newr->mutable_type()->set_name(row["ReadableText"]);

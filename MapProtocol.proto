@@ -34,7 +34,7 @@ message Comment
 
 message Currency
 {
-    required double                                          amount                      = 1;
+    required float                                          amount                      = 1;
 }
 
 message Error
@@ -59,7 +59,8 @@ message Restaurant
     required uint32                                          RID                         = 3;    //Restaurant ID
     required ProtocolBuffer.RestaurantType                   type                        = 4;    //Restaurant type
     required uint32                                          Rating                      = 5;    //Rating by the users
-    required ProtocolBuffer.Currency                         averageExpense              = 6;    //Average expense per person per meal
+    required uint32                                          CommentCount                = 6;    //Rating by the users
+    required ProtocolBuffer.Currency                         averageExpense              = 7;    //Average expense per person per meal
 }
 
 message RestaurantList
