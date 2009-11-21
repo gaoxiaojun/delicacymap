@@ -7,7 +7,8 @@ QString DisplaySchemas::RestaurantInfoWindowSchema( const ProtocolBuffer::Restau
 		"<B>%1</B><br>"
 		"<HR>"
 		"评分：%2<br>平均消费：%3 元<br>"
-		"<a href=\"function(){mapListener.markerClicked();}\">共有%4条评论</a>"));
+		"<a href=\"function(){mapListener.markerClicked();}\">共有%4条评论</a><br>"
+		"<a href=\"function(){}\">从此出发</a>&nbsp;&nbsp;<a href=\"function(){}\">到此</a>"));
 	return schema.arg(QString::fromUtf8(r->name().c_str(), r->name().length()))
 				 .arg(r->rating())
 				 .arg(r->averageexpense().amount())

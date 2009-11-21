@@ -13,8 +13,11 @@ public:
     GPSLocationSvc_wince(void);
     ~GPSLocationSvc_wince(void);
 
-    virtual Location* const getLocalLocation();
+    virtual bool getLocalLocation(Location*);
     virtual bool canGetLocalLocation();
+
+	virtual Location* newLocationInstance();
+	virtual void deleteLocationInstance(Location*&);
 
     virtual bool registerCallbackForNewPosition(CallBackFunc func, void* context);
     virtual bool removeCallbackFroNewPosition(CallBackFunc func, void* context);

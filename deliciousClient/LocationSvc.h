@@ -27,7 +27,11 @@ public:
 
     LocationSvc(){};
 
-    virtual Location* const getLocalLocation()=0;
+    virtual bool getLocalLocation(Location*)=0;
+
+	virtual Location* newLocationInstance()=0;
+
+	virtual void deleteLocationInstance(Location*&)=0;
 
 public:
     virtual bool canGetLocalLocation()=0;

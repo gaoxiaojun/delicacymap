@@ -45,11 +45,13 @@ message Error
 message User
 {
     required uint32                                          UID                         = 1;    //User ID, unique
-    required string                                          uniqueName                  = 2;    //User Name, unique
-    required ProtocolBuffer.Time                             joinTime                    = 3;    //Registration time of this user
+    required string                                          emailAddress                = 2;    //User email, unique
+    required string                                          nickName                    = 3;    //User Name
+    required string                                          password                    = 4;    //Password, if empty, user is not loged in
+    required ProtocolBuffer.Time                             joinTime                    = 5;    //Registration time of this user
     
-    repeated ProtocolBuffer.RestaurantType                   preferTypes                 = 4;    //prefered restaurant types
-    repeated uint32                                          friends                     = 5;    //friends of the user, represented by User ID
+    repeated ProtocolBuffer.RestaurantType                   preferTypes                 = 6;    //prefered restaurant types
+    repeated uint32                                          friends                     = 7;    //friends of the user, represented by User ID
 }
 
 message Restaurant
@@ -87,8 +89,9 @@ message Query
     optional uint32                                          RID                         = 4;
     optional uint32                                          UID                         = 5;
     optional uint32                                          n                           = 6;
-    optional string                                          msg                         = 7;
-    optional bytes                                           image                       = 8;
+    optional string                                          msg                         = 7;    // used in add restaurant
+    optional bytes                                           image                       = 8;    // used in add restaurant
+    optional string                                          password                    = 9;    // password required to retrieve user specific data
 }
 
 service DMService 
@@ -98,6 +101,8 @@ service DMService
     rpc GetLastestCommentsByUser               (ProtocolBuffer.Query)        returns (CommentList);
     rpc GetCommentsOfUserSince                 (ProtocolBuffer.Query)        returns (CommentList);
     rpc GetCommentsOfRestaurantSince           (ProtocolBuffer.Query)        returns (CommentList);
+    
+    rpc UserLogin                              (ProtocolBuffer.Query)        returns (User);
     
     rpc AddCommentForRestaurant                (ProtocolBuffer.Query)        returns (Comment);
 }

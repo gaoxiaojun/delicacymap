@@ -7,15 +7,14 @@
 #include <QList>
 #include <QVector>
 #include <QSet>
-#include "../protocol-buffer-src/MapProtocol.pb.h"
 #include "LocationSvc.h"
-#include "MapListener.h"
 
-struct Marker
-{
-	QString title;
-	LatLng latlng;
-};
+
+class MapListener;
+namespace ProtocolBuffer{
+	class Restaurant;
+	class RestaurantList;
+}
 
 class mapview : public QWebView
 {
@@ -30,6 +29,7 @@ public:
     void scroll(int xoffset, int yoffset);
     void centerAt(double latitude, double longtitude);
     void resize(int w, int h);
+	void getzoom();
 
 	void addRestaurant(const ProtocolBuffer::Restaurant& r);
 	void placeMarker(int minZoom = 0, int maxZoom = 19);	//place "tempMarker"
@@ -37,31 +37,33 @@ public:
 	void makeMarkerByXY(int x, int y, const QString& markerTitle = "marker");	//marker generated and saved in "tempMarker"
 	//Marker getMarkerInfo();	//get "tempMarker"'s info
 
-	void drawPolygon(const QVector<LatLng> &vertex,const QString& strokeColor = "#ffffff",int strokeWeight = 1, double strokeOpacity = 0.5, const QString& fillColor = "#ffffff",double fillOpacity = 0.5);
+	//void drawPolygon(const QVector<LatLng> &vertex,const QString& strokeColor = "#ffffff",int strokeWeight = 1, double strokeOpacity = 0.5, const QString& fillColor = "#ffffff",double fillOpacity = 0.5);
 
-public slots:
-	void newRestaurants(ProtocolBuffer::RestaurantList*);
+signals:
+	void _LocationUpdate(double latitude, double longitude);
 
 protected:
     void keyPressEvent( QKeyEvent *event );
     void resizeEvent(QResizeEvent *e);
-	void initLatLngs();
+	//void initLatLngs();
 
 private slots:
 	void MapLoaded();
     void setupmapconfiguration();
     void whereami();
-    static void GPSCallback(void* context, LocationSvc*);
+    static void MyLocationUpdateCallback(void* context, LocationSvc*);
+
+	void updateCurrentLocation(double latitude, double longitude);
 
 private:
 	QSet<int> restaurants;
-	QVector<LatLng> bupt,bnu;
+	//QVector<LatLng> bupt,bnu;
 	int markerCount;
 	MapListener* mapListener;
     LocationSvc *loc_svc;
 
 public slots:
-    void getzoom();
+	void newRestaurants(ProtocolBuffer::RestaurantList*);
     void zoomin();
     void zoomout();
 };

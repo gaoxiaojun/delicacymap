@@ -1,5 +1,7 @@
 #include "mapview.h"
 #include "LocationSvc.h"
+#include "MapListener.h"
+#include "../protocol-buffer-src/MapProtocol.pb.h"
 
 #include <QWebFrame>
 #include <QKeyEvent>
@@ -10,6 +12,7 @@
 #include <boost/bind.hpp>
 
 #define OFFSET_PER_BUTTON_PUSH 100
+static double LocationChangeThreshold = 0.0005f;
 
 mapview::mapview(QWidget *parent)
     : QWebView(parent)
@@ -36,12 +39,9 @@ mapview::mapview(QWidget *parent)
 	
 	mapListener = new MapListener(this);
     
-    connect(this, SIGNAL(loadFinished(bool)), this, SLOT(setupmapconfiguration()));
-	connect(this, SIGNAL(loadFinished(bool)), this, SLOT(MapLoaded()));
-
-    loc_svc = LocationSvc::create();
-
-    //loc_svc->registerCallbackForNewPosition(&mapview::GPSCallback, this);
+	connect(this, SIGNAL(loadFinished(bool)), this, SLOT(setupmapconfiguration()), Qt::DirectConnection);
+	connect(this, SIGNAL(loadFinished(bool)), this, SLOT(MapLoaded()), Qt::DirectConnection);
+	connect(this, SIGNAL(_LocationUpdate(double, double)), this, SLOT(updateCurrentLocation(double, double)), Qt::QueuedConnection);
 }
 
 mapview::~mapview()
@@ -53,9 +53,15 @@ void mapview::MapLoaded()
 {
 	page()->mainFrame()->addToJavaScriptWindowObject(QString("mapListener"),mapListener);//register mapListener
 
-	markerCount = 0;    
+	markerCount = 0;
 
-	this->initLatLngs();	//init the bound data for BUPT and BNU
+	loc_svc = LocationSvc::create();
+	if  (loc_svc)
+	{
+		loc_svc->registerCallbackForNewPosition(&mapview::MyLocationUpdateCallback, this);
+	}
+
+	//this->initLatLngs();	//init the bound data for BUPT and BNU
 }
 
 void mapview::keyPressEvent( QKeyEvent *event )
@@ -87,8 +93,8 @@ void mapview::keyPressEvent( QKeyEvent *event )
 		break;
 	case Qt::Key_P:
 		qDebug()<<"P"<<endl;
-		drawPolygon(bupt,"#ffffff",1,0.5,"#ff0000",0.5);
-		drawPolygon(bnu,"#ffffff",1,0.5,"#0000ff",0.5);
+// 		drawPolygon(bupt,"#ffffff",1,0.5,"#ff0000",0.5);
+// 		drawPolygon(bnu,"#ffffff",1,0.5,"#0000ff",0.5);
 		
 		break;
     default:
@@ -143,13 +149,25 @@ void mapview::resize( int w, int h )
 
 void mapview::whereami()
 {
+	// this is bad, it prevents us from instaniate multiple mapview instances.
+	// but let's keep it this way for now. since the 'correct' way would need
+	// locks and hurts performance.
+	static Location* loc = loc_svc->newLocationInstance();
+	static double prev_lat = 0.0, prev_lon = 0.0;
     if (loc_svc->canGetLocalLocation())
     {
-        Location* loc = loc_svc->getLocalLocation();
-        if (loc)
+        if (loc_svc->getLocalLocation(loc))
         {
             qDebug()<<"latitude: "<<loc->Latitude()<<"; longtitude: "<<loc->Longtitude();
-            centerAt(loc->Latitude(), loc->Longtitude());
+			double lat = loc->Latitude();
+			double lon = loc->Longtitude();
+			if ( abs( lat - prev_lat ) > ::LocationChangeThreshold ||
+				 abs( lon - prev_lon ) > ::LocationChangeThreshold)
+			{
+				prev_lat = lat;
+				prev_lon = lon;
+				emit _LocationUpdate(lat, lon);
+			}
         }
     }
 }
@@ -200,35 +218,40 @@ void mapview::newRestaurants( ProtocolBuffer::RestaurantList* list )
 		page()->mainFrame()->evaluateJavaScript(script);
 }
 
-void mapview::drawPolygon(const QVector<LatLng> &vertex, const QString& strokeColor,int strokeWeight, double strokeOpacity, const QString& fillColor,double fillOpacity)
-{
-	QString cmd("map.addOverlay(new GPolygon([");
-	for (int i=0;i<vertex.size();i++)
-	{
-		cmd += QString("new GLatLng(%1,%2),").arg(vertex[i].lat).arg(vertex[i].lng);
-	}
-	cmd += (QString("new GLatLng(%1,%2)").arg(vertex[0].lat).arg(vertex[0].lng));	//make sure the polygon is closed
-	cmd += QString("], '%1',%2,%3,'%4',%5));").arg(strokeColor).arg(strokeWeight).arg(strokeOpacity).arg(fillColor).arg(fillOpacity);
-	//qDebug()<<cmd<<endl;
-	page()->mainFrame()->evaluateJavaScript(cmd);
-}
+// void mapview::drawPolygon(const QVector<LatLng> &vertex, const QString& strokeColor,int strokeWeight, double strokeOpacity, const QString& fillColor,double fillOpacity)
+// {
+// 	QString cmd("map.addOverlay(new GPolygon([");
+// 	for (int i=0;i<vertex.size();i++)
+// 	{
+// 		cmd += QString("new GLatLng(%1,%2),").arg(vertex[i].lat).arg(vertex[i].lng);
+// 	}
+// 	cmd += (QString("new GLatLng(%1,%2)").arg(vertex[0].lat).arg(vertex[0].lng));	//make sure the polygon is closed
+// 	cmd += QString("], '%1',%2,%3,'%4',%5));").arg(strokeColor).arg(strokeWeight).arg(strokeOpacity).arg(fillColor).arg(fillOpacity);
+// 	//qDebug()<<cmd<<endl;
+// 	page()->mainFrame()->evaluateJavaScript(cmd);
+// }
 
-void mapview::initLatLngs()
-{
-	bupt.push_back(LatLng(39.9652,116.3610));
-	bupt.push_back(LatLng(39.9582,116.3613));
-	bupt.push_back(LatLng(39.9581,116.3551));
-	bupt.push_back(LatLng(39.9650,116.3548));
+// void mapview::initLatLngs()
+// {
+// 	bupt.push_back(LatLng(39.9652,116.3610));
+// 	bupt.push_back(LatLng(39.9582,116.3613));
+// 	bupt.push_back(LatLng(39.9581,116.3551));
+// 	bupt.push_back(LatLng(39.9650,116.3548));
+// 
+// 	bnu.push_back(LatLng(39.9678,116.3609));
+// 	bnu.push_back(LatLng(39.9677,116.3701));
+// 	bnu.push_back(LatLng(39.9581,116.3710));
+// 	bnu.push_back(LatLng(39.9581,116.3613));
+// }
 
-	bnu.push_back(LatLng(39.9678,116.3609));
-	bnu.push_back(LatLng(39.9677,116.3701));
-	bnu.push_back(LatLng(39.9581,116.3710));
-	bnu.push_back(LatLng(39.9581,116.3613));
-}
-
-void mapview::GPSCallback( void* context, LocationSvc* svc )
+void mapview::MyLocationUpdateCallback( void* context, LocationSvc* svc )
 {
     mapview* This = reinterpret_cast<mapview*>(context);
     qDebug()<<"New Position";
     This->whereami();
+}
+
+void mapview::updateCurrentLocation( double latitude, double longitude )
+{
+	page()->mainFrame()->evaluateJavaScript(QString("updateMyLocation(%1, %2);").arg(latitude).arg(longitude));
 }

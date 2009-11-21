@@ -5,7 +5,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 	<!-- Ripped and modified from google map api v3, modify with care -->
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	<script type="text/javascript" src="qrc:/webpages/main.js"></script>
+	<!-- <script type="text/javascript" src="qrc:/webpages/main.js"></script> -->
 	<script type="text/javascript" src="qrc:/webpages/markermanager.js"></script>
 	<script type="text/javascript">	
 	//<![CDATA[
@@ -29,6 +29,7 @@
 	var restaurants;
 	var isdragging=false;
 	var infowindow;     //global info window, only one is needed.
+	var mylocation;     //marker that shows current location of user
 	
 	
 	function load() 
@@ -59,8 +60,20 @@
 		});
 		//google.maps.event.addListener(map, 'bounds_changed', bound_change);
 
-		restaurants = new Object();
-
+		restaurants = {};
+		
+		var opts = {map: map,
+		            position: latlng,
+		            flat: true,
+		            icon: 'qrc:/webpages/images/arrow.png',
+		            title: '我的位置'};
+		mylocation = new google.maps.Marker(opts);
+		mylocation.userInfo = "<a href=function(){}>这里有餐厅</a>";
+		google.maps.event.addListener(mylocation, 'click', function () {
+		        infowindow.setContent(mylocation.userInfo);
+		        infowindow.open(map, mylocation);
+		    });
+		
 		//wayPoints = new Array();   
 		//markerManager = new MarkerManager(map);
 		//directions = new GDirections();
@@ -68,10 +81,12 @@
 		
 		//var myMarker = createMarkerByXY(40,40,"foo");
 		//myMarker.setMap(map);
-
-		//GEvent.addListener(map,'click',mapClicked); //map click, marker click are all captured by mapClicked
-		//GEvent.addListener(directions,"load",refreshRoute); //redraw route after a success query
 	}
+	
+    function updateMyLocation(latitude, longitude)
+    {
+        mylocation.setPosition(new google.maps.LatLng(latitude, longitude));
+    }
 
 	//Init a costumized baseIcon
 	//still not working, can't locate pic in src files;
