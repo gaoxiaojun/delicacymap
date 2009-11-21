@@ -4,8 +4,6 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QTextEdit>
 #include "mapview.h"
-#undef abort
-#include "MapDataSource.h"
 
 class ProtobufDataEvent;
 
@@ -31,7 +29,6 @@ protected:
 
 private slots:
     void BTHFind();
-	void TestRPC();
 	void interfaceTransit_map();
 	void interfaceTransit_comment();
 	void interfaceTransit_favourite();
@@ -39,7 +36,6 @@ private slots:
 private:
     Ui::MainWindow *m_ui;
 	mapview *navi;
-	MapDataSource connman;
 };
 
 #endif // MAINWINDOW_H

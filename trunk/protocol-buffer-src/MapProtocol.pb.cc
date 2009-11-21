@@ -157,9 +157,11 @@ void protobuf_AssignDesc_MapProtocol_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Error));
   User_descriptor_ = file->message_type(6);
-  static const int User_offsets_[5] = {
+  static const int User_offsets_[7] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, uid_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, uniquename_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, emailaddress_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, nickname_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, password_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, jointime_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, prefertypes_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, friends_),
@@ -243,7 +245,7 @@ void protobuf_AssignDesc_MapProtocol_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(RestaurantType));
   Query_descriptor_ = file->message_type(11);
-  static const int Query_offsets_[8] = {
+  static const int Query_offsets_[9] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, area_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, level_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, time_),
@@ -252,6 +254,7 @@ void protobuf_AssignDesc_MapProtocol_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, n_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, msg_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, image_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, password_),
   };
   Query_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -348,37 +351,40 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
     "\ttimeStamp\030\002 \002(\0132\024.ProtocolBuffer.Time\022\013"
     "\n\003UID\030\003 \002(\r\022\013\n\003RID\030\004 \002(\r\022\013\n\003DID\030\005 \001(\r\"\032\n"
     "\010Currency\022\016\n\006amount\030\001 \002(\002\"\030\n\005Error\022\017\n\007me"
-    "ssage\030\001 \002(\t\"\225\001\n\004User\022\013\n\003UID\030\001 \002(\r\022\022\n\nuni"
-    "queName\030\002 \002(\t\022&\n\010joinTime\030\003 \002(\0132\024.Protoc"
-    "olBuffer.Time\0223\n\013preferTypes\030\004 \003(\0132\036.Pro"
-    "tocolBuffer.RestaurantType\022\017\n\007friends\030\005 "
-    "\003(\r\"\331\001\n\nRestaurant\022*\n\010location\030\001 \002(\0132\030.P"
-    "rotocolBuffer.Location\022\014\n\004name\030\002 \002(\t\022\013\n\003"
-    "RID\030\003 \002(\r\022,\n\004type\030\004 \002(\0132\036.ProtocolBuffer"
-    ".RestaurantType\022\016\n\006Rating\030\005 \002(\r\022\024\n\014Comme"
-    "ntCount\030\006 \002(\r\0220\n\016averageExpense\030\007 \002(\0132\030."
-    "ProtocolBuffer.Currency\"A\n\016RestaurantLis"
-    "t\022/\n\013restaurants\030\001 \003(\0132\032.ProtocolBuffer."
-    "Restaurant\"8\n\013CommentList\022)\n\010comments\030\001 "
-    "\003(\0132\027.ProtocolBuffer.Comment\"+\n\016Restaura"
-    "ntType\022\013\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t\"\237\001\n\005Qu"
-    "ery\022\"\n\004area\030\001 \001(\0132\024.ProtocolBuffer.Area\022"
-    "\r\n\005level\030\002 \001(\r\022\"\n\004time\030\003 \001(\0132\024.ProtocolB"
-    "uffer.Time\022\013\n\003RID\030\004 \001(\r\022\013\n\003UID\030\005 \001(\r\022\t\n\001"
-    "n\030\006 \001(\r\022\013\n\003msg\030\007 \001(\t\022\r\n\005image\030\010 \001(\0142\347\003\n\t"
-    "DMService\022G\n\016GetRestaurants\022\025.ProtocolBu"
-    "ffer.Query\032\036.ProtocolBuffer.RestaurantLi"
-    "st\022T\n\036GetLastestCommentsOfRestaurant\022\025.P"
-    "rotocolBuffer.Query\032\033.ProtocolBuffer.Com"
-    "mentList\022N\n\030GetLastestCommentsByUser\022\025.P"
-    "rotocolBuffer.Query\032\033.ProtocolBuffer.Com"
-    "mentList\022L\n\026GetCommentsOfUserSince\022\025.Pro"
-    "tocolBuffer.Query\032\033.ProtocolBuffer.Comme"
-    "ntList\022R\n\034GetCommentsOfRestaurantSince\022\025"
-    ".ProtocolBuffer.Query\032\033.ProtocolBuffer.C"
-    "ommentList\022I\n\027AddCommentForRestaurant\022\025."
-    "ProtocolBuffer.Query\032\027.ProtocolBuffer.Co"
-    "mmentB\002H\001", 1569);
+    "ssage\030\001 \002(\t\"\273\001\n\004User\022\013\n\003UID\030\001 \002(\r\022\024\n\014ema"
+    "ilAddress\030\002 \002(\t\022\020\n\010nickName\030\003 \002(\t\022\020\n\010pas"
+    "sword\030\004 \002(\t\022&\n\010joinTime\030\005 \002(\0132\024.Protocol"
+    "Buffer.Time\0223\n\013preferTypes\030\006 \003(\0132\036.Proto"
+    "colBuffer.RestaurantType\022\017\n\007friends\030\007 \003("
+    "\r\"\331\001\n\nRestaurant\022*\n\010location\030\001 \002(\0132\030.Pro"
+    "tocolBuffer.Location\022\014\n\004name\030\002 \002(\t\022\013\n\003RI"
+    "D\030\003 \002(\r\022,\n\004type\030\004 \002(\0132\036.ProtocolBuffer.R"
+    "estaurantType\022\016\n\006Rating\030\005 \002(\r\022\024\n\014Comment"
+    "Count\030\006 \002(\r\0220\n\016averageExpense\030\007 \002(\0132\030.Pr"
+    "otocolBuffer.Currency\"A\n\016RestaurantList\022"
+    "/\n\013restaurants\030\001 \003(\0132\032.ProtocolBuffer.Re"
+    "staurant\"8\n\013CommentList\022)\n\010comments\030\001 \003("
+    "\0132\027.ProtocolBuffer.Comment\"+\n\016Restaurant"
+    "Type\022\013\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t\"\261\001\n\005Quer"
+    "y\022\"\n\004area\030\001 \001(\0132\024.ProtocolBuffer.Area\022\r\n"
+    "\005level\030\002 \001(\r\022\"\n\004time\030\003 \001(\0132\024.ProtocolBuf"
+    "fer.Time\022\013\n\003RID\030\004 \001(\r\022\013\n\003UID\030\005 \001(\r\022\t\n\001n\030"
+    "\006 \001(\r\022\013\n\003msg\030\007 \001(\t\022\r\n\005image\030\010 \001(\014\022\020\n\010pas"
+    "sword\030\t \001(\t2\241\004\n\tDMService\022G\n\016GetRestaura"
+    "nts\022\025.ProtocolBuffer.Query\032\036.ProtocolBuf"
+    "fer.RestaurantList\022T\n\036GetLastestComments"
+    "OfRestaurant\022\025.ProtocolBuffer.Query\032\033.Pr"
+    "otocolBuffer.CommentList\022N\n\030GetLastestCo"
+    "mmentsByUser\022\025.ProtocolBuffer.Query\032\033.Pr"
+    "otocolBuffer.CommentList\022L\n\026GetCommentsO"
+    "fUserSince\022\025.ProtocolBuffer.Query\032\033.Prot"
+    "ocolBuffer.CommentList\022R\n\034GetCommentsOfR"
+    "estaurantSince\022\025.ProtocolBuffer.Query\032\033."
+    "ProtocolBuffer.CommentList\0228\n\tUserLogin\022"
+    "\025.ProtocolBuffer.Query\032\024.ProtocolBuffer."
+    "User\022I\n\027AddCommentForRestaurant\022\025.Protoc"
+    "olBuffer.Query\032\027.ProtocolBuffer.CommentB"
+    "\002H\001", 1683);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MapProtocol.proto", &protobuf_RegisterTypes);
   Location::default_instance_ = new Location();
@@ -1942,10 +1948,14 @@ void Error::Swap(Error* other) {
 
 // ===================================================================
 
-const ::std::string User::_default_uniquename_;
+const ::std::string User::_default_emailaddress_;
+const ::std::string User::_default_nickname_;
+const ::std::string User::_default_password_;
 #ifndef _MSC_VER
 const int User::kUIDFieldNumber;
-const int User::kUniqueNameFieldNumber;
+const int User::kEmailAddressFieldNumber;
+const int User::kNickNameFieldNumber;
+const int User::kPasswordFieldNumber;
 const int User::kJoinTimeFieldNumber;
 const int User::kPreferTypesFieldNumber;
 const int User::kFriendsFieldNumber;
@@ -1967,7 +1977,9 @@ User::User(const User& from) {
 void User::SharedCtor() {
   _cached_size_ = 0;
   uid_ = 0u;
-  uniquename_ = const_cast< ::std::string*>(&_default_uniquename_);
+  emailaddress_ = const_cast< ::std::string*>(&_default_emailaddress_);
+  nickname_ = const_cast< ::std::string*>(&_default_nickname_);
+  password_ = const_cast< ::std::string*>(&_default_password_);
   jointime_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -1977,8 +1989,14 @@ User::~User() {
 }
 
 void User::SharedDtor() {
-  if (uniquename_ != &_default_uniquename_) {
-    delete uniquename_;
+  if (emailaddress_ != &_default_emailaddress_) {
+    delete emailaddress_;
+  }
+  if (nickname_ != &_default_nickname_) {
+    delete nickname_;
+  }
+  if (password_ != &_default_password_) {
+    delete password_;
   }
   if (this != default_instance_) {
     delete jointime_;
@@ -2004,11 +2022,21 @@ void User::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     uid_ = 0u;
     if (_has_bit(1)) {
-      if (uniquename_ != &_default_uniquename_) {
-        uniquename_->clear();
+      if (emailaddress_ != &_default_emailaddress_) {
+        emailaddress_->clear();
       }
     }
     if (_has_bit(2)) {
+      if (nickname_ != &_default_nickname_) {
+        nickname_->clear();
+      }
+    }
+    if (_has_bit(3)) {
+      if (password_ != &_default_password_) {
+        password_->clear();
+      }
+    }
+    if (_has_bit(4)) {
       if (jointime_ != NULL) jointime_->::ProtocolBuffer::Time::Clear();
     }
   }
@@ -2033,28 +2061,60 @@ bool User::MergePartialFromCodedStream(
         DO_(::google::protobuf::internal::WireFormatLite::ReadUInt32(
               input, &uid_));
         _set_bit(0);
-        if (input->ExpectTag(18)) goto parse_uniqueName;
+        if (input->ExpectTag(18)) goto parse_emailAddress;
         break;
       }
       
-      // required string uniqueName = 2;
+      // required string emailAddress = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
           goto handle_uninterpreted;
         }
-       parse_uniqueName:
+       parse_emailAddress:
         DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-              input, this->mutable_uniquename()));
+              input, this->mutable_emailaddress()));
         ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-          this->uniquename().data(), this->uniquename().length(),
+          this->emailaddress().data(), this->emailaddress().length(),
           ::google::protobuf::internal::WireFormat::PARSE);
-        if (input->ExpectTag(26)) goto parse_joinTime;
+        if (input->ExpectTag(26)) goto parse_nickName;
         break;
       }
       
-      // required .ProtocolBuffer.Time joinTime = 3;
+      // required string nickName = 3;
       case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          goto handle_uninterpreted;
+        }
+       parse_nickName:
+        DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+              input, this->mutable_nickname()));
+        ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          this->nickname().data(), this->nickname().length(),
+          ::google::protobuf::internal::WireFormat::PARSE);
+        if (input->ExpectTag(34)) goto parse_password;
+        break;
+      }
+      
+      // required string password = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          goto handle_uninterpreted;
+        }
+       parse_password:
+        DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+              input, this->mutable_password()));
+        ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          this->password().data(), this->password().length(),
+          ::google::protobuf::internal::WireFormat::PARSE);
+        if (input->ExpectTag(42)) goto parse_joinTime;
+        break;
+      }
+      
+      // required .ProtocolBuffer.Time joinTime = 5;
+      case 5: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
           goto handle_uninterpreted;
@@ -2062,12 +2122,12 @@ bool User::MergePartialFromCodedStream(
        parse_joinTime:
         DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
              input, mutable_jointime()));
-        if (input->ExpectTag(34)) goto parse_preferTypes;
+        if (input->ExpectTag(50)) goto parse_preferTypes;
         break;
       }
       
-      // repeated .ProtocolBuffer.RestaurantType preferTypes = 4;
-      case 4: {
+      // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
+      case 6: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
           goto handle_uninterpreted;
@@ -2075,13 +2135,13 @@ bool User::MergePartialFromCodedStream(
        parse_preferTypes:
         DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
               input, add_prefertypes()));
-        if (input->ExpectTag(34)) goto parse_preferTypes;
-        if (input->ExpectTag(40)) goto parse_friends;
+        if (input->ExpectTag(50)) goto parse_preferTypes;
+        if (input->ExpectTag(56)) goto parse_friends;
         break;
       }
       
-      // repeated uint32 friends = 5;
-      case 5: {
+      // repeated uint32 friends = 7;
+      case 7: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           goto handle_uninterpreted;
@@ -2091,7 +2151,7 @@ bool User::MergePartialFromCodedStream(
         DO_(::google::protobuf::internal::WireFormatLite::ReadUInt32(
               input, &value));
         add_friends(value);
-        if (input->ExpectTag(40)) goto parse_friends;
+        if (input->ExpectTag(56)) goto parse_friends;
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -2125,31 +2185,49 @@ void User::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->uid(), output);
   }
   
-  // required string uniqueName = 2;
+  // required string emailAddress = 2;
   if (_has_bit(1)) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->uniquename().data(), this->uniquename().length(),
+      this->emailaddress().data(), this->emailaddress().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
-      2, this->uniquename(), output);
+      2, this->emailaddress(), output);
   }
   
-  // required .ProtocolBuffer.Time joinTime = 3;
+  // required string nickName = 3;
   if (_has_bit(2)) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageNoVirtual(
-      3, this->jointime(), output);
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->nickname().data(), this->nickname().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      3, this->nickname(), output);
   }
   
-  // repeated .ProtocolBuffer.RestaurantType preferTypes = 4;
+  // required string password = 4;
+  if (_has_bit(3)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->password().data(), this->password().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      4, this->password(), output);
+  }
+  
+  // required .ProtocolBuffer.Time joinTime = 5;
+  if (_has_bit(4)) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageNoVirtual(
+      5, this->jointime(), output);
+  }
+  
+  // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
   for (int i = 0; i < this->prefertypes_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageNoVirtual(
-      4, this->prefertypes(i), output);
+      6, this->prefertypes(i), output);
   }
   
-  // repeated uint32 friends = 5;
+  // repeated uint32 friends = 7;
   for (int i = 0; i < this->friends_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(
-      5, this->friends(i), output);
+      7, this->friends(i), output);
   }
   
   if (!unknown_fields().empty()) {
@@ -2165,34 +2243,54 @@ void User::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->uid(), target);
   }
   
-  // required string uniqueName = 2;
+  // required string emailAddress = 2;
   if (_has_bit(1)) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->uniquename().data(), this->uniquename().length(),
+      this->emailaddress().data(), this->emailaddress().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE);
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->uniquename(), target);
+        2, this->emailaddress(), target);
   }
   
-  // required .ProtocolBuffer.Time joinTime = 3;
+  // required string nickName = 3;
   if (_has_bit(2)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->nickname().data(), this->nickname().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->nickname(), target);
+  }
+  
+  // required string password = 4;
+  if (_has_bit(3)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->password().data(), this->password().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->password(), target);
+  }
+  
+  // required .ProtocolBuffer.Time joinTime = 5;
+  if (_has_bit(4)) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        3, this->jointime(), target);
+        5, this->jointime(), target);
   }
   
-  // repeated .ProtocolBuffer.RestaurantType preferTypes = 4;
+  // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
   for (int i = 0; i < this->prefertypes_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        4, this->prefertypes(i), target);
+        6, this->prefertypes(i), target);
   }
   
-  // repeated uint32 friends = 5;
+  // repeated uint32 friends = 7;
   for (int i = 0; i < this->friends_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32ToArray(5, this->friends(i), target);
+      WriteUInt32ToArray(7, this->friends(i), target);
   }
   
   if (!unknown_fields().empty()) {
@@ -2213,14 +2311,28 @@ int User::ByteSize() const {
           this->uid());
     }
     
-    // required string uniqueName = 2;
-    if (has_uniquename()) {
+    // required string emailAddress = 2;
+    if (has_emailaddress()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->uniquename());
+          this->emailaddress());
     }
     
-    // required .ProtocolBuffer.Time joinTime = 3;
+    // required string nickName = 3;
+    if (has_nickname()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->nickname());
+    }
+    
+    // required string password = 4;
+    if (has_password()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->password());
+    }
+    
+    // required .ProtocolBuffer.Time joinTime = 5;
     if (has_jointime()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -2228,7 +2340,7 @@ int User::ByteSize() const {
     }
     
   }
-  // repeated .ProtocolBuffer.RestaurantType preferTypes = 4;
+  // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
   total_size += 1 * this->prefertypes_size();
   for (int i = 0; i < this->prefertypes_size(); i++) {
     total_size +=
@@ -2236,7 +2348,7 @@ int User::ByteSize() const {
         this->prefertypes(i));
   }
   
-  // repeated uint32 friends = 5;
+  // repeated uint32 friends = 7;
   {
     int data_size = 0;
     for (int i = 0; i < this->friends_size(); i++) {
@@ -2276,9 +2388,15 @@ void User::MergeFrom(const User& from) {
       set_uid(from.uid());
     }
     if (from._has_bit(1)) {
-      set_uniquename(from.uniquename());
+      set_emailaddress(from.emailaddress());
     }
     if (from._has_bit(2)) {
+      set_nickname(from.nickname());
+    }
+    if (from._has_bit(3)) {
+      set_password(from.password());
+    }
+    if (from._has_bit(4)) {
       mutable_jointime()->::ProtocolBuffer::Time::MergeFrom(from.jointime());
     }
   }
@@ -2298,7 +2416,7 @@ void User::CopyFrom(const User& from) {
 }
 
 bool User::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
   
   if (has_jointime()) {
     if (!this->jointime().IsInitialized()) return false;
@@ -2312,7 +2430,9 @@ bool User::IsInitialized() const {
 void User::Swap(User* other) {
   if (other != this) {
     std::swap(uid_, other->uid_);
-    std::swap(uniquename_, other->uniquename_);
+    std::swap(emailaddress_, other->emailaddress_);
+    std::swap(nickname_, other->nickname_);
+    std::swap(password_, other->password_);
     std::swap(jointime_, other->jointime_);
     prefertypes_.Swap(&other->prefertypes_);
     friends_.Swap(&other->friends_);
@@ -3474,6 +3594,7 @@ void RestaurantType::Swap(RestaurantType* other) {
 
 const ::std::string Query::_default_msg_;
 const ::std::string Query::_default_image_;
+const ::std::string Query::_default_password_;
 #ifndef _MSC_VER
 const int Query::kAreaFieldNumber;
 const int Query::kLevelFieldNumber;
@@ -3483,6 +3604,7 @@ const int Query::kUIDFieldNumber;
 const int Query::kNFieldNumber;
 const int Query::kMsgFieldNumber;
 const int Query::kImageFieldNumber;
+const int Query::kPasswordFieldNumber;
 #endif  // !_MSC_VER
 
 Query::Query() {
@@ -3509,6 +3631,7 @@ void Query::SharedCtor() {
   n_ = 0u;
   msg_ = const_cast< ::std::string*>(&_default_msg_);
   image_ = const_cast< ::std::string*>(&_default_image_);
+  password_ = const_cast< ::std::string*>(&_default_password_);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -3522,6 +3645,9 @@ void Query::SharedDtor() {
   }
   if (image_ != &_default_image_) {
     delete image_;
+  }
+  if (password_ != &_default_password_) {
+    delete password_;
   }
   if (this != default_instance_) {
     delete area_;
@@ -3564,6 +3690,13 @@ void Query::Clear() {
     if (_has_bit(7)) {
       if (image_ != &_default_image_) {
         image_->clear();
+      }
+    }
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    if (_has_bit(8)) {
+      if (password_ != &_default_password_) {
+        password_->clear();
       }
     }
   }
@@ -3683,6 +3816,22 @@ bool Query::MergePartialFromCodedStream(
        parse_image:
         DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
               input, this->mutable_image()));
+        if (input->ExpectTag(74)) goto parse_password;
+        break;
+      }
+      
+      // optional string password = 9;
+      case 9: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          goto handle_uninterpreted;
+        }
+       parse_password:
+        DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+              input, this->mutable_password()));
+        ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          this->password().data(), this->password().length(),
+          ::google::protobuf::internal::WireFormat::PARSE);
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -3758,6 +3907,15 @@ void Query::SerializeWithCachedSizes(
       8, this->image(), output);
   }
   
+  // optional string password = 9;
+  if (_has_bit(8)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->password().data(), this->password().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      9, this->password(), output);
+  }
+  
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -3815,6 +3973,16 @@ void Query::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
         8, this->image(), target);
+  }
+  
+  // optional string password = 9;
+  if (_has_bit(8)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->password().data(), this->password().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        9, this->password(), target);
   }
   
   if (!unknown_fields().empty()) {
@@ -3885,6 +4053,15 @@ int Query::ByteSize() const {
     }
     
   }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    // optional string password = 9;
+    if (has_password()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->password());
+    }
+    
+  }
   if (!unknown_fields().empty()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
@@ -3934,6 +4111,11 @@ void Query::MergeFrom(const Query& from) {
       set_image(from.image());
     }
   }
+  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    if (from._has_bit(8)) {
+      set_password(from.password());
+    }
+  }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
@@ -3970,6 +4152,7 @@ void Query::Swap(Query* other) {
     std::swap(n_, other->n_);
     std::swap(msg_, other->msg_);
     std::swap(image_, other->image_);
+    std::swap(password_, other->password_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -4039,6 +4222,14 @@ void DMService::GetCommentsOfRestaurantSince(::google::protobuf::RpcController* 
   done->Run();
 }
 
+void DMService::UserLogin(::google::protobuf::RpcController* controller,
+                         const ::ProtocolBuffer::Query*,
+                         ::ProtocolBuffer::User*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method UserLogin() not implemented.");
+  done->Run();
+}
+
 void DMService::AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                          const ::ProtocolBuffer::Query*,
                          ::ProtocolBuffer::Comment*,
@@ -4085,6 +4276,12 @@ void DMService::CallMethod(const ::google::protobuf::MethodDescriptor* method,
              done);
       break;
     case 5:
+      UserLogin(controller,
+             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+             ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
+             done);
+      break;
+    case 6:
       AddCommentForRestaurant(controller,
              ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
              ::google::protobuf::down_cast< ::ProtocolBuffer::Comment*>(response),
@@ -4112,6 +4309,8 @@ const ::google::protobuf::Message& DMService::GetRequestPrototype(
       return ::ProtocolBuffer::Query::default_instance();
     case 5:
       return ::ProtocolBuffer::Query::default_instance();
+    case 6:
+      return ::ProtocolBuffer::Query::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *reinterpret_cast< ::google::protobuf::Message*>(NULL);
@@ -4133,6 +4332,8 @@ const ::google::protobuf::Message& DMService::GetResponsePrototype(
     case 4:
       return ::ProtocolBuffer::CommentList::default_instance();
     case 5:
+      return ::ProtocolBuffer::User::default_instance();
+    case 6:
       return ::ProtocolBuffer::Comment::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
@@ -4186,11 +4387,18 @@ void DMService_Stub::GetCommentsOfRestaurantSince(::google::protobuf::RpcControl
   channel_->CallMethod(descriptor()->method(4),
                        controller, request, response, done);
 }
+void DMService_Stub::UserLogin(::google::protobuf::RpcController* controller,
+                              const ::ProtocolBuffer::Query* request,
+                              ::ProtocolBuffer::User* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(5),
+                       controller, request, response, done);
+}
 void DMService_Stub::AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                               const ::ProtocolBuffer::Query* request,
                               ::ProtocolBuffer::Comment* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(5),
+  channel_->CallMethod(descriptor()->method(6),
                        controller, request, response, done);
 }
 

@@ -688,37 +688,57 @@ class User : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 uid() const;
   inline void set_uid(::google::protobuf::uint32 value);
   
-  // required string uniqueName = 2;
-  inline bool has_uniquename() const;
-  inline void clear_uniquename();
-  static const int kUniqueNameFieldNumber = 2;
-  inline const ::std::string& uniquename() const;
-  inline void set_uniquename(const ::std::string& value);
-  inline void set_uniquename(const char* value);
-  inline void set_uniquename(const char* value, size_t size);
-  inline ::std::string* mutable_uniquename();
+  // required string emailAddress = 2;
+  inline bool has_emailaddress() const;
+  inline void clear_emailaddress();
+  static const int kEmailAddressFieldNumber = 2;
+  inline const ::std::string& emailaddress() const;
+  inline void set_emailaddress(const ::std::string& value);
+  inline void set_emailaddress(const char* value);
+  inline void set_emailaddress(const char* value, size_t size);
+  inline ::std::string* mutable_emailaddress();
   
-  // required .ProtocolBuffer.Time joinTime = 3;
+  // required string nickName = 3;
+  inline bool has_nickname() const;
+  inline void clear_nickname();
+  static const int kNickNameFieldNumber = 3;
+  inline const ::std::string& nickname() const;
+  inline void set_nickname(const ::std::string& value);
+  inline void set_nickname(const char* value);
+  inline void set_nickname(const char* value, size_t size);
+  inline ::std::string* mutable_nickname();
+  
+  // required string password = 4;
+  inline bool has_password() const;
+  inline void clear_password();
+  static const int kPasswordFieldNumber = 4;
+  inline const ::std::string& password() const;
+  inline void set_password(const ::std::string& value);
+  inline void set_password(const char* value);
+  inline void set_password(const char* value, size_t size);
+  inline ::std::string* mutable_password();
+  
+  // required .ProtocolBuffer.Time joinTime = 5;
   inline bool has_jointime() const;
   inline void clear_jointime();
-  static const int kJoinTimeFieldNumber = 3;
+  static const int kJoinTimeFieldNumber = 5;
   inline const ::ProtocolBuffer::Time& jointime() const;
   inline ::ProtocolBuffer::Time* mutable_jointime();
   
-  // repeated .ProtocolBuffer.RestaurantType preferTypes = 4;
+  // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
   inline int prefertypes_size() const;
   inline void clear_prefertypes();
-  static const int kPreferTypesFieldNumber = 4;
+  static const int kPreferTypesFieldNumber = 6;
   inline const ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::RestaurantType >& prefertypes() const;
   inline ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::RestaurantType >* mutable_prefertypes();
   inline const ::ProtocolBuffer::RestaurantType& prefertypes(int index) const;
   inline ::ProtocolBuffer::RestaurantType* mutable_prefertypes(int index);
   inline ::ProtocolBuffer::RestaurantType* add_prefertypes();
   
-  // repeated uint32 friends = 5;
+  // repeated uint32 friends = 7;
   inline int friends_size() const;
   inline void clear_friends();
-  static const int kFriendsFieldNumber = 5;
+  static const int kFriendsFieldNumber = 7;
   inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >& friends() const
       ;
   inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >* mutable_friends();
@@ -731,8 +751,12 @@ class User : public ::google::protobuf::Message {
   mutable int _cached_size_;
   
   ::google::protobuf::uint32 uid_;
-  ::std::string* uniquename_;
-  static const ::std::string _default_uniquename_;
+  ::std::string* emailaddress_;
+  static const ::std::string _default_emailaddress_;
+  ::std::string* nickname_;
+  static const ::std::string _default_nickname_;
+  ::std::string* password_;
+  static const ::std::string _default_password_;
   ::ProtocolBuffer::Time* jointime_;
   ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::RestaurantType > prefertypes_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > friends_;
@@ -740,7 +764,7 @@ class User : public ::google::protobuf::Message {
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -1291,6 +1315,16 @@ class Query : public ::google::protobuf::Message {
   inline void set_image(const void* value, size_t size);
   inline ::std::string* mutable_image();
   
+  // optional string password = 9;
+  inline bool has_password() const;
+  inline void clear_password();
+  static const int kPasswordFieldNumber = 9;
+  inline const ::std::string& password() const;
+  inline void set_password(const ::std::string& value);
+  inline void set_password(const char* value);
+  inline void set_password(const char* value, size_t size);
+  inline ::std::string* mutable_password();
+  
  private:
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
@@ -1305,11 +1339,13 @@ class Query : public ::google::protobuf::Message {
   static const ::std::string _default_msg_;
   ::std::string* image_;
   static const ::std::string _default_image_;
+  ::std::string* password_;
+  static const ::std::string _default_password_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(8 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -1359,6 +1395,10 @@ class DMService : public ::google::protobuf::Service {
   virtual void GetCommentsOfRestaurantSince(::google::protobuf::RpcController* controller,
                        const ::ProtocolBuffer::Query* request,
                        ::ProtocolBuffer::CommentList* response,
+                       ::google::protobuf::Closure* done);
+  virtual void UserLogin(::google::protobuf::RpcController* controller,
+                       const ::ProtocolBuffer::Query* request,
+                       ::ProtocolBuffer::User* response,
                        ::google::protobuf::Closure* done);
   virtual void AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                        const ::ProtocolBuffer::Query* request,
@@ -1412,6 +1452,10 @@ class DMService_Stub : public DMService {
   void GetCommentsOfRestaurantSince(::google::protobuf::RpcController* controller,
                        const ::ProtocolBuffer::Query* request,
                        ::ProtocolBuffer::CommentList* response,
+                       ::google::protobuf::Closure* done);
+  void UserLogin(::google::protobuf::RpcController* controller,
+                       const ::ProtocolBuffer::Query* request,
+                       ::ProtocolBuffer::User* response,
                        ::google::protobuf::Closure* done);
   void AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                        const ::ProtocolBuffer::Query* request,
@@ -1744,66 +1788,150 @@ inline void User::set_uid(::google::protobuf::uint32 value) {
   uid_ = value;
 }
 
-// required string uniqueName = 2;
-inline bool User::has_uniquename() const {
+// required string emailAddress = 2;
+inline bool User::has_emailaddress() const {
   return _has_bit(1);
 }
-inline void User::clear_uniquename() {
-  if (uniquename_ != &_default_uniquename_) {
-    uniquename_->clear();
+inline void User::clear_emailaddress() {
+  if (emailaddress_ != &_default_emailaddress_) {
+    emailaddress_->clear();
   }
   _clear_bit(1);
 }
-inline const ::std::string& User::uniquename() const {
-  return *uniquename_;
+inline const ::std::string& User::emailaddress() const {
+  return *emailaddress_;
 }
-inline void User::set_uniquename(const ::std::string& value) {
+inline void User::set_emailaddress(const ::std::string& value) {
   _set_bit(1);
-  if (uniquename_ == &_default_uniquename_) {
-    uniquename_ = new ::std::string;
+  if (emailaddress_ == &_default_emailaddress_) {
+    emailaddress_ = new ::std::string;
   }
-  uniquename_->assign(value);
+  emailaddress_->assign(value);
 }
-inline void User::set_uniquename(const char* value) {
+inline void User::set_emailaddress(const char* value) {
   _set_bit(1);
-  if (uniquename_ == &_default_uniquename_) {
-    uniquename_ = new ::std::string;
+  if (emailaddress_ == &_default_emailaddress_) {
+    emailaddress_ = new ::std::string;
   }
-  uniquename_->assign(value);
+  emailaddress_->assign(value);
 }
-inline void User::set_uniquename(const char* value, size_t size) {
+inline void User::set_emailaddress(const char* value, size_t size) {
   _set_bit(1);
-  if (uniquename_ == &_default_uniquename_) {
-    uniquename_ = new ::std::string;
+  if (emailaddress_ == &_default_emailaddress_) {
+    emailaddress_ = new ::std::string;
   }
-  uniquename_->assign(reinterpret_cast<const char*>(value), size);
+  emailaddress_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* User::mutable_uniquename() {
+inline ::std::string* User::mutable_emailaddress() {
   _set_bit(1);
-  if (uniquename_ == &_default_uniquename_) {
-    uniquename_ = new ::std::string;
+  if (emailaddress_ == &_default_emailaddress_) {
+    emailaddress_ = new ::std::string;
   }
-  return uniquename_;
+  return emailaddress_;
 }
 
-// required .ProtocolBuffer.Time joinTime = 3;
-inline bool User::has_jointime() const {
+// required string nickName = 3;
+inline bool User::has_nickname() const {
   return _has_bit(2);
+}
+inline void User::clear_nickname() {
+  if (nickname_ != &_default_nickname_) {
+    nickname_->clear();
+  }
+  _clear_bit(2);
+}
+inline const ::std::string& User::nickname() const {
+  return *nickname_;
+}
+inline void User::set_nickname(const ::std::string& value) {
+  _set_bit(2);
+  if (nickname_ == &_default_nickname_) {
+    nickname_ = new ::std::string;
+  }
+  nickname_->assign(value);
+}
+inline void User::set_nickname(const char* value) {
+  _set_bit(2);
+  if (nickname_ == &_default_nickname_) {
+    nickname_ = new ::std::string;
+  }
+  nickname_->assign(value);
+}
+inline void User::set_nickname(const char* value, size_t size) {
+  _set_bit(2);
+  if (nickname_ == &_default_nickname_) {
+    nickname_ = new ::std::string;
+  }
+  nickname_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* User::mutable_nickname() {
+  _set_bit(2);
+  if (nickname_ == &_default_nickname_) {
+    nickname_ = new ::std::string;
+  }
+  return nickname_;
+}
+
+// required string password = 4;
+inline bool User::has_password() const {
+  return _has_bit(3);
+}
+inline void User::clear_password() {
+  if (password_ != &_default_password_) {
+    password_->clear();
+  }
+  _clear_bit(3);
+}
+inline const ::std::string& User::password() const {
+  return *password_;
+}
+inline void User::set_password(const ::std::string& value) {
+  _set_bit(3);
+  if (password_ == &_default_password_) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+}
+inline void User::set_password(const char* value) {
+  _set_bit(3);
+  if (password_ == &_default_password_) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+}
+inline void User::set_password(const char* value, size_t size) {
+  _set_bit(3);
+  if (password_ == &_default_password_) {
+    password_ = new ::std::string;
+  }
+  password_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* User::mutable_password() {
+  _set_bit(3);
+  if (password_ == &_default_password_) {
+    password_ = new ::std::string;
+  }
+  return password_;
+}
+
+// required .ProtocolBuffer.Time joinTime = 5;
+inline bool User::has_jointime() const {
+  return _has_bit(4);
 }
 inline void User::clear_jointime() {
   if (jointime_ != NULL) jointime_->::ProtocolBuffer::Time::Clear();
-  _clear_bit(2);
+  _clear_bit(4);
 }
 inline const ::ProtocolBuffer::Time& User::jointime() const {
   return jointime_ != NULL ? *jointime_ : *default_instance_->jointime_;
 }
 inline ::ProtocolBuffer::Time* User::mutable_jointime() {
-  _set_bit(2);
+  _set_bit(4);
   if (jointime_ == NULL) jointime_ = new ::ProtocolBuffer::Time;
   return jointime_;
 }
 
-// repeated .ProtocolBuffer.RestaurantType preferTypes = 4;
+// repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
 inline int User::prefertypes_size() const {
   return prefertypes_.size();
 }
@@ -1828,7 +1956,7 @@ inline ::ProtocolBuffer::RestaurantType* User::add_prefertypes() {
   return prefertypes_.Add();
 }
 
-// repeated uint32 friends = 5;
+// repeated uint32 friends = 7;
 inline int User::friends_size() const {
   return friends_.size();
 }
@@ -2302,6 +2430,48 @@ inline ::std::string* Query::mutable_image() {
     image_ = new ::std::string;
   }
   return image_;
+}
+
+// optional string password = 9;
+inline bool Query::has_password() const {
+  return _has_bit(8);
+}
+inline void Query::clear_password() {
+  if (password_ != &_default_password_) {
+    password_->clear();
+  }
+  _clear_bit(8);
+}
+inline const ::std::string& Query::password() const {
+  return *password_;
+}
+inline void Query::set_password(const ::std::string& value) {
+  _set_bit(8);
+  if (password_ == &_default_password_) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+}
+inline void Query::set_password(const char* value) {
+  _set_bit(8);
+  if (password_ == &_default_password_) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+}
+inline void Query::set_password(const char* value, size_t size) {
+  _set_bit(8);
+  if (password_ == &_default_password_) {
+    password_ = new ::std::string;
+  }
+  password_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Query::mutable_password() {
+  _set_bit(8);
+  if (password_ == &_default_password_) {
+    password_ = new ::std::string;
+  }
+  return password_;
 }
 
 

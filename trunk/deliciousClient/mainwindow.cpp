@@ -186,63 +186,63 @@ void MainWindow::interfaceTransit_favourite()
 	//connect(m_ui->actionPL,SIGNAL(triggered()),this,SLOT(interfaceTransit_map()));
 }
 
-void MainWindow::TestRPC()
-{
-	QTextEdit* textbox = m_ui->textEdit;
-	QTProtobufWaitResponse synccall;
-	ProtocolBuffer::RestaurantList rlist;
-	CommentList clist;
-	Comment c;
-	ProtocolBuffer::Query query;
-
-	// fill all parameters
-	query.mutable_area()->mutable_southwest()->set_latitude(0.0);
-	query.mutable_area()->mutable_southwest()->set_longitude(0.0);
-	query.mutable_area()->mutable_northeast()->set_latitude(10000.0);
-	query.mutable_area()->mutable_northeast()->set_longitude(10000.0);
-	query.set_level(8);
-	query.set_n(1000);
-	query.set_rid(1);
-	query.set_uid(1);
-	query.set_msg("test msg");
-
-	textbox->append("Test Begin. Connected to 127.0.0.1\n");
-	//GetRestaurants
-	textbox->append("Restaurants found:\n");
-	connman.GetRestaurants(&query, &rlist, synccall.getClosure());
-	synccall.wait();
-	for (int i=0;i<rlist.restaurants_size();++i)
-	{
-		textbox->append(QString("name=") + QString::fromUtf8(rlist.restaurants(i).name().c_str()) + QString(";RID=") + 
-			QString::number(rlist.restaurants(i).rid()) + QString("\n"));
-	}
-
-	//GetLastestCommentsOfRestaurant
-	textbox->append("Latest comment for RID=1");
-	connman.GetLastestCommentsOfRestaurant(&query, &clist, synccall.getClosure());
-	synccall.wait();
-	for (int i=0;i<clist.comments_size();++i)
-	{
-		textbox->append(QString("content=") + QString::fromUtf8(clist.comments(i).content().c_str()) + QString(";UID=") + 
-			QString::number(clist.comments(i).uid()) + QString("\n"));
-	}
-	
-
-	textbox->append("Latest comment for UID=1");
-	connman.GetLastestCommentsByUser(&query, &clist, synccall.getClosure());
-	synccall.wait();
-	for (int i=0;i<clist.comments_size();++i)
-	{
-		textbox->append(QString("content=") + QString::fromUtf8(clist.comments(i).content().c_str()) + QString(";UID=") + 
-			QString::number(clist.comments(i).uid()) + QString("\n"));
-	}
-
-	textbox->append("Adding new comment.");
-	connman.AddCommentForRestaurant(&query, &c, synccall.getClosure());
-	synccall.wait();
-	textbox->append(QString("content=") + QString::fromUtf8(c.content().c_str()) + QString(";UID=") + 
-		QString::number(c.uid()) + QString("\n"));
-}
+// void MainWindow::TestRPC()
+// {
+// 	QTextEdit* textbox = m_ui->textEdit;
+// 	QTProtobufWaitResponse synccall;
+// 	ProtocolBuffer::RestaurantList rlist;
+// 	CommentList clist;
+// 	Comment c;
+// 	ProtocolBuffer::Query query;
+// 
+// 	// fill all parameters
+// 	query.mutable_area()->mutable_southwest()->set_latitude(0.0);
+// 	query.mutable_area()->mutable_southwest()->set_longitude(0.0);
+// 	query.mutable_area()->mutable_northeast()->set_latitude(10000.0);
+// 	query.mutable_area()->mutable_northeast()->set_longitude(10000.0);
+// 	query.set_level(8);
+// 	query.set_n(1000);
+// 	query.set_rid(1);
+// 	query.set_uid(1);
+// 	query.set_msg("test msg");
+// 
+// 	textbox->append("Test Begin. Connected to 127.0.0.1\n");
+// 	//GetRestaurants
+// 	textbox->append("Restaurants found:\n");
+// 	connman.GetRestaurants(&query, &rlist, synccall.getClosure());
+// 	synccall.wait();
+// 	for (int i=0;i<rlist.restaurants_size();++i)
+// 	{
+// 		textbox->append(QString("name=") + QString::fromUtf8(rlist.restaurants(i).name().c_str()) + QString(";RID=") + 
+// 			QString::number(rlist.restaurants(i).rid()) + QString("\n"));
+// 	}
+// 
+// 	//GetLastestCommentsOfRestaurant
+// 	textbox->append("Latest comment for RID=1");
+// 	connman.GetLastestCommentsOfRestaurant(&query, &clist, synccall.getClosure());
+// 	synccall.wait();
+// 	for (int i=0;i<clist.comments_size();++i)
+// 	{
+// 		textbox->append(QString("content=") + QString::fromUtf8(clist.comments(i).content().c_str()) + QString(";UID=") + 
+// 			QString::number(clist.comments(i).uid()) + QString("\n"));
+// 	}
+// 	
+// 
+// 	textbox->append("Latest comment for UID=1");
+// 	connman.GetLastestCommentsByUser(&query, &clist, synccall.getClosure());
+// 	synccall.wait();
+// 	for (int i=0;i<clist.comments_size();++i)
+// 	{
+// 		textbox->append(QString("content=") + QString::fromUtf8(clist.comments(i).content().c_str()) + QString(";UID=") + 
+// 			QString::number(clist.comments(i).uid()) + QString("\n"));
+// 	}
+// 
+// 	textbox->append("Adding new comment.");
+// 	connman.AddCommentForRestaurant(&query, &c, synccall.getClosure());
+// 	synccall.wait();
+// 	textbox->append(QString("content=") + QString::fromUtf8(c.content().c_str()) + QString(";UID=") + 
+// 		QString::number(c.uid()) + QString("\n"));
+// }
 
 void MainWindow::postEvent( ProtobufDataEvent* e )
 {
