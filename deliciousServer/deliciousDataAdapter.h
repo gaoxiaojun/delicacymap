@@ -14,6 +14,7 @@ public:
 	DBResultWrap(DBResult*, DBContext*);
 	DBResultWrap(const DBResultWrap&);
 	~DBResultWrap();
+	bool empty() const;
 
 	DBResult* getResult() const;
 private:
@@ -45,6 +46,8 @@ public://query methods
     size_t QueryCommentsOfUserSince( int uid, const std::string& timestamp, CallbackFunc callback );
 
 	const DBResultWrap PostCommentForRestaurant( int rid, int uid, const std::string& msg, const std::string* const image );
+
+	const DBResultWrap UserLogin(const std::string& email, const std::string& password);
 
 private://methods
     void ExecuteNormal( char* query, CallbackFunc callback );

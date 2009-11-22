@@ -35,6 +35,14 @@ public:
 		const ::ProtocolBuffer::Query* request,
 		::ProtocolBuffer::Comment* response,
 		::google::protobuf::Closure* done);
+	virtual void UserLogin(::google::protobuf::RpcController* controller,
+		const ::ProtocolBuffer::Query* request,
+		::ProtocolBuffer::User* response,
+		::google::protobuf::Closure* done);
+	virtual void GetUser(::google::protobuf::RpcController* controller,
+		const ::ProtocolBuffer::Query* request,
+		::ProtocolBuffer::User* response,
+		::google::protobuf::Closure* done);
 
 private://callbacks
     void GetRestaurantsCallback( const DBRow& row, ProtocolBuffer::RestaurantList* result );

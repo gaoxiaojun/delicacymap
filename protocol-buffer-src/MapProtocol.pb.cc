@@ -245,7 +245,7 @@ void protobuf_AssignDesc_MapProtocol_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(RestaurantType));
   Query_descriptor_ = file->message_type(11);
-  static const int Query_offsets_[9] = {
+  static const int Query_offsets_[10] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, area_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, level_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, time_),
@@ -254,6 +254,7 @@ void protobuf_AssignDesc_MapProtocol_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, n_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, msg_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, image_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, emailaddress_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, password_),
   };
   Query_reflection_ =
@@ -365,26 +366,28 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
     "/\n\013restaurants\030\001 \003(\0132\032.ProtocolBuffer.Re"
     "staurant\"8\n\013CommentList\022)\n\010comments\030\001 \003("
     "\0132\027.ProtocolBuffer.Comment\"+\n\016Restaurant"
-    "Type\022\013\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t\"\261\001\n\005Quer"
+    "Type\022\013\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t\"\307\001\n\005Quer"
     "y\022\"\n\004area\030\001 \001(\0132\024.ProtocolBuffer.Area\022\r\n"
     "\005level\030\002 \001(\r\022\"\n\004time\030\003 \001(\0132\024.ProtocolBuf"
     "fer.Time\022\013\n\003RID\030\004 \001(\r\022\013\n\003UID\030\005 \001(\r\022\t\n\001n\030"
-    "\006 \001(\r\022\013\n\003msg\030\007 \001(\t\022\r\n\005image\030\010 \001(\014\022\020\n\010pas"
-    "sword\030\t \001(\t2\241\004\n\tDMService\022G\n\016GetRestaura"
-    "nts\022\025.ProtocolBuffer.Query\032\036.ProtocolBuf"
-    "fer.RestaurantList\022T\n\036GetLastestComments"
-    "OfRestaurant\022\025.ProtocolBuffer.Query\032\033.Pr"
-    "otocolBuffer.CommentList\022N\n\030GetLastestCo"
-    "mmentsByUser\022\025.ProtocolBuffer.Query\032\033.Pr"
-    "otocolBuffer.CommentList\022L\n\026GetCommentsO"
-    "fUserSince\022\025.ProtocolBuffer.Query\032\033.Prot"
-    "ocolBuffer.CommentList\022R\n\034GetCommentsOfR"
-    "estaurantSince\022\025.ProtocolBuffer.Query\032\033."
-    "ProtocolBuffer.CommentList\0228\n\tUserLogin\022"
-    "\025.ProtocolBuffer.Query\032\024.ProtocolBuffer."
-    "User\022I\n\027AddCommentForRestaurant\022\025.Protoc"
-    "olBuffer.Query\032\027.ProtocolBuffer.CommentB"
-    "\002H\001", 1683);
+    "\006 \001(\r\022\013\n\003msg\030\007 \001(\t\022\r\n\005image\030\010 \001(\014\022\024\n\014ema"
+    "ilAddress\030\t \001(\t\022\020\n\010password\030\n \001(\t2\335\004\n\tDM"
+    "Service\022G\n\016GetRestaurants\022\025.ProtocolBuff"
+    "er.Query\032\036.ProtocolBuffer.RestaurantList"
+    "\022T\n\036GetLastestCommentsOfRestaurant\022\025.Pro"
+    "tocolBuffer.Query\032\033.ProtocolBuffer.Comme"
+    "ntList\022N\n\030GetLastestCommentsByUser\022\025.Pro"
+    "tocolBuffer.Query\032\033.ProtocolBuffer.Comme"
+    "ntList\022L\n\026GetCommentsOfUserSince\022\025.Proto"
+    "colBuffer.Query\032\033.ProtocolBuffer.Comment"
+    "List\022R\n\034GetCommentsOfRestaurantSince\022\025.P"
+    "rotocolBuffer.Query\032\033.ProtocolBuffer.Com"
+    "mentList\0228\n\tUserLogin\022\025.ProtocolBuffer.Q"
+    "uery\032\024.ProtocolBuffer.User\022:\n\013GetUserInf"
+    "o\022\025.ProtocolBuffer.Query\032\024.ProtocolBuffe"
+    "r.User\022I\n\027AddCommentForRestaurant\022\025.Prot"
+    "ocolBuffer.Query\032\027.ProtocolBuffer.Commen"
+    "tB\002H\001", 1765);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MapProtocol.proto", &protobuf_RegisterTypes);
   Location::default_instance_ = new Location();
@@ -3594,6 +3597,7 @@ void RestaurantType::Swap(RestaurantType* other) {
 
 const ::std::string Query::_default_msg_;
 const ::std::string Query::_default_image_;
+const ::std::string Query::_default_emailaddress_;
 const ::std::string Query::_default_password_;
 #ifndef _MSC_VER
 const int Query::kAreaFieldNumber;
@@ -3604,6 +3608,7 @@ const int Query::kUIDFieldNumber;
 const int Query::kNFieldNumber;
 const int Query::kMsgFieldNumber;
 const int Query::kImageFieldNumber;
+const int Query::kEmailAddressFieldNumber;
 const int Query::kPasswordFieldNumber;
 #endif  // !_MSC_VER
 
@@ -3631,6 +3636,7 @@ void Query::SharedCtor() {
   n_ = 0u;
   msg_ = const_cast< ::std::string*>(&_default_msg_);
   image_ = const_cast< ::std::string*>(&_default_image_);
+  emailaddress_ = const_cast< ::std::string*>(&_default_emailaddress_);
   password_ = const_cast< ::std::string*>(&_default_password_);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -3645,6 +3651,9 @@ void Query::SharedDtor() {
   }
   if (image_ != &_default_image_) {
     delete image_;
+  }
+  if (emailaddress_ != &_default_emailaddress_) {
+    delete emailaddress_;
   }
   if (password_ != &_default_password_) {
     delete password_;
@@ -3695,6 +3704,11 @@ void Query::Clear() {
   }
   if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (_has_bit(8)) {
+      if (emailaddress_ != &_default_emailaddress_) {
+        emailaddress_->clear();
+      }
+    }
+    if (_has_bit(9)) {
       if (password_ != &_default_password_) {
         password_->clear();
       }
@@ -3816,12 +3830,28 @@ bool Query::MergePartialFromCodedStream(
        parse_image:
         DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
               input, this->mutable_image()));
-        if (input->ExpectTag(74)) goto parse_password;
+        if (input->ExpectTag(74)) goto parse_emailAddress;
         break;
       }
       
-      // optional string password = 9;
+      // optional string emailAddress = 9;
       case 9: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          goto handle_uninterpreted;
+        }
+       parse_emailAddress:
+        DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+              input, this->mutable_emailaddress()));
+        ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          this->emailaddress().data(), this->emailaddress().length(),
+          ::google::protobuf::internal::WireFormat::PARSE);
+        if (input->ExpectTag(82)) goto parse_password;
+        break;
+      }
+      
+      // optional string password = 10;
+      case 10: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
           goto handle_uninterpreted;
@@ -3907,13 +3937,22 @@ void Query::SerializeWithCachedSizes(
       8, this->image(), output);
   }
   
-  // optional string password = 9;
+  // optional string emailAddress = 9;
   if (_has_bit(8)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->emailaddress().data(), this->emailaddress().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      9, this->emailaddress(), output);
+  }
+  
+  // optional string password = 10;
+  if (_has_bit(9)) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8String(
       this->password().data(), this->password().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
-      9, this->password(), output);
+      10, this->password(), output);
   }
   
   if (!unknown_fields().empty()) {
@@ -3975,14 +4014,24 @@ void Query::SerializeWithCachedSizes(
         8, this->image(), target);
   }
   
-  // optional string password = 9;
+  // optional string emailAddress = 9;
   if (_has_bit(8)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->emailaddress().data(), this->emailaddress().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        9, this->emailaddress(), target);
+  }
+  
+  // optional string password = 10;
+  if (_has_bit(9)) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8String(
       this->password().data(), this->password().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE);
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        9, this->password(), target);
+        10, this->password(), target);
   }
   
   if (!unknown_fields().empty()) {
@@ -4054,7 +4103,14 @@ int Query::ByteSize() const {
     
   }
   if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    // optional string password = 9;
+    // optional string emailAddress = 9;
+    if (has_emailaddress()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->emailaddress());
+    }
+    
+    // optional string password = 10;
     if (has_password()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -4113,6 +4169,9 @@ void Query::MergeFrom(const Query& from) {
   }
   if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from._has_bit(8)) {
+      set_emailaddress(from.emailaddress());
+    }
+    if (from._has_bit(9)) {
       set_password(from.password());
     }
   }
@@ -4152,6 +4211,7 @@ void Query::Swap(Query* other) {
     std::swap(n_, other->n_);
     std::swap(msg_, other->msg_);
     std::swap(image_, other->image_);
+    std::swap(emailaddress_, other->emailaddress_);
     std::swap(password_, other->password_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
@@ -4230,6 +4290,14 @@ void DMService::UserLogin(::google::protobuf::RpcController* controller,
   done->Run();
 }
 
+void DMService::GetUserInfo(::google::protobuf::RpcController* controller,
+                         const ::ProtocolBuffer::Query*,
+                         ::ProtocolBuffer::User*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method GetUserInfo() not implemented.");
+  done->Run();
+}
+
 void DMService::AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                          const ::ProtocolBuffer::Query*,
                          ::ProtocolBuffer::Comment*,
@@ -4282,6 +4350,12 @@ void DMService::CallMethod(const ::google::protobuf::MethodDescriptor* method,
              done);
       break;
     case 6:
+      GetUserInfo(controller,
+             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+             ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
+             done);
+      break;
+    case 7:
       AddCommentForRestaurant(controller,
              ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
              ::google::protobuf::down_cast< ::ProtocolBuffer::Comment*>(response),
@@ -4311,6 +4385,8 @@ const ::google::protobuf::Message& DMService::GetRequestPrototype(
       return ::ProtocolBuffer::Query::default_instance();
     case 6:
       return ::ProtocolBuffer::Query::default_instance();
+    case 7:
+      return ::ProtocolBuffer::Query::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *reinterpret_cast< ::google::protobuf::Message*>(NULL);
@@ -4334,6 +4410,8 @@ const ::google::protobuf::Message& DMService::GetResponsePrototype(
     case 5:
       return ::ProtocolBuffer::User::default_instance();
     case 6:
+      return ::ProtocolBuffer::User::default_instance();
+    case 7:
       return ::ProtocolBuffer::Comment::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
@@ -4394,11 +4472,18 @@ void DMService_Stub::UserLogin(::google::protobuf::RpcController* controller,
   channel_->CallMethod(descriptor()->method(5),
                        controller, request, response, done);
 }
+void DMService_Stub::GetUserInfo(::google::protobuf::RpcController* controller,
+                              const ::ProtocolBuffer::Query* request,
+                              ::ProtocolBuffer::User* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(6),
+                       controller, request, response, done);
+}
 void DMService_Stub::AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                               const ::ProtocolBuffer::Query* request,
                               ::ProtocolBuffer::Comment* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(6),
+  channel_->CallMethod(descriptor()->method(7),
                        controller, request, response, done);
 }
 
