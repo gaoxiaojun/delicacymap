@@ -141,7 +141,7 @@ void DMServiceLocalDBImpl::AddCommentForRestaurant( ::google::protobuf::RpcContr
 			request->msg(),
 			request->has_image() ? &request->image() : NULL);
 
-		if (ret.getResult()->RowsCount())
+		if (!ret.empty())
 		{
 			const DBRow& newcomment = ret.getResult()->GetRow(0);
 			response->set_uid( newcomment.GetValueAs<int>("UID") );
@@ -158,6 +158,51 @@ void DMServiceLocalDBImpl::AddCommentForRestaurant( ::google::protobuf::RpcContr
 	{
 		pantheios::log_WARNING("calling AddCommentForRestaurant() with wrong request message.");
 		controller->SetFailed("calling AddCommentForRestaurant() with wrong request message.");
+	}
+
+	done->Run();
+}
+
+void DMServiceLocalDBImpl::UserLogin( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::User* response, ::google::protobuf::Closure* done )
+{
+	if (request->has_password() && request->has_emailaddress())
+	{
+		DBResultWrap ret = adapter->UserLogin(request->emailaddress(), request->password());
+		if (!ret.empty())
+		{
+			const DBRow& usr = ret.getResult()->GetRow(0);
+			response->set_uid(usr.GetValueAs<int>("UID"));
+			response->set_emailaddress(usr["EmailAddress"]);
+			response->set_password(usr["Password"]);
+			response->set_nickname(usr["Nickname"]);
+			response->mutable_jointime()->set_timestamp(usr["JoinTime"]);
+
+			// preferTypes and friends is not implemented yet.
+		}
+		else
+		{
+			pantheios::log_WARNING("Login failed. usr=", request->emailaddress(), ", pwd=", request->password(), ".");
+		}
+	}
+	else
+	{
+		pantheios::log_WARNING("calling UserLogin() with wrong request message.");
+		controller->SetFailed("calling UserLogin() with wrong request message.");
+	}
+
+	done->Run();
+}
+
+void DMServiceLocalDBImpl::GetUser( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::User* response, ::google::protobuf::Closure* done )
+{
+	if (request->has_uid())
+	{
+		pantheios::log_WARNING("GetUser() not implemented.");
+	}
+	else
+	{
+		pantheios::log_WARNING("calling GetUser() with wrong request message.");
+		controller->SetFailed("calling GetUser() with wrong request message.");
 	}
 
 	done->Run();

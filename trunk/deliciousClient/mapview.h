@@ -14,6 +14,7 @@ class MapListener;
 namespace ProtocolBuffer{
 	class Restaurant;
 	class RestaurantList;
+	class User;
 }
 
 class mapview : public QWebView
@@ -59,7 +60,8 @@ private:
 	QSet<int> restaurants;
 	//QVector<LatLng> bupt,bnu;
 	int markerCount;
-	MapListener* mapListener;
+	ProtocolBuffer::User *loginUser;
+	MapListener *mapListener;
     LocationSvc *loc_svc;
 
 public slots:

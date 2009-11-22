@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	interfaceTransit_map();
 
-	connect(m_ui->testRPC,SIGNAL(clicked()),this,SLOT(TestRPC()));
+	//connect(m_ui->testRPC,SIGNAL(clicked()),this,SLOT(TestRPC()));
 }
 
 MainWindow::~MainWindow()

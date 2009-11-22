@@ -70,6 +70,10 @@ DBResult* DBResultWrap::getResult() const
 	return result;
 }
 
+bool DBResultWrap::empty() const
+{
+	return result == NULL || getResult()->RowsCount() == 0;
+}
 
 void deliciousDataAdapter::ExecuteNormal( char* query, CallbackFunc callback )
 {
@@ -194,9 +198,30 @@ const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int 
 	// single query run atomicity in sqlite, so this has no problem.
 	sprintf_s(querystr, sizeof(querystr),
 		"INSERT INTO Comments (UID, RID, Comment) VALUES(%d, %d, \"%s\");"
-		"SELECT * from Comments WHERE Comments.rowid = (select last_insert_rowid());"
+		"SELECT * FROM Comments WHERE Comments.rowid = (select last_insert_rowid());"
 		, uid
 		, rid
 		, msg.c_str());
 	return DBResultWrap(dbconn->Execute(querystr), dbconn);
+}
+
+const DBResultWrap deliciousDataAdapter::UserLogin( const std::string& email, const std::string& password )
+{
+	pantheios::log_INFORMATIONAL("UserLogin(",
+		"emailAddress=", email,
+		",password=", password,
+		")");
+	char querystr[500];
+	sprintf_s(querystr, sizeof(querystr),
+		"SELECT * "
+		"FROM Users "
+		"WHERE EmailAddress = %s;"
+		, email.c_str()
+		);
+	DBResult* ret = dbconn->Execute(querystr);
+	if (ret->RowsCount() != 1 || (*ret)[0]["Password"] != password) // Email is unique, so only 0 or 1 row.
+	{
+		dbconn->Free(&ret);
+	}
+	return DBResultWrap(ret, dbconn);
 }

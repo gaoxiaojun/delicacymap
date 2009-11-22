@@ -1315,10 +1315,20 @@ class Query : public ::google::protobuf::Message {
   inline void set_image(const void* value, size_t size);
   inline ::std::string* mutable_image();
   
-  // optional string password = 9;
+  // optional string emailAddress = 9;
+  inline bool has_emailaddress() const;
+  inline void clear_emailaddress();
+  static const int kEmailAddressFieldNumber = 9;
+  inline const ::std::string& emailaddress() const;
+  inline void set_emailaddress(const ::std::string& value);
+  inline void set_emailaddress(const char* value);
+  inline void set_emailaddress(const char* value, size_t size);
+  inline ::std::string* mutable_emailaddress();
+  
+  // optional string password = 10;
   inline bool has_password() const;
   inline void clear_password();
-  static const int kPasswordFieldNumber = 9;
+  static const int kPasswordFieldNumber = 10;
   inline const ::std::string& password() const;
   inline void set_password(const ::std::string& value);
   inline void set_password(const char* value);
@@ -1339,13 +1349,15 @@ class Query : public ::google::protobuf::Message {
   static const ::std::string _default_msg_;
   ::std::string* image_;
   static const ::std::string _default_image_;
+  ::std::string* emailaddress_;
+  static const ::std::string _default_emailaddress_;
   ::std::string* password_;
   static const ::std::string _default_password_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(10 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -1397,6 +1409,10 @@ class DMService : public ::google::protobuf::Service {
                        ::ProtocolBuffer::CommentList* response,
                        ::google::protobuf::Closure* done);
   virtual void UserLogin(::google::protobuf::RpcController* controller,
+                       const ::ProtocolBuffer::Query* request,
+                       ::ProtocolBuffer::User* response,
+                       ::google::protobuf::Closure* done);
+  virtual void GetUserInfo(::google::protobuf::RpcController* controller,
                        const ::ProtocolBuffer::Query* request,
                        ::ProtocolBuffer::User* response,
                        ::google::protobuf::Closure* done);
@@ -1454,6 +1470,10 @@ class DMService_Stub : public DMService {
                        ::ProtocolBuffer::CommentList* response,
                        ::google::protobuf::Closure* done);
   void UserLogin(::google::protobuf::RpcController* controller,
+                       const ::ProtocolBuffer::Query* request,
+                       ::ProtocolBuffer::User* response,
+                       ::google::protobuf::Closure* done);
+  void GetUserInfo(::google::protobuf::RpcController* controller,
                        const ::ProtocolBuffer::Query* request,
                        ::ProtocolBuffer::User* response,
                        ::google::protobuf::Closure* done);
@@ -2432,42 +2452,84 @@ inline ::std::string* Query::mutable_image() {
   return image_;
 }
 
-// optional string password = 9;
-inline bool Query::has_password() const {
+// optional string emailAddress = 9;
+inline bool Query::has_emailaddress() const {
   return _has_bit(8);
+}
+inline void Query::clear_emailaddress() {
+  if (emailaddress_ != &_default_emailaddress_) {
+    emailaddress_->clear();
+  }
+  _clear_bit(8);
+}
+inline const ::std::string& Query::emailaddress() const {
+  return *emailaddress_;
+}
+inline void Query::set_emailaddress(const ::std::string& value) {
+  _set_bit(8);
+  if (emailaddress_ == &_default_emailaddress_) {
+    emailaddress_ = new ::std::string;
+  }
+  emailaddress_->assign(value);
+}
+inline void Query::set_emailaddress(const char* value) {
+  _set_bit(8);
+  if (emailaddress_ == &_default_emailaddress_) {
+    emailaddress_ = new ::std::string;
+  }
+  emailaddress_->assign(value);
+}
+inline void Query::set_emailaddress(const char* value, size_t size) {
+  _set_bit(8);
+  if (emailaddress_ == &_default_emailaddress_) {
+    emailaddress_ = new ::std::string;
+  }
+  emailaddress_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Query::mutable_emailaddress() {
+  _set_bit(8);
+  if (emailaddress_ == &_default_emailaddress_) {
+    emailaddress_ = new ::std::string;
+  }
+  return emailaddress_;
+}
+
+// optional string password = 10;
+inline bool Query::has_password() const {
+  return _has_bit(9);
 }
 inline void Query::clear_password() {
   if (password_ != &_default_password_) {
     password_->clear();
   }
-  _clear_bit(8);
+  _clear_bit(9);
 }
 inline const ::std::string& Query::password() const {
   return *password_;
 }
 inline void Query::set_password(const ::std::string& value) {
-  _set_bit(8);
+  _set_bit(9);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(value);
 }
 inline void Query::set_password(const char* value) {
-  _set_bit(8);
+  _set_bit(9);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(value);
 }
 inline void Query::set_password(const char* value, size_t size) {
-  _set_bit(8);
+  _set_bit(9);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* Query::mutable_password() {
-  _set_bit(8);
+  _set_bit(9);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }

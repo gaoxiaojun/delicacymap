@@ -949,6 +949,8 @@ namespace delicousDBManager {
             
             private global::System.Data.DataColumn columnLastSW;
             
+            private global::System.Data.DataColumn columnEmailAddress;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public UsersDataTable() {
                 this.TableName = "Users";
@@ -1022,6 +1024,13 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn EmailAddressColumn {
+                get {
+                    return this.columnEmailAddress;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1050,7 +1059,7 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public UsersRow AddUsersRow(string Password, string Nickname, System.DateTime JoinTime, double LastNE, double LastSW) {
+            public UsersRow AddUsersRow(string Password, string Nickname, System.DateTime JoinTime, double LastNE, double LastSW, string EmailAddress) {
                 UsersRow rowUsersRow = ((UsersRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -1058,7 +1067,8 @@ namespace delicousDBManager {
                         Nickname,
                         JoinTime,
                         LastNE,
-                        LastSW};
+                        LastSW,
+                        EmailAddress};
                 rowUsersRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowUsersRow);
                 return rowUsersRow;
@@ -1090,6 +1100,7 @@ namespace delicousDBManager {
                 this.columnJoinTime = base.Columns["JoinTime"];
                 this.columnLastNE = base.Columns["LastNE"];
                 this.columnLastSW = base.Columns["LastSW"];
+                this.columnEmailAddress = base.Columns["EmailAddress"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1106,8 +1117,12 @@ namespace delicousDBManager {
                 base.Columns.Add(this.columnLastNE);
                 this.columnLastSW = new global::System.Data.DataColumn("LastSW", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLastSW);
+                this.columnEmailAddress = new global::System.Data.DataColumn("EmailAddress", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmailAddress);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnUID}, true));
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint2", new global::System.Data.DataColumn[] {
+                                this.columnEmailAddress}, false));
                 this.columnUID.AutoIncrement = true;
                 this.columnUID.AutoIncrementSeed = 1;
                 this.columnUID.AllowDBNull = false;
@@ -1117,6 +1132,9 @@ namespace delicousDBManager {
                 this.columnNickname.AllowDBNull = false;
                 this.columnNickname.MaxLength = 50;
                 this.columnJoinTime.AllowDBNull = false;
+                this.columnEmailAddress.AllowDBNull = false;
+                this.columnEmailAddress.Unique = true;
+                this.columnEmailAddress.MaxLength = 256;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3368,6 +3386,16 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string EmailAddress {
+                get {
+                    return ((string)(this[this.tableUsers.EmailAddressColumn]));
+                }
+                set {
+                    this[this.tableUsers.EmailAddressColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsLastNENull() {
                 return this.IsNull(this.tableUsers.LastNEColumn);
             }
@@ -4758,6 +4786,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             tableMapping.ColumnMappings.Add("JoinTime", "JoinTime");
             tableMapping.ColumnMappings.Add("LastNE", "LastNE");
             tableMapping.ColumnMappings.Add("LastSW", "LastSW");
+            tableMapping.ColumnMappings.Add("EmailAddress", "EmailAddress");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -4773,7 +4802,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._adapter.InsertCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO [Users] ([UID], [Password], [Nickname], [JoinTime], [LastNE], [LastSW" +
-                "]) VALUES (@UID, @Password, @Nickname, @JoinTime, @LastNE, @LastSW)";
+                "], [EmailAddress]) VALUES (@UID, @Password, @Nickname, @JoinTime, @LastNE, @Last" +
+                "SW, @EmailAddress)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@UID";
@@ -4809,11 +4839,16 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.DbType = global::System.Data.DbType.Double;
             param.SourceColumn = "LastSW";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@EmailAddress";
+            param.DbType = global::System.Data.DbType.String;
+            param.SourceColumn = "EmailAddress";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
             this._adapter.UpdateCommand.CommandText = "UPDATE [Users] SET [UID] = @UID, [Password] = @Password, [Nickname] = @Nickname, " +
-                "[JoinTime] = @JoinTime, [LastNE] = @LastNE, [LastSW] = @LastSW WHERE (([UID] = @" +
-                "Original_UID))";
+                "[JoinTime] = @JoinTime, [LastNE] = @LastNE, [LastSW] = @LastSW, [EmailAddress] =" +
+                " @EmailAddress WHERE (([UID] = @Original_UID))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@UID";
@@ -4850,6 +4885,11 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "LastSW";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@EmailAddress";
+            param.DbType = global::System.Data.DbType.String;
+            param.SourceColumn = "EmailAddress";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@Original_UID";
             param.DbType = global::System.Data.DbType.Int64;
             param.DbType = global::System.Data.DbType.Int64;
@@ -4869,8 +4909,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._commandCollection = new global::System.Data.SQLite.SQLiteCommand[1];
             this._commandCollection[0] = new global::System.Data.SQLite.SQLiteCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT [UID], [Password], [Nickname], [JoinTime], [LastNE], [LastSW] FROM [Users]" +
-                "";
+            this._commandCollection[0].CommandText = "SELECT [UID], [Password], [Nickname], [JoinTime], [LastNE], [LastSW], [EmailAddre" +
+                "ss] FROM [Users]";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -4945,7 +4985,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(long UID, string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastNE, global::System.Nullable<double> LastSW) {
+        public virtual int Insert(long UID, string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastNE, global::System.Nullable<double> LastSW, string EmailAddress) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((long)(UID));
             if ((Password == null)) {
                 throw new global::System.ArgumentNullException("Password");
@@ -4972,6 +5012,12 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             else {
                 this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
+            if ((EmailAddress == null)) {
+                throw new global::System.ArgumentNullException("EmailAddress");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[6].Value = ((string)(EmailAddress));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -4991,7 +5037,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(long UID, string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastNE, global::System.Nullable<double> LastSW, long Original_UID) {
+        public virtual int Update(long UID, string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastNE, global::System.Nullable<double> LastSW, string EmailAddress, long Original_UID) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(UID));
             if ((Password == null)) {
                 throw new global::System.ArgumentNullException("Password");
@@ -5018,7 +5064,13 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((long)(Original_UID));
+            if ((EmailAddress == null)) {
+                throw new global::System.ArgumentNullException("EmailAddress");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(EmailAddress));
+            }
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((long)(Original_UID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -5038,8 +5090,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastNE, global::System.Nullable<double> LastSW, long Original_UID) {
-            return this.Update(Original_UID, Password, Nickname, JoinTime, LastNE, LastSW, Original_UID);
+        public virtual int Update(string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastNE, global::System.Nullable<double> LastSW, string EmailAddress, long Original_UID) {
+            return this.Update(Original_UID, Password, Nickname, JoinTime, LastNE, LastSW, EmailAddress, Original_UID);
         }
     }
     

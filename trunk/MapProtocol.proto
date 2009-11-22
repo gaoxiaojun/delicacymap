@@ -91,7 +91,8 @@ message Query
     optional uint32                                          n                           = 6;
     optional string                                          msg                         = 7;    // used in add restaurant
     optional bytes                                           image                       = 8;    // used in add restaurant
-    optional string                                          password                    = 9;    // password required to retrieve user specific data
+    optional string                                          emailAddress                = 9;    // emailAddress used to validate user input
+    optional string                                          password                    = 10;   // password required to retrieve user specific data
 }
 
 service DMService 
@@ -103,6 +104,7 @@ service DMService
     rpc GetCommentsOfRestaurantSince           (ProtocolBuffer.Query)        returns (CommentList);
     
     rpc UserLogin                              (ProtocolBuffer.Query)        returns (User);
+    rpc GetUserInfo                            (ProtocolBuffer.Query)        returns (User);
     
     rpc AddCommentForRestaurant                (ProtocolBuffer.Query)        returns (Comment);
 }
