@@ -12,12 +12,12 @@ QTProtobufChannel::QTProtobufChannel( const QHostAddress &serveraddr, unsigned s
 QTProtobufChannel::~QTProtobufChannel(void)
 {
     close();
-	for (QHash<int, CallEntry>::const_iterator it=_currentCalls.begin();it!=_currentCalls.end();++it)
-	{
-		returnQueryBuffer(it.value().request);
-	}
-	while (!reqs.empty())
-		delete reqs.pop();
+    for (QHash<int, CallEntry>::const_iterator it=_currentCalls.begin();it!=_currentCalls.end();++it)
+    {
+        returnQueryBuffer(it.value().request);
+    }
+    while (!reqs.empty())
+        delete reqs.pop();
 }
 
 void QTProtobufChannel::start()
@@ -73,15 +73,15 @@ bool QTProtobufChannel::started()
 
 void QTProtobufChannel::needMoreReqs()
 {
-	for (int i=0;i<CallBufferIncrease;++i)
-	{
-		reqs.push(new protorpc::Message);
-	}
+    for (int i=0;i<CallBufferIncrease;++i)
+    {
+        reqs.push(new protorpc::Message);
+    }
 }
 
 void QTProtobufChannel::returnQueryBuffer( protorpc::Message* m )
 {
-	reqs.push(m);
+    reqs.push(m);
 }
 
 void QTProtobufChannelDriver::readMessage()
@@ -112,9 +112,9 @@ void QTProtobufChannelDriver::readMessage()
                 if (_currentCalls->contains(response.id()))
                 {
                     CallEntry entry = _currentCalls->value(response.id());
-					_currentCalls->remove(response.id());
+                    _currentCalls->remove(response.id());
                     entry.response->ParseFromString(response.buffer());
-					parent->returnQueryBuffer(entry.request);
+                    parent->returnQueryBuffer(entry.request);
                     entry.done->Run();
                 }
                 break;
@@ -127,7 +127,7 @@ void QTProtobufChannelDriver::readMessage()
 
 QTProtobufChannelDriver::QTProtobufChannelDriver(QTProtobufChannel* parent, QHash<int,CallEntry> *currentCalls)
 {
-	this->parent = parent;
+    this->parent = parent;
     this->_currentCalls = currentCalls;
     _buffer_index = -1;
     _tcps = new QTcpSocket();

@@ -43,35 +43,35 @@ void naked_conn::start()
 
 void naked_conn::readrequest(int stage)
 {
-	if (stage == 0)
-	{
-		_s.async_receive(buffer((void*)&readsize, 4)
-			, bind(&naked_conn::readrequest
-			, shared_from_this()
-			, 1));
-	}
-	else if (stage == 1)
-	{
-		_s.async_receive(buffer(inputbuf, ntohl(readsize))
-			, bind(&naked_conn::handle_read
-			, shared_from_this()
-			, placeholders::error
-			, placeholders::bytes_transferred));
-	}
+    if (stage == 0)
+    {
+        _s.async_receive(buffer((void*)&readsize, 4)
+            , bind(&naked_conn::readrequest
+            , shared_from_this()
+            , 1));
+    }
+    else if (stage == 1)
+    {
+        _s.async_receive(buffer(inputbuf, ntohl(readsize))
+            , bind(&naked_conn::handle_read
+            , shared_from_this()
+            , placeholders::error
+            , placeholders::bytes_transferred));
+    }
 }
 
 void naked_conn::write( google::protobuf::Message* msg )
 {
     msg->SerializeToString(&outputbuf);
-	pantheios::log_INFORMATIONAL("Writing ", pantheios::integer(outputbuf.size()+4), " through tcp connection");
-	writesize = (outputbuf.size());
-	bufs[0] = buffer((void*)&writesize, 4);
-	bufs[1] = buffer(outputbuf);
-	_s.async_send(bufs
-	    , boost::bind(&naked_conn::handle_write
-	        , shared_from_this()
-	        , boost::asio::placeholders::error
-	        , boost::asio::placeholders::bytes_transferred));
+    pantheios::log_INFORMATIONAL("Writing ", pantheios::integer(outputbuf.size()+4), " through tcp connection");
+    writesize = (outputbuf.size());
+    bufs[0] = buffer((void*)&writesize, 4);
+    bufs[1] = buffer(outputbuf);
+    _s.async_send(bufs
+        , boost::bind(&naked_conn::handle_write
+        , shared_from_this()
+        , boost::asio::placeholders::error
+        , boost::asio::placeholders::bytes_transferred));
 }
 
 void naked_conn::close()
@@ -81,10 +81,10 @@ void naked_conn::close()
 }
 
 void naked_conn::CallMethod(const MethodDescriptor* method,
-                    RpcController* controller,
-                    const Message* request,
-                    Message* response,
-                    Closure* done)
+                            RpcController* controller,
+                            const Message* request,
+                            Message* response,
+                            Closure* done)
 {
     //called by stub(client side), not needed, place a warning just in case
     pantheios::log_EMERGENCY("naked_conn::CallMethod called");
@@ -98,7 +98,7 @@ void naked_conn::handle_read( const boost::system::error_code& err, size_t bytes
     else
     {
         //handle rpc request and send back reply
-		readsize = ntohl(readsize);
+        readsize = ntohl(readsize);
         income.ParseFromArray(inputbuf.c_array(), readsize);
         if (income.has_type())
         {
@@ -175,15 +175,15 @@ void naked_conn::handle_request()
             controller->Reset();
             Closure *closure = NewCallback(this, &naked_conn::rpccalldone, income.id(), static_cast<Message*>(response));
             controller->NotifyOnCancel(closure);
-			try
-			{
-				service->CallMethod(desc, controller, &query, response, closure);
-			}
-			catch (const std::exception& e)
-			{
-				pantheios::log_ERROR("Error Calling method ", income.name(), ". Error msg: ", e.what());
-				closure->Run();
-			}
+            try
+            {
+                service->CallMethod(desc, controller, &query, response, closure);
+            }
+            catch (const std::exception& e)
+            {
+                pantheios::log_ERROR("Error Calling method ", income.name(), ". Error msg: ", e.what());
+                closure->Run();
+            }
         }
     }
     else
