@@ -13,7 +13,7 @@
 
 using namespace ProtocolBuffer;
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(Session *s, QWidget *parent) :
     QMainWindow(parent),
     m_ui(new Ui::MainWindow)
 {
@@ -96,6 +96,11 @@ void MainWindow::BTHFind()
     }
     qDebug()<<list;
     mgr.SendToDevice(mgr[0], "kkk", 3);
+}
+
+void MainWindow::changeSession( Session *s )
+{
+    session = s;
 }
 
 void MainWindow::clearConnections()

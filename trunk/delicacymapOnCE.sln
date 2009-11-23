@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "deliciousServer", "deliciousServer\deliciousServer.vcproj", "{6CAB84FB-3BFC-4CF6-81D0-1B42C498A3E2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "delicacymapOnCE", "deliciousClient\delicacymapOnCE.vcproj", "{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "delicousDBManager", "delicousDBManager\delicousDBManager.csproj", "{C8A67381-A44F-48EA-8D38-A31C6E30C815}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "delicacyClient", "deliciousClient\delicacyClient.vcproj", "{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,18 +31,6 @@ Global
 		{6CAB84FB-3BFC-4CF6-81D0-1B42C498A3E2}.Release|Win32.ActiveCfg = Release|Win32
 		{6CAB84FB-3BFC-4CF6-81D0-1B42C498A3E2}.Release|Win32.Build.0 = Release|Win32
 		{6CAB84FB-3BFC-4CF6-81D0-1B42C498A3E2}.Release|Windows Mobile 6 Professional SDK (ARMV4I).ActiveCfg = Release|Win32
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Debug|Mixed Platforms.ActiveCfg = Debug|Windows Mobile 6 Professional SDK (ARMV4I)
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Debug|Mixed Platforms.Build.0 = Debug|Windows Mobile 6 Professional SDK (ARMV4I)
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Debug|Win32.Build.0 = Debug|Win32
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Debug|Windows Mobile 6 Professional SDK (ARMV4I).ActiveCfg = Debug|Win32
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Release|Any CPU.ActiveCfg = Release|Win32
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Release|Mixed Platforms.ActiveCfg = Release|Windows Mobile 6 Professional SDK (ARMV4I)
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Release|Mixed Platforms.Build.0 = Release|Windows Mobile 6 Professional SDK (ARMV4I)
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Release|Win32.ActiveCfg = Release|Win32
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Release|Win32.Build.0 = Release|Win32
-		{6D65B2B3-E191-3771-B9DF-6A5D0F675D8D}.Release|Windows Mobile 6 Professional SDK (ARMV4I).ActiveCfg = Release|Win32
 		{C8A67381-A44F-48EA-8D38-A31C6E30C815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C8A67381-A44F-48EA-8D38-A31C6E30C815}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8A67381-A44F-48EA-8D38-A31C6E30C815}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -55,6 +43,18 @@ Global
 		{C8A67381-A44F-48EA-8D38-A31C6E30C815}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C8A67381-A44F-48EA-8D38-A31C6E30C815}.Release|Win32.ActiveCfg = Release|Any CPU
 		{C8A67381-A44F-48EA-8D38-A31C6E30C815}.Release|Windows Mobile 6 Professional SDK (ARMV4I).ActiveCfg = Release|Any CPU
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Debug|Win32.Build.0 = Debug|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Debug|Windows Mobile 6 Professional SDK (ARMV4I).ActiveCfg = Debug|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Release|Any CPU.ActiveCfg = Release|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Release|Win32.ActiveCfg = Release|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Release|Win32.Build.0 = Release|Win32
+		{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}.Release|Windows Mobile 6 Professional SDK (ARMV4I).ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
