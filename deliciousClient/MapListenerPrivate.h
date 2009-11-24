@@ -13,6 +13,8 @@
 // 	google::protobuf::Closure* callback;
 // };
 
+class Session;
+
 class MapListenerPrivate : public QObject
 {
 	Q_OBJECT
@@ -25,16 +27,19 @@ public:
 	MapListenerPrivate(MapListener* parent);
 	~MapListenerPrivate();
 
+    void changeSession(Session *);
+    Session* getSession();
+
 	void newRestaurantDataArrive();
 // 	void newCommentDataArrive(CommentCallEntry*);
 // 
 // 	CommentCallEntry* getCommentList();
 // 	void returnCommentList(CommentCallEntry*);
 
-	MapDataSource connman;
 	ProtocolBuffer::RestaurantList restaurantList;
 	Bound LastBound;
 	google::protobuf::Closure *restaurantClosure;
+    Session *session;
 	bool isfirstbound;	
 private:
 // 	void moreCommentList();

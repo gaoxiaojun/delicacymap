@@ -26,7 +26,7 @@ class QTProtobufChannelDriver : public QObject
 	Q_OBJECT
 public slots:
 	void writeMessage(google::protobuf::Message* m);
-	void start(QHostAddress *_addr, unsigned short _port, QWaitCondition* notify);
+	void start(QHostAddress *_addr, unsigned short _port);
 private slots:
 	void readMessage();
 public:
@@ -35,7 +35,7 @@ public:
 
 	bool started();
 	QAbstractSocket::SocketError networkError() const;
-private:
+
 	protorpc::Message response;
 	std::string _writebuffer;
 	std::string _readbuffer;
@@ -58,6 +58,7 @@ public:
 	void start();
 	bool started();
 	void close();
+    QString errorString();
 
 	// override RpcChannel::CallMethod
 	void CallMethod(const google::protobuf::MethodDescriptor* method, google::protobuf::RpcController* controller, const google::protobuf::Message* request, google::protobuf::Message* response, google::protobuf::Closure* done);
@@ -65,12 +66,15 @@ public:
 	void returnQueryBuffer(protorpc::Message*);
 
 protected:
-	// override QThread::run
-	void run();
+    // override QThread::run
+    void run();
 
 signals:
+    void connected();
+    void error();
+
 	void writeMessage(google::protobuf::Message* m);
-	void requetStart(QHostAddress *_addr, unsigned short _port, QWaitCondition* notify);
+	void requetStart(QHostAddress *_addr, unsigned short _port);
 
 private:
 	bool readMessage(google::protobuf::Message* m);

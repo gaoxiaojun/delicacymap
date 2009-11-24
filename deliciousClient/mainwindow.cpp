@@ -18,6 +18,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     m_ui(new Ui::MainWindow)
 {
     m_ui->setupUi(this);
+
 #if _WIN32_WCE
     //menuBar()->setDefaultAction(m_ui->menuZoomOut);
 #endif
@@ -29,6 +30,8 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 	int index = this->m_ui->stackedWidget->insertWidget(0,navi);
 	qDebug()<<index<<endl;
 	this->m_ui->stackedWidget->setCurrentWidget(navi);
+
+    changeSession(s);
 
 	interfaceTransit_map();
 
@@ -101,6 +104,12 @@ void MainWindow::BTHFind()
 void MainWindow::changeSession( Session *s )
 {
     session = s;
+    navi->changeSession(s);
+}
+
+Session* MainWindow::getSession()
+{
+    return session;
 }
 
 void MainWindow::clearConnections()

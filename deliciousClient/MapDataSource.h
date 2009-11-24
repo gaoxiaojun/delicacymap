@@ -11,10 +11,15 @@ class QTProtobufChannel;
 class MapDataSource : public QObject
 {
     Q_OBJECT
+signals:
+    void ready(bool success);
+
 public:
     MapDataSource();
     ~MapDataSource();
     ::ProtocolBuffer::DMService::Stub* getStub();
+    void connect();
+    QString error();
 
     // **Caution** : following methods are not reentrent!!!
     void GetRestaurants(double lattitude_from, double longitude_from, double latitude_to, double longitude_to, int level, ProtocolBuffer::RestaurantList *, google::protobuf::Closure *);
@@ -23,6 +28,7 @@ public:
     void GetCommentsOfUserSince(int uid, const std::string& datetime, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
     void GetCommentsOfRestaurantSince(int rid, const std::string& datetime, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
     void UserLogin(const std::string& useremailaddr, const std::string& password, ProtocolBuffer::User *, google::protobuf::Closure *);
+    void GetUser(int uid, ProtocolBuffer::User *, google::protobuf::Closure *);
 
     void GetRestaurants(ProtocolBuffer::Query *, ProtocolBuffer::RestaurantList *, google::protobuf::Closure *);
     void GetLastestCommentsOfRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
@@ -31,6 +37,7 @@ public:
     void GetCommentsOfRestaurantSince(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
     void AddCommentForRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::Comment *, google::protobuf::Closure *);
     void UserLogin(ProtocolBuffer::Query *, ProtocolBuffer::User *, google::protobuf::Closure *);
+    void GetUser(ProtocolBuffer::Query *, ProtocolBuffer::User *, google::protobuf::Closure *);
 
 
 protected:
@@ -38,4 +45,8 @@ protected:
     ::ProtocolBuffer::DMService::Stub *stub;
     QTProtobufChannel *channel;
     QTProbufController	controller;
+
+private slots:
+    void channel_connected();
+    void channel_error();
 };

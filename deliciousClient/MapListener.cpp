@@ -5,6 +5,7 @@
 #include "MapListenerPrivate.h"
 #include "mapview.h"
 #include "DisplaySchema.h"
+#include "Session.h"
 
 
 MapListener::MapListener( QObject *parent )
@@ -20,6 +21,21 @@ MapListener::MapListener( QObject *parent )
 	//connect(_private, SIGNAL(CommentListDataArrive(CommentCallEntry*)), this, SLOT(CommentListArrived(CommentCallEntry*)));
 }
 
+MapListener::~MapListener()
+{
+    delete _private;
+}
+
+void MapListener::changeSession(Session *s)
+{
+    _private->changeSession(s);
+}
+
+Session* MapListener::getSession()
+{
+    return _private->getSession();
+}
+
 void MapListener::markerClicked()
 {
 	qDebug()<<"marker clicked";
@@ -33,18 +49,21 @@ void MapListener::mapClicked(QString s)
 
 void MapListener::mapBoundChanged(const QString& boundstr)
 {
-	Bound bound = googleboundToMyBound(boundstr);
-	if (_private->isfirstbound)
-	{
-		_private->isfirstbound = false;
-		_private->LastBound = bound;
-	}
-	_private->connman.GetRestaurants(
-		bound.SW.lat, bound.SW.lng,
-		bound.NE.lat, bound.NE.lng,
-		10,
-		&_private->restaurantList,
-		_private->restaurantClosure);
+    if (_private->getSession())
+    {
+        Bound bound = googleboundToMyBound(boundstr);
+        if (_private->isfirstbound)
+        {
+            _private->isfirstbound = false;
+            _private->LastBound = bound;
+        }
+        _private->getSession()->getDataSource().GetRestaurants(
+            bound.SW.lat, bound.SW.lng,
+            bound.NE.lat, bound.NE.lng,
+            10,
+            &_private->restaurantList,
+            _private->restaurantClosure);
+    }
 }
 
 // QString& trimHead(QString& str, char c)
