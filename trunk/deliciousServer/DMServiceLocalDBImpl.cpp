@@ -222,7 +222,7 @@ void DMServiceLocalDBImpl::GetRestaurantsCallback( const DBRow& row, RestaurantL
     newr->mutable_location()->set_longitude(row.GetValueAs<double>("Longtitude"));
     newr->mutable_location()->set_latitude(row.GetValueAs<double>("Latitude"));
 
-    newr->mutable_averageexpense()->set_amount(row.GetValueAs<double>("AverageExpense"));
+    newr->mutable_averageexpense()->set_amount(row.GetValueAs<float>("AverageExpense"));
 }
 
 void DMServiceLocalDBImpl::GetCommentsCallback( const DBRow& row, ProtocolBuffer::CommentList* result )

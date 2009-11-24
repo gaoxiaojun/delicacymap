@@ -47,6 +47,7 @@ protected:
     QTProbufController	controller;
 
 private slots:
+    void channel_disconnected();
     void channel_connected();
     void channel_error();
 };

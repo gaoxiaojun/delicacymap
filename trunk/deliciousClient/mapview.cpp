@@ -8,7 +8,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QtDebug>
-#include <QStringBuilder>
 #include <boost/bind.hpp>
 
 #define OFFSET_PER_BUTTON_PUSH 100

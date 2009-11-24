@@ -5,7 +5,7 @@
 #include <QThread>
 #include <QtNetwork>
 #include <google/protobuf/service.h>
-#include "..\protocol-buffer-src\Message.pb.h"
+#include "../protocol-buffer-src/Message.pb.h"
 
 struct CallEntry
 {
@@ -70,6 +70,7 @@ protected:
     void run();
 
 signals:
+    void disconnected();
     void connected();
     void error();
 

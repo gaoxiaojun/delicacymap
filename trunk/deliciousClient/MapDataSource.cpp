@@ -1,5 +1,6 @@
 #include "MapDataSource.h"
 #include "QTProtobufChannel.h"
+#include <QDebug>
 #include <QtDebug>
 
 #define PORT_NUM 24000
@@ -10,6 +11,7 @@ MapDataSource::MapDataSource()
     stub = new ::ProtocolBuffer::DMService::Stub(channel);
     QObject::connect(channel, SIGNAL(connected()), this, SLOT(channel_connected()));
     QObject::connect(channel, SIGNAL(error()), this, SLOT(channel_error()));
+    QObject::connect(channel, SIGNAL(disconnected()), this, SLOT(channel_disconnected()));
 }
 
 MapDataSource::~MapDataSource()
@@ -21,6 +23,12 @@ MapDataSource::~MapDataSource()
 ::ProtocolBuffer::DMService::Stub* MapDataSource::getStub()
 {
     return stub;
+}
+
+void MapDataSource::channel_disconnected()
+{
+    qDebug()<<"Channel disconnected. reconnecting...";
+    connect();
 }
 
 void MapDataSource::channel_error()

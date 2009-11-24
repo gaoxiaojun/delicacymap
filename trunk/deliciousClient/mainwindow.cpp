@@ -4,7 +4,7 @@
 #include "bluetoothmanager.h"
 #include "CustomEvents.h"
 #include "QTProtobufWaitResponse.h"
-#include "..\protocol-buffer-src\MapProtocol.pb.h"
+#include "../protocol-buffer-src/MapProtocol.pb.h"
 
 #include <QMenuBar>
 #include <QDebug>
@@ -87,7 +87,7 @@ void MainWindow::customEvent( QEvent *e )
 
 void MainWindow::BTHFind()
 {
-    bluetoothmanager &mgr = bluetoothmanager::GetInstance();
+/*    bluetoothmanager &mgr = bluetoothmanager::GetInstance();
     mgr.Discover();
     QString list = QString("Local: ") + mgr.GetLocalDevice()->Name().c_str() + "\r\n";
     for(int i=0;i<mgr.NumOfDevices();++i)
@@ -98,7 +98,7 @@ void MainWindow::BTHFind()
         list += "\r\n";
     }
     qDebug()<<list;
-    mgr.SendToDevice(mgr[0], "kkk", 3);
+    mgr.SendToDevice(mgr[0], "kkk", 3);*/
 }
 
 void MainWindow::changeSession( Session *s )
