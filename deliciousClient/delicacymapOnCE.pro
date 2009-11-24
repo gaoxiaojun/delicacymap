@@ -59,7 +59,9 @@ RESOURCES += webpage.qrc
 linux-* {
     OBJECTS_DIR = obj/
     SOURCES += mapview_linux.cpp
-    LIBS += -lprotobuf_linux_x86
+    RESOURCES += mainwindow.qrc
+    LIBPATH += /usr/local/lib
+    LIBS += -lprotobuf
 }
 
 wince* {

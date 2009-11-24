@@ -37,7 +37,7 @@ void QTProtobufChannel::close()
 void QTProtobufChannel::CallMethod( const google::protobuf::MethodDescriptor* method, google::protobuf::RpcController* controller, const google::protobuf::Message* request, google::protobuf::Message* response, google::protobuf::Closure* done )
 {
     if (!started())
-        throw std::exception("Channel not started!");
+        throw "Channel not started!";
 
     if (reqs.empty())
         needMoreReqs();
@@ -58,6 +58,7 @@ void QTProtobufChannel::run()
     connect(this, SIGNAL(requetStart(QHostAddress*, unsigned short )), _helper, SLOT(start(QHostAddress*, unsigned short)));
     connect(_helper->_tcps, SIGNAL(connected()), this, SIGNAL(connected()), Qt::DirectConnection);
     connect(_helper->_tcps, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error()), Qt::DirectConnection);
+    connect(_helper->_tcps, SIGNAL(disconnected()), this, SIGNAL(disconnected()), Qt::DirectConnection);
 
     exec();
 

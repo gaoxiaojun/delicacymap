@@ -1,5 +1,5 @@
 #pragma once
-#include <google\protobuf\service.h>
+#include <google/protobuf/service.h>
 
 class QTProbufController :
 	public google::protobuf::RpcController
