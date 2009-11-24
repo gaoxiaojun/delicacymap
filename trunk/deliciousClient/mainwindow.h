@@ -19,6 +19,7 @@ public:
     explicit MainWindow(Session *s = NULL, QWidget *parent = NULL);
     virtual ~MainWindow();
     void changeSession(Session *);
+    Session* getSession();
 
 protected:
     virtual void changeEvent(QEvent *e);

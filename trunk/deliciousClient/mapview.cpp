@@ -38,6 +38,7 @@ mapview::mapview(QWidget *parent)
     //===========================Done Webkit Init=====================================
 	
 	mapListener = new MapListener(this);
+    changeSession(NULL);
     
 	connect(this, SIGNAL(loadFinished(bool)), this, SLOT(setupmapconfiguration()), Qt::DirectConnection);
 	connect(this, SIGNAL(loadFinished(bool)), this, SLOT(MapLoaded()), Qt::DirectConnection);
@@ -47,6 +48,17 @@ mapview::mapview(QWidget *parent)
 mapview::~mapview()
 {
 	delete mapListener;
+}
+
+void mapview::changeSession(Session *s)
+{
+    session = s;
+    mapListener->changeSession(s);
+}
+
+Session* mapview::getSession()
+{
+    return session;
 }
 
 void mapview::MapLoaded()

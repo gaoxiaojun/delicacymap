@@ -28,7 +28,8 @@ signals:
     void loginFailed();
 
 private slots:
-    void login();
+    void login_step1();
+    void login_step2(bool);
     void success();
     void failed();
 

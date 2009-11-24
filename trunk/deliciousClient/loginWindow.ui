@@ -82,6 +82,9 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
    </widget>
    <widget class="QPushButton" name="okButton">
     <property name="geometry">
@@ -99,7 +102,7 @@
      <bool>false</bool>
     </property>
     <property name="default">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="cancelButton">
@@ -114,7 +117,35 @@
     <property name="text">
      <string>退出</string>
     </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
    </widget>
+  </widget>
+  <widget class="QLabel" name="label_status">
+   <property name="geometry">
+    <rect>
+     <x>95</x>
+     <y>310</y>
+     <width>201</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url();background-color: rgba(0, 0, 0,0%);color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="textFormat">
+    <enum>Qt::PlainText</enum>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::NoTextInteraction</set>
+   </property>
   </widget>
  </widget>
  <resources>

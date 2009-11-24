@@ -11,6 +11,7 @@
 
 
 class MapListener;
+class Session;
 namespace ProtocolBuffer{
 	class Restaurant;
 	class RestaurantList;
@@ -24,6 +25,8 @@ class mapview : public QWebView
 public:
     mapview(QWidget *parent = 0);
     ~mapview();
+    void changeSession(Session *);
+    Session* getSession();
 
 	bool isRestaurantInView( int rid ) { return restaurants.contains(rid); };
 
@@ -62,6 +65,7 @@ private:
 	int markerCount;
 	ProtocolBuffer::User *loginUser;
 	MapListener *mapListener;
+    Session* session;
     LocationSvc *loc_svc;
 
 public slots:

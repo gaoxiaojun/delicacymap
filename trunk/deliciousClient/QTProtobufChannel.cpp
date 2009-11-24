@@ -6,9 +6,12 @@ static const int CallBufferIncrease = 4;
 QTProtobufChannel::QTProtobufChannel( const QHostAddress &serveraddr, unsigned short port )
 :_addr(serveraddr), _port(port)
 {
-    _callid = 0;
     QThread::start();
+    _callid = 0;
+    _helper = NULL;
+    QThread::msleep(300);
 }
+
 QTProtobufChannel::~QTProtobufChannel(void)
 {
     close();
@@ -22,14 +25,7 @@ QTProtobufChannel::~QTProtobufChannel(void)
 
 void QTProtobufChannel::start()
 {
-    QMutex guard;
-    QMutexLocker lock(&guard);
-    QWaitCondition cond;
-    emit requetStart(&_addr, _port, &cond);
-    if (!cond.wait(&guard, 5000))
-    {
-        throw _helper->networkError();
-    }
+    emit requetStart(&_addr, _port);
 }
 
 void QTProtobufChannel::close()
@@ -41,7 +37,7 @@ void QTProtobufChannel::close()
 void QTProtobufChannel::CallMethod( const google::protobuf::MethodDescriptor* method, google::protobuf::RpcController* controller, const google::protobuf::Message* request, google::protobuf::Message* response, google::protobuf::Closure* done )
 {
     if (!started())
-        start();
+        throw std::exception("Channel not started!");
 
     if (reqs.empty())
         needMoreReqs();
@@ -59,7 +55,9 @@ void QTProtobufChannel::run()
     _helper = new QTProtobufChannelDriver(this, &_currentCalls);
 
     connect(this, SIGNAL(writeMessage(google::protobuf::Message*)), _helper, SLOT(writeMessage( google::protobuf::Message*  )));
-    connect(this, SIGNAL(requetStart(QHostAddress*, unsigned short, QWaitCondition* )), _helper, SLOT(start(QHostAddress*, unsigned short, QWaitCondition*)));
+    connect(this, SIGNAL(requetStart(QHostAddress*, unsigned short )), _helper, SLOT(start(QHostAddress*, unsigned short)));
+    connect(_helper->_tcps, SIGNAL(connected()), this, SIGNAL(connected()), Qt::DirectConnection);
+    connect(_helper->_tcps, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error()), Qt::DirectConnection);
 
     exec();
 
@@ -68,7 +66,7 @@ void QTProtobufChannel::run()
 
 bool QTProtobufChannel::started()
 {
-    return _helper->started();
+    return _helper != NULL && _helper->started();
 }
 
 void QTProtobufChannel::needMoreReqs()
@@ -82,6 +80,15 @@ void QTProtobufChannel::needMoreReqs()
 void QTProtobufChannel::returnQueryBuffer( protorpc::Message* m )
 {
     reqs.push(m);
+}
+
+QString QTProtobufChannel::errorString()
+{
+    if (_helper)
+    {
+        return _helper->_tcps->errorString();
+    }
+    return QString();
 }
 
 void QTProtobufChannelDriver::readMessage()
@@ -112,14 +119,24 @@ void QTProtobufChannelDriver::readMessage()
                 if (_currentCalls->contains(response.id()))
                 {
                     CallEntry entry = _currentCalls->value(response.id());
-                    _currentCalls->remove(response.id());
                     entry.response->ParseFromString(response.buffer());
                     parent->returnQueryBuffer(entry.request);
+                    _currentCalls->remove(response.id());
+                    entry.done->Run();
+                }
+                break;
+            case protorpc::RESPONSE_FAILED:
+                if (_currentCalls->contains(response.id()))
+                {
+                    CallEntry entry = _currentCalls->value(response.id());
+                    entry.response->Clear();
+                    parent->returnQueryBuffer(entry.request);
+                    _currentCalls->remove(response.id());
                     entry.done->Run();
                 }
                 break;
             default:
-                qDebug()<<"Client RPC Only expect Response!";
+                qDebug()<<"Unexpected RPC Response type: "<<response.type();
             }
         }
     }
@@ -132,7 +149,7 @@ QTProtobufChannelDriver::QTProtobufChannelDriver(QTProtobufChannel* parent, QHas
     _buffer_index = -1;
     _tcps = new QTcpSocket();
 
-    connect(_tcps, SIGNAL(readyRead()), this, SLOT(readMessage()));
+    connect(_tcps, SIGNAL(readyRead()), this, SLOT(readMessage()), Qt::DirectConnection);
 }
 
 QTProtobufChannelDriver::~QTProtobufChannelDriver()
@@ -160,13 +177,11 @@ void QTProtobufChannelDriver::writeMessage( google::protobuf::Message* m )
         throw _tcps->error();
 }
 
-void QTProtobufChannelDriver::start( QHostAddress *_addr, unsigned short _port, QWaitCondition* notify )
+void QTProtobufChannelDriver::start( QHostAddress *_addr, unsigned short _port )
 {
     if (_tcps->state() == QTcpSocket::UnconnectedState)
     {
         _tcps->connectToHost(*_addr, _port);
-        _tcps->waitForConnected(5000);
-        notify->wakeOne();
     }
 }
 

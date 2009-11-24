@@ -6,6 +6,7 @@
 
 class mapview;
 class MapListenerPrivate;
+class Session;
 struct CommentCallEntry;
 
 struct LatLng
@@ -33,6 +34,10 @@ class MapListener : public QObject
 
 public:
 	MapListener(QObject *parent);
+    ~MapListener();
+
+    void changeSession(Session *);
+    Session* getSession();
 
 	QObject RestaurantInfo() const;
 public slots:

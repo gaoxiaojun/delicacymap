@@ -10,7 +10,7 @@ LoginWindow::LoginWindow(void)
     dialog->setupUi(this);
     session = NULL;
     logincallback = google::protobuf::NewPermanentCallback(this, &LoginWindow::loginResponse);
-    connect(dialog->okButton, SIGNAL(clicked(bool)), this, SLOT(login()));
+    connect(dialog->okButton, SIGNAL(clicked(bool)), this, SLOT(login_step1()));
     connect(this, SIGNAL(loginSuccess()), this, SLOT(success()));
     connect(this, SIGNAL(loginFailed()), this, SLOT(failed()));
 }
@@ -23,14 +23,16 @@ LoginWindow::~LoginWindow(void)
     delete logincallback;
 }
 
-void LoginWindow::login()
+void LoginWindow::login_step1()
 {
+    dialog->label_status->setText(QString::fromLocal8Bit("正在连接服务器...."));
     if (!session)
+    {
         session = new Session();
-    MD5 md5(dialog->lineEdit_password->text());
-    std::string email = dialog->lineEdit_username->text().toStdString();
-    std::string pwd   = md5.toString().toStdString();
-    session->getDataSource().UserLogin(email, pwd, session->getUser(), logincallback);
+        connect(&session->getDataSource(), SIGNAL(ready(bool)), this, SLOT(login_step2(bool)));
+    }
+
+    session->getDataSource().connect();
 }
 
 Session* LoginWindow::getSession()
@@ -49,10 +51,27 @@ void LoginWindow::loginResponse()
 
 void LoginWindow::success()
 {
+    dialog->label_status->setText(QString::fromLocal8Bit("登陆成功...."));
     accept();
 }
 
 void LoginWindow::failed()
 {
-    this->setResult(QDialog::Rejected);
+    dialog->label_status->setText(QString::fromLocal8Bit("登陆失败，用户名密码不匹配！...."));
+}
+
+void LoginWindow::login_step2(bool connected)
+{
+    if (connected)
+    {
+        dialog->label_status->setText(QString::fromLocal8Bit("正在登陆...."));
+        MD5 md5(dialog->lineEdit_password->text());
+        std::string email = dialog->lineEdit_username->text().toStdString();
+        std::string pwd   = md5.toString().toStdString();
+        session->getDataSource().UserLogin(email, pwd, session->getUser(), logincallback);
+    }
+    else
+    {
+        dialog->label_status->setText(QString::fromLocal8Bit("连接服务器失败：").append(session->getDataSource().error()));
+    }
 }

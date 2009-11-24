@@ -181,7 +181,8 @@ void DMServiceLocalDBImpl::UserLogin( ::google::protobuf::RpcController* control
         }
         else
         {
-            pantheios::log_WARNING("Login failed. usr=", request->emailaddress(), ", pwd=", request->password(), ".");
+            pantheios::log_INFORMATIONAL("Login failed. usr=", request->emailaddress(), ", pwd=", request->password(), ".");
+            controller->SetFailed("Login filed, username password mismatch.");
         }
     }
     else

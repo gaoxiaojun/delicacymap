@@ -13,6 +13,16 @@ MapListenerPrivate::~MapListenerPrivate()
 // 		delete commentLists.pop();
 }
 
+void MapListenerPrivate::changeSession(Session *s)
+{
+    session = s;
+}
+
+Session* MapListenerPrivate::getSession()
+{
+    return session;
+}
+
 void MapListenerPrivate::newRestaurantDataArrive( )
 {
 	emit RestaurantListDataArrive(&restaurantList);
