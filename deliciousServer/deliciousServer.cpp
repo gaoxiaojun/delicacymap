@@ -28,11 +28,7 @@ rclib::network::TCPServer<naked_conn> *serverd;
 
 bool InitializeComponents(const string& dbpath);
 
-#ifndef WIN32
 int main(int argc, char* argv[])
-#else
-int _tmain(int argc, TCHAR* argv[])
-#endif
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
