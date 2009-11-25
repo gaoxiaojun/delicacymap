@@ -50,6 +50,7 @@ void MainWindow::changeEvent(QEvent *e)
         m_ui->retranslateUi(this);
         break;
     default:
+        QMainWindow::changeEvent(e);
         break;
     }
 }

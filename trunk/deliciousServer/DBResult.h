@@ -5,6 +5,8 @@
 #include <map>
 #include <boost/lexical_cast.hpp>
 
+class DBResult;
+
 class DBRow
 {
 public:
@@ -15,14 +17,14 @@ public:
     template <typename To>
     To GetValueAs(const std::string& colname) const
     {
-        const string& ret = operator[](colname);
+        const std::string& ret = operator[](colname);
         return boost::lexical_cast<To>(ret);
     }
 
     template <typename To>
     To GetValueAs(int index) const
     {
-        const string& ret = operator[](index);
+        const std::string& ret = operator[](index);
         return boost::lexical_cast<To>(ret);
     }
 
@@ -41,10 +43,10 @@ public:
     DBResult(void);
     ~DBResult(void);
 
-    const string& ColumnName(size_t index) const;
+    const std::string& ColumnName(size_t index) const;
     size_t RowsCount() const;
     size_t ColCount() const;
-    const string& Value(size_t Row, size_t Col);
+    const std::string& Value(size_t Row, size_t Col);
 
     const DBRow& operator[](int index) const;
     const DBRow& GetRow(size_t index) const;

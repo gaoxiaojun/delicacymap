@@ -36,7 +36,7 @@ namespace rclib
                     boost::lock_guard<boost::mutex> lock(_m);
                     if (_used == _pool.size())
                         expand();
-                    return ConnectionT::pointer(_pool[_used++], boost::bind(&ConnectionPool::returntopool, this, _1));
+                    return typename ConnectionT::pointer(_pool[_used++], boost::bind(&ConnectionPool::returntopool, this, _1));
                 }
             private:
                 void returntopool(ConnectionT* conn)

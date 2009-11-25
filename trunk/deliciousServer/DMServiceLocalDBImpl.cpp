@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "DMServiceLocalDBImpl.h"
 #include "DBResult.h"
 #include <vector>

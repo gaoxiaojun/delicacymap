@@ -7,17 +7,27 @@
 
 using namespace std;
 
+class DBexception : public exception
+{
+public:
+    explicit DBexception(const char* s=NULL, int code=0) : errmsg(s), errcode(code) {}
+    virtual const char* what() const throw(){return errmsg;};
+private:
+   const char* errmsg;
+   int errcode;
+};
+
 DBContext::DBContext(const std::string& connstr)
 {
     try
     {
         int err = sqlite3_open_v2(connstr.c_str(), &db, SQLITE_OPEN_READWRITE, NULL);
         if (!db)
-            throw exception("Error allocating memory for db handle");
+            throw DBexception("Error allocating memory for db handle");
         else if (err != SQLITE_OK)
-            throw exception(sqlite3_errmsg(db), err);
+            throw DBexception(sqlite3_errmsg(db), err);
     }
-    catch (exception&)
+    catch (const exception&)
     {
         sqlite3_close(db);
         throw;
@@ -42,7 +52,7 @@ int DBContext::sqlexeccallback(void * context, int argc, char **argv, char **azC
     {
         result->AppendData(argc, argv, azColName);
     }
-    catch (exception&)
+    catch (const exception&)
     {
         return -1;
     }
@@ -57,7 +67,7 @@ DBResult* DBContext::Execute( const std::string &sql )
     int err = sqlite3_exec(db, sql.c_str(), sqlexeccallback, result, &errmsg);
     if (err != SQLITE_OK)
     {
-        exception &e = exception(errmsg, err);
+        const DBexception &e = DBexception(errmsg, err);
 		// TODO: this leaks!
         //sqlite3_free(errmsg);
         throw e;
