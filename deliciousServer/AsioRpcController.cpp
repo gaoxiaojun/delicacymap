@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "AsioRpcController.h"
 #include <boost/foreach.hpp>
 
@@ -36,7 +36,7 @@ void AsioRpcController::StartCancel()
         c->Run();
 }
 
-void AsioRpcController::SetFailed( const string& reason )
+void AsioRpcController::SetFailed( const std::string& reason )
 {
     this->reason = reason;
     hasFailed = true;

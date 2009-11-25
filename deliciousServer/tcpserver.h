@@ -39,7 +39,7 @@ namespace rclib
             };
             //  开始服务器的运行
             //  无参数
-            void TCPServer::start()
+            void start()
             {
                 typename ConnectionT::pointer conn = _connpool.getavailconnection();
                 _acceptor.async_accept(conn->socket()
@@ -51,7 +51,7 @@ namespace rclib
             //  客户端连入服务器
             //  参数：  ptr:客户端连接的对象指针
             //          err:可能出现的错误
-            void TCPServer::handle_accept(typename ConnectionT::pointer ptr, const boost::system::error_code &err)
+            void handle_accept(typename ConnectionT::pointer ptr, const boost::system::error_code &err)
             {
                 //std::cout<<"Thead "<<boost::this_thread::get_id()<<" is handling acceptence of "<<ptr->socket().remote_endpoint()<<std::endl;
                 if (err)

@@ -17,7 +17,7 @@ public://constructor, destructor
 public:
     //client side
 
-    virtual string ErrorText() const;
+    virtual std::string ErrorText() const;
 
     virtual void Reset();
 
@@ -27,7 +27,7 @@ public:
 
     //server side
 
-    virtual void SetFailed(const string& reason);
+    virtual void SetFailed(const std::string& reason);
 
     virtual bool IsCanceled() const;
 

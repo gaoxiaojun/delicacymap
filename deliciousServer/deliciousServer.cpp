@@ -28,7 +28,11 @@ rclib::network::TCPServer<naked_conn> *serverd;
 
 bool InitializeComponents(const string& dbpath);
 
-int _tmain(int argc, _TCHAR* argv[])
+#ifndef WIN32
+int main(int argc, char* argv[])
+#else
+int _tmain(int argc, TCHAR* argv[])
+#endif
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -62,7 +66,7 @@ int _tmain(int argc, _TCHAR* argv[])
     pantheios::log_NOTICE("Server Start.");
     boost::array<boost::thread, 4> threadpool;
     BOOST_FOREACH(boost::thread& t, threadpool)
-        t.swap(boost::thread(boost::bind(&io_service::run, &io)));
+        t = boost::thread(boost::bind(&io_service::run, &io));
 
     io.run();
 
