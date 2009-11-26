@@ -11,14 +11,14 @@
 MapListener::MapListener( QObject *parent )
 :QObject(parent)
 {
-	this->mview = (mapview*)parent;
-	_private = new MapListenerPrivate(this);
+    this->mview = (mapview*)parent;
+    _private = new MapListenerPrivate(this);
 
-	// this order is crucial. see MapListener::RestaurantListArrived() 
-	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), this, SLOT(RestaurantListArrived()));
-	connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), mview, SLOT(newRestaurants(ProtocolBuffer::RestaurantList*)));
+    // this order is crucial. see MapListener::RestaurantListArrived() 
+    connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), this, SLOT(RestaurantListArrived()));
+    connect(_private, SIGNAL(RestaurantListDataArrive(ProtocolBuffer::RestaurantList*)), mview, SLOT(newRestaurants(ProtocolBuffer::RestaurantList*)));
 
-	//connect(_private, SIGNAL(CommentListDataArrive(CommentCallEntry*)), this, SLOT(CommentListArrived(CommentCallEntry*)));
+    //connect(_private, SIGNAL(CommentListDataArrive(CommentCallEntry*)), this, SLOT(CommentListArrived(CommentCallEntry*)));
 }
 
 MapListener::~MapListener()
@@ -36,15 +36,16 @@ Session* MapListener::getSession()
     return _private->getSession();
 }
 
-void MapListener::markerClicked()
+void MapListener::moreCommentsClicked(int rid)
 {
-	qDebug()<<"marker clicked";
+    qDebug()<<"marker.commentLink clicked. Restaurant id= "<<rid;
+    mview->showCommentsForRestaurant(rid);
 }
 
 void MapListener::mapClicked(QString s)
 {
-	mview->page()->mainFrame()->evaluateJavaScript(QString("map.panTo(tempMarker.getLatLng());")); 
-	qDebug()<<"map clicked:"<<s;
+    mview->page()->mainFrame()->evaluateJavaScript(QString("map.panTo(tempMarker.getLatLng());")); 
+    qDebug()<<"map clicked:"<<s;
 }
 
 void MapListener::mapBoundChanged(const QString& boundstr)
@@ -82,38 +83,33 @@ void MapListener::mapBoundChanged(const QString& boundstr)
 
 Bound MapListener::googleboundToMyBound(const QString& boundstr)
 {
-	assert(boundstr.length() > 0);
+    assert(boundstr.length() > 0);
 
-	QStringList list = boundstr.split(',');
-	assert(list.count() == 4);
+    QStringList list = boundstr.split(',');
+    assert(list.count() == 4);
 
-	Bound mapbound;
-	mapbound.SW.lat = list[0].toDouble();
-	mapbound.SW.lng = list[1].toDouble();
-	mapbound.NE.lat = list[2].toDouble();
-	mapbound.NE.lng = list[3].toDouble();
-	return mapbound;
-}
-
-void MapListener::restaurantMarkerClicked( int rid )
-{
-
+    Bound mapbound;
+    mapbound.SW.lat = list[0].toDouble();
+    mapbound.SW.lng = list[1].toDouble();
+    mapbound.NE.lat = list[2].toDouble();
+    mapbound.NE.lng = list[3].toDouble();
+    return mapbound;
 }
 
 void MapListener::RestaurantListArrived()
 {
-	for (int i=0;i<_private->restaurantList.restaurants_size();++i)
-	{
-		const ProtocolBuffer::Restaurant& r = _private->restaurantList.restaurants(i);
-		if (!mview->isRestaurantInView(r.rid()))
-		{
-			//CommentCallEntry* entry = _private->getCommentList();
-			//_private->connman.GetLastestCommentsOfRestaurant(r.rid(), 5, &entry->list, entry->callback);
-			char numberbuf[16];
-			sprintf(numberbuf, "%d", r.rid());
-			this->setProperty(numberbuf, DisplaySchemas::RestaurantInfoWindowSchema(&r));
-		}
-	}
+    for (int i=0;i<_private->restaurantList.restaurants_size();++i)
+    {
+        const ProtocolBuffer::Restaurant& r = _private->restaurantList.restaurants(i);
+        if (!mview->isRestaurantInView(r.rid()))
+        {
+            //CommentCallEntry* entry = _private->getCommentList();
+            //_private->connman.GetLastestCommentsOfRestaurant(r.rid(), 5, &entry->list, entry->callback);
+            char numberbuf[16];
+            sprintf(numberbuf, "%d", r.rid());
+            this->setProperty(numberbuf, DisplaySchemas::RestaurantInfoWindowSchema(&r));
+        }
+    }
 }
 
 // void MapListener::CommentListArrived(CommentCallEntry* entry)

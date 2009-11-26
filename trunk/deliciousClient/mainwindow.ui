@@ -264,7 +264,7 @@ background-color: rgba(255, 255, 255, 55);
 border-top-left-radius: 10px;
 border-top-right-radius: 10px;
 border-bottom-width: 0;
-min-width: 100px;
+min-width: 120px;
 padding: 2px;
 }
 QTabBar::tab:selected {
@@ -302,7 +302,7 @@ background-color: rgba(255, 255, 255, 200);
           <property name="documentMode">
            <bool>true</bool>
           </property>
-          <widget class="QWidget" name="tab_1">
+          <widget class="QWidget" name="tab_fav">
            <property name="font">
             <font>
              <kerning>true</kerning>
@@ -312,33 +312,10 @@ background-color: rgba(255, 255, 255, 200);
             <string>菜式收藏</string>
            </attribute>
           </widget>
-          <widget class="QWidget" name="tab_2">
+          <widget class="QWidget" name="tab_comment">
            <attribute name="title">
-            <string>历史评论</string>
+            <string>最新评论</string>
            </attribute>
-           <widget class="QPushButton" name="testRPC">
-            <property name="geometry">
-             <rect>
-              <x>40</x>
-              <y>190</y>
-              <width>75</width>
-              <height>23</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>PushButton</string>
-            </property>
-           </widget>
-           <widget class="QTextEdit" name="textEdit">
-            <property name="geometry">
-             <rect>
-              <x>180</x>
-              <y>50</y>
-              <width>211</width>
-              <height>201</height>
-             </rect>
-            </property>
-           </widget>
           </widget>
          </widget>
         </item>
@@ -363,20 +340,39 @@ background-color: rgba(255, 255, 255, 200);
           <property name="documentMode">
            <bool>true</bool>
           </property>
-          <widget class="QWidget" name="tab">
+          <widget class="QWidget" name="tab_restaurant">
            <attribute name="title">
             <string>餐厅推荐</string>
            </attribute>
           </widget>
-          <widget class="QWidget" name="tab_3">
+          <widget class="QWidget" name="tab_cupoun">
            <attribute name="title">
             <string>近期优惠</string>
            </attribute>
           </widget>
-          <widget class="QWidget" name="tab_4">
+          <widget class="QWidget" name="tab_myfav">
            <attribute name="title">
             <string>我的收藏</string>
            </attribute>
+           <widget class="QFrame" name="frame">
+            <property name="geometry">
+             <rect>
+              <x>30</x>
+              <y>10</y>
+              <width>391</width>
+              <height>351</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-image: url();background-color: rgba(0, 0, 0,20%);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>

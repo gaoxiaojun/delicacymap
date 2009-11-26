@@ -21,7 +21,6 @@ HEADERS += mapview.h \
            LocationSvc.h \
            mainwindow.h \
            LoginWindow.h \
-           CustomEvents.h \
            QTProtobufChannel.h \
            QTProbufController.h \
            QTProtobufWaitResponse.h \

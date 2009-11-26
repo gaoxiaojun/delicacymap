@@ -186,7 +186,6 @@
 	    {
 	        var tempRestr = makeMarkerByLatLng(lat, lng, title);
 	        google.maps.event.addListener(tempRestr, 'click', function () {
-		        mapListener.restaurantMarkerClicked(rid);
 		        infowindow.setContent(mapListener[rid]);
 		        infowindow.open(map, tempRestr);
 		    });

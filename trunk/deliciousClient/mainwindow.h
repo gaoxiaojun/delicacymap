@@ -23,18 +23,15 @@ public:
 
 protected:
     virtual void changeEvent(QEvent *e);
-    virtual void customEvent(QEvent *e);
     void clearConnections();
 
-    void addRestrauntsToMap(const ProtocolBuffer::RestaurantList &rlist);
-
-    void postEvent(ProtobufDataEvent*);
-
-private slots:
+public slots:
     void BTHFind();
     void interfaceTransit_map();
     void interfaceTransit_comment();
     void interfaceTransit_favourite();
+
+    void showLatestCommentsFor( int rid );
 
 private:
     Ui::MainWindow *m_ui;
