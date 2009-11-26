@@ -10,6 +10,7 @@
 #include "LocationSvc.h"
 
 
+class MainWindow;
 class MapListener;
 class Session;
 namespace ProtocolBuffer{
@@ -23,7 +24,7 @@ class mapview : public QWebView
     Q_OBJECT
 
 public:
-    mapview(QWidget *parent = 0);
+    mapview(MainWindow *parent = 0);
     ~mapview();
     void changeSession(Session *);
     Session* getSession();
@@ -42,6 +43,12 @@ public:
 	//Marker getMarkerInfo();	//get "tempMarker"'s info
 
 	//void drawPolygon(const QVector<LatLng> &vertex,const QString& strokeColor = "#ffffff",int strokeWeight = 1, double strokeOpacity = 0.5, const QString& fillColor = "#ffffff",double fillOpacity = 0.5);
+
+//////////////////////////////Methods used internally////////////////////////////////////////////
+
+    void showCommentsForRestaurant(int rid);
+
+//////////////////////////////////////////////////////////////////////////
 
 signals:
 	void _LocationUpdate(double latitude, double longitude);
@@ -64,6 +71,7 @@ private:
 	//QVector<LatLng> bupt,bnu;
 	int markerCount;
 	ProtocolBuffer::User *loginUser;
+    MainWindow *window;
 	MapListener *mapListener;
     Session* session;
     LocationSvc *loc_svc;

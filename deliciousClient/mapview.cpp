@@ -1,6 +1,7 @@
 #include "mapview.h"
 #include "LocationSvc.h"
 #include "MapListener.h"
+#include "mainwindow.h"
 #include "../protocol-buffer-src/MapProtocol.pb.h"
 
 #include <QWebFrame>
@@ -13,7 +14,7 @@
 #define OFFSET_PER_BUTTON_PUSH 100
 static double LocationChangeThreshold = 0.0005f;
 
-mapview::mapview(QWidget *parent)
+mapview::mapview(MainWindow *parent)
     : QWebView(parent)
 {
     QString html("Load html error!!!");
@@ -35,6 +36,8 @@ mapview::mapview(QWidget *parent)
     
 	qDebug()<<"Done Webkit Init"<<endl;
     //===========================Done Webkit Init=====================================
+
+    window = parent;
 	
 	mapListener = new MapListener(this);
     changeSession(NULL);
@@ -265,4 +268,9 @@ void mapview::MyLocationUpdateCallback( void* context, LocationSvc* svc )
 void mapview::updateCurrentLocation( double latitude, double longitude )
 {
 	page()->mainFrame()->evaluateJavaScript(QString("updateMyLocation(%1, %2);").arg(latitude).arg(longitude));
+}
+
+void mapview::showCommentsForRestaurant( int rid )
+{
+    window->interfaceTransit_comment();
 }
