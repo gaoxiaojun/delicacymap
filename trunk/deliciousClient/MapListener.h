@@ -40,10 +40,10 @@ public:
     Session* getSession();
 
     QObject RestaurantInfo() const;
-    public slots:
-        void moreCommentsClicked(int rid);
-        void mapClicked(QString s);
-        void mapBoundChanged(const QString& boundstr);
+public slots:
+    void moreCommentsClicked(int rid);
+    void mapClicked(QString s);
+    void mapBoundChanged(const QString& boundstr);
 
 private slots:
     void RestaurantListArrived();

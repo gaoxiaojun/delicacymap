@@ -30,6 +30,8 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 	qDebug()<<index<<endl;
 	this->m_ui->stackedWidget->setCurrentWidget(navi);
 
+    connect(navi, SIGNAL(NewCommentListArrived(ProtocolBuffer::CommentList*)), this, SLOT(showLatestComments(ProtocolBuffer::CommentList*)));
+
     changeSession(s);
 
 	interfaceTransit_map();
@@ -164,4 +166,12 @@ void MainWindow::interfaceTransit_favourite()
 
 
 	//connect(m_ui->actionPL,SIGNAL(triggered()),this,SLOT(interfaceTransit_map()));
+}
+
+void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
+{
+    for (int i=0;i<list->comments_size();++i)
+    {
+        m_ui->textEdit->append(QString::fromStdString(list->comments(i).content()));
+    }
 }

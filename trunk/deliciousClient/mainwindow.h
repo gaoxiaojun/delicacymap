@@ -8,6 +8,13 @@
 class ProtobufDataEvent;
 class Session;
 
+namespace ProtocolBuffer{
+    class Restaurant;
+    class RestaurantList;
+    class CommentList;
+    class User;
+}
+
 namespace Ui {
     class MainWindow;
 }
@@ -31,7 +38,7 @@ public slots:
     void interfaceTransit_comment();
     void interfaceTransit_favourite();
 
-    void showLatestCommentsFor( int rid );
+    void showLatestComments( ProtocolBuffer::CommentList* );
 
 private:
     Ui::MainWindow *m_ui;

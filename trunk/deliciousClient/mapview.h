@@ -16,7 +16,14 @@ class Session;
 namespace ProtocolBuffer{
 	class Restaurant;
 	class RestaurantList;
+    class CommentList;
 	class User;
+}
+
+namespace google{
+    namespace protobuf{
+        class Closure;
+    }
 }
 
 class mapview : public QWebView
@@ -48,10 +55,15 @@ public:
 
     void showCommentsForRestaurant(int rid);
 
-//////////////////////////////////////////////////////////////////////////
+    void commentListArrive(ProtocolBuffer::CommentList*);
 
 signals:
-	void _LocationUpdate(double latitude, double longitude);
+    void _LocationUpdate(double latitude, double longitude);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+signals:
+    void NewCommentListArrived(ProtocolBuffer::CommentList*);
 
 protected:
     void keyPressEvent( QKeyEvent *event );
@@ -70,7 +82,8 @@ private:
 	QSet<int> restaurants;
 	//QVector<LatLng> bupt,bnu;
 	int markerCount;
-	ProtocolBuffer::User *loginUser;
+    google::protobuf::Closure* commentDataArrive;
+    ProtocolBuffer::CommentList* commentlist;
     MainWindow *window;
 	MapListener *mapListener;
     Session* session;
