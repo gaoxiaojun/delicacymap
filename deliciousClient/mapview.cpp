@@ -2,6 +2,7 @@
 #include "LocationSvc.h"
 #include "MapListener.h"
 #include "mainwindow.h"
+#include "Session.h"
 #include "../protocol-buffer-src/MapProtocol.pb.h"
 
 #include <QWebFrame>
@@ -38,6 +39,9 @@ mapview::mapview(MainWindow *parent)
     //===========================Done Webkit Init=====================================
 
     window = parent;
+
+    commentlist = new ProtocolBuffer::CommentList();
+    commentDataArrive = google::protobuf::NewPermanentCallback(this, &mapview::commentListArrive, commentlist);
 	
 	mapListener = new MapListener(this);
     changeSession(NULL);
@@ -50,6 +54,8 @@ mapview::mapview(MainWindow *parent)
 mapview::~mapview()
 {
 	delete mapListener;
+    delete commentDataArrive;
+    delete commentlist;
 }
 
 void mapview::changeSession(Session *s)
@@ -273,4 +279,11 @@ void mapview::updateCurrentLocation( double latitude, double longitude )
 void mapview::showCommentsForRestaurant( int rid )
 {
     window->interfaceTransit_comment();
+    getSession()->getDataSource().GetLastestCommentsOfRestaurant(rid, 20, commentlist, commentDataArrive);
+    
+}
+
+void mapview::commentListArrive(ProtocolBuffer::CommentList* list)
+{
+    emit NewCommentListArrived(list);
 }

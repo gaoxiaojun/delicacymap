@@ -275,7 +275,7 @@ background-color: rgba(255, 255, 255, 200);
 }</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_2">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -294,7 +294,7 @@ background-color: rgba(255, 255, 255, 200);
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="elideMode">
            <enum>Qt::ElideNone</enum>
@@ -316,6 +316,16 @@ background-color: rgba(255, 255, 255, 200);
            <attribute name="title">
             <string>最新评论</string>
            </attribute>
+           <widget class="QTextEdit" name="textEdit">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>10</y>
+              <width>401</width>
+              <height>351</height>
+             </rect>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>
@@ -354,25 +364,6 @@ background-color: rgba(255, 255, 255, 200);
            <attribute name="title">
             <string>我的收藏</string>
            </attribute>
-           <widget class="QFrame" name="frame">
-            <property name="geometry">
-             <rect>
-              <x>30</x>
-              <y>10</y>
-              <width>391</width>
-              <height>351</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-image: url();background-color: rgba(0, 0, 0,20%);</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-           </widget>
           </widget>
          </widget>
         </item>
