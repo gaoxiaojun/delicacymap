@@ -7,8 +7,9 @@
 #include <QList>
 #include <QVector>
 #include <QSet>
-#include "LocationSvc.h"
+#include <qgeopositioninfo.h>
 
+QTM_USE_NAMESPACE
 
 class MainWindow;
 class MapListener;
@@ -25,6 +26,10 @@ namespace google{
         class Closure;
     }
 }
+
+QTM_BEGIN_NAMESPACE
+    class QGeoPositionInfoSource;
+QTM_END_NAMESPACE
 
 class mapview : public QWebView
 {
@@ -59,9 +64,6 @@ public:
 
     void newcurrentLocation(const QString&);
 
-signals:
-    void _LocationUpdate(double latitude, double longitude);
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 signals:
@@ -76,13 +78,12 @@ protected:
 private slots:
 	void MapLoaded();
     void setupmapconfiguration();
-    void whereami();
-    static void MyLocationUpdateCallback(void* context, LocationSvc*);
 
-	void updateCurrentLocation(double latitude, double longitude);
+	void updateCurrentLocation(const QGeoPositionInfo&);
 
 private:
 	QSet<int> restaurants;
+    QGeoPositionInfo _lastposition;
 	//QVector<LatLng> bupt,bnu;
 	int markerCount;
     google::protobuf::Closure* commentDataArrive;
@@ -90,7 +91,7 @@ private:
     MainWindow *window;
 	MapListener *mapListener;
     Session* session;
-    LocationSvc *loc_svc;
+    QTM_PREPEND_NAMESPACE(QGeoPositionInfoSource)* loc_svc;
 
 public slots:
 	void newRestaurants(ProtocolBuffer::RestaurantList*);

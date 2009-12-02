@@ -66,8 +66,8 @@ void LoginWindow::login_step2(bool connected)
     {
         dialog->label_status->setText(QString::fromLocal8Bit("ÕýÔÚµÇÂ½...."));
         MD5 md5(dialog->lineEdit_password->text());
-        std::string email = dialog->lineEdit_username->text().toStdString();
-        std::string pwd   = md5.toString().toStdString();
+        std::string email(dialog->lineEdit_username->text().toUtf8().constData());
+        std::string pwd(md5.toString().toUtf8().constData());
         session->getDataSource().UserLogin(email, pwd, session->getUser(), logincallback);
     }
     else
