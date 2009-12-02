@@ -15,6 +15,7 @@ FORMS += mainwindow.ui \
 HEADERS += mapview.h \
            MapListener.h \
            MapListenerPrivate.h \
+           CommentItemDelegate.h \
            md5.h \
            bluetoothmanager.h \
            MapDataSource.h \
@@ -32,6 +33,7 @@ HEADERS += mapview.h \
 SOURCES += main.cpp \
            MapListener.cpp \
            MapListenerPrivate.cpp \
+           CommentItemDelegate.cpp \
            md5.cpp \
            mapview.cpp \
            bluetoothmanager.cpp \

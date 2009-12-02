@@ -3,6 +3,7 @@
 
 #include <QtGui/QMainWindow>
 #include <QtGui/QTextEdit>
+#include <QString>
 #include "mapview.h"
 
 class ProtobufDataEvent;
@@ -39,6 +40,9 @@ public slots:
     void interfaceTransit_favourite();
 
     void showLatestComments( ProtocolBuffer::CommentList* );
+
+private slots:
+    void UpdateCurrentLocation(QString);
 
 private:
     Ui::MainWindow *m_ui;

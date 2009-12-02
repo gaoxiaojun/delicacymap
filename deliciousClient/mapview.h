@@ -57,6 +57,8 @@ public:
 
     void commentListArrive(ProtocolBuffer::CommentList*);
 
+    void newcurrentLocation(const QString&);
+
 signals:
     void _LocationUpdate(double latitude, double longitude);
 
@@ -64,6 +66,7 @@ signals:
 
 signals:
     void NewCommentListArrived(ProtocolBuffer::CommentList*);
+    void LocationUpdate(QString);
 
 protected:
     void keyPressEvent( QKeyEvent *event );

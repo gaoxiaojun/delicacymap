@@ -67,6 +67,11 @@ void MapListener::mapBoundChanged(const QString& boundstr)
     }
 }
 
+void MapListener::mapLocationChanged( const QString& boundstr )
+{
+    mview->newcurrentLocation(boundstr.startsWith(QString::fromLocal8Bit("ÖÐ¹ú")) ? boundstr.mid(2) : boundstr);
+}
+
 // QString& trimHead(QString& str, char c)
 // {
 // 	while (str.startsWith(c))

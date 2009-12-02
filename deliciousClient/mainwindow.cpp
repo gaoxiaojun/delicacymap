@@ -3,6 +3,7 @@
 #include "mapview.h"
 #include "bluetoothmanager.h"
 #include "QTProtobufWaitResponse.h"
+#include "CommentItemDelegate.h"
 #include "../protocol-buffer-src/MapProtocol.pb.h"
 
 #include <QMenuBar>
@@ -17,6 +18,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     m_ui(new Ui::MainWindow)
 {
     m_ui->setupUi(this);
+    m_ui->list_latestcomment->setItemDelegate(new CommentItemDelegate());
 
 #if _WIN32_WCE
     //menuBar()->setDefaultAction(m_ui->menuZoomOut);
@@ -31,6 +33,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 	this->m_ui->stackedWidget->setCurrentWidget(navi);
 
     connect(navi, SIGNAL(NewCommentListArrived(ProtocolBuffer::CommentList*)), this, SLOT(showLatestComments(ProtocolBuffer::CommentList*)));
+    connect(navi, SIGNAL(LocationUpdate(QString)), this, SLOT(UpdateCurrentLocation( QString )));
 
     changeSession(s);
 
@@ -170,8 +173,18 @@ void MainWindow::interfaceTransit_favourite()
 
 void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
 {
+    m_ui->list_latestcomment->clear();
     for (int i=0;i<list->comments_size();++i)
     {
-        m_ui->textEdit->append(QString::fromStdString(list->comments(i).content()));
+        //m_ui->textEdit->append(QString::fromStdString(list->comments(i).content()));
+        QListWidgetItem* item = new QListWidgetItem();
+        // this need extra caution
+        item->setData(Qt::UserRole, qVariantFromValue((void*)&list->comments(i)));
+        m_ui->list_latestcomment->addItem(item);
     }
+}
+
+void MainWindow::UpdateCurrentLocation( QString s )
+{
+    m_ui->label_currentlocation->setText(QString::fromLocal8Bit("µ±«∞Œª÷√£∫") + s);
 }

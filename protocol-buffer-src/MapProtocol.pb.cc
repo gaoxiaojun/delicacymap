@@ -43,6 +43,9 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* CommentList_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   CommentList_reflection_ = NULL;
+const ::google::protobuf::Descriptor* UserList_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  UserList_reflection_ = NULL;
 const ::google::protobuf::Descriptor* RestaurantType_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   RestaurantType_reflection_ = NULL;
@@ -228,7 +231,22 @@ void protobuf_AssignDesc_MapProtocol_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(CommentList));
-  RestaurantType_descriptor_ = file->message_type(10);
+  UserList_descriptor_ = file->message_type(10);
+  static const int UserList_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UserList, users_),
+  };
+  UserList_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      UserList_descriptor_,
+      UserList::default_instance_,
+      UserList_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UserList, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UserList, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(UserList));
+  RestaurantType_descriptor_ = file->message_type(11);
   static const int RestaurantType_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestaurantType, tid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestaurantType, name_),
@@ -244,7 +262,7 @@ void protobuf_AssignDesc_MapProtocol_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(RestaurantType));
-  Query_descriptor_ = file->message_type(11);
+  Query_descriptor_ = file->message_type(12);
   static const int Query_offsets_[10] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, area_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, level_),
@@ -302,6 +320,8 @@ void protobuf_RegisterTypes(const ::std::string&) {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     CommentList_descriptor_, &CommentList::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    UserList_descriptor_, &UserList::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     RestaurantType_descriptor_, &RestaurantType::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     Query_descriptor_, &Query::default_instance());
@@ -330,6 +350,8 @@ void protobuf_ShutdownFile_MapProtocol_2eproto() {
   delete RestaurantList_reflection_;
   delete CommentList::default_instance_;
   delete CommentList_reflection_;
+  delete UserList::default_instance_;
+  delete UserList_reflection_;
   delete RestaurantType::default_instance_;
   delete RestaurantType_reflection_;
   delete Query::default_instance_;
@@ -365,29 +387,33 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
     "otocolBuffer.Currency\"A\n\016RestaurantList\022"
     "/\n\013restaurants\030\001 \003(\0132\032.ProtocolBuffer.Re"
     "staurant\"8\n\013CommentList\022)\n\010comments\030\001 \003("
-    "\0132\027.ProtocolBuffer.Comment\"+\n\016Restaurant"
-    "Type\022\013\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t\"\307\001\n\005Quer"
-    "y\022\"\n\004area\030\001 \001(\0132\024.ProtocolBuffer.Area\022\r\n"
-    "\005level\030\002 \001(\r\022\"\n\004time\030\003 \001(\0132\024.ProtocolBuf"
-    "fer.Time\022\013\n\003RID\030\004 \001(\r\022\013\n\003UID\030\005 \001(\r\022\t\n\001n\030"
-    "\006 \001(\r\022\013\n\003msg\030\007 \001(\t\022\r\n\005image\030\010 \001(\014\022\024\n\014ema"
-    "ilAddress\030\t \001(\t\022\020\n\010password\030\n \001(\t2\335\004\n\tDM"
-    "Service\022G\n\016GetRestaurants\022\025.ProtocolBuff"
-    "er.Query\032\036.ProtocolBuffer.RestaurantList"
-    "\022T\n\036GetLastestCommentsOfRestaurant\022\025.Pro"
-    "tocolBuffer.Query\032\033.ProtocolBuffer.Comme"
-    "ntList\022N\n\030GetLastestCommentsByUser\022\025.Pro"
-    "tocolBuffer.Query\032\033.ProtocolBuffer.Comme"
-    "ntList\022L\n\026GetCommentsOfUserSince\022\025.Proto"
-    "colBuffer.Query\032\033.ProtocolBuffer.Comment"
-    "List\022R\n\034GetCommentsOfRestaurantSince\022\025.P"
-    "rotocolBuffer.Query\032\033.ProtocolBuffer.Com"
-    "mentList\0228\n\tUserLogin\022\025.ProtocolBuffer.Q"
-    "uery\032\024.ProtocolBuffer.User\022:\n\013GetUserInf"
-    "o\022\025.ProtocolBuffer.Query\032\024.ProtocolBuffe"
-    "r.User\022I\n\027AddCommentForRestaurant\022\025.Prot"
-    "ocolBuffer.Query\032\027.ProtocolBuffer.Commen"
-    "tB\002H\001", 1765);
+    "\0132\027.ProtocolBuffer.Comment\"/\n\010UserList\022#"
+    "\n\005users\030\001 \003(\0132\024.ProtocolBuffer.User\"+\n\016R"
+    "estaurantType\022\013\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t"
+    "\"\307\001\n\005Query\022\"\n\004area\030\001 \001(\0132\024.ProtocolBuffe"
+    "r.Area\022\r\n\005level\030\002 \001(\r\022\"\n\004time\030\003 \001(\0132\024.Pr"
+    "otocolBuffer.Time\022\013\n\003RID\030\004 \001(\r\022\013\n\003UID\030\005 "
+    "\001(\r\022\t\n\001n\030\006 \001(\r\022\013\n\003msg\030\007 \001(\t\022\r\n\005image\030\010 \001"
+    "(\014\022\024\n\014emailAddress\030\t \001(\t\022\020\n\010password\030\n \001"
+    "(\t2\345\005\n\tDMService\022G\n\016GetRestaurants\022\025.Pro"
+    "tocolBuffer.Query\032\036.ProtocolBuffer.Resta"
+    "urantList\022T\n\036GetLastestCommentsOfRestaur"
+    "ant\022\025.ProtocolBuffer.Query\032\033.ProtocolBuf"
+    "fer.CommentList\022N\n\030GetLastestCommentsByU"
+    "ser\022\025.ProtocolBuffer.Query\032\033.ProtocolBuf"
+    "fer.CommentList\022L\n\026GetCommentsOfUserSinc"
+    "e\022\025.ProtocolBuffer.Query\032\033.ProtocolBuffe"
+    "r.CommentList\022R\n\034GetCommentsOfRestaurant"
+    "Since\022\025.ProtocolBuffer.Query\032\033.ProtocolB"
+    "uffer.CommentList\0228\n\tUserLogin\022\025.Protoco"
+    "lBuffer.Query\032\024.ProtocolBuffer.User\022:\n\013G"
+    "etUserInfo\022\025.ProtocolBuffer.Query\032\024.Prot"
+    "ocolBuffer.User\022B\n\017GetRelatedUsers\022\025.Pro"
+    "tocolBuffer.Query\032\030.ProtocolBuffer.UserL"
+    "ist\022I\n\027AddCommentForRestaurant\022\025.Protoco"
+    "lBuffer.Query\032\027.ProtocolBuffer.Comment\022B"
+    "\n\rAddRestaurant\022\025.ProtocolBuffer.Query\032\032"
+    ".ProtocolBuffer.RestaurantB\002H\001", 1950);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MapProtocol.proto", &protobuf_RegisterTypes);
   Location::default_instance_ = new Location();
@@ -400,6 +426,7 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   Restaurant::default_instance_ = new Restaurant();
   RestaurantList::default_instance_ = new RestaurantList();
   CommentList::default_instance_ = new CommentList();
+  UserList::default_instance_ = new UserList();
   RestaurantType::default_instance_ = new RestaurantType();
   Query::default_instance_ = new Query();
   Location::default_instance_->InitAsDefaultInstance();
@@ -412,6 +439,7 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   Restaurant::default_instance_->InitAsDefaultInstance();
   RestaurantList::default_instance_->InitAsDefaultInstance();
   CommentList::default_instance_->InitAsDefaultInstance();
+  UserList::default_instance_->InitAsDefaultInstance();
   RestaurantType::default_instance_->InitAsDefaultInstance();
   Query::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_MapProtocol_2eproto);
@@ -3335,6 +3363,207 @@ void CommentList::Swap(CommentList* other) {
 
 // ===================================================================
 
+#ifndef _MSC_VER
+const int UserList::kUsersFieldNumber;
+#endif  // !_MSC_VER
+
+UserList::UserList() {
+  SharedCtor();
+}
+
+void UserList::InitAsDefaultInstance() {
+}
+
+UserList::UserList(const UserList& from) {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void UserList::SharedCtor() {
+  _cached_size_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+UserList::~UserList() {
+  SharedDtor();
+}
+
+void UserList::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+const ::google::protobuf::Descriptor* UserList::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return UserList_descriptor_;
+}
+
+const UserList& UserList::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
+}
+
+UserList* UserList::default_instance_ = NULL;
+
+UserList* UserList::New() const {
+  return new UserList;
+}
+
+void UserList::Clear() {
+  users_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool UserList::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // repeated .ProtocolBuffer.User users = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          goto handle_uninterpreted;
+        }
+       parse_users:
+        DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+              input, add_users()));
+        if (input->ExpectTag(10)) goto parse_users;
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void UserList::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  ::google::protobuf::uint8* raw_buffer = output->GetDirectBufferForNBytesAndAdvance(_cached_size_);
+  if (raw_buffer != NULL) {
+    UserList::SerializeWithCachedSizesToArray(raw_buffer);
+    return;
+  }
+  
+  // repeated .ProtocolBuffer.User users = 1;
+  for (int i = 0; i < this->users_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageNoVirtual(
+      1, this->users(i), output);
+  }
+  
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+}
+
+::google::protobuf::uint8* UserList::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // repeated .ProtocolBuffer.User users = 1;
+  for (int i = 0; i < this->users_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        1, this->users(i), target);
+  }
+  
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  return target;
+}
+
+int UserList::ByteSize() const {
+  int total_size = 0;
+  
+  // repeated .ProtocolBuffer.User users = 1;
+  total_size += 1 * this->users_size();
+  for (int i = 0; i < this->users_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->users(i));
+  }
+  
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  _cached_size_ = total_size;
+  return total_size;
+}
+
+void UserList::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const UserList* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const UserList*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void UserList::MergeFrom(const UserList& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  users_.MergeFrom(from.users_);
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void UserList::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void UserList::CopyFrom(const UserList& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UserList::IsInitialized() const {
+  
+  for (int i = 0; i < users_size(); i++) {
+    if (!this->users(i).IsInitialized()) return false;
+  }
+  return true;
+}
+
+void UserList::Swap(UserList* other) {
+  if (other != this) {
+    users_.Swap(&other->users_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata UserList::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = UserList_descriptor_;
+  metadata.reflection = UserList_reflection_;
+  return metadata;
+}
+
+
+// ===================================================================
+
 const ::std::string RestaurantType::_default_name_;
 #ifndef _MSC_VER
 const int RestaurantType::kTIDFieldNumber;
@@ -4298,11 +4527,27 @@ void DMService::GetUserInfo(::google::protobuf::RpcController* controller,
   done->Run();
 }
 
+void DMService::GetRelatedUsers(::google::protobuf::RpcController* controller,
+                         const ::ProtocolBuffer::Query*,
+                         ::ProtocolBuffer::UserList*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method GetRelatedUsers() not implemented.");
+  done->Run();
+}
+
 void DMService::AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                          const ::ProtocolBuffer::Query*,
                          ::ProtocolBuffer::Comment*,
                          ::google::protobuf::Closure* done) {
   controller->SetFailed("Method AddCommentForRestaurant() not implemented.");
+  done->Run();
+}
+
+void DMService::AddRestaurant(::google::protobuf::RpcController* controller,
+                         const ::ProtocolBuffer::Query*,
+                         ::ProtocolBuffer::Restaurant*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method AddRestaurant() not implemented.");
   done->Run();
 }
 
@@ -4356,9 +4601,21 @@ void DMService::CallMethod(const ::google::protobuf::MethodDescriptor* method,
              done);
       break;
     case 7:
+      GetRelatedUsers(controller,
+             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+             ::google::protobuf::down_cast< ::ProtocolBuffer::UserList*>(response),
+             done);
+      break;
+    case 8:
       AddCommentForRestaurant(controller,
              ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
              ::google::protobuf::down_cast< ::ProtocolBuffer::Comment*>(response),
+             done);
+      break;
+    case 9:
+      AddRestaurant(controller,
+             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+             ::google::protobuf::down_cast< ::ProtocolBuffer::Restaurant*>(response),
              done);
       break;
     default:
@@ -4387,6 +4644,10 @@ const ::google::protobuf::Message& DMService::GetRequestPrototype(
       return ::ProtocolBuffer::Query::default_instance();
     case 7:
       return ::ProtocolBuffer::Query::default_instance();
+    case 8:
+      return ::ProtocolBuffer::Query::default_instance();
+    case 9:
+      return ::ProtocolBuffer::Query::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *reinterpret_cast< ::google::protobuf::Message*>(NULL);
@@ -4412,7 +4673,11 @@ const ::google::protobuf::Message& DMService::GetResponsePrototype(
     case 6:
       return ::ProtocolBuffer::User::default_instance();
     case 7:
+      return ::ProtocolBuffer::UserList::default_instance();
+    case 8:
       return ::ProtocolBuffer::Comment::default_instance();
+    case 9:
+      return ::ProtocolBuffer::Restaurant::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *reinterpret_cast< ::google::protobuf::Message*>(NULL);
@@ -4479,11 +4744,25 @@ void DMService_Stub::GetUserInfo(::google::protobuf::RpcController* controller,
   channel_->CallMethod(descriptor()->method(6),
                        controller, request, response, done);
 }
+void DMService_Stub::GetRelatedUsers(::google::protobuf::RpcController* controller,
+                              const ::ProtocolBuffer::Query* request,
+                              ::ProtocolBuffer::UserList* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(7),
+                       controller, request, response, done);
+}
 void DMService_Stub::AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                               const ::ProtocolBuffer::Query* request,
                               ::ProtocolBuffer::Comment* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(7),
+  channel_->CallMethod(descriptor()->method(8),
+                       controller, request, response, done);
+}
+void DMService_Stub::AddRestaurant(::google::protobuf::RpcController* controller,
+                              const ::ProtocolBuffer::Query* request,
+                              ::ProtocolBuffer::Restaurant* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(9),
                        controller, request, response, done);
 }
 
