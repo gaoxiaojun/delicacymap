@@ -1,5 +1,4 @@
 #include "mapview.h"
-#include "LocationSvc.h"
 #include "MapListener.h"
 #include "mainwindow.h"
 #include "Session.h"
@@ -10,7 +9,11 @@
 #include <QFile>
 #include <QTextStream>
 #include <QtDebug>
+#include <qgeopositioninfo.h>
+#include <qgeopositioninfosource.h>
 #include <boost/bind.hpp>
+
+QTM_USE_NAMESPACE
 
 #define OFFSET_PER_BUTTON_PUSH 100
 static double LocationChangeThreshold = 0.0005f;
@@ -48,7 +51,6 @@ mapview::mapview(MainWindow *parent)
     
 	connect(this, SIGNAL(loadFinished(bool)), this, SLOT(setupmapconfiguration()), Qt::DirectConnection);
 	connect(this, SIGNAL(loadFinished(bool)), this, SLOT(MapLoaded()), Qt::DirectConnection);
-	connect(this, SIGNAL(_LocationUpdate(double, double)), this, SLOT(updateCurrentLocation(double, double)), Qt::QueuedConnection);
 }
 
 mapview::~mapview()
@@ -75,10 +77,12 @@ void mapview::MapLoaded()
 
 	markerCount = 0;
 
-	loc_svc = LocationSvc::create();
+	loc_svc = QGeoPositionInfoSource::createDefaultSource(this);
 	if  (loc_svc)
 	{
-		loc_svc->registerCallbackForNewPosition(&mapview::MyLocationUpdateCallback, this);
+        loc_svc->setUpdateInterval(3000);
+        connect(loc_svc, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(updateCurrentLocation(QGeoPositionInfo)));
+        loc_svc->startUpdates();
 	}
 
 	//this->initLatLngs();	//init the bound data for BUPT and BNU
@@ -167,31 +171,6 @@ void mapview::resize( int w, int h )
 #endif
 }
 
-void mapview::whereami()
-{
-	// this is bad, it prevents us from instaniate multiple mapview instances.
-	// but let's keep it this way for now. since the 'correct' way would need
-	// locks and hurts performance.
-	static Location* loc = loc_svc->newLocationInstance();
-	static double prev_lat = 0.0, prev_lon = 0.0;
-    if (loc_svc->canGetLocalLocation())
-    {
-        if (loc_svc->getLocalLocation(loc))
-        {
-            qDebug()<<"latitude: "<<loc->Latitude()<<"; longtitude: "<<loc->Longtitude();
-			double lat = loc->Latitude();
-			double lon = loc->Longtitude();
-			if ( abs( lat - prev_lat ) > ::LocationChangeThreshold ||
-				 abs( lon - prev_lon ) > ::LocationChangeThreshold)
-			{
-				prev_lat = lat;
-				prev_lon = lon;
-				emit _LocationUpdate(lat, lon);
-			}
-        }
-    }
-}
-
 void mapview::placeMarker(int minZoom,int maxZoom)
 {
 	page()->mainFrame()->evaluateJavaScript(QString("markerManager.addMarker(tempMarker,%1,%2);").arg(minZoom).arg(maxZoom));
@@ -264,16 +243,15 @@ void mapview::newRestaurants( ProtocolBuffer::RestaurantList* list )
 // 	bnu.push_back(LatLng(39.9581,116.3613));
 // }
 
-void mapview::MyLocationUpdateCallback( void* context, LocationSvc* svc )
+void mapview::updateCurrentLocation( const QGeoPositionInfo &info )
 {
-    mapview* This = reinterpret_cast<mapview*>(context);
-    qDebug()<<"New Position";
-    This->whereami();
-}
-
-void mapview::updateCurrentLocation( double latitude, double longitude )
-{
-	page()->mainFrame()->evaluateJavaScript(QString("updateMyLocation(%1, %2);").arg(latitude).arg(longitude));
+    if ( _lastposition != info )
+    {
+        _lastposition = info;
+        page()->mainFrame()->evaluateJavaScript(QString("updateMyLocation(%1, %2);")
+            .arg(info.coordinate().latitude())
+            .arg(info.coordinate().longitude()));
+    }
 }
 
 void mapview::showCommentsForRestaurant( int rid )

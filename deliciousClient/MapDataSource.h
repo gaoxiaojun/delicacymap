@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QtCore>
+#include <QtCore/qobject>
 #include <string>
 #include "../protocol-buffer-src/MapProtocol.pb.h"
 #undef abort
@@ -14,11 +14,13 @@ class MapDataSource : public QObject
 signals:
     void ready(bool success);
 
+public slots:
+    void connect();
+
 public:
     MapDataSource();
     ~MapDataSource();
     ::ProtocolBuffer::DMService::Stub* getStub();
-    void connect();
     QString error();
 
     // **Caution** : following methods are not reentrent!!!

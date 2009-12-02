@@ -2,7 +2,8 @@ TEMPLATE = app
 TARGET = delicacyClient
 DEPENDPATH += .
 INCLUDEPATH += ./rclib/include \
-               ../protocol-buffer-src
+               ../protocol-buffer-src \
+               ../QtMobility/include
 LIBPATH += ../protocol-buffer-src/lib
 
 # Input
@@ -19,7 +20,6 @@ HEADERS += mapview.h \
            md5.h \
            bluetoothmanager.h \
            MapDataSource.h \
-           LocationSvc.h \
            mainwindow.h \
            LoginWindow.h \
            QTProtobufChannel.h \
@@ -38,7 +38,6 @@ SOURCES += main.cpp \
            mapview.cpp \
            bluetoothmanager.cpp \
            MapDataSource.cpp \
-           LocationSvc.cpp \
            mainwindow.cpp \
            LoginWindow.cpp \
            QTProtobufChannel.cpp \
@@ -63,16 +62,16 @@ linux-* {
 
 wince* {
     SOURCES += bluetoothmanager_wince.cpp \
-               mapview_wince.cpp \
-               GPSLocationSvc_wince.cpp
+               mapview_wince.cpp
     HEADERS += bluetoothmanager_wince.h \
-			   bluetoothmanager_win_common.h \
-               GPSLocationSvc_wince.h
+			   bluetoothmanager_win_common.h
     RESOURCES += mainwindow_480_800.qrc
     LIBS += bthutil.lib \
             ws2.lib \
             Gpsapi.lib \
-            libprotobuf_wince_release.lib
+            libprotobuf_wince_release.lib \
+            ../QtMobility/lib_wince/QtBearer_tp.lib \
+            ../QtMobility/lib_wince/QtLocation_tp.lib
 }
 
 win32:!wince* {
@@ -81,7 +80,9 @@ win32:!wince* {
     HEADERS += bluetoothmanager_wince.h \
 			   bluetoothmanager_win.h
     RESOURCES += mainwindow.qrc
-	LIBS += Ws2_32.lib
+	LIBS += Ws2_32.lib \
+            ../QtMobility/lib_win32/QtBearer_tp.lib \
+            ../QtMobility/lib_win32/QtLocation_tp.lib
     CONFIG(debug, debug|release) {
         LIBS += libprotobuf_win32_debug.lib
     } else {
