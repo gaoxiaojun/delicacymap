@@ -30,7 +30,7 @@
 	var isdragging=false;
 	var infowindow;     //global info window, only one is needed.
 	var mylocation;     //marker that shows current location of user
-	
+	var geocoder = new google.maps.Geocoder();
 	
 	function load() 
 	{		
@@ -176,6 +176,13 @@
 	        {
 	            previousbound = curbound;
 	            mapListener.mapBoundChanged(curbound.toUrlValue());
+	            geocoder.geocode( {latLng : map.getCenter(), country : 'zh-CN'}, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                      mapListener.mapLocationChanged(results[0].formatted_address);
+                    } else {
+                      alert("Geocode was not successful for the following reason: " + status);
+                    }
+                  });
 	        }
 	    }
 	}

@@ -41,6 +41,7 @@ class User;
 class Restaurant;
 class RestaurantList;
 class CommentList;
+class UserList;
 class RestaurantType;
 class Query;
 
@@ -1101,6 +1102,96 @@ class CommentList : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
+class UserList : public ::google::protobuf::Message {
+ public:
+  UserList();
+  virtual ~UserList();
+  
+  UserList(const UserList& from);
+  
+  inline UserList& operator=(const UserList& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+  
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+  
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UserList& default_instance();
+  void Swap(UserList* other);
+  
+  // implements Message ----------------------------------------------
+  
+  UserList* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const UserList& from);
+  void MergeFrom(const UserList& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const { _cached_size_ = size; }
+  public:
+  
+  ::google::protobuf::Metadata GetMetadata() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // repeated .ProtocolBuffer.User users = 1;
+  inline int users_size() const;
+  inline void clear_users();
+  static const int kUsersFieldNumber = 1;
+  inline const ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::User >& users() const;
+  inline ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::User >* mutable_users();
+  inline const ::ProtocolBuffer::User& users(int index) const;
+  inline ::ProtocolBuffer::User* mutable_users(int index);
+  inline ::ProtocolBuffer::User* add_users();
+  
+ private:
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+  mutable int _cached_size_;
+  
+  ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::User > users_;
+  friend void  protobuf_AddDesc_MapProtocol_2eproto();
+  friend void protobuf_AssignDesc_MapProtocol_2eproto();
+  friend void protobuf_ShutdownFile_MapProtocol_2eproto();
+  
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  
+  // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
+  inline bool _has_bit(int index) const {
+    return (_has_bits_[index / 32] & (1u << (index % 32))) != 0;
+  }
+  inline void _set_bit(int index) {
+    _has_bits_[index / 32] |= (1u << (index % 32));
+  }
+  inline void _clear_bit(int index) {
+    _has_bits_[index / 32] &= ~(1u << (index % 32));
+  }
+  
+  void InitAsDefaultInstance();
+  static UserList* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class RestaurantType : public ::google::protobuf::Message {
  public:
   RestaurantType();
@@ -1416,9 +1507,17 @@ class DMService : public ::google::protobuf::Service {
                        const ::ProtocolBuffer::Query* request,
                        ::ProtocolBuffer::User* response,
                        ::google::protobuf::Closure* done);
+  virtual void GetRelatedUsers(::google::protobuf::RpcController* controller,
+                       const ::ProtocolBuffer::Query* request,
+                       ::ProtocolBuffer::UserList* response,
+                       ::google::protobuf::Closure* done);
   virtual void AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                        const ::ProtocolBuffer::Query* request,
                        ::ProtocolBuffer::Comment* response,
+                       ::google::protobuf::Closure* done);
+  virtual void AddRestaurant(::google::protobuf::RpcController* controller,
+                       const ::ProtocolBuffer::Query* request,
+                       ::ProtocolBuffer::Restaurant* response,
                        ::google::protobuf::Closure* done);
   
   // implements Service ----------------------------------------------
@@ -1477,9 +1576,17 @@ class DMService_Stub : public DMService {
                        const ::ProtocolBuffer::Query* request,
                        ::ProtocolBuffer::User* response,
                        ::google::protobuf::Closure* done);
+  void GetRelatedUsers(::google::protobuf::RpcController* controller,
+                       const ::ProtocolBuffer::Query* request,
+                       ::ProtocolBuffer::UserList* response,
+                       ::google::protobuf::Closure* done);
   void AddCommentForRestaurant(::google::protobuf::RpcController* controller,
                        const ::ProtocolBuffer::Query* request,
                        ::ProtocolBuffer::Comment* response,
+                       ::google::protobuf::Closure* done);
+  void AddRestaurant(::google::protobuf::RpcController* controller,
+                       const ::ProtocolBuffer::Query* request,
+                       ::ProtocolBuffer::Restaurant* response,
                        ::google::protobuf::Closure* done);
  private:
   ::google::protobuf::RpcChannel* channel_;
@@ -2202,6 +2309,35 @@ inline ::ProtocolBuffer::Comment* CommentList::mutable_comments(int index) {
 }
 inline ::ProtocolBuffer::Comment* CommentList::add_comments() {
   return comments_.Add();
+}
+
+// -------------------------------------------------------------------
+
+// UserList
+
+// repeated .ProtocolBuffer.User users = 1;
+inline int UserList::users_size() const {
+  return users_.size();
+}
+inline void UserList::clear_users() {
+  users_.Clear();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::User >&
+UserList::users() const {
+  return users_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::User >*
+UserList::mutable_users() {
+  return &users_;
+}
+inline const ::ProtocolBuffer::User& UserList::users(int index) const {
+  return users_.Get(index);
+}
+inline ::ProtocolBuffer::User* UserList::mutable_users(int index) {
+  return users_.Mutable(index);
+}
+inline ::ProtocolBuffer::User* UserList::add_users() {
+  return users_.Add();
 }
 
 // -------------------------------------------------------------------

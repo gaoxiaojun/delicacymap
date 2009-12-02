@@ -280,10 +280,15 @@ void mapview::showCommentsForRestaurant( int rid )
 {
     window->interfaceTransit_comment();
     getSession()->getDataSource().GetLastestCommentsOfRestaurant(rid, 20, commentlist, commentDataArrive);
-    
+    //getSession()->getDataSource().getr
 }
 
 void mapview::commentListArrive(ProtocolBuffer::CommentList* list)
 {
     emit NewCommentListArrived(list);
+}
+
+void mapview::newcurrentLocation( const QString& s )
+{
+    emit LocationUpdate(s);
 }

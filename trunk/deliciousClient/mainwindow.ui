@@ -67,7 +67,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="label_currentlocation">
         <property name="font">
          <font>
           <pointsize>9</pointsize>
@@ -312,18 +312,24 @@ background-color: rgba(255, 255, 255, 200);
             <string>菜式收藏</string>
            </attribute>
           </widget>
-          <widget class="QWidget" name="tab_comment">
+          <widget class="QWidget" name="tab_restaurantinfo">
            <attribute name="title">
-            <string>最新评论</string>
+            <string>餐厅信息</string>
            </attribute>
-           <widget class="QTextEdit" name="textEdit">
+           <widget class="QListWidget" name="list_latestcomment">
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>10</y>
+              <y>30</y>
               <width>401</width>
-              <height>351</height>
+              <height>321</height>
              </rect>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::NoSelection</enum>
             </property>
            </widget>
           </widget>
@@ -345,7 +351,7 @@ background-color: rgba(255, 255, 255, 200);
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <property name="documentMode">
            <bool>true</bool>

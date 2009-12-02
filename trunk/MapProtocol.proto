@@ -75,6 +75,11 @@ message CommentList
     repeated Comment                                         comments                    = 1;
 }
 
+message UserList
+{
+    repeated User                                            users                       = 1;
+}
+
 message RestaurantType
 {
     required uint32                                          TID                         = 1;    //Restaurant type ID
@@ -105,6 +110,8 @@ service DMService
     
     rpc UserLogin                              (ProtocolBuffer.Query)        returns (User);
     rpc GetUserInfo                            (ProtocolBuffer.Query)        returns (User);
+    rpc GetRelatedUsers                        (ProtocolBuffer.Query)        returns (UserList);
     
     rpc AddCommentForRestaurant                (ProtocolBuffer.Query)        returns (Comment);
+    rpc AddRestaurant                          (ProtocolBuffer.Query)        returns (Restaurant);
 }
