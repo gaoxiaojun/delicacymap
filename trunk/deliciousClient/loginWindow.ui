@@ -19,10 +19,10 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>140</y>
-     <width>211</width>
-     <height>131</height>
+     <x>60</x>
+     <y>160</y>
+     <width>271</width>
+     <height>151</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -36,8 +36,8 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>46</width>
-      <height>13</height>
+      <width>71</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -51,9 +51,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
-      <width>46</width>
-      <height>13</height>
+      <y>70</y>
+      <width>71</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -68,7 +68,7 @@
      <rect>
       <x>80</x>
       <y>20</y>
-      <width>113</width>
+      <width>171</width>
       <height>20</height>
      </rect>
     </property>
@@ -77,8 +77,8 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>60</y>
-      <width>113</width>
+      <y>70</y>
+      <width>171</width>
       <height>20</height>
      </rect>
     </property>
@@ -89,10 +89,10 @@
    <widget class="QPushButton" name="okButton">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
+      <x>80</x>
+      <y>110</y>
+      <width>81</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -108,10 +108,10 @@
    <widget class="QPushButton" name="cancelButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
+      <x>174</x>
+      <y>110</y>
+      <width>81</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -125,8 +125,8 @@
   <widget class="QLabel" name="label_status">
    <property name="geometry">
     <rect>
-     <x>95</x>
-     <y>310</y>
+     <x>90</x>
+     <y>330</y>
      <width>201</width>
      <height>71</height>
     </rect>
@@ -148,9 +148,7 @@
    </property>
   </widget>
  </widget>
- <resources>
-  <include location="mainwindow.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>cancelButton</sender>

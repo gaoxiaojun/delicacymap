@@ -69,7 +69,7 @@ void MapListener::mapBoundChanged(const QString& boundstr)
 
 void MapListener::mapLocationChanged( const QString& boundstr )
 {
-    mview->newcurrentLocation(boundstr.startsWith(QString::fromLocal8Bit("中国")) ? boundstr.mid(2) : boundstr);
+    mview->newcurrentLocation(boundstr.startsWith(QString::fromLocal8Bit("中国北京市")) ? boundstr.mid(5) : boundstr);
 }
 
 // QString& trimHead(QString& str, char c)

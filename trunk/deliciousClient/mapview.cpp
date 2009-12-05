@@ -164,8 +164,8 @@ void mapview::resize( int w, int h )
     page()->mainFrame()->evaluateJavaScript(QString("document.getElementById('map').style.width='%1px';"
                                                     "document.getElementById('map').style.height='%2px';"
                                                     "google.maps.event.trigger(map, 'resize');"
-#ifdef _WIN32_WCE
-                                                    ).arg(w/2).arg(h/2));
+#ifdef WINCE
+                                                    ).arg(w/1.5).arg(h/1.5));
 #else
                                                     ).arg(w).arg(h));
 #endif
