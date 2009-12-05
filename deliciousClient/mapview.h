@@ -68,7 +68,7 @@ public:
 
 signals:
     void NewCommentListArrived(ProtocolBuffer::CommentList*);
-    void LocationUpdate(QString);
+    void LocationUpdate(const QString&);
 
 protected:
     void keyPressEvent( QKeyEvent *event );

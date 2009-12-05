@@ -10,8 +10,6 @@
 
         <file>./webpages/index.htm</file>
 		
-		<file>./webpages/main.js</file>
-		
 		<file>./webpages/markermanager.js</file>
 
     </qresource>

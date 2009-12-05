@@ -11,7 +11,7 @@ void mapview::setupmapconfiguration()
                                             "map.disableScrollWheelZoom();"
                                             "map.disableGoogleBar();"
                                             );
-	setZoomFactor(2);
+	setZoomFactor(1.5);
 	resize(this->width(), this->height());
 }
 

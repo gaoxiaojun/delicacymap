@@ -34,6 +34,9 @@ int main(int argc, char *argv[])
 Session* TryLogin()
 {
     LoginWindow login;
+#if _WIN32_WCE
+    login.showFullScreen();
+#endif
     login.exec();
     return login.result() == QDialog::Accepted ? login.getSession() : NULL;
 }
