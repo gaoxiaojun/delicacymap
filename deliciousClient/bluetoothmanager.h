@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __BLUETOOTHMANAGER__H__INCLUDED__
+#define __BLUETOOTHMANAGER__H__INCLUDED__
+
 
 #include "../rclib/include/rclib/util.h"
 #include <functional>
@@ -39,5 +41,7 @@ private://data member
     static bluetoothmanager* volatile ms_bt;
 
 
-    DISABLE_COPY_SEMANTIC( bluetoothmanager );
+    DISABLE_COPY_SEMANTIC( bluetoothmanager )
 };
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __MAPLISTENERPRIVATE__H__INCLUDED__
+#define __MAPLISTENERPRIVATE__H__INCLUDED__
+
 #include <QObject>
 #include <QStack>
 #include "MapListener.h"
@@ -45,3 +47,5 @@ private:
 // 	void moreCommentList();
 // 	QStack<CommentCallEntry*> commentLists;
 };
+
+#endif

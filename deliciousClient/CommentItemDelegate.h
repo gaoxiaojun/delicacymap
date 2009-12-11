@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __COMMENTITEMDELEGATE__H__INCLUDED__
+#define __COMMENTITEMDELEGATE__H__INCLUDED__
+
 #include <QStyledItemDelegate>
 
 class CommentItemDelegate :public QStyledItemDelegate
@@ -12,3 +14,5 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
+
+#endif
