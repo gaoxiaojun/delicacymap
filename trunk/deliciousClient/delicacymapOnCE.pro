@@ -89,3 +89,9 @@ win32:!wince* {
         LIBS += libprotobuf_win32_release.lib
     }
 }
+
+symbian {
+    target.capability = networkservices
+    target.epocheapsize = 0x400000 0x3000000
+    CXXFLAGS -= --visibility_inlines_hidden
+}

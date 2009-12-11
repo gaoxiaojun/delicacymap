@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __MAPDATASOURCE__H__INCLUDED__
+#define __MAPDATASOURCE__H__INCLUDED__
 
 #include <QtCore/qobject>
 #include <string>
@@ -53,3 +54,5 @@ private slots:
     void channel_connected();
     void channel_error();
 };
+
+#endif

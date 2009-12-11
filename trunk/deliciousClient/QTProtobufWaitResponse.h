@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __QTPROTOBUFWAITRESPONSE__H__INCLUDED__
+#define __QTPROTOBUFWAITRESPONSE__H__INCLUDED__
+
 #include <QMutex>
 #include <QWaitCondition>
 #include <google/protobuf/service.h>
@@ -16,3 +18,5 @@ private:
 	QWaitCondition _wait;
 	QMutex _mutex;
 };
+
+#endif

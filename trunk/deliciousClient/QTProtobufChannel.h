@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __QTPROTOBUFCHANNEL__H__INCLUDED__
+#define __QTPROTOBUFCHANNEL__H__INCLUDED__
+
 #include <string>
 #include <QtCore>
 #include <QStack>
@@ -89,3 +91,5 @@ private:
 	int _callid;
 	unsigned short _port;
 };
+
+#endif

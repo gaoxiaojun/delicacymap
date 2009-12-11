@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __SESSION__H__INCLUDED__
+#define __SESSION__H__INCLUDED__
+
 #include "MapDataSource.h"
 #include "qmobilityglobal.h"
 
@@ -35,3 +37,5 @@ private:
     ProtocolBuffer::User *user;
     QTM_PREPEND_NAMESPACE(QNetworkSession)* network;
 };
+
+#endif

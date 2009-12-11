@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __QTPROBUFCONTROLLER__H__INCLUDED__
+#define __QTPROBUFCONTROLLER__H__INCLUDED__
+
 #include <google/protobuf/service.h>
 
 class QTProbufController :
@@ -19,3 +21,5 @@ public:
 	void NotifyOnCancel(google::protobuf::Closure *cb);
 	void startCancel();
 };
+
+#endif

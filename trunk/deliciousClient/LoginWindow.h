@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LOGINWINDOW__H__INCLUDED__
+#define __LOGINWINDOW__H__INCLUDED__
+
 #include <QtGui/QDialog>
 
 namespace Ui{
@@ -42,3 +44,5 @@ private:
     google::protobuf::Closure *logincallback;
     bool sessionreturned;
 };
+
+#endif
