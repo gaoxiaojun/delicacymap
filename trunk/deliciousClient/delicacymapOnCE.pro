@@ -5,6 +5,9 @@ INCLUDEPATH += ./rclib/include \
                ../protocol-buffer-src \
                ../QtMobility/include
 LIBPATH += ../protocol-buffer-src/lib
+CONFIG += mobility
+MOBILITY += location \
+            bearer
 
 # Input
 win32:CONFIG += console
