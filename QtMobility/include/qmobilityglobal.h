@@ -42,7 +42,7 @@
 #define QMOBILITYGLOBAL_H
 
 
-#define QTM_VERSION_STR   "1.0.0"
+#define QTM_VERSION_STR "1.0.0"
 /*
    QTM_VERSION is (major << 16) + (minor << 8) + patch.
 */
