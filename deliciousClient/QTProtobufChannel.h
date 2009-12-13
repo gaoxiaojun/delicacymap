@@ -21,31 +21,7 @@ struct CallEntry
 	protorpc::Message* request;
 };
 
-class QTProtobufChannel;
-
-class QTProtobufChannelDriver : public QObject
-{
-	Q_OBJECT
-public slots:
-	void writeMessage(google::protobuf::Message* m);
-	void start(QHostAddress *_addr, unsigned short _port);
-private slots:
-	void readMessage();
-public:
-	QTProtobufChannelDriver(QTProtobufChannel* parent, QHash<int,CallEntry> *currentCalls);
-	~QTProtobufChannelDriver();
-
-	bool started();
-	QAbstractSocket::SocketError networkError() const;
-
-	protorpc::Message response;
-	std::string _writebuffer;
-	std::string _readbuffer;
-	QTProtobufChannel* parent;
-	QTcpSocket *_tcps;
-	QHash<int,CallEntry>* _currentCalls;
-	int _buffer_index, _msgsize;
-};
+class QTProtobufChannelDriver;
 
 // light weight rpc channel, not intended to be used in multi threaded environment. however, it implement a call queue, so that continuous call wont fail
 class QTProtobufChannel :
@@ -76,13 +52,13 @@ signals:
     void connected();
     void error();
 
-	void writeMessage(google::protobuf::Message* m);
-	void requetStart(QHostAddress *_addr, unsigned short _port);
+    void writeMessage(google::protobuf::Message* m);
+    void requetStart(QHostAddress *_addr, unsigned short _port);
 
 private:
-	bool readMessage(google::protobuf::Message* m);
+    bool readMessage(google::protobuf::Message* m);
 
-	void needMoreReqs();
+    void needMoreReqs();
 private:
 	QStack<protorpc::Message*> reqs;
 	QHash<int,CallEntry> _currentCalls;
