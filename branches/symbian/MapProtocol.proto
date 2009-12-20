@@ -1,0 +1,117 @@
+package ProtocolBuffer;
+
+option optimize_for = SPEED;
+
+message Location
+
+{
+    required double                                          latitude                    = 1;
+
+    required double                                          longitude                   = 2;
+
+}
+
+//Representing a rectangular geographic area, specified by the locations of its northeast corner and southwest corner.
+message Area
+{
+    required Location                                        northeast                   = 1;
+    required Location                                        southwest                   = 2;
+}
+
+message Time
+{
+    required string                                          timeStamp                   = 1;
+}
+
+message Comment
+{
+    required string                                          content                     = 1;    //Html style comment
+    required ProtocolBuffer.Time                             timeStamp                   = 2;    //Submit time
+    required uint32                                          UID                         = 3;    //Submitter ID (user ID)
+    required uint32                                          RID                         = 4;    //Relevent Restaurant ID
+    optional uint32                                          DID                         = 5;    //Relevent Course ID
+}
+
+message Currency
+{
+    required float                                          amount                      = 1;
+}
+
+message Error
+{
+    required string                                          message                     = 1;
+}
+
+message User
+{
+    required uint32                                          UID                         = 1;    //User ID, unique
+    required string                                          emailAddress                = 2;    //User email, unique
+    required string                                          nickName                    = 3;    //User Name
+    required string                                          password                    = 4;    //Password, if empty, user is not loged in
+    required ProtocolBuffer.Time                             joinTime                    = 5;    //Registration time of this user
+    
+    repeated ProtocolBuffer.RestaurantType                   preferTypes                 = 6;    //prefered restaurant types
+    repeated uint32                                          friends                     = 7;    //friends of the user, represented by User ID
+}
+
+message Restaurant
+{
+    required ProtocolBuffer.Location                         location                    = 1;    //Geographic location of the restaurant
+    required string                                          name                        = 2;    //Name of the restaurant
+    required uint32                                          RID                         = 3;    //Restaurant ID
+    required ProtocolBuffer.RestaurantType                   type                        = 4;    //Restaurant type
+    required uint32                                          Rating                      = 5;    //Rating by the users
+    required uint32                                          CommentCount                = 6;    //Rating by the users
+    required ProtocolBuffer.Currency                         averageExpense              = 7;    //Average expense per person per meal
+}
+
+message RestaurantList
+{
+    repeated Restaurant                                      restaurants                 = 1;
+}
+
+message CommentList
+{
+    repeated Comment                                         comments                    = 1;
+}
+
+message UserList
+{
+    repeated User                                            users                       = 1;
+}
+
+message RestaurantType
+{
+    required uint32                                          TID                         = 1;    //Restaurant type ID
+    required string                                          name                        = 2;    //description
+}
+
+message Query
+{
+    optional ProtocolBuffer.Area                             area                        = 1;
+    optional uint32                                          level                       = 2;
+    optional ProtocolBuffer.Time                             time                        = 3;
+    optional uint32                                          RID                         = 4;
+    optional uint32                                          UID                         = 5;
+    optional uint32                                          n                           = 6;
+    optional string                                          msg                         = 7;    // used in add restaurant
+    optional bytes                                           image                       = 8;    // used in add restaurant
+    optional string                                          emailAddress                = 9;    // emailAddress used to validate user input
+    optional string                                          password                    = 10;   // password required to retrieve user specific data
+}
+
+service DMService 
+{
+    rpc GetRestaurants                         (ProtocolBuffer.Query)        returns (RestaurantList);
+    rpc GetLastestCommentsOfRestaurant         (ProtocolBuffer.Query)        returns (CommentList);
+    rpc GetLastestCommentsByUser               (ProtocolBuffer.Query)        returns (CommentList);
+    rpc GetCommentsOfUserSince                 (ProtocolBuffer.Query)        returns (CommentList);
+    rpc GetCommentsOfRestaurantSince           (ProtocolBuffer.Query)        returns (CommentList);
+    
+    rpc UserLogin                              (ProtocolBuffer.Query)        returns (User);
+    rpc GetUserInfo                            (ProtocolBuffer.Query)        returns (User);
+    rpc GetRelatedUsers                        (ProtocolBuffer.Query)        returns (UserList);
+    
+    rpc AddCommentForRestaurant                (ProtocolBuffer.Query)        returns (Comment);
+    rpc AddRestaurant                          (ProtocolBuffer.Query)        returns (Restaurant);
+}
