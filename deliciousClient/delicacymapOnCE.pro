@@ -88,4 +88,34 @@ symbian {
     target.capability = networkservices
     target.epocheapsize = 0x400000 \
         0x3000000
+        
+    INCLUDEPATH += ../protocol-buffer-src/src
+    
+    SOURCES += ../protocol-buffer-src/src/google/protobuf/descriptor.cc \
+              ../protocol-buffer-src/src/google/protobuf/descriptor.pb.cc \
+              ../protocol-buffer-src/src/google/protobuf/dynamic_message.cc \
+              ../protocol-buffer-src/src/google/protobuf/generated_message_reflection.cc \
+              ../protocol-buffer-src/src/google/protobuf/generated_message_util.cc \
+              ../protocol-buffer-src/src/google/protobuf/message.cc \
+              ../protocol-buffer-src/src/google/protobuf/message_lite.cc \
+              ../protocol-buffer-src/src/google/protobuf/reflection_ops.cc \
+              ../protocol-buffer-src/src/google/protobuf/repeated_field.cc \
+              ../protocol-buffer-src/src/google/protobuf/service.cc \
+              ../protocol-buffer-src/src/google/protobuf/text_format.cc \
+              ../protocol-buffer-src/src/google/protobuf/unknown_field_set.cc \
+              ../protocol-buffer-src/src/google/protobuf/wire_format.cc \
+              ../protocol-buffer-src/src/google/protobuf/wire_format_lite.cc \
+              ../protocol-buffer-src/src/google/protobuf/extension_set.cc \
+              ../protocol-buffer-src/src/google/protobuf/extension_set_heavy.cc \
+              ../protocol-buffer-src/src/google/protobuf/io\coded_stream.cc \
+              ../protocol-buffer-src/src/google/protobuf/io\tokenizer.cc \
+              ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream.cc \
+              ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream_impl.cc \
+              ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream_impl_lite.cc \
+              ../protocol-buffer-src/src/google/protobuf/stubs\common.cc \
+              ../protocol-buffer-src/src/google/protobuf/stubs\hash.cc \
+              ../protocol-buffer-src/src/google/protobuf/stubs\once.cc \
+              ../protocol-buffer-src/src/google/protobuf/stubs\strutil.cc \
+              ../protocol-buffer-src/src/google/protobuf/stubs\structurally_valid.cc \
+              ../protocol-buffer-src/src/google/protobuf/stubs\substitute.cc
 }
