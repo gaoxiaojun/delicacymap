@@ -16,7 +16,6 @@
 QTM_USE_NAMESPACE
 
 #define OFFSET_PER_BUTTON_PUSH 100
-static double LocationChangeThreshold = 0.0005f;
 
 mapview::mapview(MainWindow *parent)
     : QWebView(parent)

@@ -8,6 +8,7 @@
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
+// @@protoc_insertion_point(includes)
 
 namespace protorpc {
 
@@ -159,14 +160,16 @@ const int Message::kNameFieldNumber;
 const int Message::kBufferFieldNumber;
 #endif  // !_MSC_VER
 
-Message::Message() {
+Message::Message()
+  : ::google::protobuf::Message() {
   SharedCtor();
 }
 
 void Message::InitAsDefaultInstance() {
 }
 
-Message::Message(const Message& from) {
+Message::Message(const Message& from)
+  : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -195,6 +198,11 @@ void Message::SharedDtor() {
   }
 }
 
+void Message::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
 const ::google::protobuf::Descriptor* Message::descriptor() {
   protobuf_AssignDescriptorsOnce();
   return Message_descriptor_;
@@ -237,16 +245,19 @@ bool Message::MergePartialFromCodedStream(
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // optional .protorpc.Type type = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-          goto handle_uninterpreted;
-        }
-        int value;
-        DO_(::google::protobuf::internal::WireFormatLite::ReadEnum(input, &value));
-        if (protorpc::Type_IsValid(value)) {
-          set_type(static_cast< protorpc::Type >(value));
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (protorpc::Type_IsValid(value)) {
+            set_type(static_cast< protorpc::Type >(value));
+          } else {
+            mutable_unknown_fields()->AddVarint(1, value);
+          }
         } else {
-          mutable_unknown_fields()->AddVarint(1, value);
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(16)) goto parse_id;
         break;
@@ -254,43 +265,47 @@ bool Message::MergePartialFromCodedStream(
       
       // optional uint32 id = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &id_)));
+          _set_bit(1);
+        } else {
           goto handle_uninterpreted;
         }
-       parse_id:
-        DO_(::google::protobuf::internal::WireFormatLite::ReadUInt32(
-              input, &id_));
-        _set_bit(1);
         if (input->ExpectTag(26)) goto parse_name;
         break;
       }
       
       // optional string name = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_name:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_name()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+            this->name().data(), this->name().length(),
+            ::google::protobuf::internal::WireFormat::PARSE);
+        } else {
           goto handle_uninterpreted;
         }
-       parse_name:
-        DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-              input, this->mutable_name()));
-        ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-          this->name().data(), this->name().length(),
-          ::google::protobuf::internal::WireFormat::PARSE);
         if (input->ExpectTag(34)) goto parse_buffer;
         break;
       }
       
       // optional bytes buffer = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_buffer:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_buffer()));
+        } else {
           goto handle_uninterpreted;
         }
-       parse_buffer:
-        DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-              input, this->mutable_buffer()));
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -313,12 +328,6 @@ bool Message::MergePartialFromCodedStream(
 
 void Message::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  ::google::protobuf::uint8* raw_buffer = output->GetDirectBufferForNBytesAndAdvance(_cached_size_);
-  if (raw_buffer != NULL) {
-    Message::SerializeWithCachedSizesToArray(raw_buffer);
-    return;
-  }
-  
   // optional .protorpc.Type type = 1;
   if (_has_bit(0)) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
@@ -425,7 +434,9 @@ int Message::ByteSize() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
@@ -508,14 +519,16 @@ const int DescriptorResponse::kDepsFieldNumber;
 const int DescriptorResponse::kServiceNameFieldNumber;
 #endif  // !_MSC_VER
 
-DescriptorResponse::DescriptorResponse() {
+DescriptorResponse::DescriptorResponse()
+  : ::google::protobuf::Message() {
   SharedCtor();
 }
 
 void DescriptorResponse::InitAsDefaultInstance() {
 }
 
-DescriptorResponse::DescriptorResponse(const DescriptorResponse& from) {
+DescriptorResponse::DescriptorResponse(const DescriptorResponse& from)
+  : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -542,6 +555,11 @@ void DescriptorResponse::SharedDtor() {
   }
 }
 
+void DescriptorResponse::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
 const ::google::protobuf::Descriptor* DescriptorResponse::descriptor() {
   protobuf_AssignDescriptorsOnce();
   return DescriptorResponse_descriptor_;
@@ -583,25 +601,27 @@ bool DescriptorResponse::MergePartialFromCodedStream(
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required bytes desc = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_desc()));
+        } else {
           goto handle_uninterpreted;
         }
-        DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-              input, this->mutable_desc()));
         if (input->ExpectTag(18)) goto parse_deps;
         break;
       }
       
       // repeated .protorpc.DescriptorResponse deps = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_deps:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_deps()));
+        } else {
           goto handle_uninterpreted;
         }
-       parse_deps:
-        DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-              input, add_deps()));
         if (input->ExpectTag(18)) goto parse_deps;
         if (input->ExpectTag(26)) goto parse_serviceName;
         break;
@@ -609,16 +629,17 @@ bool DescriptorResponse::MergePartialFromCodedStream(
       
       // optional string serviceName = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) !=
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_serviceName:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_servicename()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+            this->servicename().data(), this->servicename().length(),
+            ::google::protobuf::internal::WireFormat::PARSE);
+        } else {
           goto handle_uninterpreted;
         }
-       parse_serviceName:
-        DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-              input, this->mutable_servicename()));
-        ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-          this->servicename().data(), this->servicename().length(),
-          ::google::protobuf::internal::WireFormat::PARSE);
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -641,12 +662,6 @@ bool DescriptorResponse::MergePartialFromCodedStream(
 
 void DescriptorResponse::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  ::google::protobuf::uint8* raw_buffer = output->GetDirectBufferForNBytesAndAdvance(_cached_size_);
-  if (raw_buffer != NULL) {
-    DescriptorResponse::SerializeWithCachedSizesToArray(raw_buffer);
-    return;
-  }
-  
   // required bytes desc = 1;
   if (_has_bit(0)) {
     ::google::protobuf::internal::WireFormatLite::WriteBytes(
@@ -655,7 +670,7 @@ void DescriptorResponse::SerializeWithCachedSizes(
   
   // repeated .protorpc.DescriptorResponse deps = 2;
   for (int i = 0; i < this->deps_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageNoVirtual(
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       2, this->deps(i), output);
   }
   
@@ -739,7 +754,9 @@ int DescriptorResponse::ByteSize() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
@@ -810,4 +827,8 @@ void DescriptorResponse::Swap(DescriptorResponse* other) {
 }
 
 
+// @@protoc_insertion_point(namespace_scope)
+
 }  // namespace protorpc
+
+// @@protoc_insertion_point(global_scope)
