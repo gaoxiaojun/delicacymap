@@ -101,7 +101,7 @@ struct ExtensionInfo {
     struct {
       EnumValidityFuncWithArg* enum_is_valid;
       const void* enum_is_valid_arg;
-    };
+    } _union_member1;
     const MessageLite* message_prototype;
   };
 

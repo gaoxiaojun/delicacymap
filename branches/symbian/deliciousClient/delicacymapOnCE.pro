@@ -30,7 +30,8 @@ HEADERS += mapview.h \
     DisplaySchema.h \
     Session.h \
     ../protocol-buffer-src/Message.pb.h \
-    ../protocol-buffer-src/MapProtocol.pb.h
+    ../protocol-buffer-src/MapProtocol.pb.h \
+    QTProtobufChannelDriver.h
 SOURCES += main.cpp \
     MapListener.cpp \
     MapListenerPrivate.cpp \
@@ -89,33 +90,63 @@ symbian {
     target.epocheapsize = 0x400000 \
         0x3000000
         
+    LIBS += -llibpthread
+    
     INCLUDEPATH += ../protocol-buffer-src/src
     
-    SOURCES += ../protocol-buffer-src/src/google/protobuf/descriptor.cc \
-              ../protocol-buffer-src/src/google/protobuf/descriptor.pb.cc \
-              ../protocol-buffer-src/src/google/protobuf/dynamic_message.cc \
-              ../protocol-buffer-src/src/google/protobuf/generated_message_reflection.cc \
-              ../protocol-buffer-src/src/google/protobuf/generated_message_util.cc \
-              ../protocol-buffer-src/src/google/protobuf/message.cc \
-              ../protocol-buffer-src/src/google/protobuf/message_lite.cc \
-              ../protocol-buffer-src/src/google/protobuf/reflection_ops.cc \
-              ../protocol-buffer-src/src/google/protobuf/repeated_field.cc \
-              ../protocol-buffer-src/src/google/protobuf/service.cc \
-              ../protocol-buffer-src/src/google/protobuf/text_format.cc \
-              ../protocol-buffer-src/src/google/protobuf/unknown_field_set.cc \
-              ../protocol-buffer-src/src/google/protobuf/wire_format.cc \
-              ../protocol-buffer-src/src/google/protobuf/wire_format_lite.cc \
-              ../protocol-buffer-src/src/google/protobuf/extension_set.cc \
-              ../protocol-buffer-src/src/google/protobuf/extension_set_heavy.cc \
-              ../protocol-buffer-src/src/google/protobuf/io\coded_stream.cc \
-              ../protocol-buffer-src/src/google/protobuf/io\tokenizer.cc \
-              ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream.cc \
-              ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream_impl.cc \
-              ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream_impl_lite.cc \
-              ../protocol-buffer-src/src/google/protobuf/stubs\common.cc \
-              ../protocol-buffer-src/src/google/protobuf/stubs\hash.cc \
-              ../protocol-buffer-src/src/google/protobuf/stubs\once.cc \
-              ../protocol-buffer-src/src/google/protobuf/stubs\strutil.cc \
-              ../protocol-buffer-src/src/google/protobuf/stubs\structurally_valid.cc \
-              ../protocol-buffer-src/src/google/protobuf/stubs\substitute.cc
+    HEADERS += ../protocol-buffer-src/src/google/protobuf/descriptor.h \
+        ../protocol-buffer-src/src/google/protobuf/descriptor.pb.h \
+        ../protocol-buffer-src/src/google/protobuf/dynamic_message.h \
+        ../protocol-buffer-src/src/google/protobuf/generated_message_reflection.h \
+        ../protocol-buffer-src/src/google/protobuf/generated_message_util.h \
+        ../protocol-buffer-src/src/google/protobuf/message.h \
+        ../protocol-buffer-src/src/google/protobuf/message_lite.h \
+        ../protocol-buffer-src/src/google/protobuf/reflection_ops.h \
+        ../protocol-buffer-src/src/google/protobuf/repeated_field.h \
+        ../protocol-buffer-src/src/google/protobuf/service.h \
+        ../protocol-buffer-src/src/google/protobuf/text_format.h \
+        ../protocol-buffer-src/src/google/protobuf/unknown_field_set.h \
+        ../protocol-buffer-src/src/google/protobuf/wire_format.h \
+        ../protocol-buffer-src/src/google/protobuf/wire_format_lite.h \
+        ../protocol-buffer-src/src/google/protobuf/extension_set.h \
+        ../protocol-buffer-src/src/google/protobuf/io\coded_stream.h \
+        ../protocol-buffer-src/src/google/protobuf/io\tokenizer.h \
+        ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream.h \
+        ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream_impl.h \
+        ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream_impl_lite.h \
+        ../protocol-buffer-src/src/google/protobuf/stubs\common.h \
+        ../protocol-buffer-src/src/google/protobuf/stubs\hash.h \
+        ../protocol-buffer-src/src/google/protobuf/stubs\once.h \
+        ../protocol-buffer-src/src/google/protobuf/stubs\strutil.h \
+        ../protocol-buffer-src/src/google/protobuf/stubs\substitute.h
+    
+    SOURCES += mapview_symbian.cpp \
+        ../protocol-buffer-src/src/google/protobuf/descriptor.cc \
+        ../protocol-buffer-src/src/google/protobuf/descriptor_database.cc \
+        ../protocol-buffer-src/src/google/protobuf/descriptor.pb.cc \
+        ../protocol-buffer-src/src/google/protobuf/dynamic_message.cc \
+        ../protocol-buffer-src/src/google/protobuf/generated_message_reflection.cc \
+        ../protocol-buffer-src/src/google/protobuf/generated_message_util.cc \
+        ../protocol-buffer-src/src/google/protobuf/message.cc \
+        ../protocol-buffer-src/src/google/protobuf/message_lite.cc \
+        ../protocol-buffer-src/src/google/protobuf/reflection_ops.cc \
+        ../protocol-buffer-src/src/google/protobuf/repeated_field.cc \
+        ../protocol-buffer-src/src/google/protobuf/service.cc \
+        ../protocol-buffer-src/src/google/protobuf/text_format.cc \
+        ../protocol-buffer-src/src/google/protobuf/unknown_field_set.cc \
+        ../protocol-buffer-src/src/google/protobuf/wire_format.cc \
+        ../protocol-buffer-src/src/google/protobuf/wire_format_lite.cc \
+        ../protocol-buffer-src/src/google/protobuf/extension_set.cc \
+        ../protocol-buffer-src/src/google/protobuf/extension_set_heavy.cc \
+        ../protocol-buffer-src/src/google/protobuf/io\coded_stream.cc \
+        ../protocol-buffer-src/src/google/protobuf/io\tokenizer.cc \
+        ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream.cc \
+        ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream_impl.cc \
+        ../protocol-buffer-src/src/google/protobuf/io\zero_copy_stream_impl_lite.cc \
+        ../protocol-buffer-src/src/google/protobuf/stubs\common.cc \
+        ../protocol-buffer-src/src/google/protobuf/stubs\hash.cc \
+        ../protocol-buffer-src/src/google/protobuf/stubs\once.cc \
+        ../protocol-buffer-src/src/google/protobuf/stubs\strutil.cc \
+        ../protocol-buffer-src/src/google/protobuf/stubs\structurally_valid.cc \
+        ../protocol-buffer-src/src/google/protobuf/stubs\substitute.cc
 }

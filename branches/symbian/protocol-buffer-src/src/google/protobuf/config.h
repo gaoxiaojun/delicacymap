@@ -5,7 +5,7 @@
 #define HASH_MAP_H <hash_map>
 
 /* the namespace of hash_map/hash_set */
-#define HASH_NAMESPACE ::std
+#define HASH_NAMESPACE std
 
 /* the location of <hash_set> */
 #define HASH_SET_H <hash_set>

@@ -175,8 +175,8 @@ bool DescriptorPoolExtensionFinder::Find(int number, ExtensionInfo* output) {
           << "Extension factory's GetPrototype() returned NULL for extension: "
           << extension->full_name();
     } else if (extension->cpp_type() == FieldDescriptor::CPPTYPE_ENUM) {
-      output->enum_is_valid = ValidateEnumUsingDescriptor;
-      output->enum_is_valid_arg = extension->enum_type();
+      output->_union_member1.enum_is_valid = ValidateEnumUsingDescriptor;
+      output->_union_member1.enum_is_valid_arg = extension->enum_type();
     }
 
     return true;
