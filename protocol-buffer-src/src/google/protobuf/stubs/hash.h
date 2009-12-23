@@ -161,14 +161,14 @@ struct hash<const char*> {
 template <typename Key, typename Data,
           typename HashFcn = hash<Key>,
           typename EqualKey = std::equal_to<Key> >
-class hash_map : public HASH_NAMESPACE::HASH_MAP_CLASS<
+class hash_map : public HASH_NAMESPACE::hash_map<
     Key, Data, HashFcn, EqualKey> {
 };
 
 template <typename Key,
           typename HashFcn = hash<Key>,
           typename EqualKey = std::equal_to<Key> >
-class hash_set : public HASH_NAMESPACE::HASH_SET_CLASS<
+class hash_set : public HASH_NAMESPACE::hash_set<
     Key, HashFcn, EqualKey> {
 };
 
