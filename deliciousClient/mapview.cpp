@@ -30,6 +30,7 @@ mapview::mapview(MainWindow *parent)
     else
         html += QString("\nerror code: %1!!!").arg(f.error());
     setHtml(html/*, QUrl("file:///index.htm")*/);
+    //this->load(QUrl("http://www.g.cn"));
     f.close();
 
     page()->mainFrame()->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
@@ -72,6 +73,7 @@ Session* mapview::getSession()
 
 void mapview::MapLoaded()
 {
+    qDebug()<<"Map Load Finished.";
 	page()->mainFrame()->addToJavaScriptWindowObject(QString("mapListener"),mapListener);//register mapListener
 
 	markerCount = 0;

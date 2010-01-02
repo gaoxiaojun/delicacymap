@@ -86,13 +86,12 @@ win32:!wince* {
     else:LIBS += libprotobuf_win32_release.lib
 }
 symbian { 
-    target.capability = networkservices
-    target.epocheapsize = 0x400000 \
-        0x3000000
-        
-    LIBS += -llibpthread
+    TARGET.CAPABILITY = NetworkServices
+    TARGET.epocheapsize = 0x400000 0x2000000
     
+    LIBS += -llibpthread
     INCLUDEPATH += ../protocol-buffer-src/src
+    RESOURCES += mainwindow_480_800.qrc
     
     HEADERS += ../protocol-buffer-src/src/google/protobuf/descriptor.h \
         ../protocol-buffer-src/src/google/protobuf/descriptor.pb.h \
