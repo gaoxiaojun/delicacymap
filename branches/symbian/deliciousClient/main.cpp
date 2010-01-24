@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     {
         MainWindow mainwindow( s );
 
-#if _WIN32_WCE || defined(Q_OS_SYMBIAN)
+#if _WIN32_WCE
         mainwindow.showFullScreen();
 #else
         //mainwindow.resize(480, 600);
