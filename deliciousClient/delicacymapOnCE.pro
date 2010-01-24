@@ -5,6 +5,7 @@ INCLUDEPATH += ./rclib/include \
     ../protocol-buffer-src \
     ../QtMobility/include
 LIBPATH += ../protocol-buffer-src/lib
+OBJECTS_DIR = ./objs
 CONFIG += mobility
 MOBILITY += location \
     bearer
@@ -25,6 +26,7 @@ HEADERS += mapview.h \
     mainwindow.h \
     LoginWindow.h \
     QTProtobufChannel.h \
+	QTProtobufChannelDriver.h \
     QTProbufController.h \
     QTProtobufWaitResponse.h \
     DisplaySchema.h \
@@ -42,6 +44,7 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     LoginWindow.cpp \
     QTProtobufChannel.cpp \
+	QTProtobufChannelDriver.cpp \
     QTProbufController.cpp \
     QTProtobufWaitResponse.cpp \
     DisplaySchema.cpp \
@@ -52,7 +55,8 @@ RESOURCES += webpage.qrc
 
 # DEPLOYMENT_PLUGIN += qsqlite qjpeg qgif qmng
 linux-* { 
-    OBJECTS_DIR = obj/
+    RCC_DIR = ./objs
+    MOC_DIR = ./objs
     SOURCES += mapview_linux.cpp
     RESOURCES += mainwindow.qrc
     
@@ -88,4 +92,15 @@ symbian {
     target.capability = networkservices
     target.epocheapsize = 0x400000 \
         0x3000000
+}
+macx {
+    INCLUDEPATH += /opt/local/include
+    LIBPATH += /opt/local/lib
+    RCC_DIR = ./objs
+    MOC_DIR = ./objs
+
+    CONFIG += x86_64
+    LIBS += -lprotobuf -F../QtMobility/lib_macx -framework QtLocation_tp -framework QtBearer_tp
+    SOURCES += mapview_linux.cpp
+    RESOURCES += mainwindow.qrc
 }
