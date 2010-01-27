@@ -185,6 +185,23 @@ size_t deliciousDataAdapter::QueryCommentsOfUserSince( int uid, const std::strin
     return 0;
 }
 
+size_t deliciousDataAdapter::QueryMessagesToUser( int uid, CallbackFunc callback )
+{
+    pantheios::log_INFORMATIONAL("QueryMessagesToUser(",
+        "uid=", pantheios::integer(uid),
+        "')");
+    char querystr[500];
+    sprintf_s(querystr, sizeof(querystr),
+        "SELECT * "
+        "FROM Messages "
+        "WHERE ToUid == %d AND  ExpireTime < CURRENT_TIMESTAMP AND Delivered == 0"
+        "ORDER BY ExpireTime;"
+        , uid);
+
+    ExecuteNormal(querystr, callback);
+    return 0;
+}
+
 const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int uid, const std::string& msg, const std::string* const image )
 {
     pantheios::log_INFORMATIONAL("PostCommentForRestaurant(",
