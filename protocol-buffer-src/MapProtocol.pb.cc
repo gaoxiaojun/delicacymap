@@ -5,358 +5,25 @@
 #include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
-#include <google/protobuf/descriptor.h>
-#include <google/protobuf/reflection_ops.h>
-#include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 
 namespace ProtocolBuffer {
 
-namespace {
-
-const ::google::protobuf::Descriptor* Location_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Location_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Area_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Area_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Time_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Time_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Comment_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Comment_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Currency_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Currency_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Error_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Error_reflection_ = NULL;
-const ::google::protobuf::Descriptor* User_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  User_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Restaurant_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Restaurant_reflection_ = NULL;
-const ::google::protobuf::Descriptor* RestaurantList_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  RestaurantList_reflection_ = NULL;
-const ::google::protobuf::Descriptor* CommentList_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  CommentList_reflection_ = NULL;
-const ::google::protobuf::Descriptor* UserList_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  UserList_reflection_ = NULL;
-const ::google::protobuf::Descriptor* RestaurantType_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  RestaurantType_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Query_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Query_reflection_ = NULL;
-const ::google::protobuf::ServiceDescriptor* DMService_descriptor_ = NULL;
-
-}  // namespace
-
-
-void protobuf_AssignDesc_MapProtocol_2eproto() {
-  protobuf_AddDesc_MapProtocol_2eproto();
-  const ::google::protobuf::FileDescriptor* file =
-    ::google::protobuf::DescriptorPool::generated_pool()->FindFileByName(
-      "MapProtocol.proto");
-  GOOGLE_CHECK(file != NULL);
-  Location_descriptor_ = file->message_type(0);
-  static const int Location_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Location, latitude_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Location, longitude_),
-  };
-  Location_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Location_descriptor_,
-      Location::default_instance_,
-      Location_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Location, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Location, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Location));
-  Area_descriptor_ = file->message_type(1);
-  static const int Area_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Area, northeast_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Area, southwest_),
-  };
-  Area_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Area_descriptor_,
-      Area::default_instance_,
-      Area_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Area, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Area, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Area));
-  Time_descriptor_ = file->message_type(2);
-  static const int Time_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Time, timestamp_),
-  };
-  Time_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Time_descriptor_,
-      Time::default_instance_,
-      Time_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Time, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Time, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Time));
-  Comment_descriptor_ = file->message_type(3);
-  static const int Comment_offsets_[5] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, content_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, timestamp_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, uid_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, rid_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, did_),
-  };
-  Comment_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Comment_descriptor_,
-      Comment::default_instance_,
-      Comment_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Comment, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Comment));
-  Currency_descriptor_ = file->message_type(4);
-  static const int Currency_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Currency, amount_),
-  };
-  Currency_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Currency_descriptor_,
-      Currency::default_instance_,
-      Currency_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Currency, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Currency, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Currency));
-  Error_descriptor_ = file->message_type(5);
-  static const int Error_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Error, message_),
-  };
-  Error_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Error_descriptor_,
-      Error::default_instance_,
-      Error_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Error, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Error, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Error));
-  User_descriptor_ = file->message_type(6);
-  static const int User_offsets_[7] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, uid_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, emailaddress_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, nickname_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, password_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, jointime_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, prefertypes_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, friends_),
-  };
-  User_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      User_descriptor_,
-      User::default_instance_,
-      User_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(User, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(User));
-  Restaurant_descriptor_ = file->message_type(7);
-  static const int Restaurant_offsets_[7] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, location_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, name_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, rid_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, type_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, rating_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, commentcount_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, averageexpense_),
-  };
-  Restaurant_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Restaurant_descriptor_,
-      Restaurant::default_instance_,
-      Restaurant_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restaurant, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Restaurant));
-  RestaurantList_descriptor_ = file->message_type(8);
-  static const int RestaurantList_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestaurantList, restaurants_),
-  };
-  RestaurantList_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      RestaurantList_descriptor_,
-      RestaurantList::default_instance_,
-      RestaurantList_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestaurantList, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestaurantList, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(RestaurantList));
-  CommentList_descriptor_ = file->message_type(9);
-  static const int CommentList_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CommentList, comments_),
-  };
-  CommentList_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      CommentList_descriptor_,
-      CommentList::default_instance_,
-      CommentList_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CommentList, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CommentList, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(CommentList));
-  UserList_descriptor_ = file->message_type(10);
-  static const int UserList_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UserList, users_),
-  };
-  UserList_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      UserList_descriptor_,
-      UserList::default_instance_,
-      UserList_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UserList, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UserList, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(UserList));
-  RestaurantType_descriptor_ = file->message_type(11);
-  static const int RestaurantType_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestaurantType, tid_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestaurantType, name_),
-  };
-  RestaurantType_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      RestaurantType_descriptor_,
-      RestaurantType::default_instance_,
-      RestaurantType_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestaurantType, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestaurantType, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(RestaurantType));
-  Query_descriptor_ = file->message_type(12);
-  static const int Query_offsets_[10] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, area_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, level_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, time_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, rid_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, uid_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, n_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, msg_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, image_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, emailaddress_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, password_),
-  };
-  Query_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Query_descriptor_,
-      Query::default_instance_,
-      Query_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Query));
-  DMService_descriptor_ = file->service(0);
-}
-
-namespace {
-
-GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_AssignDescriptors_once_);
-inline void protobuf_AssignDescriptorsOnce() {
-  ::google::protobuf::GoogleOnceInit(&protobuf_AssignDescriptors_once_,
-                 &protobuf_AssignDesc_MapProtocol_2eproto);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Location_descriptor_, &Location::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Area_descriptor_, &Area::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Time_descriptor_, &Time::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Comment_descriptor_, &Comment::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Currency_descriptor_, &Currency::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Error_descriptor_, &Error::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    User_descriptor_, &User::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Restaurant_descriptor_, &Restaurant::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    RestaurantList_descriptor_, &RestaurantList::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    CommentList_descriptor_, &CommentList::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    UserList_descriptor_, &UserList::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    RestaurantType_descriptor_, &RestaurantType::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Query_descriptor_, &Query::default_instance());
-}
-
-}  // namespace
-
 void protobuf_ShutdownFile_MapProtocol_2eproto() {
   delete Location::default_instance_;
-  delete Location_reflection_;
   delete Area::default_instance_;
-  delete Area_reflection_;
   delete Time::default_instance_;
-  delete Time_reflection_;
   delete Comment::default_instance_;
-  delete Comment_reflection_;
   delete Currency::default_instance_;
-  delete Currency_reflection_;
   delete Error::default_instance_;
-  delete Error_reflection_;
   delete User::default_instance_;
-  delete User_reflection_;
   delete Restaurant::default_instance_;
-  delete Restaurant_reflection_;
   delete RestaurantList::default_instance_;
-  delete RestaurantList_reflection_;
   delete CommentList::default_instance_;
-  delete CommentList_reflection_;
   delete UserList::default_instance_;
-  delete UserList_reflection_;
   delete RestaurantType::default_instance_;
-  delete RestaurantType_reflection_;
   delete Query::default_instance_;
-  delete Query_reflection_;
+  delete DMessage::default_instance_;
 }
 
 void protobuf_AddDesc_MapProtocol_2eproto() {
@@ -365,58 +32,6 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\021MapProtocol.proto\022\016ProtocolBuffer\"/\n\010L"
-    "ocation\022\020\n\010latitude\030\001 \002(\001\022\021\n\tlongitude\030\002"
-    " \002(\001\"`\n\004Area\022+\n\tnortheast\030\001 \002(\0132\030.Protoc"
-    "olBuffer.Location\022+\n\tsouthwest\030\002 \002(\0132\030.P"
-    "rotocolBuffer.Location\"\031\n\004Time\022\021\n\ttimeSt"
-    "amp\030\001 \002(\t\"j\n\007Comment\022\017\n\007content\030\001 \002(\t\022\'\n"
-    "\ttimeStamp\030\002 \002(\0132\024.ProtocolBuffer.Time\022\013"
-    "\n\003UID\030\003 \002(\r\022\013\n\003RID\030\004 \002(\r\022\013\n\003DID\030\005 \001(\r\"\032\n"
-    "\010Currency\022\016\n\006amount\030\001 \002(\002\"\030\n\005Error\022\017\n\007me"
-    "ssage\030\001 \002(\t\"\273\001\n\004User\022\013\n\003UID\030\001 \002(\r\022\024\n\014ema"
-    "ilAddress\030\002 \002(\t\022\020\n\010nickName\030\003 \002(\t\022\020\n\010pas"
-    "sword\030\004 \002(\t\022&\n\010joinTime\030\005 \002(\0132\024.Protocol"
-    "Buffer.Time\0223\n\013preferTypes\030\006 \003(\0132\036.Proto"
-    "colBuffer.RestaurantType\022\017\n\007friends\030\007 \003("
-    "\r\"\331\001\n\nRestaurant\022*\n\010location\030\001 \002(\0132\030.Pro"
-    "tocolBuffer.Location\022\014\n\004name\030\002 \002(\t\022\013\n\003RI"
-    "D\030\003 \002(\r\022,\n\004type\030\004 \002(\0132\036.ProtocolBuffer.R"
-    "estaurantType\022\016\n\006Rating\030\005 \002(\r\022\024\n\014Comment"
-    "Count\030\006 \002(\r\0220\n\016averageExpense\030\007 \002(\0132\030.Pr"
-    "otocolBuffer.Currency\"A\n\016RestaurantList\022"
-    "/\n\013restaurants\030\001 \003(\0132\032.ProtocolBuffer.Re"
-    "staurant\"8\n\013CommentList\022)\n\010comments\030\001 \003("
-    "\0132\027.ProtocolBuffer.Comment\"/\n\010UserList\022#"
-    "\n\005users\030\001 \003(\0132\024.ProtocolBuffer.User\"+\n\016R"
-    "estaurantType\022\013\n\003TID\030\001 \002(\r\022\014\n\004name\030\002 \002(\t"
-    "\"\307\001\n\005Query\022\"\n\004area\030\001 \001(\0132\024.ProtocolBuffe"
-    "r.Area\022\r\n\005level\030\002 \001(\r\022\"\n\004time\030\003 \001(\0132\024.Pr"
-    "otocolBuffer.Time\022\013\n\003RID\030\004 \001(\r\022\013\n\003UID\030\005 "
-    "\001(\r\022\t\n\001n\030\006 \001(\r\022\013\n\003msg\030\007 \001(\t\022\r\n\005image\030\010 \001"
-    "(\014\022\024\n\014emailAddress\030\t \001(\t\022\020\n\010password\030\n \001"
-    "(\t2\345\005\n\tDMService\022G\n\016GetRestaurants\022\025.Pro"
-    "tocolBuffer.Query\032\036.ProtocolBuffer.Resta"
-    "urantList\022T\n\036GetLastestCommentsOfRestaur"
-    "ant\022\025.ProtocolBuffer.Query\032\033.ProtocolBuf"
-    "fer.CommentList\022N\n\030GetLastestCommentsByU"
-    "ser\022\025.ProtocolBuffer.Query\032\033.ProtocolBuf"
-    "fer.CommentList\022L\n\026GetCommentsOfUserSinc"
-    "e\022\025.ProtocolBuffer.Query\032\033.ProtocolBuffe"
-    "r.CommentList\022R\n\034GetCommentsOfRestaurant"
-    "Since\022\025.ProtocolBuffer.Query\032\033.ProtocolB"
-    "uffer.CommentList\0228\n\tUserLogin\022\025.Protoco"
-    "lBuffer.Query\032\024.ProtocolBuffer.User\022:\n\013G"
-    "etUserInfo\022\025.ProtocolBuffer.Query\032\024.Prot"
-    "ocolBuffer.User\022B\n\017GetRelatedUsers\022\025.Pro"
-    "tocolBuffer.Query\032\030.ProtocolBuffer.UserL"
-    "ist\022I\n\027AddCommentForRestaurant\022\025.Protoco"
-    "lBuffer.Query\032\027.ProtocolBuffer.Comment\022B"
-    "\n\rAddRestaurant\022\025.ProtocolBuffer.Query\032\032"
-    ".ProtocolBuffer.RestaurantB\002H\001", 1950);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "MapProtocol.proto", &protobuf_RegisterTypes);
   Location::default_instance_ = new Location();
   Area::default_instance_ = new Area();
   Time::default_instance_ = new Time();
@@ -430,6 +45,7 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   UserList::default_instance_ = new UserList();
   RestaurantType::default_instance_ = new RestaurantType();
   Query::default_instance_ = new Query();
+  DMessage::default_instance_ = new DMessage();
   Location::default_instance_->InitAsDefaultInstance();
   Area::default_instance_->InitAsDefaultInstance();
   Time::default_instance_->InitAsDefaultInstance();
@@ -443,6 +59,7 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   UserList::default_instance_->InitAsDefaultInstance();
   RestaurantType::default_instance_->InitAsDefaultInstance();
   Query::default_instance_->InitAsDefaultInstance();
+  DMessage::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_MapProtocol_2eproto);
 }
 
@@ -453,6 +70,15 @@ struct StaticDescriptorInitializer_MapProtocol_2eproto {
   }
 } static_descriptor_initializer_MapProtocol_2eproto_;
 
+bool SystemMessageType_IsValid(int value) {
+  switch(value) {
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // ===================================================================
 
@@ -462,7 +88,7 @@ const int Location::kLongitudeFieldNumber;
 #endif  // !_MSC_VER
 
 Location::Location()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -470,7 +96,7 @@ void Location::InitAsDefaultInstance() {
 }
 
 Location::Location(const Location& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -496,11 +122,6 @@ void Location::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Location::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Location_descriptor_;
-}
-
 const Location& Location::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -517,7 +138,6 @@ void Location::Clear() {
     longitude_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool Location::MergePartialFromCodedStream(
@@ -563,8 +183,7 @@ bool Location::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -585,29 +204,6 @@ void Location::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteDouble(2, this->longitude(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Location::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // required double latitude = 1;
-  if (_has_bit(0)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->latitude(), target);
-  }
-  
-  // required double longitude = 2;
-  if (_has_bit(1)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(2, this->longitude(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int Location::ByteSize() const {
@@ -625,27 +221,15 @@ int Location::ByteSize() const {
     }
     
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void Location::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Location* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Location*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void Location::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Location*>(&from));
 }
 
 void Location::MergeFrom(const Location& from) {
@@ -658,13 +242,6 @@ void Location::MergeFrom(const Location& from) {
       set_longitude(from.longitude());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Location::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void Location::CopyFrom(const Location& from) {
@@ -684,17 +261,12 @@ void Location::Swap(Location* other) {
     std::swap(latitude_, other->latitude_);
     std::swap(longitude_, other->longitude_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata Location::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Location_descriptor_;
-  metadata.reflection = Location_reflection_;
-  return metadata;
+::std::string Location::GetTypeName() const {
+  return "ProtocolBuffer.Location";
 }
 
 
@@ -706,7 +278,7 @@ const int Area::kSouthwestFieldNumber;
 #endif  // !_MSC_VER
 
 Area::Area()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -716,7 +288,7 @@ void Area::InitAsDefaultInstance() {
 }
 
 Area::Area(const Area& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -744,11 +316,6 @@ void Area::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Area::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Area_descriptor_;
-}
-
 const Area& Area::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -769,7 +336,6 @@ void Area::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool Area::MergePartialFromCodedStream(
@@ -811,8 +377,7 @@ bool Area::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -825,43 +390,16 @@ void Area::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // required .ProtocolBuffer.Location northeast = 1;
   if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       1, this->northeast(), output);
   }
   
   // required .ProtocolBuffer.Location southwest = 2;
   if (_has_bit(1)) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       2, this->southwest(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Area::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // required .ProtocolBuffer.Location northeast = 1;
-  if (_has_bit(0)) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->northeast(), target);
-  }
-  
-  // required .ProtocolBuffer.Location southwest = 2;
-  if (_has_bit(1)) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->southwest(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int Area::ByteSize() const {
@@ -883,27 +421,15 @@ int Area::ByteSize() const {
     }
     
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void Area::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Area* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Area*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void Area::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Area*>(&from));
 }
 
 void Area::MergeFrom(const Area& from) {
@@ -916,13 +442,6 @@ void Area::MergeFrom(const Area& from) {
       mutable_southwest()->::ProtocolBuffer::Location::MergeFrom(from.southwest());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Area::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void Area::CopyFrom(const Area& from) {
@@ -948,17 +467,12 @@ void Area::Swap(Area* other) {
     std::swap(northeast_, other->northeast_);
     std::swap(southwest_, other->southwest_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata Area::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Area_descriptor_;
-  metadata.reflection = Area_reflection_;
-  return metadata;
+::std::string Area::GetTypeName() const {
+  return "ProtocolBuffer.Area";
 }
 
 
@@ -970,7 +484,7 @@ const int Time::kTimeStampFieldNumber;
 #endif  // !_MSC_VER
 
 Time::Time()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -978,7 +492,7 @@ void Time::InitAsDefaultInstance() {
 }
 
 Time::Time(const Time& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -1006,11 +520,6 @@ void Time::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Time::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Time_descriptor_;
-}
-
 const Time& Time::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -1030,7 +539,6 @@ void Time::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool Time::MergePartialFromCodedStream(
@@ -1045,9 +553,6 @@ bool Time::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_timestamp()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->timestamp().data(), this->timestamp().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -1061,8 +566,7 @@ bool Time::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -1075,36 +579,10 @@ void Time::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // required string timeStamp = 1;
   if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->timestamp().data(), this->timestamp().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       1, this->timestamp(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Time::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // required string timeStamp = 1;
-  if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->timestamp().data(), this->timestamp().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->timestamp(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int Time::ByteSize() const {
@@ -1119,27 +597,15 @@ int Time::ByteSize() const {
     }
     
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void Time::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Time* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Time*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void Time::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Time*>(&from));
 }
 
 void Time::MergeFrom(const Time& from) {
@@ -1149,13 +615,6 @@ void Time::MergeFrom(const Time& from) {
       set_timestamp(from.timestamp());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Time::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void Time::CopyFrom(const Time& from) {
@@ -1174,17 +633,12 @@ void Time::Swap(Time* other) {
   if (other != this) {
     std::swap(timestamp_, other->timestamp_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata Time::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Time_descriptor_;
-  metadata.reflection = Time_reflection_;
-  return metadata;
+::std::string Time::GetTypeName() const {
+  return "ProtocolBuffer.Time";
 }
 
 
@@ -1200,7 +654,7 @@ const int Comment::kDIDFieldNumber;
 #endif  // !_MSC_VER
 
 Comment::Comment()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -1209,7 +663,7 @@ void Comment::InitAsDefaultInstance() {
 }
 
 Comment::Comment(const Comment& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -1242,11 +696,6 @@ void Comment::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Comment::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Comment_descriptor_;
-}
-
 const Comment& Comment::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -1272,7 +721,6 @@ void Comment::Clear() {
     did_ = 0u;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool Comment::MergePartialFromCodedStream(
@@ -1287,9 +735,6 @@ bool Comment::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_content()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->content().data(), this->content().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -1365,8 +810,7 @@ bool Comment::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -1379,16 +823,13 @@ void Comment::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // required string content = 1;
   if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->content().data(), this->content().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       1, this->content(), output);
   }
   
   // required .ProtocolBuffer.Time timeStamp = 2;
   if (_has_bit(1)) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       2, this->timestamp(), output);
   }
   
@@ -1407,51 +848,6 @@ void Comment::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->did(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Comment::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // required string content = 1;
-  if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->content().data(), this->content().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->content(), target);
-  }
-  
-  // required .ProtocolBuffer.Time timeStamp = 2;
-  if (_has_bit(1)) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->timestamp(), target);
-  }
-  
-  // required uint32 UID = 3;
-  if (_has_bit(2)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->uid(), target);
-  }
-  
-  // required uint32 RID = 4;
-  if (_has_bit(3)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->rid(), target);
-  }
-  
-  // optional uint32 DID = 5;
-  if (_has_bit(4)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->did(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int Comment::ByteSize() const {
@@ -1494,27 +890,15 @@ int Comment::ByteSize() const {
     }
     
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void Comment::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Comment* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Comment*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void Comment::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Comment*>(&from));
 }
 
 void Comment::MergeFrom(const Comment& from) {
@@ -1536,13 +920,6 @@ void Comment::MergeFrom(const Comment& from) {
       set_did(from.did());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Comment::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void Comment::CopyFrom(const Comment& from) {
@@ -1568,17 +945,12 @@ void Comment::Swap(Comment* other) {
     std::swap(rid_, other->rid_);
     std::swap(did_, other->did_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata Comment::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Comment_descriptor_;
-  metadata.reflection = Comment_reflection_;
-  return metadata;
+::std::string Comment::GetTypeName() const {
+  return "ProtocolBuffer.Comment";
 }
 
 
@@ -1589,7 +961,7 @@ const int Currency::kAmountFieldNumber;
 #endif  // !_MSC_VER
 
 Currency::Currency()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -1597,7 +969,7 @@ void Currency::InitAsDefaultInstance() {
 }
 
 Currency::Currency(const Currency& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -1622,11 +994,6 @@ void Currency::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Currency::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Currency_descriptor_;
-}
-
 const Currency& Currency::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -1642,7 +1009,6 @@ void Currency::Clear() {
     amount_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool Currency::MergePartialFromCodedStream(
@@ -1672,8 +1038,7 @@ bool Currency::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -1689,24 +1054,6 @@ void Currency::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->amount(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Currency::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // required float amount = 1;
-  if (_has_bit(0)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->amount(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int Currency::ByteSize() const {
@@ -1719,27 +1066,15 @@ int Currency::ByteSize() const {
     }
     
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void Currency::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Currency* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Currency*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void Currency::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Currency*>(&from));
 }
 
 void Currency::MergeFrom(const Currency& from) {
@@ -1749,13 +1084,6 @@ void Currency::MergeFrom(const Currency& from) {
       set_amount(from.amount());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Currency::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void Currency::CopyFrom(const Currency& from) {
@@ -1774,17 +1102,12 @@ void Currency::Swap(Currency* other) {
   if (other != this) {
     std::swap(amount_, other->amount_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata Currency::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Currency_descriptor_;
-  metadata.reflection = Currency_reflection_;
-  return metadata;
+::std::string Currency::GetTypeName() const {
+  return "ProtocolBuffer.Currency";
 }
 
 
@@ -1796,7 +1119,7 @@ const int Error::kMessageFieldNumber;
 #endif  // !_MSC_VER
 
 Error::Error()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -1804,7 +1127,7 @@ void Error::InitAsDefaultInstance() {
 }
 
 Error::Error(const Error& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -1832,11 +1155,6 @@ void Error::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Error::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Error_descriptor_;
-}
-
 const Error& Error::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -1856,7 +1174,6 @@ void Error::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool Error::MergePartialFromCodedStream(
@@ -1871,9 +1188,6 @@ bool Error::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_message()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->message().data(), this->message().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -1887,8 +1201,7 @@ bool Error::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -1901,36 +1214,10 @@ void Error::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // required string message = 1;
   if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->message().data(), this->message().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       1, this->message(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Error::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // required string message = 1;
-  if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->message().data(), this->message().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->message(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int Error::ByteSize() const {
@@ -1945,27 +1232,15 @@ int Error::ByteSize() const {
     }
     
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void Error::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Error* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Error*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void Error::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Error*>(&from));
 }
 
 void Error::MergeFrom(const Error& from) {
@@ -1975,13 +1250,6 @@ void Error::MergeFrom(const Error& from) {
       set_message(from.message());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Error::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void Error::CopyFrom(const Error& from) {
@@ -2000,17 +1268,12 @@ void Error::Swap(Error* other) {
   if (other != this) {
     std::swap(message_, other->message_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata Error::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Error_descriptor_;
-  metadata.reflection = Error_reflection_;
-  return metadata;
+::std::string Error::GetTypeName() const {
+  return "ProtocolBuffer.Error";
 }
 
 
@@ -2030,7 +1293,7 @@ const int User::kFriendsFieldNumber;
 #endif  // !_MSC_VER
 
 User::User()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -2039,7 +1302,7 @@ void User::InitAsDefaultInstance() {
 }
 
 User::User(const User& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -2078,11 +1341,6 @@ void User::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* User::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return User_descriptor_;
-}
-
 const User& User::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -2118,7 +1376,6 @@ void User::Clear() {
   prefertypes_.Clear();
   friends_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool User::MergePartialFromCodedStream(
@@ -2149,9 +1406,6 @@ bool User::MergePartialFromCodedStream(
          parse_emailAddress:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_emailaddress()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->emailaddress().data(), this->emailaddress().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -2166,9 +1420,6 @@ bool User::MergePartialFromCodedStream(
          parse_nickName:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_nickname()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->nickname().data(), this->nickname().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -2183,9 +1434,6 @@ bool User::MergePartialFromCodedStream(
          parse_password:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_password()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->password().data(), this->password().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -2250,8 +1498,7 @@ bool User::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -2269,40 +1516,31 @@ void User::SerializeWithCachedSizes(
   
   // required string emailAddress = 2;
   if (_has_bit(1)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->emailaddress().data(), this->emailaddress().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       2, this->emailaddress(), output);
   }
   
   // required string nickName = 3;
   if (_has_bit(2)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->nickname().data(), this->nickname().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       3, this->nickname(), output);
   }
   
   // required string password = 4;
   if (_has_bit(3)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->password().data(), this->password().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       4, this->password(), output);
   }
   
   // required .ProtocolBuffer.Time joinTime = 5;
   if (_has_bit(4)) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       5, this->jointime(), output);
   }
   
   // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
   for (int i = 0; i < this->prefertypes_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       6, this->prefertypes(i), output);
   }
   
@@ -2312,74 +1550,6 @@ void User::SerializeWithCachedSizes(
       7, this->friends(i), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* User::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // required uint32 UID = 1;
-  if (_has_bit(0)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->uid(), target);
-  }
-  
-  // required string emailAddress = 2;
-  if (_has_bit(1)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->emailaddress().data(), this->emailaddress().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->emailaddress(), target);
-  }
-  
-  // required string nickName = 3;
-  if (_has_bit(2)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->nickname().data(), this->nickname().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->nickname(), target);
-  }
-  
-  // required string password = 4;
-  if (_has_bit(3)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->password().data(), this->password().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        4, this->password(), target);
-  }
-  
-  // required .ProtocolBuffer.Time joinTime = 5;
-  if (_has_bit(4)) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        5, this->jointime(), target);
-  }
-  
-  // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
-  for (int i = 0; i < this->prefertypes_size(); i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        6, this->prefertypes(i), target);
-  }
-  
-  // repeated uint32 friends = 7;
-  for (int i = 0; i < this->friends_size(); i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32ToArray(7, this->friends(i), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int User::ByteSize() const {
@@ -2440,27 +1610,15 @@ int User::ByteSize() const {
     total_size += 1 * this->friends_size() + data_size;
   }
   
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void User::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const User* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const User*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void User::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const User*>(&from));
 }
 
 void User::MergeFrom(const User& from) {
@@ -2484,13 +1642,6 @@ void User::MergeFrom(const User& from) {
       mutable_jointime()->::ProtocolBuffer::Time::MergeFrom(from.jointime());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void User::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void User::CopyFrom(const User& from) {
@@ -2521,17 +1672,12 @@ void User::Swap(User* other) {
     prefertypes_.Swap(&other->prefertypes_);
     friends_.Swap(&other->friends_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata User::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = User_descriptor_;
-  metadata.reflection = User_reflection_;
-  return metadata;
+::std::string User::GetTypeName() const {
+  return "ProtocolBuffer.User";
 }
 
 
@@ -2549,7 +1695,7 @@ const int Restaurant::kAverageExpenseFieldNumber;
 #endif  // !_MSC_VER
 
 Restaurant::Restaurant()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -2560,7 +1706,7 @@ void Restaurant::InitAsDefaultInstance() {
 }
 
 Restaurant::Restaurant(const Restaurant& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -2597,11 +1743,6 @@ void Restaurant::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Restaurant::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Restaurant_descriptor_;
-}
-
 const Restaurant& Restaurant::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -2633,7 +1774,6 @@ void Restaurant::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool Restaurant::MergePartialFromCodedStream(
@@ -2662,9 +1802,6 @@ bool Restaurant::MergePartialFromCodedStream(
          parse_name:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->name().data(), this->name().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -2754,8 +1891,7 @@ bool Restaurant::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -2768,15 +1904,12 @@ void Restaurant::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // required .ProtocolBuffer.Location location = 1;
   if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       1, this->location(), output);
   }
   
   // required string name = 2;
   if (_has_bit(1)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->name().data(), this->name().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       2, this->name(), output);
   }
@@ -2788,7 +1921,7 @@ void Restaurant::SerializeWithCachedSizes(
   
   // required .ProtocolBuffer.RestaurantType type = 4;
   if (_has_bit(3)) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       4, this->type(), output);
   }
   
@@ -2804,69 +1937,10 @@ void Restaurant::SerializeWithCachedSizes(
   
   // required .ProtocolBuffer.Currency averageExpense = 7;
   if (_has_bit(6)) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       7, this->averageexpense(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Restaurant::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // required .ProtocolBuffer.Location location = 1;
-  if (_has_bit(0)) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->location(), target);
-  }
-  
-  // required string name = 2;
-  if (_has_bit(1)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->name().data(), this->name().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->name(), target);
-  }
-  
-  // required uint32 RID = 3;
-  if (_has_bit(2)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->rid(), target);
-  }
-  
-  // required .ProtocolBuffer.RestaurantType type = 4;
-  if (_has_bit(3)) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        4, this->type(), target);
-  }
-  
-  // required uint32 Rating = 5;
-  if (_has_bit(4)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->rating(), target);
-  }
-  
-  // required uint32 CommentCount = 6;
-  if (_has_bit(5)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->commentcount(), target);
-  }
-  
-  // required .ProtocolBuffer.Currency averageExpense = 7;
-  if (_has_bit(6)) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        7, this->averageexpense(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int Restaurant::ByteSize() const {
@@ -2923,27 +1997,15 @@ int Restaurant::ByteSize() const {
     }
     
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void Restaurant::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Restaurant* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Restaurant*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void Restaurant::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Restaurant*>(&from));
 }
 
 void Restaurant::MergeFrom(const Restaurant& from) {
@@ -2971,13 +2033,6 @@ void Restaurant::MergeFrom(const Restaurant& from) {
       mutable_averageexpense()->::ProtocolBuffer::Currency::MergeFrom(from.averageexpense());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Restaurant::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void Restaurant::CopyFrom(const Restaurant& from) {
@@ -3011,17 +2066,12 @@ void Restaurant::Swap(Restaurant* other) {
     std::swap(commentcount_, other->commentcount_);
     std::swap(averageexpense_, other->averageexpense_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata Restaurant::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Restaurant_descriptor_;
-  metadata.reflection = Restaurant_reflection_;
-  return metadata;
+::std::string Restaurant::GetTypeName() const {
+  return "ProtocolBuffer.Restaurant";
 }
 
 
@@ -3032,7 +2082,7 @@ const int RestaurantList::kRestaurantsFieldNumber;
 #endif  // !_MSC_VER
 
 RestaurantList::RestaurantList()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -3040,7 +2090,7 @@ void RestaurantList::InitAsDefaultInstance() {
 }
 
 RestaurantList::RestaurantList(const RestaurantList& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -3064,11 +2114,6 @@ void RestaurantList::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* RestaurantList::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return RestaurantList_descriptor_;
-}
-
 const RestaurantList& RestaurantList::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -3082,7 +2127,6 @@ RestaurantList* RestaurantList::New() const {
 void RestaurantList::Clear() {
   restaurants_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool RestaurantList::MergePartialFromCodedStream(
@@ -3112,8 +2156,7 @@ bool RestaurantList::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -3126,30 +2169,10 @@ void RestaurantList::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // repeated .ProtocolBuffer.Restaurant restaurants = 1;
   for (int i = 0; i < this->restaurants_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       1, this->restaurants(i), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* RestaurantList::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // repeated .ProtocolBuffer.Restaurant restaurants = 1;
-  for (int i = 0; i < this->restaurants_size(); i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->restaurants(i), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int RestaurantList::ByteSize() const {
@@ -3163,39 +2186,20 @@ int RestaurantList::ByteSize() const {
         this->restaurants(i));
   }
   
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void RestaurantList::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const RestaurantList* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const RestaurantList*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void RestaurantList::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const RestaurantList*>(&from));
 }
 
 void RestaurantList::MergeFrom(const RestaurantList& from) {
   GOOGLE_CHECK_NE(&from, this);
   restaurants_.MergeFrom(from.restaurants_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void RestaurantList::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void RestaurantList::CopyFrom(const RestaurantList& from) {
@@ -3216,17 +2220,12 @@ void RestaurantList::Swap(RestaurantList* other) {
   if (other != this) {
     restaurants_.Swap(&other->restaurants_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata RestaurantList::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = RestaurantList_descriptor_;
-  metadata.reflection = RestaurantList_reflection_;
-  return metadata;
+::std::string RestaurantList::GetTypeName() const {
+  return "ProtocolBuffer.RestaurantList";
 }
 
 
@@ -3237,7 +2236,7 @@ const int CommentList::kCommentsFieldNumber;
 #endif  // !_MSC_VER
 
 CommentList::CommentList()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -3245,7 +2244,7 @@ void CommentList::InitAsDefaultInstance() {
 }
 
 CommentList::CommentList(const CommentList& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -3269,11 +2268,6 @@ void CommentList::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* CommentList::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return CommentList_descriptor_;
-}
-
 const CommentList& CommentList::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -3287,7 +2281,6 @@ CommentList* CommentList::New() const {
 void CommentList::Clear() {
   comments_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool CommentList::MergePartialFromCodedStream(
@@ -3317,8 +2310,7 @@ bool CommentList::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -3331,30 +2323,10 @@ void CommentList::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // repeated .ProtocolBuffer.Comment comments = 1;
   for (int i = 0; i < this->comments_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       1, this->comments(i), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* CommentList::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // repeated .ProtocolBuffer.Comment comments = 1;
-  for (int i = 0; i < this->comments_size(); i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->comments(i), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int CommentList::ByteSize() const {
@@ -3368,39 +2340,20 @@ int CommentList::ByteSize() const {
         this->comments(i));
   }
   
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void CommentList::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const CommentList* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const CommentList*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void CommentList::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const CommentList*>(&from));
 }
 
 void CommentList::MergeFrom(const CommentList& from) {
   GOOGLE_CHECK_NE(&from, this);
   comments_.MergeFrom(from.comments_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void CommentList::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void CommentList::CopyFrom(const CommentList& from) {
@@ -3421,17 +2374,12 @@ void CommentList::Swap(CommentList* other) {
   if (other != this) {
     comments_.Swap(&other->comments_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata CommentList::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = CommentList_descriptor_;
-  metadata.reflection = CommentList_reflection_;
-  return metadata;
+::std::string CommentList::GetTypeName() const {
+  return "ProtocolBuffer.CommentList";
 }
 
 
@@ -3442,7 +2390,7 @@ const int UserList::kUsersFieldNumber;
 #endif  // !_MSC_VER
 
 UserList::UserList()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -3450,7 +2398,7 @@ void UserList::InitAsDefaultInstance() {
 }
 
 UserList::UserList(const UserList& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -3474,11 +2422,6 @@ void UserList::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* UserList::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return UserList_descriptor_;
-}
-
 const UserList& UserList::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -3492,7 +2435,6 @@ UserList* UserList::New() const {
 void UserList::Clear() {
   users_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool UserList::MergePartialFromCodedStream(
@@ -3522,8 +2464,7 @@ bool UserList::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -3536,30 +2477,10 @@ void UserList::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // repeated .ProtocolBuffer.User users = 1;
   for (int i = 0; i < this->users_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       1, this->users(i), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* UserList::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // repeated .ProtocolBuffer.User users = 1;
-  for (int i = 0; i < this->users_size(); i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->users(i), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int UserList::ByteSize() const {
@@ -3573,39 +2494,20 @@ int UserList::ByteSize() const {
         this->users(i));
   }
   
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void UserList::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const UserList* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const UserList*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void UserList::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const UserList*>(&from));
 }
 
 void UserList::MergeFrom(const UserList& from) {
   GOOGLE_CHECK_NE(&from, this);
   users_.MergeFrom(from.users_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void UserList::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void UserList::CopyFrom(const UserList& from) {
@@ -3626,17 +2528,12 @@ void UserList::Swap(UserList* other) {
   if (other != this) {
     users_.Swap(&other->users_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata UserList::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = UserList_descriptor_;
-  metadata.reflection = UserList_reflection_;
-  return metadata;
+::std::string UserList::GetTypeName() const {
+  return "ProtocolBuffer.UserList";
 }
 
 
@@ -3649,7 +2546,7 @@ const int RestaurantType::kNameFieldNumber;
 #endif  // !_MSC_VER
 
 RestaurantType::RestaurantType()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -3657,7 +2554,7 @@ void RestaurantType::InitAsDefaultInstance() {
 }
 
 RestaurantType::RestaurantType(const RestaurantType& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -3686,11 +2583,6 @@ void RestaurantType::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* RestaurantType::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return RestaurantType_descriptor_;
-}
-
 const RestaurantType& RestaurantType::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -3711,7 +2603,6 @@ void RestaurantType::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool RestaurantType::MergePartialFromCodedStream(
@@ -3742,9 +2633,6 @@ bool RestaurantType::MergePartialFromCodedStream(
          parse_name:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->name().data(), this->name().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -3758,8 +2646,7 @@ bool RestaurantType::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -3777,41 +2664,10 @@ void RestaurantType::SerializeWithCachedSizes(
   
   // required string name = 2;
   if (_has_bit(1)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->name().data(), this->name().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       2, this->name(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* RestaurantType::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // required uint32 TID = 1;
-  if (_has_bit(0)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->tid(), target);
-  }
-  
-  // required string name = 2;
-  if (_has_bit(1)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->name().data(), this->name().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->name(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int RestaurantType::ByteSize() const {
@@ -3833,27 +2689,15 @@ int RestaurantType::ByteSize() const {
     }
     
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void RestaurantType::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const RestaurantType* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const RestaurantType*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void RestaurantType::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const RestaurantType*>(&from));
 }
 
 void RestaurantType::MergeFrom(const RestaurantType& from) {
@@ -3866,13 +2710,6 @@ void RestaurantType::MergeFrom(const RestaurantType& from) {
       set_name(from.name());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void RestaurantType::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void RestaurantType::CopyFrom(const RestaurantType& from) {
@@ -3892,17 +2729,12 @@ void RestaurantType::Swap(RestaurantType* other) {
     std::swap(tid_, other->tid_);
     std::swap(name_, other->name_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata RestaurantType::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = RestaurantType_descriptor_;
-  metadata.reflection = RestaurantType_reflection_;
-  return metadata;
+::std::string RestaurantType::GetTypeName() const {
+  return "ProtocolBuffer.RestaurantType";
 }
 
 
@@ -3926,7 +2758,7 @@ const int Query::kPasswordFieldNumber;
 #endif  // !_MSC_VER
 
 Query::Query()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
@@ -3936,7 +2768,7 @@ void Query::InitAsDefaultInstance() {
 }
 
 Query::Query(const Query& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
@@ -3984,11 +2816,6 @@ void Query::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Query::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Query_descriptor_;
-}
-
 const Query& Query::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
 }
@@ -4035,7 +2862,6 @@ void Query::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
 }
 
 bool Query::MergePartialFromCodedStream(
@@ -4142,9 +2968,6 @@ bool Query::MergePartialFromCodedStream(
          parse_msg:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_msg()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->msg().data(), this->msg().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -4173,9 +2996,6 @@ bool Query::MergePartialFromCodedStream(
          parse_emailAddress:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_emailaddress()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->emailaddress().data(), this->emailaddress().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -4190,9 +3010,6 @@ bool Query::MergePartialFromCodedStream(
          parse_password:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_password()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-            this->password().data(), this->password().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -4206,8 +3023,7 @@ bool Query::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           return true;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
@@ -4220,7 +3036,7 @@ void Query::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // optional .ProtocolBuffer.Area area = 1;
   if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       1, this->area(), output);
   }
   
@@ -4231,7 +3047,7 @@ void Query::SerializeWithCachedSizes(
   
   // optional .ProtocolBuffer.Time time = 3;
   if (_has_bit(2)) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       3, this->time(), output);
   }
   
@@ -4252,9 +3068,6 @@ void Query::SerializeWithCachedSizes(
   
   // optional string msg = 7;
   if (_has_bit(6)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->msg().data(), this->msg().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       7, this->msg(), output);
   }
@@ -4267,106 +3080,16 @@ void Query::SerializeWithCachedSizes(
   
   // optional string emailAddress = 9;
   if (_has_bit(8)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->emailaddress().data(), this->emailaddress().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       9, this->emailaddress(), output);
   }
   
   // optional string password = 10;
   if (_has_bit(9)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->password().data(), this->password().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
       10, this->password(), output);
   }
   
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Query::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // optional .ProtocolBuffer.Area area = 1;
-  if (_has_bit(0)) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->area(), target);
-  }
-  
-  // optional uint32 level = 2;
-  if (_has_bit(1)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->level(), target);
-  }
-  
-  // optional .ProtocolBuffer.Time time = 3;
-  if (_has_bit(2)) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->time(), target);
-  }
-  
-  // optional uint32 RID = 4;
-  if (_has_bit(3)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->rid(), target);
-  }
-  
-  // optional uint32 UID = 5;
-  if (_has_bit(4)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->uid(), target);
-  }
-  
-  // optional uint32 n = 6;
-  if (_has_bit(5)) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->n(), target);
-  }
-  
-  // optional string msg = 7;
-  if (_has_bit(6)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->msg().data(), this->msg().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        7, this->msg(), target);
-  }
-  
-  // optional bytes image = 8;
-  if (_has_bit(7)) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        8, this->image(), target);
-  }
-  
-  // optional string emailAddress = 9;
-  if (_has_bit(8)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->emailaddress().data(), this->emailaddress().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        9, this->emailaddress(), target);
-  }
-  
-  // optional string password = 10;
-  if (_has_bit(9)) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-      this->password().data(), this->password().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        10, this->password(), target);
-  }
-  
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
 }
 
 int Query::ByteSize() const {
@@ -4446,27 +3169,15 @@ int Query::ByteSize() const {
     }
     
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void Query::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Query* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Query*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void Query::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Query*>(&from));
 }
 
 void Query::MergeFrom(const Query& from) {
@@ -4505,13 +3216,6 @@ void Query::MergeFrom(const Query& from) {
       set_password(from.password());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Query::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void Query::CopyFrom(const Query& from) {
@@ -4544,328 +3248,328 @@ void Query::Swap(Query* other) {
     std::swap(emailaddress_, other->emailaddress_);
     std::swap(password_, other->password_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata Query::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Query_descriptor_;
-  metadata.reflection = Query_reflection_;
-  return metadata;
+::std::string Query::GetTypeName() const {
+  return "ProtocolBuffer.Query";
 }
 
 
 // ===================================================================
 
-DMService::~DMService() {}
+const ::std::string DMessage::_default_text_;
+const ::std::string DMessage::_default_buffer_;
+#ifndef _MSC_VER
+const int DMessage::kIsSystemMessageFieldNumber;
+const int DMessage::kTextFieldNumber;
+const int DMessage::kFromUserFieldNumber;
+const int DMessage::kSystemMessageTypeFieldNumber;
+const int DMessage::kBufferFieldNumber;
+#endif  // !_MSC_VER
 
-const ::google::protobuf::ServiceDescriptor* DMService::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return DMService_descriptor_;
+DMessage::DMessage()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
 }
 
-const ::google::protobuf::ServiceDescriptor* DMService::GetDescriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return DMService_descriptor_;
+void DMessage::InitAsDefaultInstance() {
 }
 
-void DMService::GetRestaurants(::google::protobuf::RpcController* controller,
-                         const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::RestaurantList*,
-                         ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method GetRestaurants() not implemented.");
-  done->Run();
+DMessage::DMessage(const DMessage& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
 }
 
-void DMService::GetLastestCommentsOfRestaurant(::google::protobuf::RpcController* controller,
-                         const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::CommentList*,
-                         ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method GetLastestCommentsOfRestaurant() not implemented.");
-  done->Run();
+void DMessage::SharedCtor() {
+  _cached_size_ = 0;
+  issystemmessage_ = false;
+  text_ = const_cast< ::std::string*>(&_default_text_);
+  fromuser_ = 0u;
+  systemmessagetype_ = 1;
+  buffer_ = const_cast< ::std::string*>(&_default_buffer_);
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-void DMService::GetLastestCommentsByUser(::google::protobuf::RpcController* controller,
-                         const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::CommentList*,
-                         ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method GetLastestCommentsByUser() not implemented.");
-  done->Run();
+DMessage::~DMessage() {
+  SharedDtor();
 }
 
-void DMService::GetCommentsOfUserSince(::google::protobuf::RpcController* controller,
-                         const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::CommentList*,
-                         ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method GetCommentsOfUserSince() not implemented.");
-  done->Run();
-}
-
-void DMService::GetCommentsOfRestaurantSince(::google::protobuf::RpcController* controller,
-                         const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::CommentList*,
-                         ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method GetCommentsOfRestaurantSince() not implemented.");
-  done->Run();
-}
-
-void DMService::UserLogin(::google::protobuf::RpcController* controller,
-                         const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::User*,
-                         ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method UserLogin() not implemented.");
-  done->Run();
-}
-
-void DMService::GetUserInfo(::google::protobuf::RpcController* controller,
-                         const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::User*,
-                         ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method GetUserInfo() not implemented.");
-  done->Run();
-}
-
-void DMService::GetRelatedUsers(::google::protobuf::RpcController* controller,
-                         const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::UserList*,
-                         ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method GetRelatedUsers() not implemented.");
-  done->Run();
-}
-
-void DMService::AddCommentForRestaurant(::google::protobuf::RpcController* controller,
-                         const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::Comment*,
-                         ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method AddCommentForRestaurant() not implemented.");
-  done->Run();
-}
-
-void DMService::AddRestaurant(::google::protobuf::RpcController* controller,
-                         const ::ProtocolBuffer::Query*,
-                         ::ProtocolBuffer::Restaurant*,
-                         ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method AddRestaurant() not implemented.");
-  done->Run();
-}
-
-void DMService::CallMethod(const ::google::protobuf::MethodDescriptor* method,
-                             ::google::protobuf::RpcController* controller,
-                             const ::google::protobuf::Message* request,
-                             ::google::protobuf::Message* response,
-                             ::google::protobuf::Closure* done) {
-  GOOGLE_DCHECK_EQ(method->service(), DMService_descriptor_);
-  switch(method->index()) {
-    case 0:
-      GetRestaurants(controller,
-             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::RestaurantList*>(response),
-             done);
-      break;
-    case 1:
-      GetLastestCommentsOfRestaurant(controller,
-             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::CommentList*>(response),
-             done);
-      break;
-    case 2:
-      GetLastestCommentsByUser(controller,
-             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::CommentList*>(response),
-             done);
-      break;
-    case 3:
-      GetCommentsOfUserSince(controller,
-             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::CommentList*>(response),
-             done);
-      break;
-    case 4:
-      GetCommentsOfRestaurantSince(controller,
-             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::CommentList*>(response),
-             done);
-      break;
-    case 5:
-      UserLogin(controller,
-             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
-             done);
-      break;
-    case 6:
-      GetUserInfo(controller,
-             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
-             done);
-      break;
-    case 7:
-      GetRelatedUsers(controller,
-             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::UserList*>(response),
-             done);
-      break;
-    case 8:
-      AddCommentForRestaurant(controller,
-             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::Comment*>(response),
-             done);
-      break;
-    case 9:
-      AddRestaurant(controller,
-             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-             ::google::protobuf::down_cast< ::ProtocolBuffer::Restaurant*>(response),
-             done);
-      break;
-    default:
-      GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
-      break;
+void DMessage::SharedDtor() {
+  if (text_ != &_default_text_) {
+    delete text_;
+  }
+  if (buffer_ != &_default_buffer_) {
+    delete buffer_;
+  }
+  if (this != default_instance_) {
   }
 }
 
-const ::google::protobuf::Message& DMService::GetRequestPrototype(
-    const ::google::protobuf::MethodDescriptor* method) const {
-  GOOGLE_DCHECK_EQ(method->service(), descriptor());
-  switch(method->index()) {
-    case 0:
-      return ::ProtocolBuffer::Query::default_instance();
-    case 1:
-      return ::ProtocolBuffer::Query::default_instance();
-    case 2:
-      return ::ProtocolBuffer::Query::default_instance();
-    case 3:
-      return ::ProtocolBuffer::Query::default_instance();
-    case 4:
-      return ::ProtocolBuffer::Query::default_instance();
-    case 5:
-      return ::ProtocolBuffer::Query::default_instance();
-    case 6:
-      return ::ProtocolBuffer::Query::default_instance();
-    case 7:
-      return ::ProtocolBuffer::Query::default_instance();
-    case 8:
-      return ::ProtocolBuffer::Query::default_instance();
-    case 9:
-      return ::ProtocolBuffer::Query::default_instance();
-    default:
-      GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
-      return *reinterpret_cast< ::google::protobuf::Message*>(NULL);
+void DMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const DMessage& DMessage::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
+}
+
+DMessage* DMessage::default_instance_ = NULL;
+
+DMessage* DMessage::New() const {
+  return new DMessage;
+}
+
+void DMessage::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    issystemmessage_ = false;
+    if (_has_bit(1)) {
+      if (text_ != &_default_text_) {
+        text_->clear();
+      }
+    }
+    fromuser_ = 0u;
+    systemmessagetype_ = 1;
+    if (_has_bit(4)) {
+      if (buffer_ != &_default_buffer_) {
+        buffer_->clear();
+      }
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool DMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required bool isSystemMessage = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &issystemmessage_)));
+          _set_bit(0);
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_text;
+        break;
+      }
+      
+      // optional string text = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_text:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_text()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(24)) goto parse_fromUser;
+        break;
+      }
+      
+      // optional uint32 fromUser = 3;
+      case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_fromUser:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &fromuser_)));
+          _set_bit(2);
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(32)) goto parse_systemMessageType;
+        break;
+      }
+      
+      // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_systemMessageType:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (ProtocolBuffer::SystemMessageType_IsValid(value)) {
+            set_systemmessagetype(static_cast< ProtocolBuffer::SystemMessageType >(value));
+          }
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(42)) goto parse_buffer;
+        break;
+      }
+      
+      // optional string buffer = 5;
+      case 5: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_buffer:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_buffer()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void DMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required bool isSystemMessage = 1;
+  if (_has_bit(0)) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->issystemmessage(), output);
+  }
+  
+  // optional string text = 2;
+  if (_has_bit(1)) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      2, this->text(), output);
+  }
+  
+  // optional uint32 fromUser = 3;
+  if (_has_bit(2)) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->fromuser(), output);
+  }
+  
+  // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
+  if (_has_bit(3)) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      4, this->systemmessagetype(), output);
+  }
+  
+  // optional string buffer = 5;
+  if (_has_bit(4)) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      5, this->buffer(), output);
+  }
+  
+}
+
+int DMessage::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required bool isSystemMessage = 1;
+    if (has_issystemmessage()) {
+      total_size += 1 + 1;
+    }
+    
+    // optional string text = 2;
+    if (has_text()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->text());
+    }
+    
+    // optional uint32 fromUser = 3;
+    if (has_fromuser()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->fromuser());
+    }
+    
+    // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
+    if (has_systemmessagetype()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::EnumSize(this->systemmessagetype());
+    }
+    
+    // optional string buffer = 5;
+    if (has_buffer()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->buffer());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void DMessage::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const DMessage*>(&from));
+}
+
+void DMessage::MergeFrom(const DMessage& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from._has_bit(0)) {
+      set_issystemmessage(from.issystemmessage());
+    }
+    if (from._has_bit(1)) {
+      set_text(from.text());
+    }
+    if (from._has_bit(2)) {
+      set_fromuser(from.fromuser());
+    }
+    if (from._has_bit(3)) {
+      set_systemmessagetype(from.systemmessagetype());
+    }
+    if (from._has_bit(4)) {
+      set_buffer(from.buffer());
+    }
   }
 }
 
-const ::google::protobuf::Message& DMService::GetResponsePrototype(
-    const ::google::protobuf::MethodDescriptor* method) const {
-  GOOGLE_DCHECK_EQ(method->service(), descriptor());
-  switch(method->index()) {
-    case 0:
-      return ::ProtocolBuffer::RestaurantList::default_instance();
-    case 1:
-      return ::ProtocolBuffer::CommentList::default_instance();
-    case 2:
-      return ::ProtocolBuffer::CommentList::default_instance();
-    case 3:
-      return ::ProtocolBuffer::CommentList::default_instance();
-    case 4:
-      return ::ProtocolBuffer::CommentList::default_instance();
-    case 5:
-      return ::ProtocolBuffer::User::default_instance();
-    case 6:
-      return ::ProtocolBuffer::User::default_instance();
-    case 7:
-      return ::ProtocolBuffer::UserList::default_instance();
-    case 8:
-      return ::ProtocolBuffer::Comment::default_instance();
-    case 9:
-      return ::ProtocolBuffer::Restaurant::default_instance();
-    default:
-      GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
-      return *reinterpret_cast< ::google::protobuf::Message*>(NULL);
+void DMessage::CopyFrom(const DMessage& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool DMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  
+  return true;
+}
+
+void DMessage::Swap(DMessage* other) {
+  if (other != this) {
+    std::swap(issystemmessage_, other->issystemmessage_);
+    std::swap(text_, other->text_);
+    std::swap(fromuser_, other->fromuser_);
+    std::swap(systemmessagetype_, other->systemmessagetype_);
+    std::swap(buffer_, other->buffer_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-DMService_Stub::DMService_Stub(::google::protobuf::RpcChannel* channel)
-  : channel_(channel), owns_channel_(false) {}
-DMService_Stub::DMService_Stub(
-    ::google::protobuf::RpcChannel* channel,
-    ::google::protobuf::Service::ChannelOwnership ownership)
-  : channel_(channel),
-    owns_channel_(ownership == ::google::protobuf::Service::STUB_OWNS_CHANNEL) {}
-DMService_Stub::~DMService_Stub() {
-  if (owns_channel_) delete channel_;
+::std::string DMessage::GetTypeName() const {
+  return "ProtocolBuffer.DMessage";
 }
 
-void DMService_Stub::GetRestaurants(::google::protobuf::RpcController* controller,
-                              const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::RestaurantList* response,
-                              ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(0),
-                       controller, request, response, done);
-}
-void DMService_Stub::GetLastestCommentsOfRestaurant(::google::protobuf::RpcController* controller,
-                              const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::CommentList* response,
-                              ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(1),
-                       controller, request, response, done);
-}
-void DMService_Stub::GetLastestCommentsByUser(::google::protobuf::RpcController* controller,
-                              const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::CommentList* response,
-                              ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(2),
-                       controller, request, response, done);
-}
-void DMService_Stub::GetCommentsOfUserSince(::google::protobuf::RpcController* controller,
-                              const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::CommentList* response,
-                              ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(3),
-                       controller, request, response, done);
-}
-void DMService_Stub::GetCommentsOfRestaurantSince(::google::protobuf::RpcController* controller,
-                              const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::CommentList* response,
-                              ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(4),
-                       controller, request, response, done);
-}
-void DMService_Stub::UserLogin(::google::protobuf::RpcController* controller,
-                              const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::User* response,
-                              ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(5),
-                       controller, request, response, done);
-}
-void DMService_Stub::GetUserInfo(::google::protobuf::RpcController* controller,
-                              const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::User* response,
-                              ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(6),
-                       controller, request, response, done);
-}
-void DMService_Stub::GetRelatedUsers(::google::protobuf::RpcController* controller,
-                              const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::UserList* response,
-                              ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(7),
-                       controller, request, response, done);
-}
-void DMService_Stub::AddCommentForRestaurant(::google::protobuf::RpcController* controller,
-                              const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::Comment* response,
-                              ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(8),
-                       controller, request, response, done);
-}
-void DMService_Stub::AddRestaurant(::google::protobuf::RpcController* controller,
-                              const ::ProtocolBuffer::Query* request,
-                              ::ProtocolBuffer::Restaurant* response,
-                              ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(9),
-                       controller, request, response, done);
-}
 
 // @@protoc_insertion_point(namespace_scope)
 

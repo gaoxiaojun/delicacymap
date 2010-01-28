@@ -248,6 +248,7 @@ void mapview::updateCurrentLocation( const QGeoPositionInfo &info )
     if ( _lastposition != info )
     {
         _lastposition = info;
+        //getSession()->getDataSource()
         page()->mainFrame()->evaluateJavaScript(QString("updateMyLocation(%1, %2);")
             .arg(info.coordinate().latitude())
             .arg(info.coordinate().longitude()));

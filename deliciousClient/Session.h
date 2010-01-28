@@ -32,7 +32,11 @@ public:
 signals:
     void ready(bool);
 
+protected:
+    void timerEvent(QTimerEvent *);
+
 private:
+    QBasicTimer timer;
     MapDataSource datasource;
     ProtocolBuffer::User *user;
     QTM_PREPEND_NAMESPACE(QNetworkSession)* network;

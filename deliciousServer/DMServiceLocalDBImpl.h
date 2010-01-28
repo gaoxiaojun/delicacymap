@@ -1,13 +1,21 @@
 #pragma once
 #include "MapProtocol.pb.h"
+#include "Message.pb.h"
 #include "deliciousDataAdapter.h"
+#include <google/protobuf/service.h>
 
 class DMServiceLocalDBImpl
-    : public ProtocolBuffer::DMService
+//    : public ProtocolBuffer::DMService
 {
 public:
     DMServiceLocalDBImpl(google::protobuf::RpcController* controller);
     ~DMServiceLocalDBImpl(void);
+
+    void CallMethod(protorpc::FunctionID method_id,
+        google::protobuf::RpcController* controller,
+        const google::protobuf::MessageLite* request,
+        google::protobuf::MessageLite* response,
+        google::protobuf::Closure* done);
 
 ///////////////////////////DMService Impl///////////////////////////////////////////////
 public:

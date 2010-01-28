@@ -7,22 +7,21 @@
 
 MapDataSource::MapDataSource()
 {
-    channel = new QTProtobufChannel(QHostAddress("192.168.123.194"), PORT_NUM);
-    stub = new ::ProtocolBuffer::DMService::Stub(channel);
+    channel = new QTProtobufChannel(QHostAddress("127.0.0.1"), PORT_NUM);
     QObject::connect(channel, SIGNAL(connected()), this, SLOT(channel_connected()));
     QObject::connect(channel, SIGNAL(error()), this, SLOT(channel_error()));
     QObject::connect(channel, SIGNAL(disconnected()), this, SLOT(channel_disconnected()));
+    QObject::connect(channel, SIGNAL(messageReceived(const google::protobuf::MessageLite*)), this, SLOT(emitDMessage(const google::protobuf::MessageLite*)));
 }
 
 MapDataSource::~MapDataSource()
 {
-    delete stub;
     delete channel;
 }
 
-::ProtocolBuffer::DMService::Stub* MapDataSource::getStub()
+void MapDataSource::emitDMessage( const google::protobuf::MessageLite*  msg )
 {
-    return stub;
+    emit messageReceived( ::google::protobuf::down_cast<const ProtocolBuffer::DMessage*>(msg) );
 }
 
 void MapDataSource::channel_disconnected()
@@ -56,7 +55,7 @@ QString MapDataSource::error()
 
 void MapDataSource::GetRestaurants( ProtocolBuffer::Query *query, ProtocolBuffer::RestaurantList *rlist, google::protobuf::Closure *done )
 {
-    getStub()->GetRestaurants(&controller, query, rlist, done);
+    channel->CallMethod(protorpc::GetRestaurants, query, rlist, done);
 }
 
 void MapDataSource::GetRestaurants( double lattitude_from, double longitude_from, double latitude_to, double longitude_to, int level, ProtocolBuffer::RestaurantList *rlist, google::protobuf::Closure *done )
@@ -72,7 +71,7 @@ void MapDataSource::GetRestaurants( double lattitude_from, double longitude_from
 
 void MapDataSource::GetLastestCommentsOfRestaurant( ProtocolBuffer::Query *query, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
 {
-    getStub()->GetLastestCommentsOfRestaurant(&controller, query, clist, done);
+    channel->CallMethod(protorpc::GetLastestCommentsOfRestaurant, query, clist, done);
 }
 
 void MapDataSource::GetLastestCommentsOfRestaurant( int rid, int max_entry, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
@@ -85,7 +84,7 @@ void MapDataSource::GetLastestCommentsOfRestaurant( int rid, int max_entry, Prot
 
 void MapDataSource::GetLastestCommentsByUser( ProtocolBuffer::Query *query, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
 {
-    getStub()->GetLastestCommentsByUser(&controller, query, clist, done);
+    channel->CallMethod(protorpc::GetLastestCommentsByUser, query, clist, done);
 }
 
 void MapDataSource::GetLastestCommentsByUser( int uid, int max_entry, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
@@ -98,7 +97,7 @@ void MapDataSource::GetLastestCommentsByUser( int uid, int max_entry, ProtocolBu
 
 void MapDataSource::GetCommentsOfUserSince( ProtocolBuffer::Query *query, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
 {
-    getStub()->GetCommentsOfUserSince(&controller, query, clist, done);
+    channel->CallMethod(protorpc::GetCommentsOfUserSince, query, clist, done);
 }
 
 void MapDataSource::GetCommentsOfUserSince( int uid, const std::string& datetime, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
@@ -111,7 +110,7 @@ void MapDataSource::GetCommentsOfUserSince( int uid, const std::string& datetime
 
 void MapDataSource::GetCommentsOfRestaurantSince( ProtocolBuffer::Query *query, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
 {
-    getStub()->GetCommentsOfRestaurantSince(&controller, query, clist, done);
+    channel->CallMethod(protorpc::GetCommentsOfRestaurantSince, query, clist, done);
 }
 
 void MapDataSource::GetCommentsOfRestaurantSince( int rid, const std::string& datetime, ProtocolBuffer::CommentList *clist, google::protobuf::Closure *done )
@@ -124,7 +123,7 @@ void MapDataSource::GetCommentsOfRestaurantSince( int rid, const std::string& da
 
 void MapDataSource::AddCommentForRestaurant( ProtocolBuffer::Query *query, ProtocolBuffer::Comment *comment, google::protobuf::Closure *done )
 {
-    getStub()->AddCommentForRestaurant(&controller, query, comment, done);
+    channel->CallMethod(protorpc::AddCommentForRestaurant, query, comment, done);
 }
 
 void MapDataSource::UserLogin( const std::string& useremailaddr, const std::string& password, ProtocolBuffer::User *usr, google::protobuf::Closure *done )
@@ -137,7 +136,7 @@ void MapDataSource::UserLogin( const std::string& useremailaddr, const std::stri
 
 void MapDataSource::UserLogin( ProtocolBuffer::Query *query, ProtocolBuffer::User *usr, google::protobuf::Closure *done )
 {
-    getStub()->UserLogin(&controller, query, usr, done);
+    channel->CallMethod(protorpc::UserLogin, query, usr, done);
 }
 
 void MapDataSource::GetUser( ProtocolBuffer::Query *, ProtocolBuffer::User *, google::protobuf::Closure * )

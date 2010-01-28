@@ -4,6 +4,7 @@
 #include "bluetoothmanager.h"
 #include "QTProtobufWaitResponse.h"
 #include "CommentItemDelegate.h"
+#include "Session.h"
 #include "../protocol-buffer-src/MapProtocol.pb.h"
 
 #include <QMenuBar>
@@ -78,6 +79,10 @@ void MainWindow::changeSession( Session *s )
 {
     session = s;
     navi->changeSession(s);
+    if (s)
+    {
+        connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
+    }
 }
 
 Session* MainWindow::getSession()
@@ -187,4 +192,9 @@ void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
 void MainWindow::UpdateCurrentLocation( QString s )
 {
     m_ui->label_currentlocation->setText(QString::fromLocal8Bit("µ±«∞Œª÷√£∫") + s);
+}
+
+void MainWindow::printMessage( const ProtocolBuffer::DMessage* )
+{
+
 }

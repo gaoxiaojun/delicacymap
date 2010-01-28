@@ -22,8 +22,6 @@
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/generated_message_reflection.h>
-#include <google/protobuf/service.h>
 // @@protoc_insertion_point(includes)
 
 namespace ProtocolBuffer {
@@ -46,10 +44,19 @@ class CommentList;
 class UserList;
 class RestaurantType;
 class Query;
+class DMessage;
+
+enum SystemMessageType {
+  RequestRouting = 1
+};
+bool SystemMessageType_IsValid(int value);
+const SystemMessageType SystemMessageType_MIN = RequestRouting;
+const SystemMessageType SystemMessageType_MAX = RequestRouting;
+const int SystemMessageType_ARRAYSIZE = SystemMessageType_MAX + 1;
 
 // ===================================================================
 
-class Location : public ::google::protobuf::Message {
+class Location : public ::google::protobuf::MessageLite {
  public:
   Location();
   virtual ~Location();
@@ -61,15 +68,6 @@ class Location : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Location& default_instance();
   
   void Swap(Location* other);
@@ -77,8 +75,7 @@ class Location : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   Location* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const Location& from);
   void MergeFrom(const Location& from);
   void Clear();
@@ -89,7 +86,6 @@ class Location : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -97,7 +93,7 @@ class Location : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -119,7 +115,6 @@ class Location : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Location)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   double latitude_;
@@ -146,7 +141,7 @@ class Location : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Area : public ::google::protobuf::Message {
+class Area : public ::google::protobuf::MessageLite {
  public:
   Area();
   virtual ~Area();
@@ -158,15 +153,6 @@ class Area : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Area& default_instance();
   
   void Swap(Area* other);
@@ -174,8 +160,7 @@ class Area : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   Area* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const Area& from);
   void MergeFrom(const Area& from);
   void Clear();
@@ -186,7 +171,6 @@ class Area : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -194,7 +178,7 @@ class Area : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -216,7 +200,6 @@ class Area : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Area)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::ProtocolBuffer::Location* northeast_;
@@ -243,7 +226,7 @@ class Area : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Time : public ::google::protobuf::Message {
+class Time : public ::google::protobuf::MessageLite {
  public:
   Time();
   virtual ~Time();
@@ -255,15 +238,6 @@ class Time : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Time& default_instance();
   
   void Swap(Time* other);
@@ -271,8 +245,7 @@ class Time : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   Time* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const Time& from);
   void MergeFrom(const Time& from);
   void Clear();
@@ -283,7 +256,6 @@ class Time : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -291,7 +263,7 @@ class Time : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -309,7 +281,6 @@ class Time : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Time)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::std::string* timestamp_;
@@ -336,7 +307,7 @@ class Time : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Comment : public ::google::protobuf::Message {
+class Comment : public ::google::protobuf::MessageLite {
  public:
   Comment();
   virtual ~Comment();
@@ -348,15 +319,6 @@ class Comment : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Comment& default_instance();
   
   void Swap(Comment* other);
@@ -364,8 +326,7 @@ class Comment : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   Comment* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const Comment& from);
   void MergeFrom(const Comment& from);
   void Clear();
@@ -376,7 +337,6 @@ class Comment : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -384,7 +344,7 @@ class Comment : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -430,7 +390,6 @@ class Comment : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Comment)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::std::string* content_;
@@ -461,7 +420,7 @@ class Comment : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Currency : public ::google::protobuf::Message {
+class Currency : public ::google::protobuf::MessageLite {
  public:
   Currency();
   virtual ~Currency();
@@ -473,15 +432,6 @@ class Currency : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Currency& default_instance();
   
   void Swap(Currency* other);
@@ -489,8 +439,7 @@ class Currency : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   Currency* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const Currency& from);
   void MergeFrom(const Currency& from);
   void Clear();
@@ -501,7 +450,6 @@ class Currency : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -509,7 +457,7 @@ class Currency : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -524,7 +472,6 @@ class Currency : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Currency)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   float amount_;
@@ -550,7 +497,7 @@ class Currency : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Error : public ::google::protobuf::Message {
+class Error : public ::google::protobuf::MessageLite {
  public:
   Error();
   virtual ~Error();
@@ -562,15 +509,6 @@ class Error : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Error& default_instance();
   
   void Swap(Error* other);
@@ -578,8 +516,7 @@ class Error : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   Error* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const Error& from);
   void MergeFrom(const Error& from);
   void Clear();
@@ -590,7 +527,6 @@ class Error : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -598,7 +534,7 @@ class Error : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -616,7 +552,6 @@ class Error : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Error)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::std::string* message_;
@@ -643,7 +578,7 @@ class Error : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class User : public ::google::protobuf::Message {
+class User : public ::google::protobuf::MessageLite {
  public:
   User();
   virtual ~User();
@@ -655,15 +590,6 @@ class User : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const User& default_instance();
   
   void Swap(User* other);
@@ -671,8 +597,7 @@ class User : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   User* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const User& from);
   void MergeFrom(const User& from);
   void Clear();
@@ -683,7 +608,6 @@ class User : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -691,7 +615,7 @@ class User : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -767,7 +691,6 @@ class User : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.User)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::google::protobuf::uint32 uid_;
@@ -802,7 +725,7 @@ class User : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Restaurant : public ::google::protobuf::Message {
+class Restaurant : public ::google::protobuf::MessageLite {
  public:
   Restaurant();
   virtual ~Restaurant();
@@ -814,15 +737,6 @@ class Restaurant : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Restaurant& default_instance();
   
   void Swap(Restaurant* other);
@@ -830,8 +744,7 @@ class Restaurant : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   Restaurant* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const Restaurant& from);
   void MergeFrom(const Restaurant& from);
   void Clear();
@@ -842,7 +755,6 @@ class Restaurant : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -850,7 +762,7 @@ class Restaurant : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -910,7 +822,6 @@ class Restaurant : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Restaurant)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::ProtocolBuffer::Location* location_;
@@ -943,7 +854,7 @@ class Restaurant : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class RestaurantList : public ::google::protobuf::Message {
+class RestaurantList : public ::google::protobuf::MessageLite {
  public:
   RestaurantList();
   virtual ~RestaurantList();
@@ -955,15 +866,6 @@ class RestaurantList : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const RestaurantList& default_instance();
   
   void Swap(RestaurantList* other);
@@ -971,8 +873,7 @@ class RestaurantList : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   RestaurantList* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const RestaurantList& from);
   void MergeFrom(const RestaurantList& from);
   void Clear();
@@ -983,7 +884,6 @@ class RestaurantList : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -991,7 +891,7 @@ class RestaurantList : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1011,7 +911,6 @@ class RestaurantList : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.RestaurantList)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::Restaurant > restaurants_;
@@ -1037,7 +936,7 @@ class RestaurantList : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class CommentList : public ::google::protobuf::Message {
+class CommentList : public ::google::protobuf::MessageLite {
  public:
   CommentList();
   virtual ~CommentList();
@@ -1049,15 +948,6 @@ class CommentList : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const CommentList& default_instance();
   
   void Swap(CommentList* other);
@@ -1065,8 +955,7 @@ class CommentList : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   CommentList* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const CommentList& from);
   void MergeFrom(const CommentList& from);
   void Clear();
@@ -1077,7 +966,6 @@ class CommentList : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1085,7 +973,7 @@ class CommentList : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1105,7 +993,6 @@ class CommentList : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.CommentList)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::Comment > comments_;
@@ -1131,7 +1018,7 @@ class CommentList : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class UserList : public ::google::protobuf::Message {
+class UserList : public ::google::protobuf::MessageLite {
  public:
   UserList();
   virtual ~UserList();
@@ -1143,15 +1030,6 @@ class UserList : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UserList& default_instance();
   
   void Swap(UserList* other);
@@ -1159,8 +1037,7 @@ class UserList : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   UserList* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const UserList& from);
   void MergeFrom(const UserList& from);
   void Clear();
@@ -1171,7 +1048,6 @@ class UserList : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1179,7 +1055,7 @@ class UserList : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1199,7 +1075,6 @@ class UserList : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.UserList)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::User > users_;
@@ -1225,7 +1100,7 @@ class UserList : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class RestaurantType : public ::google::protobuf::Message {
+class RestaurantType : public ::google::protobuf::MessageLite {
  public:
   RestaurantType();
   virtual ~RestaurantType();
@@ -1237,15 +1112,6 @@ class RestaurantType : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const RestaurantType& default_instance();
   
   void Swap(RestaurantType* other);
@@ -1253,8 +1119,7 @@ class RestaurantType : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   RestaurantType* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const RestaurantType& from);
   void MergeFrom(const RestaurantType& from);
   void Clear();
@@ -1265,7 +1130,6 @@ class RestaurantType : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1273,7 +1137,7 @@ class RestaurantType : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1298,7 +1162,6 @@ class RestaurantType : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.RestaurantType)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::google::protobuf::uint32 tid_;
@@ -1326,7 +1189,7 @@ class RestaurantType : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Query : public ::google::protobuf::Message {
+class Query : public ::google::protobuf::MessageLite {
  public:
   Query();
   virtual ~Query();
@@ -1338,15 +1201,6 @@ class Query : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Query& default_instance();
   
   void Swap(Query* other);
@@ -1354,8 +1208,7 @@ class Query : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   Query* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const Query& from);
   void MergeFrom(const Query& from);
   void Clear();
@@ -1366,7 +1219,6 @@ class Query : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1374,7 +1226,7 @@ class Query : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1464,7 +1316,6 @@ class Query : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Query)
  private:
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   mutable int _cached_size_;
   
   ::ProtocolBuffer::Area* area_;
@@ -1501,137 +1352,123 @@ class Query : public ::google::protobuf::Message {
   void InitAsDefaultInstance();
   static Query* default_instance_;
 };
-// ===================================================================
+// -------------------------------------------------------------------
 
-class DMService_Stub;
-
-class DMService : public ::google::protobuf::Service {
- protected:
-  // This class should be treated as an abstract interface.
-  inline DMService() {};
+class DMessage : public ::google::protobuf::MessageLite {
  public:
-  virtual ~DMService();
+  DMessage();
+  virtual ~DMessage();
   
-  typedef DMService_Stub Stub;
+  DMessage(const DMessage& from);
   
-  static const ::google::protobuf::ServiceDescriptor* descriptor();
+  inline DMessage& operator=(const DMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
   
-  virtual void GetRestaurants(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::RestaurantList* response,
-                       ::google::protobuf::Closure* done);
-  virtual void GetLastestCommentsOfRestaurant(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::CommentList* response,
-                       ::google::protobuf::Closure* done);
-  virtual void GetLastestCommentsByUser(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::CommentList* response,
-                       ::google::protobuf::Closure* done);
-  virtual void GetCommentsOfUserSince(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::CommentList* response,
-                       ::google::protobuf::Closure* done);
-  virtual void GetCommentsOfRestaurantSince(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::CommentList* response,
-                       ::google::protobuf::Closure* done);
-  virtual void UserLogin(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::User* response,
-                       ::google::protobuf::Closure* done);
-  virtual void GetUserInfo(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::User* response,
-                       ::google::protobuf::Closure* done);
-  virtual void GetRelatedUsers(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::UserList* response,
-                       ::google::protobuf::Closure* done);
-  virtual void AddCommentForRestaurant(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::Comment* response,
-                       ::google::protobuf::Closure* done);
-  virtual void AddRestaurant(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::Restaurant* response,
-                       ::google::protobuf::Closure* done);
+  static const DMessage& default_instance();
   
-  // implements Service ----------------------------------------------
+  void Swap(DMessage* other);
   
-  const ::google::protobuf::ServiceDescriptor* GetDescriptor();
-  void CallMethod(const ::google::protobuf::MethodDescriptor* method,
-                  ::google::protobuf::RpcController* controller,
-                  const ::google::protobuf::Message* request,
-                  ::google::protobuf::Message* response,
-                  ::google::protobuf::Closure* done);
-  const ::google::protobuf::Message& GetRequestPrototype(
-    const ::google::protobuf::MethodDescriptor* method) const;
-  const ::google::protobuf::Message& GetResponsePrototype(
-    const ::google::protobuf::MethodDescriptor* method) const;
-
+  // implements Message ----------------------------------------------
+  
+  DMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const DMessage& from);
+  void MergeFrom(const DMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required bool isSystemMessage = 1;
+  inline bool has_issystemmessage() const;
+  inline void clear_issystemmessage();
+  static const int kIsSystemMessageFieldNumber = 1;
+  inline bool issystemmessage() const;
+  inline void set_issystemmessage(bool value);
+  
+  // optional string text = 2;
+  inline bool has_text() const;
+  inline void clear_text();
+  static const int kTextFieldNumber = 2;
+  inline const ::std::string& text() const;
+  inline void set_text(const ::std::string& value);
+  inline void set_text(const char* value);
+  inline void set_text(const char* value, size_t size);
+  inline ::std::string* mutable_text();
+  
+  // optional uint32 fromUser = 3;
+  inline bool has_fromuser() const;
+  inline void clear_fromuser();
+  static const int kFromUserFieldNumber = 3;
+  inline ::google::protobuf::uint32 fromuser() const;
+  inline void set_fromuser(::google::protobuf::uint32 value);
+  
+  // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
+  inline bool has_systemmessagetype() const;
+  inline void clear_systemmessagetype();
+  static const int kSystemMessageTypeFieldNumber = 4;
+  inline ProtocolBuffer::SystemMessageType systemmessagetype() const;
+  inline void set_systemmessagetype(ProtocolBuffer::SystemMessageType value);
+  
+  // optional string buffer = 5;
+  inline bool has_buffer() const;
+  inline void clear_buffer();
+  static const int kBufferFieldNumber = 5;
+  inline const ::std::string& buffer() const;
+  inline void set_buffer(const ::std::string& value);
+  inline void set_buffer(const char* value);
+  inline void set_buffer(const char* value, size_t size);
+  inline ::std::string* mutable_buffer();
+  
+  // @@protoc_insertion_point(class_scope:ProtocolBuffer.DMessage)
  private:
-  GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(DMService);
+  mutable int _cached_size_;
+  
+  bool issystemmessage_;
+  ::std::string* text_;
+  static const ::std::string _default_text_;
+  ::google::protobuf::uint32 fromuser_;
+  int systemmessagetype_;
+  ::std::string* buffer_;
+  static const ::std::string _default_buffer_;
+  friend void  protobuf_AddDesc_MapProtocol_2eproto();
+  friend void protobuf_AssignDesc_MapProtocol_2eproto();
+  friend void protobuf_ShutdownFile_MapProtocol_2eproto();
+  
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  
+  // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
+  inline bool _has_bit(int index) const {
+    return (_has_bits_[index / 32] & (1u << (index % 32))) != 0;
+  }
+  inline void _set_bit(int index) {
+    _has_bits_[index / 32] |= (1u << (index % 32));
+  }
+  inline void _clear_bit(int index) {
+    _has_bits_[index / 32] &= ~(1u << (index % 32));
+  }
+  
+  void InitAsDefaultInstance();
+  static DMessage* default_instance_;
 };
-
-class DMService_Stub : public DMService {
- public:
-  DMService_Stub(::google::protobuf::RpcChannel* channel);
-  DMService_Stub(::google::protobuf::RpcChannel* channel,
-                   ::google::protobuf::Service::ChannelOwnership ownership);
-  ~DMService_Stub();
-  
-  inline ::google::protobuf::RpcChannel* channel() { return channel_; }
-  
-  // implements DMService ------------------------------------------
-  
-  void GetRestaurants(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::RestaurantList* response,
-                       ::google::protobuf::Closure* done);
-  void GetLastestCommentsOfRestaurant(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::CommentList* response,
-                       ::google::protobuf::Closure* done);
-  void GetLastestCommentsByUser(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::CommentList* response,
-                       ::google::protobuf::Closure* done);
-  void GetCommentsOfUserSince(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::CommentList* response,
-                       ::google::protobuf::Closure* done);
-  void GetCommentsOfRestaurantSince(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::CommentList* response,
-                       ::google::protobuf::Closure* done);
-  void UserLogin(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::User* response,
-                       ::google::protobuf::Closure* done);
-  void GetUserInfo(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::User* response,
-                       ::google::protobuf::Closure* done);
-  void GetRelatedUsers(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::UserList* response,
-                       ::google::protobuf::Closure* done);
-  void AddCommentForRestaurant(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::Comment* response,
-                       ::google::protobuf::Closure* done);
-  void AddRestaurant(::google::protobuf::RpcController* controller,
-                       const ::ProtocolBuffer::Query* request,
-                       ::ProtocolBuffer::Restaurant* response,
-                       ::google::protobuf::Closure* done);
- private:
-  ::google::protobuf::RpcChannel* channel_;
-  bool owns_channel_;
-  GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(DMService_Stub);
-};
-
-
 // ===================================================================
 
 
@@ -2709,19 +2546,147 @@ inline ::std::string* Query::mutable_password() {
   return password_;
 }
 
+// -------------------------------------------------------------------
+
+// DMessage
+
+// required bool isSystemMessage = 1;
+inline bool DMessage::has_issystemmessage() const {
+  return _has_bit(0);
+}
+inline void DMessage::clear_issystemmessage() {
+  issystemmessage_ = false;
+  _clear_bit(0);
+}
+inline bool DMessage::issystemmessage() const {
+  return issystemmessage_;
+}
+inline void DMessage::set_issystemmessage(bool value) {
+  _set_bit(0);
+  issystemmessage_ = value;
+}
+
+// optional string text = 2;
+inline bool DMessage::has_text() const {
+  return _has_bit(1);
+}
+inline void DMessage::clear_text() {
+  if (text_ != &_default_text_) {
+    text_->clear();
+  }
+  _clear_bit(1);
+}
+inline const ::std::string& DMessage::text() const {
+  return *text_;
+}
+inline void DMessage::set_text(const ::std::string& value) {
+  _set_bit(1);
+  if (text_ == &_default_text_) {
+    text_ = new ::std::string;
+  }
+  text_->assign(value);
+}
+inline void DMessage::set_text(const char* value) {
+  _set_bit(1);
+  if (text_ == &_default_text_) {
+    text_ = new ::std::string;
+  }
+  text_->assign(value);
+}
+inline void DMessage::set_text(const char* value, size_t size) {
+  _set_bit(1);
+  if (text_ == &_default_text_) {
+    text_ = new ::std::string;
+  }
+  text_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* DMessage::mutable_text() {
+  _set_bit(1);
+  if (text_ == &_default_text_) {
+    text_ = new ::std::string;
+  }
+  return text_;
+}
+
+// optional uint32 fromUser = 3;
+inline bool DMessage::has_fromuser() const {
+  return _has_bit(2);
+}
+inline void DMessage::clear_fromuser() {
+  fromuser_ = 0u;
+  _clear_bit(2);
+}
+inline ::google::protobuf::uint32 DMessage::fromuser() const {
+  return fromuser_;
+}
+inline void DMessage::set_fromuser(::google::protobuf::uint32 value) {
+  _set_bit(2);
+  fromuser_ = value;
+}
+
+// optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
+inline bool DMessage::has_systemmessagetype() const {
+  return _has_bit(3);
+}
+inline void DMessage::clear_systemmessagetype() {
+  systemmessagetype_ = 1;
+  _clear_bit(3);
+}
+inline ProtocolBuffer::SystemMessageType DMessage::systemmessagetype() const {
+  return static_cast< ProtocolBuffer::SystemMessageType >(systemmessagetype_);
+}
+inline void DMessage::set_systemmessagetype(ProtocolBuffer::SystemMessageType value) {
+  GOOGLE_DCHECK(ProtocolBuffer::SystemMessageType_IsValid(value));
+  _set_bit(3);
+  systemmessagetype_ = value;
+}
+
+// optional string buffer = 5;
+inline bool DMessage::has_buffer() const {
+  return _has_bit(4);
+}
+inline void DMessage::clear_buffer() {
+  if (buffer_ != &_default_buffer_) {
+    buffer_->clear();
+  }
+  _clear_bit(4);
+}
+inline const ::std::string& DMessage::buffer() const {
+  return *buffer_;
+}
+inline void DMessage::set_buffer(const ::std::string& value) {
+  _set_bit(4);
+  if (buffer_ == &_default_buffer_) {
+    buffer_ = new ::std::string;
+  }
+  buffer_->assign(value);
+}
+inline void DMessage::set_buffer(const char* value) {
+  _set_bit(4);
+  if (buffer_ == &_default_buffer_) {
+    buffer_ = new ::std::string;
+  }
+  buffer_->assign(value);
+}
+inline void DMessage::set_buffer(const char* value, size_t size) {
+  _set_bit(4);
+  if (buffer_ == &_default_buffer_) {
+    buffer_ = new ::std::string;
+  }
+  buffer_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* DMessage::mutable_buffer() {
+  _set_bit(4);
+  if (buffer_ == &_default_buffer_) {
+    buffer_ = new ::std::string;
+  }
+  return buffer_;
+}
+
 
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace ProtocolBuffer
-
-#ifndef SWIG
-namespace google {
-namespace protobuf {
-
-
-}  // namespace google
-}  // namespace protobuf
-#endif  // SWIG
 
 // @@protoc_insertion_point(global_scope)
 

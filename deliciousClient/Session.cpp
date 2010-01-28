@@ -46,3 +46,15 @@ void Session::start()
     else
         emit ready(true);
 }
+
+void Session::timerEvent( QTimerEvent *ev )
+{
+    if (timer.timerId() == ev->timerId())
+    {
+
+    }
+    else
+    {
+        QObject::timerEvent(ev);
+    }
+}

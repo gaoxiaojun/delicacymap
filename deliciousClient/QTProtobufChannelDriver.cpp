@@ -52,6 +52,10 @@ void QTProtobufChannelDriver::readMessage()
 						entry.done->Run();
 					}
 					break;
+                case protorpc::MESSAGE:
+                    dmessage.ParseFromString(response.buffer());
+                    emit MessageReceived(&dmessage);
+                    break;
 				default:
 					qDebug()<<"Unexpected RPC Response type: "<<response.type();
             }
@@ -76,7 +80,7 @@ QTProtobufChannelDriver::~QTProtobufChannelDriver()
     delete _tcps;
 }
 
-void QTProtobufChannelDriver::writeMessage( google::protobuf::Message* m )
+void QTProtobufChannelDriver::writeMessage( google::protobuf::MessageLite* m )
 {
     int msgsize = m->ByteSize();
     char sizebuf[4];

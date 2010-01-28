@@ -2,6 +2,8 @@
 #include "AsioRpcController.h"
 #include <boost/foreach.hpp>
 
+google::protobuf::RpcController::~RpcController(){}
+
 AsioRpcController::AsioRpcController()
 {
     Reset();

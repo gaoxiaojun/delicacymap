@@ -5,15 +5,14 @@
 #include <google/protobuf/service.h>
 
 #include "Message.pb.h"
-#include "DMServiceLocalDBImpl.h"
 
 const size_t MaxInputBufSize = 1024 * 1024;
 
 class AsioRpcController;
+class DMServiceLocalDBImpl;
 
 class naked_conn
     : public boost::enable_shared_from_this<naked_conn>
-    , public google::protobuf::RpcChannel
     , private boost::noncopyable
 {
 public://typedefs
@@ -33,33 +32,27 @@ public://methods
 
     boost::asio::ip::tcp::socket& socket() {return _s;}
 
-    virtual void CallMethod(const google::protobuf::MethodDescriptor* method,
-        google::protobuf::RpcController* controller,
-        const google::protobuf::Message* request,
-        google::protobuf::Message* response,
-        google::protobuf::Closure* done);
-
 private://methods
     void readrequest(int);
 
     void handle_read(const boost::system::error_code& err, size_t bytes_transferred);
     void handle_write(const boost::system::error_code& err, size_t /*bytes_transferred*/);
 
-    void rpccalldone( google::protobuf::uint32 id, google::protobuf::Message* msg );
+    void rpccalldone( google::protobuf::uint32 id, google::protobuf::MessageLite* msg );
 
 private://methods handling different rpc request types
     void handle_request();
 
     void handle_default();
 
-    void write(google::protobuf::Message* msg);
+    void write(google::protobuf::MessageLite* msg);
 private://data
     boost::asio::ip::tcp::socket _s;
     boost::array<char, MaxInputBufSize> inputbuf;
 	boost::array<boost::asio::const_buffer, 2> bufs;
     ProtocolBuffer::Query query;
     protorpc::Message income, outcome;
-    ProtocolBuffer::DMService *service;
+    DMServiceLocalDBImpl *service;
     AsioRpcController *controller;
     size_t readsize, writesize;
 	std::string outputbuf;
