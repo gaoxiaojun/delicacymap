@@ -10,16 +10,17 @@
 #define __QTPROTOBUFCHANNELDRIVER__H__INCLUDED__
 
 #include "QTProtobufChannel.h"
-#include <google/protobuf/descriptor.h>
+#include "MapProtocol.pb.h"
 
 class QTProtobufChannelDriver : public QObject
 {
 	Q_OBJECT
 	friend class QTProtobufChannel;
-	private slots:
-	void writeMessage(google::protobuf::Message* m);
+signals:
+    void MessageReceived(const google::protobuf::MessageLite*);
+private slots:
+	void writeMessage(google::protobuf::MessageLite* m);
 	void start(QHostAddress *_addr, unsigned short _port);
-	private slots:
 	void readMessage();
 public:
 	QTProtobufChannelDriver(QTProtobufChannel* parent, QHash<int,CallEntry> *currentCalls);
@@ -28,6 +29,7 @@ public:
 	bool started();
 	QAbstractSocket::SocketError networkError() const;
 	
+    ProtocolBuffer::DMessage dmessage;
 	protorpc::Message response;
 	std::string _writebuffer;
 	std::string _readbuffer;

@@ -14,6 +14,7 @@ namespace ProtocolBuffer{
     class RestaurantList;
     class CommentList;
     class User;
+    class DMessage;
 }
 
 namespace Ui {
@@ -43,6 +44,7 @@ public slots:
 
 private slots:
     void UpdateCurrentLocation(QString);
+    void printMessage(const ProtocolBuffer::DMessage*);
 
 private:
     Ui::MainWindow *m_ui;

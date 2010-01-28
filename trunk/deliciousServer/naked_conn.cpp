@@ -2,10 +2,10 @@
 #include "naked_conn.h"
 #include "deliciousDataAdapter.h"
 #include "AsioRpcController.h"
+#include "DMServiceLocalDBImpl.h"
 
 #include "MapProtocol.pb.h"
 
-#include "google/protobuf/descriptor.h"
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -60,7 +60,7 @@ void naked_conn::readrequest(int stage)
     }
 }
 
-void naked_conn::write( google::protobuf::Message* msg )
+void naked_conn::write( google::protobuf::MessageLite* msg )
 {
     msg->SerializeToString(&outputbuf);
     pantheios::log_INFORMATIONAL("Writing ", pantheios::integer(outputbuf.size()+4), " through tcp connection");
@@ -80,17 +80,6 @@ void naked_conn::close()
     _s.close();
 }
 
-void naked_conn::CallMethod(const MethodDescriptor* method,
-                            RpcController* controller,
-                            const Message* request,
-                            Message* response,
-                            Closure* done)
-{
-    //called by stub(client side), not needed, place a warning just in case
-    pantheios::log_EMERGENCY("naked_conn::CallMethod called");
-    //request->se
-}
-
 void naked_conn::handle_read( const boost::system::error_code& err, size_t bytes_transferred )
 {
     if (err)
@@ -106,6 +95,9 @@ void naked_conn::handle_read( const boost::system::error_code& err, size_t bytes
             {
             case protorpc::REQUEST:
                 handle_request();
+                break;
+            case protorpc::MESSAGE:
+
                 break;
             case protorpc::DESCRIPTOR_REQUEST:
             case protorpc::DESCRIPTOR_RESPONSE:
@@ -131,7 +123,7 @@ void naked_conn::handle_write( const boost::system::error_code& err, size_t /*by
         readrequest(0);
 }
 
-void naked_conn::rpccalldone( google::protobuf::uint32 id, google::protobuf::Message* msg )
+void naked_conn::rpccalldone( google::protobuf::uint32 id, google::protobuf::MessageLite* msg )
 {
     outcome.set_id(id);
     if (controller->Failed())
@@ -163,21 +155,54 @@ void naked_conn::handle_default()
     write(&outcome);
 }
 
+static inline
+MessageLite* ResultTypeForMethod(protorpc::FunctionID method_id)
+{
+    MessageLite* msg = NULL;
+    switch (method_id)
+    {
+    case protorpc::GetRestaurants:
+        msg = new ::ProtocolBuffer::RestaurantList;
+        break;
+    case protorpc::GetLastestCommentsByUser:
+    case protorpc::GetLastestCommentsOfRestaurant:
+    case protorpc::GetCommentsOfRestaurantSince:
+    case protorpc::GetCommentsOfUserSince:
+        msg = new ::ProtocolBuffer::CommentList;
+        break;
+    case protorpc::UserLogin:
+    case protorpc::GetUserInfo:
+        msg = new ::ProtocolBuffer::User;
+        break;
+    case protorpc::GetRelatedUsers:
+        msg = new ::ProtocolBuffer::UserList;
+        break;
+    case protorpc::AddRestaurant:
+        msg = new ::ProtocolBuffer::Restaurant;
+        break;
+    case protorpc::AddCommentForRestaurant:
+        msg = new ::ProtocolBuffer::Comment;
+        break;
+    default:
+        pantheios::log_CRITICAL("Not handled method id!!!(Return type)");
+    }
+    return msg;
+}
+
 void naked_conn::handle_request()
 {
-    if (income.has_id() && income.has_name())//verify data
+    if (income.has_id() && income.has_method_id() && income.has_buffer())       //original RPC calls
     {
-        const MethodDescriptor* desc = service->GetDescriptor()->FindMethodByName(income.name());
         if (income.has_buffer())
         {
             query.ParseFromString(income.buffer());
-            Message* response = service->GetResponsePrototype(desc).New();
+            MessageLite* response = ResultTypeForMethod(income.method_id());
             controller->Reset();
-            Closure *closure = NewCallback(this, &naked_conn::rpccalldone, income.id(), static_cast<Message*>(response));
+            Closure *closure = NewCallback(this, &naked_conn::rpccalldone, income.id(), response);
             controller->NotifyOnCancel(closure);
             try
             {
-                service->CallMethod(desc, controller, &query, response, closure);
+                service->CallMethod(income.method_id(), controller, &query, response, closure);
             }
             catch (const std::exception& e)
             {
@@ -187,5 +212,5 @@ void naked_conn::handle_request()
         }
     }
     else
-        pantheios::log_WARNING("Incompatible RPC <request> message. missing 'id' or 'name'");
+        pantheios::log_WARNING("Incompatible RPC <request> message. missing 'id' or 'method_id'");
 }

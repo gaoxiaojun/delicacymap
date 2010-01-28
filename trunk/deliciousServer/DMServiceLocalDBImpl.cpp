@@ -20,6 +20,75 @@ DMServiceLocalDBImpl::~DMServiceLocalDBImpl(void)
 {
 }
 
+void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::protobuf::RpcController* controller, const google::protobuf::MessageLite* request, google::protobuf::MessageLite* response, google::protobuf::Closure* done )
+{
+    switch (method_id)
+    {
+    case protorpc::GetRestaurants:
+        GetRestaurants(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::RestaurantList*>(response),
+            done);
+        break;
+    case protorpc::GetLastestCommentsOfRestaurant:
+        GetLastestCommentsOfRestaurant(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::CommentList*>(response),
+            done);
+        break;
+    case protorpc::GetLastestCommentsByUser:
+        GetLastestCommentsByUser(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::CommentList*>(response),
+            done);
+        break;
+    case protorpc::GetCommentsOfUserSince:
+        GetCommentsOfUserSince(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::CommentList*>(response),
+            done);
+        break;
+    case protorpc::GetCommentsOfRestaurantSince:
+        GetCommentsOfRestaurantSince(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::CommentList*>(response),
+            done);
+        break;
+    case protorpc::UserLogin:
+        UserLogin(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
+            done);
+        break;
+    case protorpc::GetUserInfo:
+        GetUser(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
+            done);
+        break;
+    case protorpc::GetRelatedUsers:
+//         GetRelatedUsers(controller,
+//             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+//             ::google::protobuf::down_cast< ::ProtocolBuffer::UserList*>(response),
+//             done);
+        break;
+    case protorpc::AddCommentForRestaurant:
+        AddCommentForRestaurant(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::Comment*>(response),
+            done);
+        break;
+    case protorpc::AddRestaurant:
+//         AddRestaurant(controller,
+//             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+//             ::google::protobuf::down_cast< ::ProtocolBuffer::Restaurant*>(response),
+//             done);
+//         break;
+    default:
+        pantheios::log_CRITICAL("Not handled method id!!!(CallMethod)");
+    }
+}
+
 void DMServiceLocalDBImpl::GetRestaurants( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::RestaurantList* response, ::google::protobuf::Closure* done )
 {
     //validate query
@@ -34,7 +103,7 @@ void DMServiceLocalDBImpl::GetRestaurants( ::google::protobuf::RpcController* co
                 request->area().northeast().latitude(),
                 request->level(),
                 bind(&DMServiceLocalDBImpl::GetRestaurantsCallback, this, _1, response));
-            pantheios::log_DEBUG(response->DebugString());
+            //pantheios::log_DEBUG(response->Utf8DebugString());
         }
         catch (const std::exception &e)
         {
@@ -60,7 +129,7 @@ void DMServiceLocalDBImpl::GetLastestCommentsOfRestaurant( ::google::protobuf::R
             request->n(),
             bind(&DMServiceLocalDBImpl::GetCommentsCallback, this, _1, response));
 
-        pantheios::log_DEBUG(response->DebugString());
+        //pantheios::log_DEBUG(response->DebugString());
     }
     else
     {
@@ -80,7 +149,7 @@ void DMServiceLocalDBImpl::GetCommentsOfRestaurantSince( ::google::protobuf::Rpc
             request->time().timestamp(),
             bind(&DMServiceLocalDBImpl::GetCommentsCallback, this, _1, response));
 
-        pantheios::log_DEBUG(response->DebugString());
+        //pantheios::log_DEBUG(response->DebugString());
     }
     else
     {
@@ -100,7 +169,7 @@ void DMServiceLocalDBImpl::GetLastestCommentsByUser( ::google::protobuf::RpcCont
             request->n(),
             bind(&DMServiceLocalDBImpl::GetCommentsCallback, this, _1, response));
 
-        pantheios::log_DEBUG(response->DebugString());
+        //pantheios::log_DEBUG(response->DebugString());
     }
     else
     {
@@ -120,7 +189,7 @@ void DMServiceLocalDBImpl::GetCommentsOfUserSince( ::google::protobuf::RpcContro
             request->time().timestamp(),
             bind(&DMServiceLocalDBImpl::GetCommentsCallback, this, _1, response));
 
-        pantheios::log_DEBUG(response->DebugString());
+        //pantheios::log_DEBUG(response->DebugString());
     }
     else
     {

@@ -5,7 +5,6 @@
 #include <string>
 #include "../protocol-buffer-src/MapProtocol.pb.h"
 #undef abort
-#include "QTProbufController.h"
 
 class QTProtobufChannel;
 
@@ -14,6 +13,7 @@ class MapDataSource : public QObject
     Q_OBJECT
 signals:
     void ready(bool success);
+    void messageReceived(const ProtocolBuffer::DMessage*);
 
 public slots:
     void connect();
@@ -21,7 +21,6 @@ public slots:
 public:
     MapDataSource();
     ~MapDataSource();
-    ::ProtocolBuffer::DMService::Stub* getStub();
     QString error();
 
     // **Caution** : following methods are not reentrent!!!
@@ -45,11 +44,11 @@ public:
 
 protected:
     ProtocolBuffer::Query query;
-    ::ProtocolBuffer::DMService::Stub *stub;
     QTProtobufChannel *channel;
-    QTProbufController	controller;
 
 private slots:
+    void emitDMessage(const google::protobuf::MessageLite*);
+
     void channel_disconnected();
     void channel_connected();
     void channel_error();

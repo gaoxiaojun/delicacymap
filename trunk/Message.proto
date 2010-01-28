@@ -25,6 +25,7 @@ package protorpc;
 
 option java_package = "com.likbilen.protorpc";
 option java_outer_classname = "MessageProto";
+option optimize_for = LITE_RUNTIME;
 
 enum Type {
   REQUEST					= 1;
@@ -35,15 +36,26 @@ enum Type {
   DISCONNECT				= 6;
   DESCRIPTOR_REQUEST		= 7;
   DESCRIPTOR_RESPONSE		= 8;
+  MESSAGE                   = 9;
 };
+
+enum FunctionID {
+  GetRestaurants                            = 1;
+  GetLastestCommentsOfRestaurant            = 2;
+  GetLastestCommentsByUser                  = 3;
+  GetCommentsOfUserSince                    = 4;
+  GetCommentsOfRestaurantSince              = 5;
+  UserLogin                                 = 6;
+  GetUserInfo                               = 7;
+  GetRelatedUsers                           = 8;
+  AddCommentForRestaurant                   = 9;
+  AddRestaurant                             = 10;
+};
+
 message Message {
   optional Type type=1;
-  optional uint32 id =2;
-  optional string name =3;	
-  optional bytes buffer = 4;
-}
-message DescriptorResponse{
-  required bytes desc=1;//descriptor is used by protobuffers
-  repeated DescriptorResponse deps=2;//depenedcies is used by protobuffers
-  optional string serviceName=3;
+  optional FunctionID method_id=2;
+  optional uint32 id =3;
+  optional string name =4;	
+  optional bytes buffer = 5;
 }

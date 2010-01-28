@@ -1,6 +1,6 @@
 package ProtocolBuffer;
 
-option optimize_for = SPEED;
+option optimize_for = LITE_RUNTIME;
 
 message Location
 
@@ -49,9 +49,10 @@ message User
     required string                                          nickName                    = 3;    //User Name
     required string                                          password                    = 4;    //Password, if empty, user is not loged in
     required ProtocolBuffer.Time                             joinTime                    = 5;    //Registration time of this user
+    optional ProtocolBuffer.Location                         lastLocation                = 6;    //Last known appear location
     
-    repeated ProtocolBuffer.RestaurantType                   preferTypes                 = 6;    //prefered restaurant types
-    repeated uint32                                          friends                     = 7;    //friends of the user, represented by User ID
+    repeated ProtocolBuffer.RestaurantType                   preferTypes                 = 7;    //prefered restaurant types
+    repeated uint32                                          friends                     = 8;    //friends of the user, represented by User ID
 }
 
 message Restaurant
@@ -100,18 +101,35 @@ message Query
     optional string                                          password                    = 10;   // password required to retrieve user specific data
 }
 
-service DMService 
+//=====================================================       Messages       =====================================================================
+
+enum SystemMessageType
 {
-    rpc GetRestaurants                         (ProtocolBuffer.Query)        returns (RestaurantList);
-    rpc GetLastestCommentsOfRestaurant         (ProtocolBuffer.Query)        returns (CommentList);
-    rpc GetLastestCommentsByUser               (ProtocolBuffer.Query)        returns (CommentList);
-    rpc GetCommentsOfUserSince                 (ProtocolBuffer.Query)        returns (CommentList);
-    rpc GetCommentsOfRestaurantSince           (ProtocolBuffer.Query)        returns (CommentList);
+    RequestRouting                  = 1;
     
-    rpc UserLogin                              (ProtocolBuffer.Query)        returns (User);
-    rpc GetUserInfo                            (ProtocolBuffer.Query)        returns (User);
-    rpc GetRelatedUsers                        (ProtocolBuffer.Query)        returns (UserList);
-    
-    rpc AddCommentForRestaurant                (ProtocolBuffer.Query)        returns (Comment);
-    rpc AddRestaurant                          (ProtocolBuffer.Query)        returns (Restaurant);
 }
+
+message DMessage
+{
+    required bool                                            isSystemMessage             = 1;
+    optional string                                          text                        = 2;   // only if not systemMessage
+    optional uint32                                          fromUser                    = 3;   // only if not systemMessage
+    optional SystemMessageType                               systemMessageType           = 4;   // only if isSystemMessage
+    optional string                                          buffer                      = 5;   // only if isSystemMessage
+}
+
+//service DMService 
+//{
+//    rpc GetRestaurants                         (ProtocolBuffer.Query)        returns (RestaurantList);
+//    rpc GetLastestCommentsOfRestaurant         (ProtocolBuffer.Query)        returns (CommentList);
+//    rpc GetLastestCommentsByUser               (ProtocolBuffer.Query)        returns (CommentList);
+//    rpc GetCommentsOfUserSince                 (ProtocolBuffer.Query)        returns (CommentList);
+//    rpc GetCommentsOfRestaurantSince           (ProtocolBuffer.Query)        returns (CommentList);
+//    
+//    rpc UserLogin                              (ProtocolBuffer.Query)        returns (User);
+//    rpc GetUserInfo                            (ProtocolBuffer.Query)        returns (User);
+//    rpc GetRelatedUsers                        (ProtocolBuffer.Query)        returns (UserList);
+//    
+//    rpc AddCommentForRestaurant                (ProtocolBuffer.Query)        returns (Comment);
+//    rpc AddRestaurant                          (ProtocolBuffer.Query)        returns (Restaurant);
+//}

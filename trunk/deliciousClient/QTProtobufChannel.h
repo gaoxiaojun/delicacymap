@@ -6,18 +6,17 @@
 #include <QStack>
 #include <QThread>
 #include <QtNetwork>
-#include <google/protobuf/service.h>
 #include "../protocol-buffer-src/Message.pb.h"
 
 struct CallEntry
 {
-	CallEntry(google::protobuf::Closure* _done = NULL, google::protobuf::Message* _response = NULL, protorpc::Message *_request = NULL)
+	CallEntry(google::protobuf::Closure* _done = NULL, google::protobuf::MessageLite* _response = NULL, protorpc::Message *_request = NULL)
 		: done(_done), response(_response), request(_request)
 	{
 	}
 
 	google::protobuf::Closure* done;
-	google::protobuf::Message* response;
+	google::protobuf::MessageLite* response;
 	protorpc::Message* request;
 };
 
@@ -25,8 +24,7 @@ class QTProtobufChannelDriver;
 
 // light weight rpc channel, not intended to be used in multi threaded environment. however, it implement a call queue, so that continuous call wont fail
 class QTProtobufChannel :
-	public QThread,
-	public google::protobuf::RpcChannel
+	public QThread
 {
 	Q_OBJECT
 public:
@@ -38,8 +36,7 @@ public:
 	void close();
     QString errorString();
 
-	// override RpcChannel::CallMethod
-	void CallMethod(const google::protobuf::MethodDescriptor* method, google::protobuf::RpcController* controller, const google::protobuf::Message* request, google::protobuf::Message* response, google::protobuf::Closure* done);
+    void CallMethod( protorpc::FunctionID method_id, const google::protobuf::MessageLite* request, google::protobuf::MessageLite* response, google::protobuf::Closure* done );
 
 	void returnQueryBuffer(protorpc::Message*);
 
@@ -51,8 +48,9 @@ signals:
     void disconnected();
     void connected();
     void error();
+    void messageReceived(const google::protobuf::MessageLite*);
 
-    void writeMessage(google::protobuf::Message* m);
+    void writeMessage(google::protobuf::MessageLite* m);
     void requetStart(QHostAddress *_addr, unsigned short _port);
 
 private:

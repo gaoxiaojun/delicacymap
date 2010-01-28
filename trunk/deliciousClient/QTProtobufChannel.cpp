@@ -1,6 +1,5 @@
 #include "QTProtobufChannel.h"
 #include "QTProtobufChannelDriver.h"
-#include <google/protobuf/descriptor.h>
 
 static const int CallBufferIncrease = 4;
 
@@ -35,7 +34,7 @@ void QTProtobufChannel::close()
     wait();
 }
 
-void QTProtobufChannel::CallMethod( const google::protobuf::MethodDescriptor* method, google::protobuf::RpcController* controller, const google::protobuf::Message* request, google::protobuf::Message* response, google::protobuf::Closure* done )
+void QTProtobufChannel::CallMethod( protorpc::FunctionID method_id, const google::protobuf::MessageLite* request, google::protobuf::MessageLite* response, google::protobuf::Closure* done )
 {
     if (!started())
         throw "Channel not started!";
@@ -45,7 +44,7 @@ void QTProtobufChannel::CallMethod( const google::protobuf::MethodDescriptor* me
     protorpc::Message* reqholder = reqs.pop();
     reqholder->set_type(protorpc::REQUEST);
     reqholder->set_id(_callid);
-    reqholder->set_name(method->name());
+    reqholder->set_method_id(method_id);
     reqholder->set_buffer(request->SerializeAsString());
     _currentCalls.insert(_callid++, CallEntry(done, response, reqholder));
     emit writeMessage(reqholder);
@@ -55,8 +54,9 @@ void QTProtobufChannel::run()
 {
     _helper = new QTProtobufChannelDriver(this, &_currentCalls);
 
-    connect(this, SIGNAL(writeMessage(google::protobuf::Message*)), _helper, SLOT(writeMessage( google::protobuf::Message*  )));
+    connect(this, SIGNAL(writeMessage(google::protobuf::MessageLite*)), _helper, SLOT(writeMessage( google::protobuf::MessageLite*  )));
     connect(this, SIGNAL(requetStart(QHostAddress*, unsigned short )), _helper, SLOT(start(QHostAddress*, unsigned short)));
+    connect(_helper, SIGNAL(MessageReceived(const google::protobuf::MessageLite*)), this, SIGNAL(messageReceived(const google::protobuf::MessageLite*)));
     connect(_helper->_tcps, SIGNAL(connected()), this, SIGNAL(connected()), Qt::DirectConnection);
     connect(_helper->_tcps, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error()), Qt::DirectConnection);
     connect(_helper->_tcps, SIGNAL(disconnected()), this, SIGNAL(disconnected()), Qt::DirectConnection);

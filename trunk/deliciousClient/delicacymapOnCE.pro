@@ -27,7 +27,6 @@ HEADERS += mapview.h \
     LoginWindow.h \
     QTProtobufChannel.h \
 	QTProtobufChannelDriver.h \
-    QTProbufController.h \
     QTProtobufWaitResponse.h \
     DisplaySchema.h \
     Session.h \
@@ -45,7 +44,6 @@ SOURCES += main.cpp \
     LoginWindow.cpp \
     QTProtobufChannel.cpp \
 	QTProtobufChannelDriver.cpp \
-    QTProbufController.cpp \
     QTProtobufWaitResponse.cpp \
     DisplaySchema.cpp \
     Session.cpp \
@@ -85,8 +83,8 @@ win32:!wince* {
     LIBS += Ws2_32.lib \
         ../QtMobility/lib_win32/QtBearer_tp.lib \
         ../QtMobility/lib_win32/QtLocation_tp.lib
-    CONFIG(debug, debug|release):LIBS += libprotobuf_win32_debug.lib
-    else:LIBS += libprotobuf_win32_release.lib
+    CONFIG(debug, debug|release):LIBS += libprotobuf-lite_win32_debug.lib
+    else:LIBS += libprotobuf-lite_win32_release.lib
 }
 symbian { 
     target.capability = networkservices
