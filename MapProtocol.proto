@@ -99,6 +99,7 @@ message Query
     optional bytes                                           image                       = 8;    // used in add restaurant
     optional string                                          emailAddress                = 9;    // emailAddress used to validate user input
     optional string                                          password                    = 10;   // password required to retrieve user specific data
+    optional ProtocolBuffer.User                             userinfo                    = 11;   // used in update user info
 }
 
 //=====================================================       Messages       =====================================================================

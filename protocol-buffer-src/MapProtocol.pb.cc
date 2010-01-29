@@ -1288,6 +1288,7 @@ const int User::kEmailAddressFieldNumber;
 const int User::kNickNameFieldNumber;
 const int User::kPasswordFieldNumber;
 const int User::kJoinTimeFieldNumber;
+const int User::kLastLocationFieldNumber;
 const int User::kPreferTypesFieldNumber;
 const int User::kFriendsFieldNumber;
 #endif  // !_MSC_VER
@@ -1299,6 +1300,7 @@ User::User()
 
 void User::InitAsDefaultInstance() {
   jointime_ = const_cast< ::ProtocolBuffer::Time*>(&::ProtocolBuffer::Time::default_instance());
+  lastlocation_ = const_cast< ::ProtocolBuffer::Location*>(&::ProtocolBuffer::Location::default_instance());
 }
 
 User::User(const User& from)
@@ -1314,6 +1316,7 @@ void User::SharedCtor() {
   nickname_ = const_cast< ::std::string*>(&_default_nickname_);
   password_ = const_cast< ::std::string*>(&_default_password_);
   jointime_ = NULL;
+  lastlocation_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1333,6 +1336,7 @@ void User::SharedDtor() {
   }
   if (this != default_instance_) {
     delete jointime_;
+    delete lastlocation_;
   }
 }
 
@@ -1371,6 +1375,9 @@ void User::Clear() {
     }
     if (_has_bit(4)) {
       if (jointime_ != NULL) jointime_->::ProtocolBuffer::Time::Clear();
+    }
+    if (_has_bit(5)) {
+      if (lastlocation_ != NULL) lastlocation_->::ProtocolBuffer::Location::Clear();
     }
   }
   prefertypes_.Clear();
@@ -1451,12 +1458,26 @@ bool User::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(50)) goto parse_preferTypes;
+        if (input->ExpectTag(50)) goto parse_lastLocation;
         break;
       }
       
-      // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
+      // optional .ProtocolBuffer.Location lastLocation = 6;
       case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_lastLocation:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_lastlocation()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(58)) goto parse_preferTypes;
+        break;
+      }
+      
+      // repeated .ProtocolBuffer.RestaurantType preferTypes = 7;
+      case 7: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_preferTypes:
@@ -1465,19 +1486,19 @@ bool User::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(50)) goto parse_preferTypes;
-        if (input->ExpectTag(56)) goto parse_friends;
+        if (input->ExpectTag(58)) goto parse_preferTypes;
+        if (input->ExpectTag(64)) goto parse_friends;
         break;
       }
       
-      // repeated uint32 friends = 7;
-      case 7: {
+      // repeated uint32 friends = 8;
+      case 8: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_friends:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 1, 56, input, this->mutable_friends())));
+                 1, 64, input, this->mutable_friends())));
         } else if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag)
                    == ::google::protobuf::internal::WireFormatLite::
                       WIRETYPE_LENGTH_DELIMITED) {
@@ -1487,7 +1508,7 @@ bool User::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(56)) goto parse_friends;
+        if (input->ExpectTag(64)) goto parse_friends;
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -1538,16 +1559,22 @@ void User::SerializeWithCachedSizes(
       5, this->jointime(), output);
   }
   
-  // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
-  for (int i = 0; i < this->prefertypes_size(); i++) {
+  // optional .ProtocolBuffer.Location lastLocation = 6;
+  if (_has_bit(5)) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      6, this->prefertypes(i), output);
+      6, this->lastlocation(), output);
   }
   
-  // repeated uint32 friends = 7;
+  // repeated .ProtocolBuffer.RestaurantType preferTypes = 7;
+  for (int i = 0; i < this->prefertypes_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      7, this->prefertypes(i), output);
+  }
+  
+  // repeated uint32 friends = 8;
   for (int i = 0; i < this->friends_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(
-      7, this->friends(i), output);
+      8, this->friends(i), output);
   }
   
 }
@@ -1591,8 +1618,15 @@ int User::ByteSize() const {
           this->jointime());
     }
     
+    // optional .ProtocolBuffer.Location lastLocation = 6;
+    if (has_lastlocation()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->lastlocation());
+    }
+    
   }
-  // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
+  // repeated .ProtocolBuffer.RestaurantType preferTypes = 7;
   total_size += 1 * this->prefertypes_size();
   for (int i = 0; i < this->prefertypes_size(); i++) {
     total_size +=
@@ -1600,7 +1634,7 @@ int User::ByteSize() const {
         this->prefertypes(i));
   }
   
-  // repeated uint32 friends = 7;
+  // repeated uint32 friends = 8;
   {
     int data_size = 0;
     for (int i = 0; i < this->friends_size(); i++) {
@@ -1641,6 +1675,9 @@ void User::MergeFrom(const User& from) {
     if (from._has_bit(4)) {
       mutable_jointime()->::ProtocolBuffer::Time::MergeFrom(from.jointime());
     }
+    if (from._has_bit(5)) {
+      mutable_lastlocation()->::ProtocolBuffer::Location::MergeFrom(from.lastlocation());
+    }
   }
 }
 
@@ -1656,6 +1693,9 @@ bool User::IsInitialized() const {
   if (has_jointime()) {
     if (!this->jointime().IsInitialized()) return false;
   }
+  if (has_lastlocation()) {
+    if (!this->lastlocation().IsInitialized()) return false;
+  }
   for (int i = 0; i < prefertypes_size(); i++) {
     if (!this->prefertypes(i).IsInitialized()) return false;
   }
@@ -1669,6 +1709,7 @@ void User::Swap(User* other) {
     std::swap(nickname_, other->nickname_);
     std::swap(password_, other->password_);
     std::swap(jointime_, other->jointime_);
+    std::swap(lastlocation_, other->lastlocation_);
     prefertypes_.Swap(&other->prefertypes_);
     friends_.Swap(&other->friends_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
@@ -2755,6 +2796,7 @@ const int Query::kMsgFieldNumber;
 const int Query::kImageFieldNumber;
 const int Query::kEmailAddressFieldNumber;
 const int Query::kPasswordFieldNumber;
+const int Query::kUserinfoFieldNumber;
 #endif  // !_MSC_VER
 
 Query::Query()
@@ -2765,6 +2807,7 @@ Query::Query()
 void Query::InitAsDefaultInstance() {
   area_ = const_cast< ::ProtocolBuffer::Area*>(&::ProtocolBuffer::Area::default_instance());
   time_ = const_cast< ::ProtocolBuffer::Time*>(&::ProtocolBuffer::Time::default_instance());
+  userinfo_ = const_cast< ::ProtocolBuffer::User*>(&::ProtocolBuffer::User::default_instance());
 }
 
 Query::Query(const Query& from)
@@ -2785,6 +2828,7 @@ void Query::SharedCtor() {
   image_ = const_cast< ::std::string*>(&_default_image_);
   emailaddress_ = const_cast< ::std::string*>(&_default_emailaddress_);
   password_ = const_cast< ::std::string*>(&_default_password_);
+  userinfo_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -2808,6 +2852,7 @@ void Query::SharedDtor() {
   if (this != default_instance_) {
     delete area_;
     delete time_;
+    delete userinfo_;
   }
 }
 
@@ -2859,6 +2904,9 @@ void Query::Clear() {
       if (password_ != &_default_password_) {
         password_->clear();
       }
+    }
+    if (_has_bit(10)) {
+      if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -3013,6 +3061,20 @@ bool Query::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(90)) goto parse_userinfo;
+        break;
+      }
+      
+      // optional .ProtocolBuffer.User userinfo = 11;
+      case 11: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_userinfo:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_userinfo()));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -3088,6 +3150,12 @@ void Query::SerializeWithCachedSizes(
   if (_has_bit(9)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       10, this->password(), output);
+  }
+  
+  // optional .ProtocolBuffer.User userinfo = 11;
+  if (_has_bit(10)) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      11, this->userinfo(), output);
   }
   
 }
@@ -3168,6 +3236,13 @@ int Query::ByteSize() const {
           this->password());
     }
     
+    // optional .ProtocolBuffer.User userinfo = 11;
+    if (has_userinfo()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->userinfo());
+    }
+    
   }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
@@ -3215,6 +3290,9 @@ void Query::MergeFrom(const Query& from) {
     if (from._has_bit(9)) {
       set_password(from.password());
     }
+    if (from._has_bit(10)) {
+      mutable_userinfo()->::ProtocolBuffer::User::MergeFrom(from.userinfo());
+    }
   }
 }
 
@@ -3232,6 +3310,9 @@ bool Query::IsInitialized() const {
   if (has_time()) {
     if (!this->time().IsInitialized()) return false;
   }
+  if (has_userinfo()) {
+    if (!this->userinfo().IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -3247,6 +3328,7 @@ void Query::Swap(Query* other) {
     std::swap(image_, other->image_);
     std::swap(emailaddress_, other->emailaddress_);
     std::swap(password_, other->password_);
+    std::swap(userinfo_, other->userinfo_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }

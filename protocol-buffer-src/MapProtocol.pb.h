@@ -665,10 +665,17 @@ class User : public ::google::protobuf::MessageLite {
   inline const ::ProtocolBuffer::Time& jointime() const;
   inline ::ProtocolBuffer::Time* mutable_jointime();
   
-  // repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
+  // optional .ProtocolBuffer.Location lastLocation = 6;
+  inline bool has_lastlocation() const;
+  inline void clear_lastlocation();
+  static const int kLastLocationFieldNumber = 6;
+  inline const ::ProtocolBuffer::Location& lastlocation() const;
+  inline ::ProtocolBuffer::Location* mutable_lastlocation();
+  
+  // repeated .ProtocolBuffer.RestaurantType preferTypes = 7;
   inline int prefertypes_size() const;
   inline void clear_prefertypes();
-  static const int kPreferTypesFieldNumber = 6;
+  static const int kPreferTypesFieldNumber = 7;
   inline const ::ProtocolBuffer::RestaurantType& prefertypes(int index) const;
   inline ::ProtocolBuffer::RestaurantType* mutable_prefertypes(int index);
   inline ::ProtocolBuffer::RestaurantType* add_prefertypes();
@@ -677,10 +684,10 @@ class User : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::RestaurantType >*
       mutable_prefertypes();
   
-  // repeated uint32 friends = 7;
+  // repeated uint32 friends = 8;
   inline int friends_size() const;
   inline void clear_friends();
-  static const int kFriendsFieldNumber = 7;
+  static const int kFriendsFieldNumber = 8;
   inline ::google::protobuf::uint32 friends(int index) const;
   inline void set_friends(int index, ::google::protobuf::uint32 value);
   inline void add_friends(::google::protobuf::uint32 value);
@@ -701,13 +708,14 @@ class User : public ::google::protobuf::MessageLite {
   ::std::string* password_;
   static const ::std::string _default_password_;
   ::ProtocolBuffer::Time* jointime_;
+  ::ProtocolBuffer::Location* lastlocation_;
   ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::RestaurantType > prefertypes_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > friends_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(8 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -1314,6 +1322,13 @@ class Query : public ::google::protobuf::MessageLite {
   inline void set_password(const char* value, size_t size);
   inline ::std::string* mutable_password();
   
+  // optional .ProtocolBuffer.User userinfo = 11;
+  inline bool has_userinfo() const;
+  inline void clear_userinfo();
+  static const int kUserinfoFieldNumber = 11;
+  inline const ::ProtocolBuffer::User& userinfo() const;
+  inline ::ProtocolBuffer::User* mutable_userinfo();
+  
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Query)
  private:
   mutable int _cached_size_;
@@ -1332,11 +1347,12 @@ class Query : public ::google::protobuf::MessageLite {
   static const ::std::string _default_emailaddress_;
   ::std::string* password_;
   static const ::std::string _default_password_;
+  ::ProtocolBuffer::User* userinfo_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(10 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(11 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -1932,7 +1948,24 @@ inline ::ProtocolBuffer::Time* User::mutable_jointime() {
   return jointime_;
 }
 
-// repeated .ProtocolBuffer.RestaurantType preferTypes = 6;
+// optional .ProtocolBuffer.Location lastLocation = 6;
+inline bool User::has_lastlocation() const {
+  return _has_bit(5);
+}
+inline void User::clear_lastlocation() {
+  if (lastlocation_ != NULL) lastlocation_->::ProtocolBuffer::Location::Clear();
+  _clear_bit(5);
+}
+inline const ::ProtocolBuffer::Location& User::lastlocation() const {
+  return lastlocation_ != NULL ? *lastlocation_ : *default_instance_->lastlocation_;
+}
+inline ::ProtocolBuffer::Location* User::mutable_lastlocation() {
+  _set_bit(5);
+  if (lastlocation_ == NULL) lastlocation_ = new ::ProtocolBuffer::Location;
+  return lastlocation_;
+}
+
+// repeated .ProtocolBuffer.RestaurantType preferTypes = 7;
 inline int User::prefertypes_size() const {
   return prefertypes_.size();
 }
@@ -1957,7 +1990,7 @@ User::mutable_prefertypes() {
   return &prefertypes_;
 }
 
-// repeated uint32 friends = 7;
+// repeated uint32 friends = 8;
 inline int User::friends_size() const {
   return friends_.size();
 }
@@ -2544,6 +2577,23 @@ inline ::std::string* Query::mutable_password() {
     password_ = new ::std::string;
   }
   return password_;
+}
+
+// optional .ProtocolBuffer.User userinfo = 11;
+inline bool Query::has_userinfo() const {
+  return _has_bit(10);
+}
+inline void Query::clear_userinfo() {
+  if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
+  _clear_bit(10);
+}
+inline const ::ProtocolBuffer::User& Query::userinfo() const {
+  return userinfo_ != NULL ? *userinfo_ : *default_instance_->userinfo_;
+}
+inline ::ProtocolBuffer::User* Query::mutable_userinfo() {
+  _set_bit(10);
+  if (userinfo_ == NULL) userinfo_ = new ::ProtocolBuffer::User;
+  return userinfo_;
 }
 
 // -------------------------------------------------------------------

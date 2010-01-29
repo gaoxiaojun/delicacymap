@@ -29,6 +29,8 @@ public:
     MapDataSource& getDataSource();
     ProtocolBuffer::User* getUser(); 
 
+    void UserLocationUpdate(double latitude, double longitude);
+
 signals:
     void ready(bool);
 
@@ -36,10 +38,14 @@ protected:
     void timerEvent(QTimerEvent *);
 
 private:
+    void UpdatedUserInfo();
+
     QBasicTimer timer;
     MapDataSource datasource;
-    ProtocolBuffer::User *user;
+    ProtocolBuffer::User *user, *infotoupdate;
+    google::protobuf::Closure *updatedone;
     QTM_PREPEND_NAMESPACE(QNetworkSession)* network;
+    bool info_isdirty;
 };
 
 #endif

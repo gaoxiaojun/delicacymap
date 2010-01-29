@@ -242,3 +242,41 @@ const DBResultWrap deliciousDataAdapter::UserLogin( const std::string& email, co
     }
     return DBResultWrap(ret, dbconn);
 }
+
+const DBResultWrap deliciousDataAdapter::GerUserAfterValidation( int uid, const std::string& password )
+{
+    pantheios::log_INFORMATIONAL("GerUserAfterValidation(uid = ", pantheios::integer(uid), ", password = ", password);
+
+    char querystr[500];
+    sprintf_s(querystr, sizeof(querystr),
+        "SELECT * "
+        "FROM Users "
+        "WHERE uid = %d;"
+        , uid);
+
+    DBResult* ret = dbconn->Execute(querystr);
+    if (ret->RowsCount() != 1 || (*ret)[0]["Password"] != password) // uid is unique, so only 0 or 1 row.
+    {
+        pantheios::log_INFORMATIONAL("Authentication failed!");
+        dbconn->Free(&ret);
+    }
+    else
+    {
+        pantheios::log_INFORMATIONAL("Authentication passed.");
+    }
+    return DBResultWrap(ret, dbconn);
+}
+
+const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows )
+{
+    size_t rowcount = rows.getResult()->RowsCount();
+    for (int i=0;i<rowcount;i++)
+    {
+        DBRow& row = rows.getResult()->GetRow(i);
+        for (int j=0;j<row.ColumnModified().size();j++)
+        {
+
+        }
+    }
+    return rows;
+}
