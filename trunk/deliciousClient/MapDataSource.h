@@ -31,6 +31,7 @@ public:
     void GetCommentsOfRestaurantSince(int rid, const std::string& datetime, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
     void UserLogin(const std::string& useremailaddr, const std::string& password, ProtocolBuffer::User *, google::protobuf::Closure *);
     void GetUser(int uid, ProtocolBuffer::User *, google::protobuf::Closure *);
+    void UpdateUserInfo(int uid, const std::string& password, ProtocolBuffer::User* info, google::protobuf::Closure *);
 
     void GetRestaurants(ProtocolBuffer::Query *, ProtocolBuffer::RestaurantList *, google::protobuf::Closure *);
     void GetLastestCommentsOfRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
@@ -40,6 +41,7 @@ public:
     void AddCommentForRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::Comment *, google::protobuf::Closure *);
     void UserLogin(ProtocolBuffer::Query *, ProtocolBuffer::User *, google::protobuf::Closure *);
     void GetUser(ProtocolBuffer::Query *, ProtocolBuffer::User *, google::protobuf::Closure *);
+    void UpdateUserInfo(ProtocolBuffer::Query *, ProtocolBuffer::User *, google::protobuf::Closure *);
 
 
 protected:

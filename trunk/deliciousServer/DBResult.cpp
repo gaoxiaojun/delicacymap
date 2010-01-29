@@ -46,7 +46,7 @@ size_t DBResult::ColCount() const
     return colnames.size();
 }
 
-const string& DBResult::Value( size_t Row, size_t Col )
+const string& DBResult::Value( size_t Row, size_t Col ) const
 {
     assert(Row < RowsCount() && Col < ColCount());
     return data[Row][Col];
@@ -57,7 +57,17 @@ const DBRow& DBResult::GetRow( size_t index ) const
     return data[index];
 }
 
+DBRow& DBResult::GetRow( size_t index )
+{
+    return data[index];
+}
+
 const DBRow& DBResult::operator[]( int index ) const
+{
+    return GetRow(index);
+}
+
+DBRow& DBResult::operator[]( int index )
 {
     return GetRow(index);
 }
@@ -88,6 +98,20 @@ const std::string& DBRow::operator[]( int index ) const
     if (index == -1)
         return EmptyString;
     return values[index];
+}
+
+RowModifier DBRow::operator[]( int index )
+{
+    if (index < 0 || index > values.size())
+        throw DBexception("Index out of band");
+
+    return RowModifier(values[index], index, *this);
+}
+
+RowModifier DBRow::operator[]( const std::string& colname )
+{
+    assert(result);
+    return operator[](result->ResolveColumnName(colname));
 }
 
 DBRow::DBRow( DBResult* parent )

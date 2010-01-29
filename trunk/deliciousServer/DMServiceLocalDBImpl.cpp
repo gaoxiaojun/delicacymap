@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "DMServiceLocalDBImpl.h"
 #include "DBResult.h"
+#include "ProtubufDBRowConversion.h"
 #include <vector>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -62,6 +63,12 @@ void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::p
         break;
     case protorpc::GetUserInfo:
         GetUser(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
+            done);
+        break;
+    case protorpc::UpdateUserInfo:
+        UpdateUserInfo(controller,
             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
             ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
             done);
@@ -240,12 +247,8 @@ void DMServiceLocalDBImpl::UserLogin( ::google::protobuf::RpcController* control
         if (!ret.empty())
         {
             const DBRow& usr = ret.getResult()->GetRow(0);
-            response->set_uid(usr.GetValueAs<int>("UID"));
-            response->set_emailaddress(usr["EmailAddress"]);
-            response->set_password(usr["Password"]);
-            response->set_nickname(usr["Nickname"]);
-            response->mutable_jointime()->set_timestamp(usr["JoinTime"]);
 
+            ProtubufDBRowConversion::Convert(usr, *response);
             // preferTypes and friends is not implemented yet.
         }
         else
@@ -273,6 +276,34 @@ void DMServiceLocalDBImpl::GetUser( ::google::protobuf::RpcController* controlle
     {
         pantheios::log_WARNING("calling GetUser() with wrong request message.");
         controller->SetFailed("calling GetUser() with wrong request message.");
+    }
+
+    done->Run();
+}
+
+void DMServiceLocalDBImpl::UpdateUserInfo( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::User* response, ::google::protobuf::Closure* done )
+{
+    if (request->has_uid() && request->has_password() && request->has_userinfo())
+    {
+        DBResultWrap usrrow = adapter->GerUserAfterValidation(request->uid(), request->password());
+        if (!usrrow.empty())
+        {
+            const ProtocolBuffer::User &toupdate = request->userinfo();
+            DBRow& row = usrrow.getResult()->GetRow(0);
+            
+            ProtubufDBRowConversion::Convert(toupdate, row);
+
+            usrrow = adapter->UpdateRows(usrrow);
+        }
+        else
+        {
+            pantheios::log_INFORMATIONAL("UpdateUserInfo() failed because user do not exist or authentication failed.");
+        }
+    }
+    else
+    {
+        pantheios::log_WARNING("calling UpdateUserInfo() with wrong request message.");
+        controller->SetFailed("calling UpdateUserInfo() with wrong request message.");
     }
 
     done->Run();

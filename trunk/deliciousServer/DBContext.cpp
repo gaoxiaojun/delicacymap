@@ -7,16 +7,6 @@
 
 using namespace std;
 
-class DBexception : public exception
-{
-public:
-    explicit DBexception(const char* s=NULL, int code=0) : errmsg(s), errcode(code) {}
-    virtual const char* what() const throw(){return errmsg;};
-private:
-   const char* errmsg;
-   int errcode;
-};
-
 DBContext::DBContext(const std::string& connstr)
 {
     try

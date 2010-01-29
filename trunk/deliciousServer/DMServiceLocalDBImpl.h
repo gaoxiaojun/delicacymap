@@ -19,38 +19,42 @@ public:
 
 ///////////////////////////DMService Impl///////////////////////////////////////////////
 public:
-    virtual void GetRestaurants(::google::protobuf::RpcController* controller,
+    /*virtual*/ void GetRestaurants(::google::protobuf::RpcController* controller,
         const ::ProtocolBuffer::Query*,
         ::ProtocolBuffer::RestaurantList*,
         ::google::protobuf::Closure* done);
-    virtual void GetLastestCommentsOfRestaurant(::google::protobuf::RpcController* controller,
+    /*virtual*/ void GetLastestCommentsOfRestaurant(::google::protobuf::RpcController* controller,
         const ::ProtocolBuffer::Query*,
         ::ProtocolBuffer::CommentList*,
         ::google::protobuf::Closure* done);
-    virtual void GetLastestCommentsByUser(::google::protobuf::RpcController* controller,
+    /*virtual*/ void GetLastestCommentsByUser(::google::protobuf::RpcController* controller,
         const ::ProtocolBuffer::Query*,
         ::ProtocolBuffer::CommentList*,
         ::google::protobuf::Closure* done);
-    virtual void GetCommentsOfUserSince(::google::protobuf::RpcController* controller,
+    /*virtual*/ void GetCommentsOfUserSince(::google::protobuf::RpcController* controller,
         const ::ProtocolBuffer::Query*,
         ::ProtocolBuffer::CommentList*,
         ::google::protobuf::Closure* done);
-    virtual void GetCommentsOfRestaurantSince(::google::protobuf::RpcController* controller,
+    /*virtual*/ void GetCommentsOfRestaurantSince(::google::protobuf::RpcController* controller,
         const ::ProtocolBuffer::Query*,
         ::ProtocolBuffer::CommentList*,
         ::google::protobuf::Closure* done);
-	virtual void AddCommentForRestaurant(::google::protobuf::RpcController* controller,
+	/*virtual*/ void AddCommentForRestaurant(::google::protobuf::RpcController* controller,
 		const ::ProtocolBuffer::Query* request,
 		::ProtocolBuffer::Comment* response,
 		::google::protobuf::Closure* done);
-	virtual void UserLogin(::google::protobuf::RpcController* controller,
+	/*virtual*/ void UserLogin(::google::protobuf::RpcController* controller,
 		const ::ProtocolBuffer::Query* request,
 		::ProtocolBuffer::User* response,
 		::google::protobuf::Closure* done);
-	virtual void GetUser(::google::protobuf::RpcController* controller,
+	/*virtual*/ void GetUser(::google::protobuf::RpcController* controller,
 		const ::ProtocolBuffer::Query* request,
 		::ProtocolBuffer::User* response,
 		::google::protobuf::Closure* done);
+    void UpdateUserInfo(::google::protobuf::RpcController* controller,
+        const ::ProtocolBuffer::Query* request,
+        ::ProtocolBuffer::User* response,
+        ::google::protobuf::Closure* done);
 
 private://callbacks
     void GetRestaurantsCallback( const DBRow& row, ProtocolBuffer::RestaurantList* result );

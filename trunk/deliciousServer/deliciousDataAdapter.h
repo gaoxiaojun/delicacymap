@@ -51,6 +51,10 @@ public://query methods
 
 	const DBResultWrap UserLogin( const std::string& email, const std::string& password );
 
+    const DBResultWrap GerUserAfterValidation( int uid, const std::string& password );
+
+    const DBResultWrap UpdateRows( DBResultWrap rows );
+
 private://methods
     void ExecuteNormal( char* query, CallbackFunc callback );
 private://data

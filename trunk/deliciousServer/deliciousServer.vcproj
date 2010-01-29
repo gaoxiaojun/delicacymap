@@ -223,6 +223,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ProtubufDBRowConversion.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\sqlite3.c"
 				>
 				<FileConfiguration
@@ -294,6 +298,10 @@
 			</File>
 			<File
 				RelativePath=".\naked_conn.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ProtubufDBRowConversion.h"
 				>
 			</File>
 			<File
