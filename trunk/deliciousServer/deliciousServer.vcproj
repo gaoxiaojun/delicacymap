@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../protocol-buffer-src/lib/libprotobuf-lite_win32_debug.lib"
+				AdditionalDependencies="../protocol-buffer-src/lib/libprotobuf-lite_win32_debug.lib libboost_date_time-vc-mt-gd.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -135,7 +135,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../protocol-buffer-src/lib/libprotobuf-lite_win32_release.lib"
+				AdditionalDependencies="../protocol-buffer-src/lib/libprotobuf-lite_win32_release.lib libboost_date_time-vc-mt-gd.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -219,6 +219,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\Messenger.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\naked_conn.cpp"
 				>
 			</File>
@@ -294,6 +298,10 @@
 			</File>
 			<File
 				RelativePath=".\DMServiceLocalDBImpl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Messenger.h"
 				>
 			</File>
 			<File

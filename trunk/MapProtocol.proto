@@ -112,9 +112,9 @@ enum SystemMessageType
 
 message DMessage
 {
-    required bool                                            isSystemMessage             = 1;
-    optional string                                          text                        = 2;   // only if not systemMessage
-    optional uint32                                          fromUser                    = 3;   // only if not systemMessage
+    required uint32                                          fromUser                    = 1;
+    required uint32                                          toUser                      = 2;
+    optional string                                          text                        = 3;   // only if not systemMessage
     optional SystemMessageType                               systemMessageType           = 4;   // only if isSystemMessage
     optional string                                          buffer                      = 5;   // only if isSystemMessage
 }

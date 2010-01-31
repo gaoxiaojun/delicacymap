@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "tcpserver.h"
+#include "Messenger.h"
 #include "naked_conn.h"
 #include "deliciousDataAdapter.h"
 #include <string>
@@ -25,6 +26,7 @@ static const int MonitorPort = 24000;
 
 boost::asio::io_service io;
 rclib::network::TCPServer<naked_conn> *serverd;
+rclib::network::Messenger *messenger;
 
 bool InitializeComponents(const string& dbpath);
 
@@ -58,7 +60,9 @@ int main(int argc, char* argv[])
         pantheios::log_NOTICE("Initialize Faile. Terminating...");
         return -1;
     }
-    serverd->start();    
+    messenger->start();
+    serverd->start();
+
     pantheios::log_NOTICE("Server Start.");
     boost::array<boost::thread, 4> threadpool;
     BOOST_FOREACH(boost::thread& t, threadpool)
@@ -81,6 +85,8 @@ bool InitializeComponents(const string& dbpath)
         pantheios::log_INFORMATIONAL("Network daemon initialized.");
         deliciousDataAdapter::Initialize(dbpath);
         pantheios::log_INFORMATIONAL("Database initialized.");
+        messenger = new rclib::network::Messenger(io);
+        pantheios::log_INFORMATIONAL("Messenger initialized.");
 
         pantheios::log_NOTICE("Initialization Finished Successfully.");
         return true;

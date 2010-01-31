@@ -10,6 +10,8 @@ deliciousServer_SOURCES = AsioRpcController.h \
                           ../tcpserver.h \
                           ../DBContext.h \
                           ../DMServiceLocalDBImpl.h \
+                          ../ProtubufDBRowConversion.h \
+                          ../Messenger.h \
                           ../stdafx.h \
                           ../stdafx.cpp \
                           ../AsioRpcController.cpp \
@@ -19,6 +21,8 @@ deliciousServer_SOURCES = AsioRpcController.h \
                           ../deliciousServer.cpp \
                           ../DBResult.cpp \
                           ../DMServiceLocalDBImpl.cpp \
+                          ../ProtubufDBRowConversion.cpp \
+                          ../Messenger.cpp \
                           ../implicit_link.c \
                           ../sqlite3.c \
                           ../../protocol-buffer-src/MapProtocol.pb.cc \

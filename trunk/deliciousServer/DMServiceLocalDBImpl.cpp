@@ -293,7 +293,7 @@ void DMServiceLocalDBImpl::UpdateUserInfo( ::google::protobuf::RpcController* co
             
             ProtubufDBRowConversion::Convert(toupdate, row);
 
-            usrrow = adapter->UpdateRows(usrrow);
+            usrrow = adapter->UpdateRows(usrrow, "Users", "UID");
         }
         else
         {
