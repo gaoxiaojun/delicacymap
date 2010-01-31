@@ -1413,29 +1413,29 @@ class DMessage : public ::google::protobuf::MessageLite {
   
   // accessors -------------------------------------------------------
   
-  // required bool isSystemMessage = 1;
-  inline bool has_issystemmessage() const;
-  inline void clear_issystemmessage();
-  static const int kIsSystemMessageFieldNumber = 1;
-  inline bool issystemmessage() const;
-  inline void set_issystemmessage(bool value);
+  // required uint32 fromUser = 1;
+  inline bool has_fromuser() const;
+  inline void clear_fromuser();
+  static const int kFromUserFieldNumber = 1;
+  inline ::google::protobuf::uint32 fromuser() const;
+  inline void set_fromuser(::google::protobuf::uint32 value);
   
-  // optional string text = 2;
+  // required uint32 toUser = 2;
+  inline bool has_touser() const;
+  inline void clear_touser();
+  static const int kToUserFieldNumber = 2;
+  inline ::google::protobuf::uint32 touser() const;
+  inline void set_touser(::google::protobuf::uint32 value);
+  
+  // optional string text = 3;
   inline bool has_text() const;
   inline void clear_text();
-  static const int kTextFieldNumber = 2;
+  static const int kTextFieldNumber = 3;
   inline const ::std::string& text() const;
   inline void set_text(const ::std::string& value);
   inline void set_text(const char* value);
   inline void set_text(const char* value, size_t size);
   inline ::std::string* mutable_text();
-  
-  // optional uint32 fromUser = 3;
-  inline bool has_fromuser() const;
-  inline void clear_fromuser();
-  static const int kFromUserFieldNumber = 3;
-  inline ::google::protobuf::uint32 fromuser() const;
-  inline void set_fromuser(::google::protobuf::uint32 value);
   
   // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
   inline bool has_systemmessagetype() const;
@@ -1458,10 +1458,10 @@ class DMessage : public ::google::protobuf::MessageLite {
  private:
   mutable int _cached_size_;
   
-  bool issystemmessage_;
+  ::google::protobuf::uint32 fromuser_;
+  ::google::protobuf::uint32 touser_;
   ::std::string* text_;
   static const ::std::string _default_text_;
-  ::google::protobuf::uint32 fromuser_;
   int systemmessagetype_;
   ::std::string* buffer_;
   static const ::std::string _default_buffer_;
@@ -2600,78 +2600,78 @@ inline ::ProtocolBuffer::User* Query::mutable_userinfo() {
 
 // DMessage
 
-// required bool isSystemMessage = 1;
-inline bool DMessage::has_issystemmessage() const {
+// required uint32 fromUser = 1;
+inline bool DMessage::has_fromuser() const {
   return _has_bit(0);
 }
-inline void DMessage::clear_issystemmessage() {
-  issystemmessage_ = false;
+inline void DMessage::clear_fromuser() {
+  fromuser_ = 0u;
   _clear_bit(0);
 }
-inline bool DMessage::issystemmessage() const {
-  return issystemmessage_;
+inline ::google::protobuf::uint32 DMessage::fromuser() const {
+  return fromuser_;
 }
-inline void DMessage::set_issystemmessage(bool value) {
+inline void DMessage::set_fromuser(::google::protobuf::uint32 value) {
   _set_bit(0);
-  issystemmessage_ = value;
+  fromuser_ = value;
 }
 
-// optional string text = 2;
-inline bool DMessage::has_text() const {
+// required uint32 toUser = 2;
+inline bool DMessage::has_touser() const {
   return _has_bit(1);
+}
+inline void DMessage::clear_touser() {
+  touser_ = 0u;
+  _clear_bit(1);
+}
+inline ::google::protobuf::uint32 DMessage::touser() const {
+  return touser_;
+}
+inline void DMessage::set_touser(::google::protobuf::uint32 value) {
+  _set_bit(1);
+  touser_ = value;
+}
+
+// optional string text = 3;
+inline bool DMessage::has_text() const {
+  return _has_bit(2);
 }
 inline void DMessage::clear_text() {
   if (text_ != &_default_text_) {
     text_->clear();
   }
-  _clear_bit(1);
+  _clear_bit(2);
 }
 inline const ::std::string& DMessage::text() const {
   return *text_;
 }
 inline void DMessage::set_text(const ::std::string& value) {
-  _set_bit(1);
+  _set_bit(2);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
   text_->assign(value);
 }
 inline void DMessage::set_text(const char* value) {
-  _set_bit(1);
+  _set_bit(2);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
   text_->assign(value);
 }
 inline void DMessage::set_text(const char* value, size_t size) {
-  _set_bit(1);
+  _set_bit(2);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
   text_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* DMessage::mutable_text() {
-  _set_bit(1);
+  _set_bit(2);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
   return text_;
-}
-
-// optional uint32 fromUser = 3;
-inline bool DMessage::has_fromuser() const {
-  return _has_bit(2);
-}
-inline void DMessage::clear_fromuser() {
-  fromuser_ = 0u;
-  _clear_bit(2);
-}
-inline ::google::protobuf::uint32 DMessage::fromuser() const {
-  return fromuser_;
-}
-inline void DMessage::set_fromuser(::google::protobuf::uint32 value) {
-  _set_bit(2);
-  fromuser_ = value;
 }
 
 // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;

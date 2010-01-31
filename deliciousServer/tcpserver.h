@@ -53,7 +53,6 @@ namespace rclib
             //          err:可能出现的错误
             void handle_accept(typename ConnectionT::pointer ptr, const boost::system::error_code &err)
             {
-                //std::cout<<"Thead "<<boost::this_thread::get_id()<<" is handling acceptence of "<<ptr->socket().remote_endpoint()<<std::endl;
                 if (err)
                 {
                     pantheios::log_ERROR( err.message() );

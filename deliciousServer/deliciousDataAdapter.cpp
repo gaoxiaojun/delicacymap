@@ -75,14 +75,18 @@ bool DBResultWrap::empty() const
     return result == NULL || getResult()->RowsCount() == 0;
 }
 
-void deliciousDataAdapter::ExecuteNormal( char* query, CallbackFunc callback )
+size_t deliciousDataAdapter::ExecuteNormal( char* query, CallbackFunc callback )
 {
     DBResult* ret = dbconn->Execute(query);
 
-    for (size_t i=0;i<ret->RowsCount();++i)
+    size_t rows = ret->RowsCount();
+
+    for (size_t i=0;i<rows;++i)
         callback(ret->GetRow(i));
 
     dbconn->Free(&ret);
+
+    return rows;
 }
 
 size_t deliciousDataAdapter::QueryRestaurantWithinLocation( double longtitude_from, double latitude_from, double lontitude_to, double latitude_to, int level, CallbackFunc callback )
@@ -104,8 +108,7 @@ size_t deliciousDataAdapter::QueryRestaurantWithinLocation( double longtitude_fr
         , longtitude_from, lontitude_to
         , latitude_from, latitude_to);
 
-    ExecuteNormal(querystr, callback);
-    return 0;
+    return ExecuteNormal(querystr, callback);
 }
 
 size_t deliciousDataAdapter::QueryLatestCommentsOfRestaurant( int rid, int n, CallbackFunc callback )
@@ -124,8 +127,7 @@ size_t deliciousDataAdapter::QueryLatestCommentsOfRestaurant( int rid, int n, Ca
         , rid
         , n);
 
-    ExecuteNormal(querystr, callback);
-    return 0;
+    return ExecuteNormal(querystr, callback);
 }
 
 size_t deliciousDataAdapter::QueryCommentsOfRestaurantSince( int rid, const std::string& timestamp, CallbackFunc callback )
@@ -142,8 +144,7 @@ size_t deliciousDataAdapter::QueryCommentsOfRestaurantSince( int rid, const std:
         , rid
         , timestamp.c_str());
 
-    ExecuteNormal(querystr, callback);
-    return 0;
+    return ExecuteNormal(querystr, callback);
 }
 
 size_t deliciousDataAdapter::QueryLastestCommentsByUser( int uid, int n, CallbackFunc callback )
@@ -162,8 +163,7 @@ size_t deliciousDataAdapter::QueryLastestCommentsByUser( int uid, int n, Callbac
         , uid
         , n);
 
-    ExecuteNormal(querystr, callback);
-    return 0;
+    return ExecuteNormal(querystr, callback);
 }
 
 size_t deliciousDataAdapter::QueryCommentsOfUserSince( int uid, const std::string& timestamp, CallbackFunc callback )
@@ -181,25 +181,7 @@ size_t deliciousDataAdapter::QueryCommentsOfUserSince( int uid, const std::strin
         , uid
         , timestamp.c_str());
 
-    ExecuteNormal(querystr, callback);
-    return 0;
-}
-
-size_t deliciousDataAdapter::QueryMessagesToUser( int uid, CallbackFunc callback )
-{
-    pantheios::log_INFORMATIONAL("QueryMessagesToUser(",
-        "uid=", pantheios::integer(uid),
-        "')");
-    char querystr[500];
-    sprintf_s(querystr, sizeof(querystr),
-        "SELECT * "
-        "FROM Messages "
-        "WHERE ToUid == %d AND  ExpireTime < CURRENT_TIMESTAMP AND Delivered == 0"
-        "ORDER BY ExpireTime;"
-        , uid);
-
-    ExecuteNormal(querystr, callback);
-    return 0;
+    return ExecuteNormal(querystr, callback);
 }
 
 const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int uid, const std::string& msg, const std::string* const image )
@@ -267,16 +249,61 @@ const DBResultWrap deliciousDataAdapter::GerUserAfterValidation( int uid, const 
     return DBResultWrap(ret, dbconn);
 }
 
-const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows )
+// TODO: maybe database schema object to manage all primary keys and stuff?
+const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows, const std::string& table, const std::string& primarykey )
 {
     size_t rowcount = rows.getResult()->RowsCount();
-    for (int i=0;i<rowcount;i++)
+    // naive implementation, refactor this when we got time! :)
+
+    vector<std::string> colnames;
+    vector<std::string> values;
+    string query;
+    for (size_t i=0;i<rowcount;i++)
     {
         DBRow& row = rows.getResult()->GetRow(i);
-        for (int j=0;j<row.ColumnModified().size();j++)
+        if (row.ColumnModified().size())
         {
+            for (size_t j=0;j<row.ColumnModified().size();j++)
+            {
+                query += "SET " + rows.getResult()->ColumnName(j) + "= '" + row.GetValueAs<string>(j) + "', ";
+            }
 
+            query.erase(query.size()-2);
+
+            query = "UPDATE " + table + query + "WHERE " + primarykey + " = " + row.GetValueAs<string>(primarykey);
+            dbconn->Execute(query);
         }
     }
     return rows;
+}
+
+size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, const std::string& text, tm validTimePeriod )
+{
+    pantheios::log_INFORMATIONAL("AddMessagesToDB(",
+        "from_uid=", pantheios::integer(from_uid),
+        ", to_uid=", pantheios::integer(to_uid),
+        ", text=",text,
+        ", tm=", validTimePeriod,
+        ")");
+    char querystr[500];
+    sprintf_s(querystr, sizeof(querystr),
+        "INSERT INTO Messages "
+        "(FromUID, ToUID, AddTime, ExpireTime, MSG) "
+        "VALUES ()"
+        , from_uid);
+
+    return 0;//ExecuteNormal(querystr, callback);
+}
+
+size_t deliciousDataAdapter::RetrieveAllNonDeliveredMessages( CallbackFunc callback )
+{
+    pantheios::log_INFORMATIONAL("RetrieveAllNonDeliveredMessages()");
+
+    char querystr[500];
+    sprintf_s(querystr, sizeof(querystr),
+        "SELECT * "
+        "FROM Messages "
+        "WHERE ExpireTime > datetime('now') AND Delivered == 0");
+
+    return ExecuteNormal(querystr, callback);
 }

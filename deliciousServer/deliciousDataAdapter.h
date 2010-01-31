@@ -1,4 +1,5 @@
 #pragma once
+#include <time.h>
 #include <string>
 #include <vector>
 #include <boost/function.hpp>
@@ -34,7 +35,14 @@ public://destructor
 public://singleton impl
     static deliciousDataAdapter* GetInstance();
 	static void Initialize(const std::string& connstr);
-public://query methods
+public://DB methods
+
+    const DBResultWrap UpdateRows( DBResultWrap rows, const std::string& table, const std::string& primarykey );
+
+    /************************************************************************/
+    /*                    Method Used by RPCs                               */
+    /************************************************************************/
+
     size_t QueryRestaurantWithinLocation( double longtitude, double latitude, double lontitude_to, double latitude_to, int level, CallbackFunc callback );
 
     size_t QueryLatestCommentsOfRestaurant( int rid, int n, CallbackFunc callback );
@@ -45,18 +53,22 @@ public://query methods
 
     size_t QueryCommentsOfUserSince( int uid, const std::string& timestamp, CallbackFunc callback );
 
-    size_t QueryMessagesToUser( int uid, CallbackFunc callback );
-
 	const DBResultWrap PostCommentForRestaurant( int rid, int uid, const std::string& msg, const std::string* const image );
 
 	const DBResultWrap UserLogin( const std::string& email, const std::string& password );
 
     const DBResultWrap GerUserAfterValidation( int uid, const std::string& password );
 
-    const DBResultWrap UpdateRows( DBResultWrap rows );
+    /************************************************************************/
+    /*                    Methods Used by Messenger                         */
+    /************************************************************************/
+
+    size_t AddMessagesToDB( int from_uid, int to_uid, const std::string& text, tm validTimePeriod );
+
+    size_t RetrieveAllNonDeliveredMessages( CallbackFunc callback );
 
 private://methods
-    void ExecuteNormal( char* query, CallbackFunc callback );
+    size_t ExecuteNormal( char* query, CallbackFunc callback );
 private://data
     static deliciousDataAdapter* _single;
     DBContext *dbconn;

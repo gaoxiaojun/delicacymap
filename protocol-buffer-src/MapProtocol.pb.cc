@@ -3344,9 +3344,9 @@ void Query::Swap(Query* other) {
 const ::std::string DMessage::_default_text_;
 const ::std::string DMessage::_default_buffer_;
 #ifndef _MSC_VER
-const int DMessage::kIsSystemMessageFieldNumber;
-const int DMessage::kTextFieldNumber;
 const int DMessage::kFromUserFieldNumber;
+const int DMessage::kToUserFieldNumber;
+const int DMessage::kTextFieldNumber;
 const int DMessage::kSystemMessageTypeFieldNumber;
 const int DMessage::kBufferFieldNumber;
 #endif  // !_MSC_VER
@@ -3367,9 +3367,9 @@ DMessage::DMessage(const DMessage& from)
 
 void DMessage::SharedCtor() {
   _cached_size_ = 0;
-  issystemmessage_ = false;
-  text_ = const_cast< ::std::string*>(&_default_text_);
   fromuser_ = 0u;
+  touser_ = 0u;
+  text_ = const_cast< ::std::string*>(&_default_text_);
   systemmessagetype_ = 1;
   buffer_ = const_cast< ::std::string*>(&_default_buffer_);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -3407,13 +3407,13 @@ DMessage* DMessage::New() const {
 
 void DMessage::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    issystemmessage_ = false;
-    if (_has_bit(1)) {
+    fromuser_ = 0u;
+    touser_ = 0u;
+    if (_has_bit(2)) {
       if (text_ != &_default_text_) {
         text_->clear();
       }
     }
-    fromuser_ = 0u;
     systemmessagetype_ = 1;
     if (_has_bit(4)) {
       if (buffer_ != &_default_buffer_) {
@@ -3430,44 +3430,44 @@ bool DMessage::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required bool isSystemMessage = 1;
+      // required uint32 fromUser = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &issystemmessage_)));
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &fromuser_)));
           _set_bit(0);
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_text;
+        if (input->ExpectTag(16)) goto parse_toUser;
         break;
       }
       
-      // optional string text = 2;
+      // required uint32 toUser = 2;
       case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_toUser:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &touser_)));
+          _set_bit(1);
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(26)) goto parse_text;
+        break;
+      }
+      
+      // optional string text = 3;
+      case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_text:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_text()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(24)) goto parse_fromUser;
-        break;
-      }
-      
-      // optional uint32 fromUser = 3;
-      case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-         parse_fromUser:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &fromuser_)));
-          _set_bit(2);
         } else {
           goto handle_uninterpreted;
         }
@@ -3525,20 +3525,20 @@ bool DMessage::MergePartialFromCodedStream(
 
 void DMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required bool isSystemMessage = 1;
+  // required uint32 fromUser = 1;
   if (_has_bit(0)) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->issystemmessage(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->fromuser(), output);
   }
   
-  // optional string text = 2;
+  // required uint32 toUser = 2;
   if (_has_bit(1)) {
-    ::google::protobuf::internal::WireFormatLite::WriteString(
-      2, this->text(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->touser(), output);
   }
   
-  // optional uint32 fromUser = 3;
+  // optional string text = 3;
   if (_has_bit(2)) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->fromuser(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      3, this->text(), output);
   }
   
   // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
@@ -3559,23 +3559,25 @@ int DMessage::ByteSize() const {
   int total_size = 0;
   
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required bool isSystemMessage = 1;
-    if (has_issystemmessage()) {
-      total_size += 1 + 1;
-    }
-    
-    // optional string text = 2;
-    if (has_text()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->text());
-    }
-    
-    // optional uint32 fromUser = 3;
+    // required uint32 fromUser = 1;
     if (has_fromuser()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->fromuser());
+    }
+    
+    // required uint32 toUser = 2;
+    if (has_touser()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->touser());
+    }
+    
+    // optional string text = 3;
+    if (has_text()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->text());
     }
     
     // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
@@ -3607,13 +3609,13 @@ void DMessage::MergeFrom(const DMessage& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from._has_bit(0)) {
-      set_issystemmessage(from.issystemmessage());
+      set_fromuser(from.fromuser());
     }
     if (from._has_bit(1)) {
-      set_text(from.text());
+      set_touser(from.touser());
     }
     if (from._has_bit(2)) {
-      set_fromuser(from.fromuser());
+      set_text(from.text());
     }
     if (from._has_bit(3)) {
       set_systemmessagetype(from.systemmessagetype());
@@ -3631,16 +3633,16 @@ void DMessage::CopyFrom(const DMessage& from) {
 }
 
 bool DMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
   
   return true;
 }
 
 void DMessage::Swap(DMessage* other) {
   if (other != this) {
-    std::swap(issystemmessage_, other->issystemmessage_);
-    std::swap(text_, other->text_);
     std::swap(fromuser_, other->fromuser_);
+    std::swap(touser_, other->touser_);
+    std::swap(text_, other->text_);
     std::swap(systemmessagetype_, other->systemmessagetype_);
     std::swap(buffer_, other->buffer_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
