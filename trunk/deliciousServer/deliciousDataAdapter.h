@@ -67,6 +67,8 @@ public://DB methods
 
     size_t RetrieveAllNonDeliveredMessages( CallbackFunc callback );
 
+    void ConfirmMessageDelivered( unsigned int msgid );
+
 private://methods
     size_t ExecuteNormal( char* query, CallbackFunc callback );
 private://data

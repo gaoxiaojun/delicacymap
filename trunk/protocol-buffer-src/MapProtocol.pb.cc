@@ -3346,6 +3346,7 @@ const ::std::string DMessage::_default_buffer_;
 #ifndef _MSC_VER
 const int DMessage::kFromUserFieldNumber;
 const int DMessage::kToUserFieldNumber;
+const int DMessage::kMsgIDFieldNumber;
 const int DMessage::kTextFieldNumber;
 const int DMessage::kSystemMessageTypeFieldNumber;
 const int DMessage::kBufferFieldNumber;
@@ -3369,6 +3370,7 @@ void DMessage::SharedCtor() {
   _cached_size_ = 0;
   fromuser_ = 0u;
   touser_ = 0u;
+  msgid_ = 0u;
   text_ = const_cast< ::std::string*>(&_default_text_);
   systemmessagetype_ = 1;
   buffer_ = const_cast< ::std::string*>(&_default_buffer_);
@@ -3409,13 +3411,14 @@ void DMessage::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     fromuser_ = 0u;
     touser_ = 0u;
-    if (_has_bit(2)) {
+    msgid_ = 0u;
+    if (_has_bit(3)) {
       if (text_ != &_default_text_) {
         text_->clear();
       }
     }
     systemmessagetype_ = 1;
-    if (_has_bit(4)) {
+    if (_has_bit(5)) {
       if (buffer_ != &_default_buffer_) {
         buffer_->clear();
       }
@@ -3504,6 +3507,22 @@ bool DMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(48)) goto parse_msgID;
+        break;
+      }
+      
+      // required uint32 msgID = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_msgID:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &msgid_)));
+          _set_bit(2);
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -3536,21 +3555,26 @@ void DMessage::SerializeWithCachedSizes(
   }
   
   // optional string text = 3;
-  if (_has_bit(2)) {
+  if (_has_bit(3)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       3, this->text(), output);
   }
   
   // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
-  if (_has_bit(3)) {
+  if (_has_bit(4)) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       4, this->systemmessagetype(), output);
   }
   
   // optional string buffer = 5;
-  if (_has_bit(4)) {
+  if (_has_bit(5)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       5, this->buffer(), output);
+  }
+  
+  // required uint32 msgID = 6;
+  if (_has_bit(2)) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->msgid(), output);
   }
   
 }
@@ -3571,6 +3595,13 @@ int DMessage::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->touser());
+    }
+    
+    // required uint32 msgID = 6;
+    if (has_msgid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->msgid());
     }
     
     // optional string text = 3;
@@ -3615,12 +3646,15 @@ void DMessage::MergeFrom(const DMessage& from) {
       set_touser(from.touser());
     }
     if (from._has_bit(2)) {
-      set_text(from.text());
+      set_msgid(from.msgid());
     }
     if (from._has_bit(3)) {
-      set_systemmessagetype(from.systemmessagetype());
+      set_text(from.text());
     }
     if (from._has_bit(4)) {
+      set_systemmessagetype(from.systemmessagetype());
+    }
+    if (from._has_bit(5)) {
       set_buffer(from.buffer());
     }
   }
@@ -3633,7 +3667,7 @@ void DMessage::CopyFrom(const DMessage& from) {
 }
 
 bool DMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
   
   return true;
 }
@@ -3642,6 +3676,7 @@ void DMessage::Swap(DMessage* other) {
   if (other != this) {
     std::swap(fromuser_, other->fromuser_);
     std::swap(touser_, other->touser_);
+    std::swap(msgid_, other->msgid_);
     std::swap(text_, other->text_);
     std::swap(systemmessagetype_, other->systemmessagetype_);
     std::swap(buffer_, other->buffer_);

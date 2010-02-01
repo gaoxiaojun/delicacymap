@@ -1427,6 +1427,13 @@ class DMessage : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 touser() const;
   inline void set_touser(::google::protobuf::uint32 value);
   
+  // required uint32 msgID = 6;
+  inline bool has_msgid() const;
+  inline void clear_msgid();
+  static const int kMsgIDFieldNumber = 6;
+  inline ::google::protobuf::uint32 msgid() const;
+  inline void set_msgid(::google::protobuf::uint32 value);
+  
   // optional string text = 3;
   inline bool has_text() const;
   inline void clear_text();
@@ -1460,6 +1467,7 @@ class DMessage : public ::google::protobuf::MessageLite {
   
   ::google::protobuf::uint32 fromuser_;
   ::google::protobuf::uint32 touser_;
+  ::google::protobuf::uint32 msgid_;
   ::std::string* text_;
   static const ::std::string _default_text_;
   int systemmessagetype_;
@@ -1469,7 +1477,7 @@ class DMessage : public ::google::protobuf::MessageLite {
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -2632,42 +2640,58 @@ inline void DMessage::set_touser(::google::protobuf::uint32 value) {
   touser_ = value;
 }
 
+// required uint32 msgID = 6;
+inline bool DMessage::has_msgid() const {
+  return _has_bit(2);
+}
+inline void DMessage::clear_msgid() {
+  msgid_ = 0u;
+  _clear_bit(2);
+}
+inline ::google::protobuf::uint32 DMessage::msgid() const {
+  return msgid_;
+}
+inline void DMessage::set_msgid(::google::protobuf::uint32 value) {
+  _set_bit(2);
+  msgid_ = value;
+}
+
 // optional string text = 3;
 inline bool DMessage::has_text() const {
-  return _has_bit(2);
+  return _has_bit(3);
 }
 inline void DMessage::clear_text() {
   if (text_ != &_default_text_) {
     text_->clear();
   }
-  _clear_bit(2);
+  _clear_bit(3);
 }
 inline const ::std::string& DMessage::text() const {
   return *text_;
 }
 inline void DMessage::set_text(const ::std::string& value) {
-  _set_bit(2);
+  _set_bit(3);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
   text_->assign(value);
 }
 inline void DMessage::set_text(const char* value) {
-  _set_bit(2);
+  _set_bit(3);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
   text_->assign(value);
 }
 inline void DMessage::set_text(const char* value, size_t size) {
-  _set_bit(2);
+  _set_bit(3);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
   text_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* DMessage::mutable_text() {
-  _set_bit(2);
+  _set_bit(3);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
@@ -2676,57 +2700,57 @@ inline ::std::string* DMessage::mutable_text() {
 
 // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
 inline bool DMessage::has_systemmessagetype() const {
-  return _has_bit(3);
+  return _has_bit(4);
 }
 inline void DMessage::clear_systemmessagetype() {
   systemmessagetype_ = 1;
-  _clear_bit(3);
+  _clear_bit(4);
 }
 inline ProtocolBuffer::SystemMessageType DMessage::systemmessagetype() const {
   return static_cast< ProtocolBuffer::SystemMessageType >(systemmessagetype_);
 }
 inline void DMessage::set_systemmessagetype(ProtocolBuffer::SystemMessageType value) {
   GOOGLE_DCHECK(ProtocolBuffer::SystemMessageType_IsValid(value));
-  _set_bit(3);
+  _set_bit(4);
   systemmessagetype_ = value;
 }
 
 // optional string buffer = 5;
 inline bool DMessage::has_buffer() const {
-  return _has_bit(4);
+  return _has_bit(5);
 }
 inline void DMessage::clear_buffer() {
   if (buffer_ != &_default_buffer_) {
     buffer_->clear();
   }
-  _clear_bit(4);
+  _clear_bit(5);
 }
 inline const ::std::string& DMessage::buffer() const {
   return *buffer_;
 }
 inline void DMessage::set_buffer(const ::std::string& value) {
-  _set_bit(4);
+  _set_bit(5);
   if (buffer_ == &_default_buffer_) {
     buffer_ = new ::std::string;
   }
   buffer_->assign(value);
 }
 inline void DMessage::set_buffer(const char* value) {
-  _set_bit(4);
+  _set_bit(5);
   if (buffer_ == &_default_buffer_) {
     buffer_ = new ::std::string;
   }
   buffer_->assign(value);
 }
 inline void DMessage::set_buffer(const char* value, size_t size) {
-  _set_bit(4);
+  _set_bit(5);
   if (buffer_ == &_default_buffer_) {
     buffer_ = new ::std::string;
   }
   buffer_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* DMessage::mutable_buffer() {
-  _set_bit(4);
+  _set_bit(5);
   if (buffer_ == &_default_buffer_) {
     buffer_ = new ::std::string;
   }

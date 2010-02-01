@@ -42,6 +42,7 @@ void QTProtobufChannel::CallMethod( protorpc::FunctionID method_id, const google
     if (reqs.empty())
         needMoreReqs();
     protorpc::Message* reqholder = reqs.pop();
+    reqholder->Clear();
     reqholder->set_type(protorpc::REQUEST);
     reqholder->set_id(_callid);
     reqholder->set_method_id(method_id);
@@ -50,11 +51,26 @@ void QTProtobufChannel::CallMethod( protorpc::FunctionID method_id, const google
     emit writeMessage(reqholder);
 }
 
+void QTProtobufChannel::SendMessage( ProtocolBuffer::DMessage* m )
+{
+    if (!started())
+        throw "Channel not started!";
+
+    if (reqs.empty())
+        needMoreReqs();
+    protorpc::Message* reqholder = reqs.pop();
+    reqholder->Clear();
+    reqholder->set_type(protorpc::MESSAGE);
+    reqholder->set_buffer(m->SerializeAsString());
+    emit writeMessage(reqholder);
+}
+
+
 void QTProtobufChannel::run()
 {
     _helper = new QTProtobufChannelDriver(this, &_currentCalls);
 
-    connect(this, SIGNAL(writeMessage(google::protobuf::MessageLite*)), _helper, SLOT(writeMessage( google::protobuf::MessageLite*  )));
+    connect(this, SIGNAL(writeMessage(protorpc::Message*)), _helper, SLOT(writeMessage( protorpc::Message*  )));
     connect(this, SIGNAL(requetStart(QHostAddress*, unsigned short )), _helper, SLOT(start(QHostAddress*, unsigned short)));
     connect(_helper, SIGNAL(MessageReceived(const google::protobuf::MessageLite*)), this, SIGNAL(messageReceived(const google::protobuf::MessageLite*)));
     connect(_helper->_tcps, SIGNAL(connected()), this, SIGNAL(connected()), Qt::DirectConnection);
@@ -92,4 +108,3 @@ QString QTProtobufChannel::errorString()
     }
     return QString();
 }
-
