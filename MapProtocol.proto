@@ -114,6 +114,7 @@ message DMessage
 {
     required uint32                                          fromUser                    = 1;
     required uint32                                          toUser                      = 2;
+    required uint32                                          msgID                       = 6;
     optional string                                          text                        = 3;   // only if not systemMessage
     optional SystemMessageType                               systemMessageType           = 4;   // only if isSystemMessage
     optional string                                          buffer                      = 5;   // only if isSystemMessage

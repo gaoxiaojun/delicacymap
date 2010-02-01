@@ -162,3 +162,8 @@ void MapDataSource::UpdateUserInfo( ProtocolBuffer::Query *query, ProtocolBuffer
 {
     channel->CallMethod(protorpc::UpdateUserInfo, query, usr, done);
 }
+
+void MapDataSource::SendMessage( ProtocolBuffer::DMessage* m )
+{
+    channel->SendMessage(m);
+}

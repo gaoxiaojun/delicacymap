@@ -197,7 +197,7 @@ const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int 
     // single query run atomicity in sqlite, so this has no problem.
     sprintf_s(querystr, sizeof(querystr),
         "INSERT INTO Comments (UID, RID, Comment) VALUES(%d, %d, \"%s\");"
-        "SELECT * FROM Comments WHERE Comments.rowid = (select last_insert_rowid());"
+        "SELECT * FROM Comments WHERE Comments.rowid = last_insert_rowid();"
         , uid
         , rid
         , msg.c_str());
@@ -277,6 +277,24 @@ const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows, const st
     return rows;
 }
 
+char* tmToSqliteTimeModifiers(char* buf, tm& time)
+{
+    char *step = buf;
+#define MODIFIER_FOR( tm_part, modifier_name )                                  \
+    if (time.tm_##tm_part > 0)                                                   \
+        step += sprintf(step, ", '%d %s'", time.tm_##tm_part, #modifier_name);
+
+    MODIFIER_FOR( year, years);
+    MODIFIER_FOR( mon, months);
+    MODIFIER_FOR( mday, days);
+    MODIFIER_FOR( hour, hours);
+    MODIFIER_FOR( min, minutes);
+    MODIFIER_FOR( sec, seconds);
+
+    return buf;
+#undef MODIFIER_FOR
+}
+
 size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, const std::string& text, tm validTimePeriod )
 {
     pantheios::log_INFORMATIONAL("AddMessagesToDB(",
@@ -285,14 +303,20 @@ size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, const st
         ", text=",text,
         ", tm=", validTimePeriod,
         ")");
-    char querystr[500];
+    char querystr[500], digits[12], timebuf[64], modifierbuf[200];
     sprintf_s(querystr, sizeof(querystr),
         "INSERT INTO Messages "
         "(FromUID, ToUID, AddTime, ExpireTime, MSG) "
-        "VALUES ()"
-        , from_uid);
+        "VALUES (%s, %d, datetime('now'), datetime('now'%s));"
+        "SELECT msgid FROM Messages WHERE Messages.rowid = last_insert_rowid();"
+        , from_uid == 0 ? "NULL" : itoa(from_uid, digits, 10)
+        , to_uid
+        , tmToSqliteTimeModifiers(modifierbuf, validTimePeriod));
 
-    return 0;//ExecuteNormal(querystr, callback);
+    DBResult *result = dbconn->Execute(querystr);
+    unsigned int msgid = result->GetRow(0).GetValueAs<unsigned int>("MSGID");
+    dbconn->Free(&result);
+    return msgid;
 }
 
 size_t deliciousDataAdapter::RetrieveAllNonDeliveredMessages( CallbackFunc callback )
@@ -306,4 +330,16 @@ size_t deliciousDataAdapter::RetrieveAllNonDeliveredMessages( CallbackFunc callb
         "WHERE ExpireTime > datetime('now') AND Delivered == 0");
 
     return ExecuteNormal(querystr, callback);
+}
+
+void deliciousDataAdapter::ConfirmMessageDelivered( unsigned int msgid )
+{
+    pantheios::log_INFORMATIONAL("ConfirmMessageDelivered(", "msgid=", pantheios::integer(msgid),")");
+
+    char querystr[500];
+    sprintf_s(querystr, sizeof(querystr),
+        "UPDATE Messages SET Delivered=1 WHERE msgid=%d;"
+        , msgid);
+
+    dbconn->Execute(querystr);
 }

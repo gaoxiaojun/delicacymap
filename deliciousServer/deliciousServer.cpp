@@ -26,7 +26,6 @@ static const int MonitorPort = 24000;
 
 boost::asio::io_service io;
 rclib::network::TCPServer<naked_conn> *serverd;
-rclib::network::Messenger *messenger;
 
 bool InitializeComponents(const string& dbpath);
 
@@ -60,7 +59,7 @@ int main(int argc, char* argv[])
         pantheios::log_NOTICE("Initialize Faile. Terminating...");
         return -1;
     }
-    messenger->start();
+    rclib::network::Messenger::GetInstance()->start();
     serverd->start();
 
     pantheios::log_NOTICE("Server Start.");
@@ -85,7 +84,7 @@ bool InitializeComponents(const string& dbpath)
         pantheios::log_INFORMATIONAL("Network daemon initialized.");
         deliciousDataAdapter::Initialize(dbpath);
         pantheios::log_INFORMATIONAL("Database initialized.");
-        messenger = new rclib::network::Messenger(io);
+        rclib::network::Messenger::Initialize(io);
         pantheios::log_INFORMATIONAL("Messenger initialized.");
 
         pantheios::log_NOTICE("Initialization Finished Successfully.");

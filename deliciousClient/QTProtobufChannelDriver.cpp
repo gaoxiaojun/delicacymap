@@ -80,7 +80,7 @@ QTProtobufChannelDriver::~QTProtobufChannelDriver()
     delete _tcps;
 }
 
-void QTProtobufChannelDriver::writeMessage( google::protobuf::MessageLite* m )
+void QTProtobufChannelDriver::writeMessage( protorpc::Message* m )
 {
     int msgsize = m->ByteSize();
     char sizebuf[4];
@@ -94,6 +94,10 @@ void QTProtobufChannelDriver::writeMessage( google::protobuf::MessageLite* m )
         throw _tcps->errorString().toUtf8().constData();
     }
     m->SerializeToString(&_writebuffer);
+    if (m->type() == protorpc::MESSAGE)
+    {
+        parent->returnQueryBuffer(m);
+    }
     if(_tcps->write(_writebuffer.c_str(), msgsize) < 0)
         throw _tcps->errorString().toUtf8().constData();
 }

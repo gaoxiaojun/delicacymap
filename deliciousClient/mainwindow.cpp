@@ -194,7 +194,10 @@ void MainWindow::UpdateCurrentLocation( QString s )
     m_ui->label_currentlocation->setText(QString::fromLocal8Bit("µ±«∞Œª÷√£∫") + s);
 }
 
-void MainWindow::printMessage( const ProtocolBuffer::DMessage* )
+void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
 {
-
+    qDebug()<<"============================ Msg Received ==============================";
+    qDebug()<<"From User: "<<msg->fromuser();
+    qDebug()<<"To User: "<<msg->touser();
+    qDebug()<<"============================ Msg End ===================================";
 }

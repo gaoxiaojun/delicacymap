@@ -6,7 +6,7 @@
 #include <QStack>
 #include <QThread>
 #include <QtNetwork>
-#include "../protocol-buffer-src/Message.pb.h"
+#include "Message.pb.h"
 
 struct CallEntry
 {
@@ -21,6 +21,10 @@ struct CallEntry
 };
 
 class QTProtobufChannelDriver;
+
+namespace ProtocolBuffer{
+    class DMessage;
+}
 
 // light weight rpc channel, not intended to be used in multi threaded environment. however, it implement a call queue, so that continuous call wont fail
 class QTProtobufChannel :
@@ -38,6 +42,8 @@ public:
 
     void CallMethod( protorpc::FunctionID method_id, const google::protobuf::MessageLite* request, google::protobuf::MessageLite* response, google::protobuf::Closure* done );
 
+    void SendMessage( ProtocolBuffer::DMessage* );
+
 	void returnQueryBuffer(protorpc::Message*);
 
 protected:
@@ -50,7 +56,7 @@ signals:
     void error();
     void messageReceived(const google::protobuf::MessageLite*);
 
-    void writeMessage(google::protobuf::MessageLite* m);
+    void writeMessage(protorpc::Message* m);
     void requetStart(QHostAddress *_addr, unsigned short _port);
 
 private:

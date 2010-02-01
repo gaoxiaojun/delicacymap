@@ -19,7 +19,7 @@ class QTProtobufChannelDriver : public QObject
 signals:
     void MessageReceived(const google::protobuf::MessageLite*);
 private slots:
-	void writeMessage(google::protobuf::MessageLite* m);
+	void writeMessage(protorpc::Message* m);
 	void start(QHostAddress *_addr, unsigned short _port);
 	void readMessage();
 public:
