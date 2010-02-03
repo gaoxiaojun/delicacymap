@@ -61,18 +61,27 @@ linux-* {
     # LIBPATH += /usr/local/lib
     LIBS += -lprotobuf_linux_x86
 }
-wince* { 
-    SOURCES += bluetoothmanager_wince.cpp \
-        mapview_wince.cpp
-    HEADERS += bluetoothmanager_wince.h \
-        bluetoothmanager_win_common.h
+wince* {
     RESOURCES += mainwindow_480_800.qrc
-    LIBS += bthutil.lib \
-        ws2.lib \
-        Gpsapi.lib \
-        libprotobuf_wince_release.lib \
-        ../QtMobility/lib_wince/QtBearer_tp.lib \
-        ../QtMobility/lib_wince/QtLocation_tp.lib
+    contains(DEFINES, _WIN32_WCE=0x600) {
+        myFiles.sources = F:\QT\delicacymap\msvcr90.dll
+        myFiles.path = %CSIDL_PROGRAM_FILES%\delicacyClient
+        DEPLOYMENT += myFiles
+        SOURCES += mapview_wince.cpp
+        LIBS += libprotobuf-lite_wince6_release.lib \
+                ../QtMobility/lib_wince6/QtBearer_tp.lib 
+    }else{
+        SOURCES += bluetoothmanager_wince.cpp \
+            mapview_wince.cpp
+        HEADERS += bluetoothmanager_wince.h \
+            bluetoothmanager_win_common.h
+        LIBS += bthutil.lib \
+            ws2.lib \
+            Gpsapi.lib \
+            libprotobuf_wince_release.lib \
+            ../QtMobility/lib_wince/QtBearer_tp.lib \
+            ../QtMobility/lib_wince/QtLocation_tp.lib
+    }
 }
 win32:!wince* { 
     SOURCES += mapview_win32.cpp \
