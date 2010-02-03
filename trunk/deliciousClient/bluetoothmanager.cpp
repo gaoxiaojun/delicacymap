@@ -29,7 +29,10 @@ bluetoothmanager& bluetoothmanager::GetInstance()
     if (ms_bt == NULL)
     {
 #ifdef _WIN32_WCE
+#if _WIN32_WCE >= 0x500 && _WIN32_WCE < 0x600
+        //Window Mobile
         ms_bt = new bluetoothmanager_wince;
+#endif
 #elif defined( WIN32 )
         ms_bt = new bluetoothmanager_win;
 #endif
