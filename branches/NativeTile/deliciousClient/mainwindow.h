@@ -5,6 +5,9 @@
 #include <QtGui/QTextEdit>
 #include <QString>
 #include "mapview.h"
+#include "OfflineMap/MapViewBase.h"
+#include "OfflineMap/ImageCache.h"
+#include "OfflineMap/Downloader.h"
 
 class ProtobufDataEvent;
 class Session;
@@ -48,7 +51,9 @@ private slots:
 
 private:
     Ui::MainWindow *m_ui;
-    mapview *navi;
+    MapViewBase *navi;
+    ImageCache imageCache;
+    Downloader downloader;
     Session *session;
 };
 

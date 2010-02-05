@@ -10,7 +10,6 @@
 #endif
 #include "MapProtocol.pb.h"
 
-#define BOOST_DATE_TIME_NO_LIB
 #define BOOST_REGEX_NO_LIB
 
 #include <boost/asio.hpp>

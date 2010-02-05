@@ -6,6 +6,8 @@
 #include "CommentItemDelegate.h"
 #include "Session.h"
 #include "../protocol-buffer-src/MapProtocol.pb.h"
+#include "OfflineMap/MapViewBase.h"
+#include "OfflineMap/MapDecorators.h"
 
 #include <QMenuBar>
 #include <QDebug>
@@ -28,7 +30,22 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 	//qDebug()<<this->m_ui->stackedWidget->widget(1)->size().width()<<endl;
 	//qDebug()<<this->m_ui->stackedWidget->widget(1)->size().height()<<endl;
 
-	navi = new mapview(this);
+    navi = new MapViewBase;
+    navi->setDecorator(new MoveDecorator(navi));
+    navi->insertDecorator(new ZoomDecorator(navi));
+    navi->insertDecorator(new DownloadDecorator(navi));
+    CrossDecorator *crossDecorator = new CrossDecorator(navi);
+    connect(crossDecorator, SIGNAL(stateChanged()), navi, SLOT(repaint()));
+    navi->appendDecorator(crossDecorator);
+    connect(&imageCache, SIGNAL(imageChanged()), navi, SLOT(repaint()));
+    imageCache.setDownloader(&downloader);
+    imageCache.setCacheDir("\\Storage Card\\BJ");
+
+    CoordsDecorator* coordsDecorator = new CoordsDecorator(navi);
+    connect(coordsDecorator, SIGNAL(stateChanged()), navi, SLOT(repaint()));
+    navi->appendDecorator(coordsDecorator);
+
+    navi->setCache(&imageCache);
 	int index = this->m_ui->stackedWidget->insertWidget(0,navi);
 	qDebug()<<index<<endl;
 	this->m_ui->stackedWidget->setCurrentWidget(navi);
@@ -78,7 +95,7 @@ void MainWindow::BTHFind()
 void MainWindow::changeSession( Session *s )
 {
     session = s;
-    navi->changeSession(s);
+    //navi->changeSession(s);
     if (s)
     {
         connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
@@ -152,8 +169,8 @@ void MainWindow::interfaceTransit_favourite()
 {
 	qDebug()<<"click"<<endl;
 	//navi->page()->mainFrame()->evaluateJavaScript(QString("alert('aa');"));
-	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(1);"));
-	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(2);"));
+// 	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(1);"));
+// 	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(2);"));
 
 
 

@@ -31,7 +31,13 @@ HEADERS += mapview.h \
     DisplaySchema.h \
     Session.h \
     ../protocol-buffer-src/Message.pb.h \
-    ../protocol-buffer-src/MapProtocol.pb.h
+    ../protocol-buffer-src/MapProtocol.pb.h \
+    OfflineMap/Decorator.h \
+    OfflineMap/ImageCache.h \
+    OfflineMap/MapDecorators.h \
+    OfflineMap/MapViewBase.h \
+    OfflineMap/Downloader.h \
+    OfflineMap/GeoCoord.h
 SOURCES += main.cpp \
     MapListener.cpp \
     MapListenerPrivate.cpp \
@@ -48,7 +54,13 @@ SOURCES += main.cpp \
     DisplaySchema.cpp \
     Session.cpp \
     ../protocol-buffer-src/Message.pb.cc \
-    ../protocol-buffer-src/MapProtocol.pb.cc
+    ../protocol-buffer-src/MapProtocol.pb.cc \
+    OfflineMap/Decorator.cpp \
+    OfflineMap/ImageCache.cpp \
+    OfflineMap/MapDecorators.cpp \
+    OfflineMap/MapViewBase.cpp \
+    OfflineMap/Downloader.cpp \
+    OfflineMap/GeoCoord.cpp
 RESOURCES += webpage.qrc
 
 # DEPLOYMENT_PLUGIN += qsqlite qjpeg qgif qmng
@@ -78,7 +90,7 @@ wince* {
         LIBS += bthutil.lib \
             ws2.lib \
             Gpsapi.lib \
-            libprotobuf_wince_release.lib \
+            libprotobuf-lite_wince_release.lib \
             ../QtMobility/lib_wince/QtBearer_tp.lib \
             ../QtMobility/lib_wince/QtLocation_tp.lib
     }
