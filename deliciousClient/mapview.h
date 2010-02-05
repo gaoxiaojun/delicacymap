@@ -9,6 +9,8 @@
 #include <QSet>
 #include <qgeopositioninfo.h>
 
+#include "OfflineMap/MapViewBase.h"
+
 QTM_USE_NAMESPACE
 
 class MainWindow;

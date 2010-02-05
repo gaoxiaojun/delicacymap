@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../protocol-buffer-src/lib/libprotobuf-lite_win32_debug.lib libboost_date_time-vc-mt-gd.lib"
+				AdditionalDependencies="../protocol-buffer-src/lib/libprotobuf-lite_win32_debug.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -135,7 +135,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../protocol-buffer-src/lib/libprotobuf-lite_win32_release.lib libboost_date_time-vc-mt-gd.lib"
+				AdditionalDependencies="../protocol-buffer-src/lib/libprotobuf-lite_win32_release.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
