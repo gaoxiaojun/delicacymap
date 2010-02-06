@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "mapview.h"
 #include "bluetoothmanager.h"
 #include "QTProtobufWaitResponse.h"
 #include "CommentItemDelegate.h"
@@ -11,7 +10,7 @@
 
 #include <QMenuBar>
 #include <QDebug>
-#include <QWebFrame>
+#include <OfflineMap/GeoCoord.h>
 
 
 using namespace ProtocolBuffer;
@@ -39,7 +38,12 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     navi->appendDecorator(crossDecorator);
     connect(&imageCache, SIGNAL(imageChanged()), navi, SLOT(repaint()));
     imageCache.setDownloader(&downloader);
-    imageCache.setCacheDir("\\Storage Card\\BJ");
+    imageCache.setCacheDir("BJ");
+
+    navi->setZoomLevel(15);
+    navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
+    GeoCoord a, b;
+    navi->getGeoCoords(a, b);
 
     CoordsDecorator* coordsDecorator = new CoordsDecorator(navi);
     connect(coordsDecorator, SIGNAL(stateChanged()), navi, SLOT(repaint()));
