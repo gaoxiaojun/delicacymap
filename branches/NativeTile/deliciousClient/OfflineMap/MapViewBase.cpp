@@ -321,17 +321,13 @@ void MapViewBase::setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitu
     qint32 halfSize = (1 << (MaxZoomLevel + TilePower2 - 1));
     double x = (double)longitude.getValue()/(double)maxLongitude.getValue();
     double y = (double)latitude.getValue()/(double)maxLatitude.getValue();
-    printf("y: %f\n", y);
 
     x = x * halfSize + halfSize;
     y = y * pi/2.0;
-    printf("y: %f\n", y);
     y = log(tan(y) + 1.0/cos(y));
     y = y/(pi);
 
-    printf("y: %f\n", y);
     y = halfSize - y * halfSize;
-    printf("%f %f\n\n", x, y);
 
     coords.setX((int)x);
     coords.setY((int)y);
@@ -339,12 +335,11 @@ void MapViewBase::setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitu
 }
 
 void MapViewBase::getGeoCoords(GeoCoord& latitude, GeoCoord& longitude) const{
-    //FIXME function is broken.
     qint32 halfSize = (1 << (zoomLevel + TilePower2 - 1));
     double x = (double)xCenter / (double)halfSize - 1;
-    double y = (double)yCenter / (double)halfSize - 1;
+    double y = 1- (double)yCenter / (double)halfSize;
     longitude.setDouble(x * 180.0);	
     y *= pi;
-    y = 2.0/tan(exp(y)) - pi/2.0;
-    latitude.setDouble(y);
+    y = 2.0 * atan(exp(y)) - pi/2.0;
+    latitude.setDouble(y * 180 / pi);
 }

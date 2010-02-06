@@ -3,7 +3,6 @@
 #include <QDialog>
 
 #include "mainwindow.h"
-#include "mapview.h"
 #include "bluetoothmanager.h"
 #include "LoginWindow.h"
 

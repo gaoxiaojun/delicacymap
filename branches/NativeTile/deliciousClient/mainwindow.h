@@ -4,7 +4,6 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QTextEdit>
 #include <QString>
-#include "mapview.h"
 #include "OfflineMap/MapViewBase.h"
 #include "OfflineMap/ImageCache.h"
 #include "OfflineMap/Downloader.h"

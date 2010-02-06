@@ -12,14 +12,10 @@ MOBILITY += location \
 
 # Input
 win32:CONFIG += console
-QT += webkit \
-    network
+QT += network
 FORMS += mainwindow.ui \
     loginWindow.ui
-HEADERS += mapview.h \
-    MapListener.h \
-    MapListenerPrivate.h \
-    CommentItemDelegate.h \
+HEADERS += CommentItemDelegate.h \
     md5.h \
     bluetoothmanager.h \
     MapDataSource.h \
@@ -39,11 +35,8 @@ HEADERS += mapview.h \
     OfflineMap/Downloader.h \
     OfflineMap/GeoCoord.h
 SOURCES += main.cpp \
-    MapListener.cpp \
-    MapListenerPrivate.cpp \
     CommentItemDelegate.cpp \
     md5.cpp \
-    mapview.cpp \
     bluetoothmanager.cpp \
     MapDataSource.cpp \
     mainwindow.cpp \
@@ -67,7 +60,6 @@ RESOURCES += webpage.qrc
 linux-* { 
     RCC_DIR = ./objs
     MOC_DIR = ./objs
-    SOURCES += mapview_linux.cpp
     RESOURCES += mainwindow.qrc
     
     # LIBPATH += /usr/local/lib
@@ -79,12 +71,10 @@ wince* {
         myFiles.sources = F:\QT\delicacymap\msvcr90.dll
         myFiles.path = %CSIDL_PROGRAM_FILES%\delicacyClient
         DEPLOYMENT += myFiles
-        SOURCES += mapview_wince.cpp
         LIBS += libprotobuf-lite_wince6_release.lib \
                 ../QtMobility/lib_wince6/QtBearer_tp.lib 
     }else{
-        SOURCES += bluetoothmanager_wince.cpp \
-            mapview_wince.cpp
+        SOURCES += bluetoothmanager_wince.cpp
         HEADERS += bluetoothmanager_wince.h \
             bluetoothmanager_win_common.h
         LIBS += bthutil.lib \
@@ -96,8 +86,7 @@ wince* {
     }
 }
 win32:!wince* { 
-    SOURCES += mapview_win32.cpp \
-        bluetoothmanager_win.cpp
+    SOURCES += bluetoothmanager_win.cpp
     HEADERS += bluetoothmanager_wince.h \
         bluetoothmanager_win.h
     RESOURCES += mainwindow.qrc
@@ -120,6 +109,5 @@ macx {
 
     CONFIG += x86_64
     LIBS += -lprotobuf -F../QtMobility/lib_macx -framework QtLocation_tp -framework QtBearer_tp
-    SOURCES += mapview_linux.cpp
     RESOURCES += mainwindow.qrc
 }
