@@ -32,6 +32,7 @@ bool operator== (const Downloader::Request& arg1, const Downloader::Request& arg
 
 Downloader::Downloader()
 :aborted(false), lastRequestId(0), network(this){
+    connect(&network, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)));
 }
 
 void Downloader::setProxy(const QString& host, int port, const QString& userName, const QString& password){
@@ -44,7 +45,6 @@ void Downloader::setProxy(const QString& host, int port, const QString& userName
 // 	}		
 // 	else
 // 		http->setProxy(host, port, userName, password);
-	connect(&network, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)));
 }
 
 void Downloader::requestFinished(QNetworkReply * reply){

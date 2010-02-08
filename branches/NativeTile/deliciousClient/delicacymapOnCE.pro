@@ -7,6 +7,7 @@ INCLUDEPATH += ./rclib/include \
 LIBPATH += ../protocol-buffer-src/lib
 OBJECTS_DIR = ./objs
 CONFIG += mobility
+CONFIG -= flat
 MOBILITY += location \
     bearer
 
@@ -28,6 +29,11 @@ HEADERS += CommentItemDelegate.h \
     Session.h \
     ../protocol-buffer-src/Message.pb.h \
     ../protocol-buffer-src/MapProtocol.pb.h \
+    OfflineMap/JSON/json_spirit_error_position.h \
+    OfflineMap/JSON/json_spirit_reader_template.h \
+    OfflineMap/JSON/json_spirit_writer_template.h \
+    OfflineMap/JSON/json_spirit_value.h \
+    OfflineMap/MapServices.h \
     OfflineMap/Decorator.h \
     OfflineMap/ImageCache.h \
     OfflineMap/MapDecorators.h \
@@ -48,6 +54,7 @@ SOURCES += main.cpp \
     Session.cpp \
     ../protocol-buffer-src/Message.pb.cc \
     ../protocol-buffer-src/MapProtocol.pb.cc \
+    OfflineMap/MapServices.cpp \
     OfflineMap/Decorator.cpp \
     OfflineMap/ImageCache.cpp \
     OfflineMap/MapDecorators.cpp \
