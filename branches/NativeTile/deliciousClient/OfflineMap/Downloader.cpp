@@ -1,27 +1,7 @@
-/*
-QGMView - Qt Google Map Viewer
-Copyright (C) 2007  Victor Eremin
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-You can contact author using following e-mail addreses
-erv255@googlemail.com 
-ErV2005@rambler.ru
-*/
 #include "Downloader.h"
 #include <QUrl>
+#include <QDir>
+#include <QFileInfo>
 #include <QDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -78,6 +58,9 @@ void Downloader::requestFinished(QNetworkReply * reply){
         if (header.isValid() && header.toString().contains("image", Qt::CaseInsensitive))
         {
             QFile output(filename);
+            QFileInfo fileinfo(filename);
+            QDir dir;
+            dir.mkpath(fileinfo.absolutePath());
             if (!output.open(QIODevice::WriteOnly))
             {
      			qDebug()<<"couldn't open file "<<filename;

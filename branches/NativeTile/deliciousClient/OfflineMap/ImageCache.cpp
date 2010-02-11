@@ -49,7 +49,7 @@ const QString& ImageCache::getCacheDir(){
 
 ImageCache::ImageCache()
 :loadingImg(256, 256, QImage::Format_RGB32), downloader(0),
-urlTemplate("http://mt2.google.com/vt/lyrs=m@116&hl=en&x=%1&y=%2&z=%3"),
+urlTemplate("http://mt2.google.com/vt/lyrs=m@116&hl=zh&x=%1&y=%2&z=%3"),
 filenameTemplate("x%1y%2z%3.png"){
 	paintLoadingImage();	
 }

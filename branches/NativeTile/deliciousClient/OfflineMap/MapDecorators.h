@@ -24,6 +24,8 @@ ErV2005@rambler.ru
 #define MAP_DECORATORS_H
 #include "Decorator.h"
 #include <QObject>
+#include <QPointF>
+#include <QPoint>
 
 class MapViewBase;
 
@@ -34,14 +36,17 @@ protected:
 	MapViewBase *target;
 };
 
-class MoveDecorator: public MapDecorator{
+class MoveDecorator: public QObject, public MapDecorator{
+    Q_OBJECT
 public:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseReleaseEvent(QMouseEvent *event);
-	void mouseMoveEvent(QMouseEvent *event);	
+	void mouseMoveEvent(QMouseEvent *event);
+    void timerEvent(QTimerEvent *e);
 	MoveDecorator(MapViewBase* mapView);
 protected:
-	int oldX, oldY;
+    QPointF m_speed;
+	QPoint m_mouse_pos;
 	bool dragging;
 };
 
