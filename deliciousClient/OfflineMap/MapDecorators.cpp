@@ -1,27 +1,6 @@
-/*
-QGMView - Qt Google Map Viewer
-Copyright (C) 2007  Victor Eremin
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-You can contact author using following e-mail addreses
-erv255@googlemail.com 
-ErV2005@rambler.ru
-*/
 #include "MapDecorators.h"
 #include <QMouseEvent> 
+#include <QTimerEvent>
 #include <QPainter>
 #include "MapViewBase.h"
 #include "GeoCoord.h"
@@ -32,14 +11,15 @@ MapDecorator::MapDecorator(MapViewBase* mapView)
 }
 
 MoveDecorator::MoveDecorator(MapViewBase* mapView)
-:MapDecorator(mapView), oldX(0), oldY(0), dragging(false){
+:MapDecorator(mapView), dragging(false){
+    startTimer(1000/50);
 }
 
 void MoveDecorator::mousePressEvent(QMouseEvent *event){
 	if (event->buttons() & Qt::LeftButton){
-		oldX = event->x();
-		oldY = event->y();
+		m_mouse_pos = event->pos();
 		dragging = true;
+        m_speed = QPointF();
 	}
 	MapDecorator::mousePressEvent(event);
 }
@@ -53,14 +33,22 @@ void MoveDecorator::mouseReleaseEvent(QMouseEvent *event){
 
 void MoveDecorator::mouseMoveEvent(QMouseEvent *event){
 	if (dragging){
-		int deltaX = event->x() - oldX;
-		int deltaY = event->y() - oldY;
-		oldX = event->x();
-		oldY = event->y();
-		target->moveBy(deltaX, deltaY);
+        QPoint delta = event->pos() - m_mouse_pos;
+        m_mouse_pos = event->pos();
+		target->moveBy(delta.x(), delta.y());
+        m_speed = delta;
 	}
 	else
 		MapDecorator::mouseMoveEvent(event);	
+}
+
+void MoveDecorator::timerEvent( QTimerEvent *e )
+{
+    if (!dragging && m_speed.manhattanLength() > 2.0)
+    {
+        m_speed *= 0.95;
+        target->moveBy(m_speed.x(), m_speed.y());
+    }
 }
 
 ZoomDecorator::ZoomDecorator(MapViewBase *mapView)

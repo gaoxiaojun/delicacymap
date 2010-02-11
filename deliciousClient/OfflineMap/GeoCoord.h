@@ -45,12 +45,34 @@ public:
 	GeoCoord();
 	GeoCoord(const qint16 degrees, const quint8 minutes, const quint8 seconds, const quint8 fracSeconds);
 	GeoCoord(const double degrees);
+    bool operator==(const GeoCoord& other) const { return data == other.data; }
+    bool operator<(const GeoCoord& other) const { return data < other.data ; }
 protected:
 	enum {
 		secondsMultiplier = 100, minutesMultiplier = secondsMultiplier*60, 
 		degreesMultiplier = minutesMultiplier*60, maxDegrees = 180, maxValue=degreesMultiplier*maxDegrees
 	};
 	qint32 data;
+};
+
+class GeoPoint
+{
+public:
+    GeoPoint() {}
+    GeoPoint(double Lat,double Lng) : lat(Lat), lng(Lng) {}
+    GeoPoint(const GeoCoord& Lat, const GeoCoord& Lng) : lat(Lat), lng(Lng) {}
+
+    bool operator==(const GeoPoint& other) const {return lat==other.lat && lng==other.lng;}
+
+    GeoCoord lat, lng;
+};
+
+class GeoBound
+{
+public:
+    GeoPoint SW,NE;
+
+    bool operator==(const GeoBound& other) const {return SW==other.SW && NE==other.NE;}
 };
 
 #endif

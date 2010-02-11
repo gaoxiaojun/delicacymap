@@ -1,33 +1,13 @@
-/*
-QGMView - Qt Google Map Viewer
-Copyright (C) 2007  Victor Eremin
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-You can contact author using following e-mail addreses
-erv255@googlemail.com 
-ErV2005@rambler.ru
-*/
 #ifndef MAP_VIEW_H
 #define MAP_VIEW_H
 #include <QWidget>
 #include <QPoint>
 #include "Decorator.h"
-#include "ImageCache.h"
 #include "GeoCoord.h"
+
 class QImage;
+class ImageCache;
+class MarkerCache;
 
 class MapViewBase: public QWidget{
     Q_OBJECT
@@ -38,7 +18,8 @@ public:
     void setDecorator(Decorator* decorator = 0);
     void insertDecorator(Decorator* decorator);
     void appendDecorator(Decorator* decorator);
-    public slots:
+    void setMarkerCache(MarkerCache* cache) { markers = cache; }
+public slots:
     void resetCoords();
     void zoomIn();
     void zoomOut();
@@ -59,11 +40,18 @@ signals:
     void canZoomIn(bool status);
     void canZoomOut(bool status);
     void zoomLevelChanged(int level);
+    void boundsChange(const GeoBound& newbound);
+
 protected:
     enum {MaxZoomLevel = 17, TilePower2 = 8, TileSize=256};
     int xCenter;
     int yCenter;
     int zoomLevel;
+    int last_xcenter, last_ycenter;
+
+    QPoint InternalGeoCoordToCoord(const GeoCoord& latitude, const GeoCoord& longitude) const;
+    void InternalCoordToGeoCoord(QPoint coord, GeoCoord &latitude, GeoCoord &longitude) const;
+
     int getSide() const;
     int getSideMask() const;
     int getSidePow() const;
@@ -75,10 +63,13 @@ protected:
     void keyReleaseEvent(QKeyEvent *event);
     void leaveEvent(QEvent *event);
     void adjustCenter();
+    void updateBound();
     void paintEvent(QPaintEvent *event);
 private:
     ImageCache *images;
+    MarkerCache *markers;
     Decorator decorator;
+    GeoBound currentBound;
 };
 
 #endif

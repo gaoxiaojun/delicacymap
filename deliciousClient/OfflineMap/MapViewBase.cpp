@@ -1,35 +1,18 @@
-/*
-QGMView - Qt Google Map Viewer
-Copyright (C) 2007  Victor Eremin
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-You can contact author using following e-mail addreses
-erv255@googlemail.com 
-ErV2005@rambler.ru
-*/
 #include <QPainter>
 #include <QPaintEvent>
 #include <QTimer>
 #include <math.h>
 #include "MapViewBase.h"
 #include "ImageCache.h"
+#include "MarkerCache.h"
+
+#include <boost/foreach.hpp>
 
 MapViewBase::MapViewBase(QWidget *parent)
 :QWidget(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0){
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    last_xcenter = xCenter;
+    last_ycenter = yCenter;
 }
 
 MapViewBase::~MapViewBase(){
@@ -90,6 +73,7 @@ void MapViewBase::setZoomLevel(int level){
             yCenter = remapToPow2(yCenter, zoomLevel, level);
             zoomLevel = level;
             emit zoomLevelChanged(zoomLevel);
+            updateBound();
             repaint();
         }
         emit canZoomIn(level < 16);
@@ -114,6 +98,7 @@ void MapViewBase::setZoomLevelAt(int level, int x, int y){
 
             zoomLevel = level;
             emit zoomLevelChanged(zoomLevel);
+            updateBound();
             repaint();
         }
         emit canZoomIn(level < 16);
@@ -188,6 +173,15 @@ void MapViewBase::paintEvent(QPaintEvent *event){
             }
         }		
         images->update();
+        // now let's draw the markers, the code is in the path because it makes no much sense if we couldn't draw the images.
+        if (markers)
+        {
+            MarkerCache::RangeType ms = markers->MarkersInBound(currentBound); // may not be reliable in the future.
+            BOOST_FOREACH(const MarkerInfo& m, ms)
+            {
+                QPoint p = InternalGeoCoordToCoord(m.location.lat, m.location.lng);
+            }
+        }
     }
     else	
         for (int y = firstTileY; y < height(); y+= 256){
@@ -214,6 +208,7 @@ void MapViewBase::moveBy(int x, int y){
     xCenter -= x;
     yCenter -= y;
     adjustCenter();
+    updateBound();
     repaint();
 }
 
@@ -299,9 +294,10 @@ QPoint MapViewBase::getCoords(){
 }
 
 void MapViewBase::setCoords(const QPoint& coords){
-    xCenter = remapToPow2(coords.x(), MaxZoomLevel, zoomLevel),
-        yCenter = remapToPow2(coords.y(), MaxZoomLevel, zoomLevel),
-        repaint();
+    xCenter = remapToPow2(coords.x(), MaxZoomLevel, zoomLevel);
+    yCenter = remapToPow2(coords.y(), MaxZoomLevel, zoomLevel);
+    updateBound();
+    repaint();
 }
 
 void MapViewBase::resetCoords(){
@@ -314,7 +310,18 @@ static const GeoCoord maxLatitude(90, 0, 0, 0);//(85.0511287798066);//(90, 0, 0,
 static const GeoCoord maxLongitude(180, 0, 0, 0);
 static const double pi = 3.1415926535897932384626433832795028841971693993751;
 
-void MapViewBase::setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitude){
+void MapViewBase::setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitude)
+{
+    setCoords(InternalGeoCoordToCoord(latitude, longitude));
+}
+
+void MapViewBase::getGeoCoords(GeoCoord& latitude, GeoCoord& longitude) const
+{
+    InternalCoordToGeoCoord(QPoint(xCenter, yCenter), latitude, longitude);
+}
+
+QPoint MapViewBase::InternalGeoCoordToCoord( const GeoCoord& latitude, const GeoCoord& longitude ) const
+{
     QPoint coords;
 
     //Mercator projection (this is the one used by Google)
@@ -331,15 +338,39 @@ void MapViewBase::setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitu
 
     coords.setX((int)x);
     coords.setY((int)y);
-    setCoords(coords);
+    return coords;
 }
 
-void MapViewBase::getGeoCoords(GeoCoord& latitude, GeoCoord& longitude) const{
+void MapViewBase::InternalCoordToGeoCoord( QPoint coord, GeoCoord &latitude, GeoCoord &longitude ) const
+{
     qint32 halfSize = (1 << (zoomLevel + TilePower2 - 1));
-    double x = (double)xCenter / (double)halfSize - 1;
-    double y = 1- (double)yCenter / (double)halfSize;
+    double x = (double)coord.x() / (double)halfSize - 1;
+    double y = 1- (double)coord.y() / (double)halfSize;
     longitude.setDouble(x * 180.0);	
     y *= pi;
     y = 2.0 * atan(exp(y)) - pi/2.0;
     latitude.setDouble(y * 180 / pi);
+}
+
+void MapViewBase::updateBound()
+{
+    // avoid emitting too much signals
+    if ( abs(xCenter - last_xcenter) > 40 || abs(yCenter - last_ycenter) > 40 )
+    {
+        last_xcenter = xCenter;
+        last_ycenter = yCenter;
+        int xLeft, xRight, yTop, yBottom;
+        int halfWidth, halfHeight;
+        halfWidth = width() / 2;
+        halfHeight = height() / 2;
+        xLeft = xCenter - halfWidth;
+        xRight = xCenter + halfWidth;
+        yTop = yCenter - halfHeight;
+        yBottom = yCenter + halfHeight;
+
+        InternalCoordToGeoCoord(QPoint(xLeft, yBottom), currentBound.SW.lat, currentBound.SW.lng);
+        InternalCoordToGeoCoord(QPoint(xRight, yTop), currentBound.NE.lat, currentBound.NE.lng);
+
+        emit boundsChange(currentBound);
+    }
 }
