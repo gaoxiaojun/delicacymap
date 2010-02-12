@@ -34,13 +34,13 @@
   </PostinstrumentEvent>
   <Binaries>
     <ProjBinary>
-      <Path>f:\QT\delicacymap\deliciousClient\release\delicacyClient.exe</Path>
+      <Path>f:\QT\delicacymap\deliciousClient\debug\delicacyClient.exe</Path>
       <ArgumentTimestamp>01/01/0001 00:00:00</ArgumentTimestamp>
       <Instrument>true</Instrument>
       <Sample>true</Sample>
       <LaunchProject>true</LaunchProject>
       <LaunchMethod>Executable</LaunchMethod>
-      <ExecutablePath>f:\QT\delicacymap\deliciousClient\release\delicacyClient.exe</ExecutablePath>
+      <ExecutablePath>f:\QT\delicacymap\deliciousClient\debug\delicacyClient.exe</ExecutablePath>
       <StartupDirectory>f:\QT\delicacymap\deliciousClient\</StartupDirectory>
       <NetAppHost>IIS</NetAppHost>
       <NetBrowser>InternetExplorer</NetBrowser>
@@ -56,6 +56,11 @@
       <ProjName>delicacyClient</ProjName>
     </ProjBinary>
   </Binaries>
+  <Reports>
+    <Report>
+      <Path>F:\QT\delicacymap\delicacyClient100212.vsp</Path>
+    </Report>
+  </Reports>
   <Launches>
     <ProjBinary>
       <Path>:PB:{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}|deliciousClient\delicacyClient.vcproj</Path>
