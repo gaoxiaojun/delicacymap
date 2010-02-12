@@ -20,6 +20,7 @@ HEADERS += CommentItemDelegate.h \
     md5.h \
     bluetoothmanager.h \
     MapDataSource.h \
+    MapController.h \
     mainwindow.h \
     LoginWindow.h \
     QTProtobufChannel.h \
@@ -46,6 +47,7 @@ SOURCES += main.cpp \
     md5.cpp \
     bluetoothmanager.cpp \
     MapDataSource.cpp \
+    MapController.cpp \
     mainwindow.cpp \
     LoginWindow.cpp \
     QTProtobufChannel.cpp \

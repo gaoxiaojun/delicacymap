@@ -177,9 +177,16 @@ void MapViewBase::paintEvent(QPaintEvent *event){
         if (markers)
         {
             MarkerCache::RangeType ms = markers->MarkersInBound(currentBound); // may not be reliable in the future.
+            QPoint lowerleft = QPoint(xCenter, yCenter) - QPoint(width()/2, height()/2);
+            
             BOOST_FOREACH(const MarkerInfo& m, ms)
             {
                 QPoint p = InternalGeoCoordToCoord(m.location.lat, m.location.lng);
+                p.setX( remapToPow2(p.x(), MaxZoomLevel, zoomLevel) );
+                p.setY( remapToPow2(p.y(), MaxZoomLevel, zoomLevel) );
+                p -= lowerleft;
+                painter.drawEllipse(p, 5, 5);
+                painter.drawText(p.x() - 10, p.y() + 20, m.info);
             }
         }
     }

@@ -4,14 +4,21 @@
 
 #include <utility>
 #include <QString>
-#include <vector>
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/global_fun.hpp>
+#include <boost/multi_index/ordered_index.hpp>
+#include <boost/multi_index/composite_key.hpp>
 
 struct MarkerInfo
 {
     QString info;
     GeoPoint location;
-    bool operator<(const MarkerInfo& other) const { return location.lat < other.location.lat ? true : location.lng < other.location.lng ? true : false; }
 };
+
+GeoCoord __Lat_Extractor(const MarkerInfo&);
+GeoCoord __Lng_Extractor(const MarkerInfo&);
+
+struct __Lat_Lng_Ordered_Tag{};
 
 class MarkerCache
 {
@@ -19,14 +26,26 @@ class MarkerCache
 //     MarkerCache();
 //     ~MarkerCache();
 private:
-    typedef std::vector<MarkerInfo> ContainerType;
+    typedef boost::multi_index::multi_index_container<
+        MarkerInfo,
+        boost::multi_index::indexed_by<
+            boost::multi_index::ordered_non_unique<
+                boost::multi_index::tag<__Lat_Lng_Ordered_Tag>,
+                boost::multi_index::composite_key<
+                    MarkerInfo,
+                    boost::multi_index::global_fun<const MarkerInfo&, GeoCoord, __Lat_Extractor>,
+                    boost::multi_index::global_fun<const MarkerInfo&, GeoCoord, __Lng_Extractor>
+                >
+            >
+        >
+    > ContainerType;
 
 public:
     typedef std::pair<ContainerType::const_iterator, ContainerType::const_iterator> RangeType;
 
     RangeType MarkersInBound(const GeoBound&);
-    ContainerType::iterator AddMarker(const MarkerInfo&);
-    ContainerType::iterator AddMarker(const QString &info, const GeoPoint&);
+    ContainerType::const_iterator AddMarker(const MarkerInfo&);
+    ContainerType::const_iterator AddMarker(const QString &info, const GeoPoint&);
 
 private:
     ContainerType container;
