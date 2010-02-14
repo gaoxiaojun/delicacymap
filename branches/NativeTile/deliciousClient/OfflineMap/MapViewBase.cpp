@@ -1,18 +1,33 @@
 #include <QPainter>
 #include <QPaintEvent>
+#include <QGraphicsScene>
+#include <QGraphicsTextItem>
+#include <QGraphicsItemGroup>
 #include <QTimer>
+#include <QDebug>
+#include <QtGui>
 #include <math.h>
 #include "MapViewBase.h"
 #include "ImageCache.h"
-#include "MarkerCache.h"
+#include "GeoCoord.h"
 
 #include <boost/foreach.hpp>
 
+static const GeoCoord maxLatitude(90, 0, 0, 0);//(85.0511287798066);//(90, 0, 0, 0);
+static const GeoCoord maxLongitude(180, 0, 0, 0);
+
 MapViewBase::MapViewBase(QWidget *parent)
-:QWidget(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0){
+:QGraphicsView(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0), markerImage(":/Icons/marker.png")
+{
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     last_xcenter = xCenter;
     last_ycenter = yCenter;
+    scene = new QGraphicsScene;
+    setScene(scene);
+    centerOn(xCenter, yCenter);
+    setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    setAttribute(Qt::WA_OpaquePaintEvent);// a small optimization
 }
 
 MapViewBase::~MapViewBase(){
@@ -71,9 +86,12 @@ void MapViewBase::setZoomLevel(int level){
             adjustCenter();
             xCenter = remapToPow2(xCenter, zoomLevel, level);
             yCenter = remapToPow2(yCenter, zoomLevel, level);
+            remapMarkers(zoomLevel, level);
             zoomLevel = level;
             emit zoomLevelChanged(zoomLevel);
             updateBound();
+            scene->setSceneRect(0, 0, 1<<(zoomLevel+TilePower2), 1<<(zoomLevel+TilePower2));
+            centerOn(xCenter, yCenter);
             repaint();
         }
         emit canZoomIn(level < 16);
@@ -96,9 +114,12 @@ void MapViewBase::setZoomLevelAt(int level, int x, int y){
             xCenter -= deltaX;
             yCenter -= deltaY;
 
+            remapMarkers(zoomLevel, level);
             zoomLevel = level;
             emit zoomLevelChanged(zoomLevel);
             updateBound();
+            scene->setSceneRect(0, 0, 1<<(zoomLevel+TilePower2), 1<<(zoomLevel+TilePower2));
+            centerOn(xCenter, yCenter);
             repaint();
         }
         emit canZoomIn(level < 16);
@@ -128,7 +149,7 @@ struct TileCoord{
     int y;
 };
 
-void MapViewBase::paintEvent(QPaintEvent *event){
+void MapViewBase::update(QPaintEvent *event){
     event = 0;
     QPainter painter(this);
     QColor gridColor(0, 255, 0);
@@ -154,9 +175,9 @@ void MapViewBase::paintEvent(QPaintEvent *event){
             int row = ((y + yOffset) >> TilePower2) & mask;
             for (int x = firstTileX; x < width(); x += 256){
                 int col = ((x + xOffset)  >> TilePower2) & mask;
-                QImage* img = images->getImage(col, row, zoomLevel);
+                QPixmap* img = images->getImage(col, row, zoomLevel);
                 if (img){
-                    painter.drawImage(QPoint(x, y), *img, QRect(0, 0, TileSize, TileSize));
+                    painter.drawPixmap(QPoint(x, y), *img, QRect(0, 0, TileSize, TileSize));
                 }
                 else{
                     painter.setPen(white);
@@ -174,21 +195,21 @@ void MapViewBase::paintEvent(QPaintEvent *event){
         }		
         images->update();
         // now let's draw the markers, the code is in the path because it makes no much sense if we couldn't draw the images.
-        if (markers)
-        {
-            MarkerCache::RangeType ms = markers->MarkersInBound(currentBound); // may not be reliable in the future.
-            QPoint lowerleft = QPoint(xCenter, yCenter) - QPoint(width()/2, height()/2);
-            
-            BOOST_FOREACH(const MarkerInfo& m, ms)
-            {
-                QPoint p = InternalGeoCoordToCoord(m.location.lat, m.location.lng);
-                p.setX( remapToPow2(p.x(), MaxZoomLevel, zoomLevel) );
-                p.setY( remapToPow2(p.y(), MaxZoomLevel, zoomLevel) );
-                p -= lowerleft;
-                painter.drawEllipse(p, 5, 5);
-                painter.drawText(p.x() - 10, p.y() + 20, m.info);
-            }
-        }
+//         if (markers)
+//         {
+//             MarkerCache::RangeType ms = markers->MarkersInBound(currentBound); // may not be reliable in the future.
+//             QPoint lowerleft = QPoint(xCenter, yCenter) - QPoint(width()/2, height()/2);
+//             
+//             BOOST_FOREACH(const MarkerInfo& m, ms)
+//             {
+//                 QPoint p = InternalGeoCoordToCoord(m.location.lat, m.location.lng);
+//                 p.setX( remapToPow2(p.x(), MaxZoomLevel, zoomLevel) );
+//                 p.setY( remapToPow2(p.y(), MaxZoomLevel, zoomLevel) );
+//                 p -= lowerleft;
+//                 painter.drawEllipse(p, 5, 5);
+//                 painter.drawText(p.x() - 10, p.y() + 20, m.info);
+//             }
+//         }
     }
     else	
         for (int y = firstTileY; y < height(); y+= 256){
@@ -216,7 +237,8 @@ void MapViewBase::moveBy(int x, int y){
     yCenter -= y;
     adjustCenter();
     updateBound();
-    repaint();
+    centerOn(xCenter, yCenter);
+    //repaint();
 }
 
 void MapViewBase::setDecorator(Decorator *newDecorator){
@@ -304,6 +326,7 @@ void MapViewBase::setCoords(const QPoint& coords){
     xCenter = remapToPow2(coords.x(), MaxZoomLevel, zoomLevel);
     yCenter = remapToPow2(coords.y(), MaxZoomLevel, zoomLevel);
     updateBound();
+    centerOn(xCenter, yCenter);
     repaint();
 }
 
@@ -313,8 +336,6 @@ void MapViewBase::resetCoords(){
     setZoomLevel(0);
 }
 
-static const GeoCoord maxLatitude(90, 0, 0, 0);//(85.0511287798066);//(90, 0, 0, 0);
-static const GeoCoord maxLongitude(180, 0, 0, 0);
 static const double pi = 3.1415926535897932384626433832795028841971693993751;
 
 void MapViewBase::setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitude)
@@ -379,5 +400,88 @@ void MapViewBase::updateBound()
         InternalCoordToGeoCoord(QPoint(xRight, yTop), currentBound.NE.lat, currentBound.NE.lng);
 
         emit boundsChange(currentBound);
+    }
+}
+
+QColor gridColor(0, 255, 0);
+QColor backgroundColor(0, 0, 0);
+QColor black(0, 0, 0);
+QColor gray(128, 128, 128);
+QColor white(255, 255, 255);
+QRect ImageRect(0, 0, 256, 256);
+
+void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
+{
+    painter->setBrush(backgroundColor);
+
+    int mask= (1 << zoomLevel) - 1;
+
+    int firstTileX = (~0xFF) & (int)rect.x();
+    int firstTileY = (~0xFF) & (int)rect.y();
+
+    int dirtywidth = rect.x() + rect.width();
+    int dirtyheight = rect.y() + rect.height();
+
+    if (images){
+#if 0
+        qDebug()<<"Dirty Region: x: "<<(int)rect.x()<<" y: "<<(int)rect.y()
+            <<"              w: "<<(int)rect.width()<<" h: "<<(int)rect.height();
+#endif
+        for (int y = firstTileY; y < dirtyheight; y+= 256){
+            int row = (y >> TilePower2) & mask;
+            for (int x = firstTileX; x < dirtywidth; x += 256){
+                int col = (x >> TilePower2) & mask;
+                QPixmap* img = images->getImage(col, row, zoomLevel);
+                if (img){
+                    painter->drawPixmap(QPoint(x, y), *img, ImageRect);
+                }
+                else{
+                    painter->setPen(white);
+                    painter->setBrush(black);
+                    painter->drawRect(x, y, TileSize, TileSize);
+                    painter->drawText(x, y, TileSize, TileSize, Qt::AlignHCenter|Qt::AlignVCenter, 
+                        QString(
+                        "col:%1, row:%2, zoom:%3\nNo image\n" 
+                        "click left+right mouse buttons\nto download missing images."
+                        ).arg(col).arg(row).arg(zoomLevel)
+                        );
+                }		
+            }
+        }		
+        images->update();
+    }
+}
+
+void MapViewBase::addRestaurantMarker(ProtocolBuffer::Restaurant* r)
+{
+//     QPoint p = InternalGeoCoordToCoord(info->location.lat, info->location.lng);
+//     p.setX( remapToPow2(p.x(), MaxZoomLevel, zoomLevel) );
+//     p.setY( remapToPow2(p.y(), MaxZoomLevel, zoomLevel) );
+//     QPoint markerp;
+//     markerp.setX( p.x() );
+//     markerp.setY( p.y() - markerImage.height());
+//     scene->addText(info->info)->setPos(p);
+//     scene->addPixmap(markerImage)->setPos(markerp);
+//     delete info; // this is bad, we might need to switch markerinfo to a QObject and use deleteLater()
+}
+
+void MapViewBase::remapMarkers( int oldzoomlevel, int newzoomlevel )
+{
+    QList<QGraphicsItem*> items = scene->items();
+    BOOST_FOREACH(QGraphicsItem* item, items)
+    {
+        QGraphicsPixmapItem *imageitem = qgraphicsitem_cast<QGraphicsPixmapItem*>(item);
+        QPointF p = item->pos();
+        if (imageitem)
+        {
+            p.setY( p.y() + markerImage.height());
+        }
+        p.setX( remapToPow2(p.x(), oldzoomlevel, newzoomlevel) );
+        p.setY( remapToPow2(p.y(), oldzoomlevel, newzoomlevel) );
+        if (imageitem)
+        {
+            p.setY( p.y() - markerImage.height());
+        }
+        item->setPos(p);
     }
 }

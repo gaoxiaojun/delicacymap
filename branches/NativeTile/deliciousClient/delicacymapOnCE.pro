@@ -38,7 +38,6 @@ HEADERS += CommentItemDelegate.h \
     OfflineMap/Decorator.h \
     OfflineMap/ImageCache.h \
     OfflineMap/MapDecorators.h \
-    OfflineMap/MarkerCache.h \
     OfflineMap/MapViewBase.h \
     OfflineMap/Downloader.h \
     OfflineMap/GeoCoord.h
@@ -61,7 +60,6 @@ SOURCES += main.cpp \
     OfflineMap/Decorator.cpp \
     OfflineMap/ImageCache.cpp \
     OfflineMap/MapDecorators.cpp \
-    OfflineMap/MarkerCache.cpp \
     OfflineMap/MapViewBase.cpp \
     OfflineMap/Downloader.cpp \
     OfflineMap/GeoCoord.cpp

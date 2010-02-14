@@ -21,9 +21,11 @@ erv255@googlemail.com
 ErV2005@rambler.ru
 */
 #include "ImageCache.h"
+#include "Downloader.h"
 #include <QFile>
 #include <QColor>
 #include <QPainter>
+#include <stdlib.h>
 
 ImageCache::~ImageCache(){
 }
@@ -48,19 +50,19 @@ const QString& ImageCache::getCacheDir(){
 }
 
 ImageCache::ImageCache()
-:loadingImg(256, 256, QImage::Format_RGB32), downloader(0),
+:downloader(0),
 urlTemplate("http://mt2.google.com/vt/lyrs=m@116&hl=zh&x=%1&y=%2&z=%3"),
 filenameTemplate("x%1y%2z%3.png"){
 	paintLoadingImage();	
 }
 
-QImage* ImageCache::getImage(int x, int y, int zoom){
+QPixmap* ImageCache::getImage(int x, int y, int zoom){
 	TileCoord tileCoord(x, y, zoom);
 	if (isLoading(tileCoord))
 		return &loadingImg;
 	
 	if (!images.contains(tileCoord))
-		loadImage(tileCoord);
+		loadImage(tileCoord, 100);
 	
 	if (images.contains(tileCoord)){
 		Tile& tile = images[tileCoord];
@@ -93,21 +95,40 @@ ImageCache::Tile::Tile()
 :life(DefaultLife){
 }
 
-ImageCache::Tile::Tile(const QImage& _image)
+ImageCache::Tile::Tile(const QPixmap& _image)
 :image(_image), life(DefaultLife){
 }
 
-void ImageCache::loadImage(const TileCoord& tileCoord){
-	QString filename = getCacheName(tileCoord.x, tileCoord.y, tileCoord.zoom);
-	if (QFile::exists(filename)){
-		images[tileCoord] = Tile(QImage());
-		if (!images[tileCoord].image.load(filename)){
-			if (!isLoading(tileCoord))
-				QFile::remove(filename);//should work with broken files
-			images.remove(tileCoord);
-		}
-	}
+
+#define LOADIMAGE(X, Y) tryload.x = (X);tryload.y = (Y);loadImage(tryload, possibility/2);
+void ImageCache::loadImage(const TileCoord& tileCoord, int possibility){
+    if (possibility < 5 || images.contains(tileCoord) || tileCoord.x < 0 || tileCoord.y < 0 || tileCoord.x >= (1<<tileCoord.zoom) || tileCoord.y >= (1<<tileCoord.zoom))
+        return;
+    if (possibility > 90 || (rand() % 100)  < possibility)
+    {
+        QString filename = getCacheName(tileCoord.x, tileCoord.y, tileCoord.zoom);
+        if (QFile::exists(filename)){
+            images[tileCoord] = Tile(QPixmap());
+            if (!images[tileCoord].image.load(filename)){
+                if (!isLoading(tileCoord))
+                    QFile::remove(filename);//should work with broken files
+                images.remove(tileCoord);
+            }
+        }
+        TileCoord tryload;
+        tryload.zoom = tileCoord.zoom;
+
+//         LOADIMAGE(tileCoord.x-1, tileCoord.y-1);
+//         LOADIMAGE(tileCoord.x-1, tileCoord.y);
+//         LOADIMAGE(tileCoord.x-1, tileCoord.y+1);
+//         LOADIMAGE(tileCoord.x, tileCoord.y-1);
+//         LOADIMAGE(tileCoord.x, tileCoord.y+1);
+//         LOADIMAGE(tileCoord.x+1, tileCoord.y-1);
+//         LOADIMAGE(tileCoord.x+1, tileCoord.y);
+//         LOADIMAGE(tileCoord.x+1, tileCoord.y+1);
+    }
 }
+#undef LOADIMAGE
 
 void ImageCache::downloadImage(int x, int y, int zoom){
 	//setLoadingState(x, y, zoom);

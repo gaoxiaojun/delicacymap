@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QSet>
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -11,7 +12,7 @@ namespace ProtocolBuffer{
 }
 
 class GeoBound;
-class MarkerCache;
+class MapViewBase;
 class Session;
 
 class MapController : public QObject
@@ -21,8 +22,8 @@ public:
     MapController(void);
     ~MapController(void);
 
-    void setMarkerCache(MarkerCache* cache) { markers = cache; };
-    MarkerCache* getMarkerCache() { return markers; }
+    void setMapView(MapViewBase* m) { map = m; };
+    MapViewBase* getMapView() { return map; }
     void setSession(Session* s) { session = s; }
     Session* getSession() { return session; }
 
@@ -30,9 +31,10 @@ public slots:
     void MapViewBoundsChange(const GeoBound&);
 
 private:
-    void RestaurantListHandler(ProtocolBuffer::RestaurantList*, MarkerCache*);
+    void RestaurantListHandler(ProtocolBuffer::RestaurantList*, MapViewBase*);
 
 private:
-    MarkerCache *markers;
+    QSet<int> _restaurants;
+    MapViewBase *map;
     Session *session;
 };

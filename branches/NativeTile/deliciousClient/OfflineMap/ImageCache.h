@@ -3,11 +3,9 @@
 #include <QObject>
 #include <QString>
 #include <QMap>
-#include <QImage>
-#include <QHttp>
-#include <QFile>
-#include <QQueue>
-#include "Downloader.h"
+#include <QPixmap>
+
+class Downloader;
 
 class ImageCache: public QObject{
 Q_OBJECT
@@ -27,14 +25,14 @@ public:
 		inline int getLife(){return life;};
 		inline void revive(){life = DefaultLife;};
 		inline int countdown(){life--; return life;};
-		QImage image;
+		QPixmap image;
 		Tile();
-		Tile(const QImage& image);
+		Tile(const QPixmap& image);
 	protected:
 		int life;
 	};
 	
-	QImage* getImage(int x, int y, int zoom);
+	QPixmap* getImage(int x, int y, int zoom);
 	void downloadImage(int x, int y, int zoom);
 	void setDownloader(Downloader* newDownloader);
 	void tryDownload(int x, int y, int zoom);
@@ -55,10 +53,10 @@ protected:
 	QMap<TileCoord, Tile> images;
 	
 	QString cacheDir;
-	QImage errorImg;
-	QImage loadingImg;
+	QPixmap errorImg;
+	QPixmap loadingImg;
 	Downloader* downloader;
-	void loadImage(const TileCoord& tileCoord);
+	void loadImage(const TileCoord& tileCoord, int possibility);
 	QString getDownloadUrl(int x, int y, int zoom);
 	QString getCacheName(int x, int y, int zoom);
 	QString getCoordsQstr(int x, int y, int zoom);

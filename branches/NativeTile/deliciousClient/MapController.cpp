@@ -1,10 +1,11 @@
 #include "MapController.h"
 #include "MapProtocol.pb.h"
 #include "Session.h"
-#include "OfflineMap/MarkerCache.h"
+#include "OfflineMap/MapViewBase.h"
+#include "OfflineMap/GeoCoord.h"
 
 MapController::MapController(void)
-: markers(NULL), session(NULL)
+: map(NULL), session(NULL)
 {
     
 }
@@ -15,10 +16,10 @@ MapController::~MapController(void)
 
 void MapController::MapViewBoundsChange( const GeoBound& bound )
 {
-    if (getSession())
+    if (getSession() && getMapView())
     {
         ProtocolBuffer::RestaurantList *rlist = new ProtocolBuffer::RestaurantList;
-        google::protobuf::Closure *rClosure = google::protobuf::NewPermanentCallback(this, &MapController::RestaurantListHandler, rlist, getMarkerCache());
+        google::protobuf::Closure *rClosure = google::protobuf::NewCallback(this, &MapController::RestaurantListHandler, rlist, getMapView());
         getSession()->getDataSource().GetRestaurants(
             bound.SW.lat.getDouble(), bound.SW.lng.getDouble(),
             bound.NE.lat.getDouble(), bound.NE.lng.getDouble(),
@@ -28,17 +29,12 @@ void MapController::MapViewBoundsChange( const GeoBound& bound )
     }
 }
 
-void MapController::RestaurantListHandler( ProtocolBuffer::RestaurantList* rlist, MarkerCache* cache )
+void MapController::RestaurantListHandler( ProtocolBuffer::RestaurantList* rlist, MapViewBase* view )
 {
     for (int i=0;i<rlist->restaurants_size();i++)
     {
         const ProtocolBuffer::Restaurant& r = rlist->restaurants(i);
-        MarkerInfo info;
-        info.info = QString::fromUtf8( r.name().c_str(), r.name().length() );
-        info.location.lat.setDouble(r.location().latitude());
-        info.location.lng.setDouble(r.location().longitude());
-
-        cache->AddMarker(info);
+        //v->addNewRestaurantMarker(&r);
     }
     delete rlist;
 }
