@@ -25,8 +25,8 @@ ErV2005@rambler.ru
 #include <QObject>
 #include <QNetworkAccessManager>
 #include <QQueue>
-#include <QHash>
 #include <QFile>
+#include <QHash>
 
 class Downloader: public QObject{
 Q_OBJECT

@@ -1,15 +1,21 @@
 #ifndef MAP_VIEW_H
 #define MAP_VIEW_H
-#include <QWidget>
+
 #include <QPoint>
+#include <QGraphicsView>
+#include <QPixmap>
 #include "Decorator.h"
 #include "GeoCoord.h"
 
-class QImage;
 class ImageCache;
-class MarkerCache;
+struct MarkerInfo;
+class QGraphicsScene;
 
-class MapViewBase: public QWidget{
+namespace ProtocolBuffer{
+    class Restaurant;
+}
+
+class MapViewBase: public QGraphicsView{
     Q_OBJECT
 public:
     MapViewBase(QWidget *parent = 0);
@@ -18,7 +24,7 @@ public:
     void setDecorator(Decorator* decorator = 0);
     void insertDecorator(Decorator* decorator);
     void appendDecorator(Decorator* decorator);
-    void setMarkerCache(MarkerCache* cache) { markers = cache; }
+    void addRestaurantMarker(ProtocolBuffer::Restaurant*);
 public slots:
     void resetCoords();
     void zoomIn();
@@ -52,6 +58,7 @@ protected:
     QPoint InternalGeoCoordToCoord(const GeoCoord& latitude, const GeoCoord& longitude) const;
     void InternalCoordToGeoCoord(QPoint coord, GeoCoord &latitude, GeoCoord &longitude) const;
 
+    void drawBackground(QPainter *painter, const QRectF &rect);
     int getSide() const;
     int getSideMask() const;
     int getSidePow() const;
@@ -64,10 +71,13 @@ protected:
     void leaveEvent(QEvent *event);
     void adjustCenter();
     void updateBound();
-    void paintEvent(QPaintEvent *event);
+    void update(QPaintEvent *event);
+    void remapMarkers(int oldzoomlevel, int newzoomlevel);
+
 private:
     ImageCache *images;
-    MarkerCache *markers;
+    QGraphicsScene *scene;
+    QPixmap markerImage;
     Decorator decorator;
     GeoBound currentBound;
 };
