@@ -34,7 +34,17 @@ void MapController::RestaurantListHandler( ProtocolBuffer::RestaurantList* rlist
     for (int i=0;i<rlist->restaurants_size();i++)
     {
         const ProtocolBuffer::Restaurant& r = rlist->restaurants(i);
-        //v->addNewRestaurantMarker(&r);
+        if (!_restaurants.contains(r.rid()))
+        {
+            _restaurants.insert(r.rid());
+            emit newRestaurantMarker(new ProtocolBuffer::Restaurant(r));
+        }
     }
     delete rlist;
+}
+
+void MapController::setMapView( MapViewBase* m )
+{
+    map = m;
+    connect(this, SIGNAL(newRestaurantMarker(const ProtocolBuffer::Restaurant*)), map, SLOT(addRestaurantMarker(const ProtocolBuffer::Restaurant*)));
 }

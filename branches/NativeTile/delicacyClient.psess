@@ -56,11 +56,6 @@
       <ProjName>delicacyClient</ProjName>
     </ProjBinary>
   </Binaries>
-  <Reports>
-    <Report>
-      <Path>F:\QT\delicacymap\delicacyClient100212.vsp</Path>
-    </Report>
-  </Reports>
   <Launches>
     <ProjBinary>
       <Path>:PB:{3A780354-FF49-32B7-9AEF-1D1BA494A3AB}|deliciousClient\delicacyClient.vcproj</Path>

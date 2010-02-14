@@ -16,8 +16,7 @@ win32:CONFIG += console
 QT += network
 FORMS += mainwindow.ui \
     loginWindow.ui
-HEADERS += CommentItemDelegate.h \
-    md5.h \
+HEADERS += md5.h \
     bluetoothmanager.h \
     MapDataSource.h \
     MapController.h \
@@ -26,7 +25,6 @@ HEADERS += CommentItemDelegate.h \
     QTProtobufChannel.h \
 	QTProtobufChannelDriver.h \
     QTProtobufWaitResponse.h \
-    DisplaySchema.h \
     Session.h \
     ../protocol-buffer-src/Message.pb.h \
     ../protocol-buffer-src/MapProtocol.pb.h \
@@ -34,6 +32,7 @@ HEADERS += CommentItemDelegate.h \
     OfflineMap/JSON/json_spirit_reader_template.h \
     OfflineMap/JSON/json_spirit_writer_template.h \
     OfflineMap/JSON/json_spirit_value.h \
+    OfflineMap/MarkerItem.h \
     OfflineMap/MapServices.h \
     OfflineMap/Decorator.h \
     OfflineMap/ImageCache.h \
@@ -42,7 +41,6 @@ HEADERS += CommentItemDelegate.h \
     OfflineMap/Downloader.h \
     OfflineMap/GeoCoord.h
 SOURCES += main.cpp \
-    CommentItemDelegate.cpp \
     md5.cpp \
     bluetoothmanager.cpp \
     MapDataSource.cpp \
@@ -52,10 +50,10 @@ SOURCES += main.cpp \
     QTProtobufChannel.cpp \
 	QTProtobufChannelDriver.cpp \
     QTProtobufWaitResponse.cpp \
-    DisplaySchema.cpp \
     Session.cpp \
     ../protocol-buffer-src/Message.pb.cc \
     ../protocol-buffer-src/MapProtocol.pb.cc \
+    OfflineMap/MarkerItem.cpp \
     OfflineMap/MapServices.cpp \
     OfflineMap/Decorator.cpp \
     OfflineMap/ImageCache.cpp \

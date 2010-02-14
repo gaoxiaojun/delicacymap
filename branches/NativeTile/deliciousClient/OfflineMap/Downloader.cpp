@@ -28,29 +28,6 @@ void Downloader::setProxy(const QString& host, int port, const QString& userName
 }
 
 void Downloader::requestFinished(QNetworkReply * reply){
-// 	if (lastRequestId == id){
-//         reply->readAll();
-// 		printf("request finished (%d, %d)\n", id, status);
-// 		file.close();
-// 		if (!status){
-// 			printf("warning! request was not sucessfull.\n");
-// 			QHttpResponseHeader response = http->lastResponse();
-// 			if (response.hasContentType()){
-// 				if (!response.contentType().contains("image", Qt::CaseInsensitive))
-// 					file.remove();
-// 			}
-// 			else
-// 				if (file.size()==0)
-// 					file.remove();
-// 		}
-// 		if (status)
-// 			emit successfullDownload();
-// 		if (!aborted){
-// 			if (!requests.empty())
-// 				requests.dequeue();
-// 			nextRequest();
-// 		}
-// 	}
     QString& filename = replytofile[reply];
     if (reply->isFinished())
     {

@@ -22,10 +22,13 @@ public:
     MapController(void);
     ~MapController(void);
 
-    void setMapView(MapViewBase* m) { map = m; };
+    void setMapView(MapViewBase* m);;
     MapViewBase* getMapView() { return map; }
     void setSession(Session* s) { session = s; }
     Session* getSession() { return session; }
+
+signals:
+    void newRestaurantMarker(const ProtocolBuffer::Restaurant*);
 
 public slots:
     void MapViewBoundsChange(const GeoBound&);

@@ -24,8 +24,8 @@ public:
     void setDecorator(Decorator* decorator = 0);
     void insertDecorator(Decorator* decorator);
     void appendDecorator(Decorator* decorator);
-    void addRestaurantMarker(ProtocolBuffer::Restaurant*);
 public slots:
+    void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
     void resetCoords();
     void zoomIn();
     void zoomOut();
@@ -47,6 +47,7 @@ signals:
     void canZoomOut(bool status);
     void zoomLevelChanged(int level);
     void boundsChange(const GeoBound& newbound);
+    void restaurantMarkerClicked(const ProtocolBuffer::Restaurant*);
 
 protected:
     enum {MaxZoomLevel = 17, TilePower2 = 8, TileSize=256};
@@ -71,7 +72,6 @@ protected:
     void leaveEvent(QEvent *event);
     void adjustCenter();
     void updateBound();
-    void update(QPaintEvent *event);
     void remapMarkers(int oldzoomlevel, int newzoomlevel);
 
 private:
@@ -80,6 +80,7 @@ private:
     QPixmap markerImage;
     Decorator decorator;
     GeoBound currentBound;
+    bool shouldProcessReleaseEvent;
 };
 
 #endif
