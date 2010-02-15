@@ -32,6 +32,7 @@ HEADERS += md5.h \
     OfflineMap/JSON/json_spirit_reader_template.h \
     OfflineMap/JSON/json_spirit_writer_template.h \
     OfflineMap/JSON/json_spirit_value.h \
+    OfflineMap/CoordsHelper.h \
     OfflineMap/MarkerItem.h \
     OfflineMap/MapServices.h \
     OfflineMap/Decorator.h \
