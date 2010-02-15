@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <math.h>
+#include "CoordsHelper.h"
 #include "MapViewBase.h"
 #include "ImageCache.h"
 #include "GeoCoord.h"
@@ -12,11 +13,12 @@
 
 #include <boost/foreach.hpp>
 
-static const GeoCoord maxLatitude(90, 0, 0, 0);//(85.0511287798066);//(90, 0, 0, 0);
-static const GeoCoord maxLongitude(180, 0, 0, 0);
+const GeoCoord CoordsHelper::maxLatitude(90, 0, 0, 0);//(85.0511287798066);//(90, 0, 0, 0);
+const GeoCoord CoordsHelper::maxLongitude(180, 0, 0, 0);
+const double CoordsHelper::pi = 3.1415926535897932384626433832795028841971693993751;
 
 MapViewBase::MapViewBase(QWidget *parent)
-:QGraphicsView(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0), markerImage(":/Icons/marker.png")
+:QGraphicsView(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0)
 {
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     last_xcenter = xCenter;
@@ -24,11 +26,11 @@ MapViewBase::MapViewBase(QWidget *parent)
     scene = new QGraphicsScene;
     setScene(scene);
     centerOn(xCenter, yCenter);
-    setCacheMode(QGraphicsView::CacheBackground);
+    //setCacheMode(QGraphicsView::CacheBackground);
     setInteractive(false);
     setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-    setAttribute(Qt::WA_OpaquePaintEvent);// a small optimization
+    setAttribute( Qt::WA_OpaquePaintEvent );// a small optimization
 }
 
 MapViewBase::~MapViewBase(){
@@ -54,36 +56,22 @@ void MapViewBase::zoomOutAt(int x, int y){
     setZoomLevelAt(zoomLevel-1, x, y);
 }
 
-inline int fitToPow2(int num, int power){
-    int val = 1 << power;
-    int mask = val - 1;
-    if (num < 0)
-        num = val - ((-num)&mask);		
-    return num & mask;
-}
-
-inline int remapToPow2(int num, int oldPow, int newPow){
-    return (oldPow > newPow) ? 
-        num >> (oldPow - newPow):
-    num << (newPow - oldPow); 
-} 
-
 void MapViewBase::adjustCenter(){
-    xCenter = fitToPow2(xCenter, zoomLevel+TilePower2);
-    yCenter = fitToPow2(yCenter, zoomLevel+TilePower2);
+    xCenter = CoordsHelper::fitToPow2(xCenter, zoomLevel+CoordsHelper::TilePower2);
+    yCenter = CoordsHelper::fitToPow2(yCenter, zoomLevel+CoordsHelper::TilePower2);
 }
 
 void MapViewBase::setZoomLevel(int level){
-    if ((level >= 0) && (level <= MaxZoomLevel)){
+    if ((level >= 0) && (level <= CoordsHelper::MaxZoomLevel)){
         if (zoomLevel != level){
             adjustCenter();
-            xCenter = remapToPow2(xCenter, zoomLevel, level);
-            yCenter = remapToPow2(yCenter, zoomLevel, level);
+            xCenter = CoordsHelper::remapToPow2(xCenter, zoomLevel, level);
+            yCenter = CoordsHelper::remapToPow2(yCenter, zoomLevel, level);
             remapMarkers(zoomLevel, level);
             zoomLevel = level;
             emit zoomLevelChanged(zoomLevel);
             updateBound();
-            scene->setSceneRect(0, 0, 1<<(zoomLevel+TilePower2), 1<<(zoomLevel+TilePower2));
+            scene->setSceneRect(0, 0, 1<<(zoomLevel+CoordsHelper::TilePower2), 1<<(zoomLevel+CoordsHelper::TilePower2));
             centerOn(xCenter, yCenter);
             //repaint();
         }
@@ -93,7 +81,7 @@ void MapViewBase::setZoomLevel(int level){
 }
 
 void MapViewBase::setZoomLevelAt(int level, int x, int y){
-    if ((level >= 0) && (level <= MaxZoomLevel)){
+    if ((level >= 0) && (level <= CoordsHelper::MaxZoomLevel)){
         if (zoomLevel != level){
             int deltaX = x - width()/2;
             int deltaY = y - height()/2;
@@ -101,8 +89,8 @@ void MapViewBase::setZoomLevelAt(int level, int x, int y){
             yCenter += deltaY;
             adjustCenter();
 
-            xCenter = remapToPow2(xCenter, zoomLevel, level);
-            yCenter = remapToPow2(yCenter, zoomLevel, level);
+            xCenter = CoordsHelper::remapToPow2(xCenter, zoomLevel, level);
+            yCenter = CoordsHelper::remapToPow2(yCenter, zoomLevel, level);
 
             xCenter -= deltaX;
             yCenter -= deltaY;
@@ -111,9 +99,8 @@ void MapViewBase::setZoomLevelAt(int level, int x, int y){
             zoomLevel = level;
             emit zoomLevelChanged(zoomLevel);
             updateBound();
-            scene->setSceneRect(0, 0, 1<<(zoomLevel+TilePower2), 1<<(zoomLevel+TilePower2));
+            scene->setSceneRect(0, 0, 1<<(zoomLevel+CoordsHelper::TilePower2), 1<<(zoomLevel+CoordsHelper::TilePower2));
             centerOn(xCenter, yCenter);
-            //repaint();
         }
         emit canZoomIn(level < 16);
         emit canZoomOut(level > 0);
@@ -130,11 +117,11 @@ int MapViewBase::getSideMask() const{
 }
 
 int MapViewBase::getSidePow() const{
-    return zoomLevel + TilePower2;
+    return zoomLevel + CoordsHelper::TilePower2;
 }
 
 QSize MapViewBase::sizeHint() const{
-    return QSize(TileSize, TileSize);
+    return QSize(CoordsHelper::TileSize, CoordsHelper::TileSize);
 }
 
 struct TileCoord{
@@ -148,7 +135,6 @@ void MapViewBase::moveBy(int x, int y){
     adjustCenter();
     updateBound();
     centerOn(xCenter, yCenter);
-    //repaint();
 }
 
 void MapViewBase::setDecorator(Decorator *newDecorator){
@@ -212,16 +198,16 @@ void MapViewBase::downloadMissingImages(){
 
     int mask= (1 << zoomLevel) - 1;
 
-    xOffset = fitToPow2(xOffset, getSidePow());
-    yOffset = fitToPow2(yOffset, getSidePow());
+    xOffset = CoordsHelper::fitToPow2(xOffset, getSidePow());
+    yOffset = CoordsHelper::fitToPow2(yOffset, getSidePow());
 
     int firstTileX = - (xOffset & 0xFF);
     int firstTileY = - (yOffset & 0xFF);
 
     for (int y = firstTileY; y < height(); y+= 256){
-        int row = ((y + yOffset) >> TilePower2) & mask;
+        int row = ((y + yOffset) >> CoordsHelper::TilePower2) & mask;
         for (int x = firstTileX; x < width(); x += 256){
-            int col = ((x + xOffset)  >> TilePower2) & mask;
+            int col = ((x + xOffset)  >> CoordsHelper::TilePower2) & mask;
             //FIXME it would be good to have a more elegant solution...
             images->tryDownload(col, row, zoomLevel);		
         }
@@ -238,72 +224,38 @@ int MapViewBase::getZoomLevel(){
 
 QPoint MapViewBase::getCoords(){
     return QPoint(
-        remapToPow2(xCenter, zoomLevel, MaxZoomLevel),
-        remapToPow2(yCenter, zoomLevel, MaxZoomLevel)
+        CoordsHelper::remapToPow2(xCenter, zoomLevel, CoordsHelper::MaxZoomLevel),
+        CoordsHelper::remapToPow2(yCenter, zoomLevel, CoordsHelper::MaxZoomLevel)
         );
 }
 
 void MapViewBase::setCoords(const QPoint& coords){
-    xCenter = remapToPow2(coords.x(), MaxZoomLevel, zoomLevel);
-    yCenter = remapToPow2(coords.y(), MaxZoomLevel, zoomLevel);
+    xCenter = CoordsHelper::remapToPow2(coords.x(), CoordsHelper::MaxZoomLevel, zoomLevel);
+    yCenter = CoordsHelper::remapToPow2(coords.y(), CoordsHelper::MaxZoomLevel, zoomLevel);
     updateBound();
     centerOn(xCenter, yCenter);
 }
 
 void MapViewBase::resetCoords(){
-    int ofs = 1 << (TilePower2 + MaxZoomLevel - 1);
+    int ofs = 1 << (CoordsHelper::TilePower2 + CoordsHelper::MaxZoomLevel - 1);
     setCoords(QPoint(ofs, ofs));
     setZoomLevel(0);
 }
 
-static const double pi = 3.1415926535897932384626433832795028841971693993751;
-
 void MapViewBase::setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitude)
 {
-    setCoords(InternalGeoCoordToCoord(latitude, longitude));
+    setCoords(CoordsHelper::InternalGeoCoordToCoord(latitude, longitude));
 }
 
 void MapViewBase::getGeoCoords(GeoCoord& latitude, GeoCoord& longitude) const
 {
-    InternalCoordToGeoCoord(QPoint(xCenter, yCenter), latitude, longitude);
-}
-
-QPoint MapViewBase::InternalGeoCoordToCoord( const GeoCoord& latitude, const GeoCoord& longitude ) const
-{
-    QPoint coords;
-
-    //Mercator projection (this is the one used by Google)
-    qint32 halfSize = (1 << (MaxZoomLevel + TilePower2 - 1));
-    double x = (double)longitude.getValue()/(double)maxLongitude.getValue();
-    double y = (double)latitude.getValue()/(double)maxLatitude.getValue();
-
-    x = x * halfSize + halfSize;
-    y = y * pi/2.0;
-    y = log(tan(y) + 1.0/cos(y));
-    y = y/(pi);
-
-    y = halfSize - y * halfSize;
-
-    coords.setX((int)x);
-    coords.setY((int)y);
-    return coords;
-}
-
-void MapViewBase::InternalCoordToGeoCoord( QPoint coord, GeoCoord &latitude, GeoCoord &longitude ) const
-{
-    qint32 halfSize = (1 << (zoomLevel + TilePower2 - 1));
-    double x = (double)coord.x() / (double)halfSize - 1;
-    double y = 1- (double)coord.y() / (double)halfSize;
-    longitude.setDouble(x * 180.0);	
-    y *= pi;
-    y = 2.0 * atan(exp(y)) - pi/2.0;
-    latitude.setDouble(y * 180 / pi);
+    CoordsHelper::InternalCoordToGeoCoord(QPoint(xCenter, yCenter), zoomLevel, latitude, longitude);
 }
 
 void MapViewBase::updateBound()
 {
     // avoid emitting too much signals
-    if ( abs(xCenter - last_xcenter) > 40 || abs(yCenter - last_ycenter) > 40 )
+    if ( abs(xCenter - last_xcenter) > 50 || abs(yCenter - last_ycenter) > 50 )
     {
         last_xcenter = xCenter;
         last_ycenter = yCenter;
@@ -316,8 +268,8 @@ void MapViewBase::updateBound()
         yTop = yCenter - halfHeight;
         yBottom = yCenter + halfHeight;
 
-        InternalCoordToGeoCoord(QPoint(xLeft, yBottom), currentBound.SW.lat, currentBound.SW.lng);
-        InternalCoordToGeoCoord(QPoint(xRight, yTop), currentBound.NE.lat, currentBound.NE.lng);
+        CoordsHelper::InternalCoordToGeoCoord(QPoint(xLeft, yBottom), zoomLevel, currentBound.SW.lat, currentBound.SW.lng);
+        CoordsHelper::InternalCoordToGeoCoord(QPoint(xRight, yTop), zoomLevel, currentBound.NE.lat, currentBound.NE.lng);
 
         emit boundsChange(currentBound);
     }
@@ -348,9 +300,9 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
             <<"              w: "<<(int)rect.width()<<" h: "<<(int)rect.height();
 #endif
         for (int y = firstTileY; y < dirtyheight; y+= 256){
-            int row = (y >> TilePower2) & mask;
+            int row = (y >> CoordsHelper::TilePower2) & mask;
             for (int x = firstTileX; x < dirtywidth; x += 256){
-                int col = (x >> TilePower2) & mask;
+                int col = (x >> CoordsHelper::TilePower2) & mask;
                 QPixmap* img = images->getImage(col, row, zoomLevel);
                 if (img){
                     painter->drawPixmap(QPoint(x, y), *img, ImageRect);
@@ -358,8 +310,8 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
                 else{
                     painter->setPen(white);
                     painter->setBrush(black);
-                    painter->drawRect(x, y, TileSize, TileSize);
-                    painter->drawText(x, y, TileSize, TileSize, Qt::AlignHCenter|Qt::AlignVCenter, 
+                    painter->drawRect(x, y, CoordsHelper::TileSize, CoordsHelper::TileSize);
+                    painter->drawText(x, y, CoordsHelper::TileSize, CoordsHelper::TileSize, Qt::AlignHCenter|Qt::AlignVCenter, 
                         QString(
                         "col:%1, row:%2, zoom:%3\nNo image\n" 
                         "click left+right mouse buttons\nto download missing images."
@@ -374,9 +326,7 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
 
 void MapViewBase::addRestaurantMarker(const ProtocolBuffer::Restaurant* r)
 {
-    QPoint p = InternalGeoCoordToCoord(GeoCoord(r->location().latitude()), GeoCoord(r->location().longitude()));
-    p.setX( remapToPow2(p.x(), MaxZoomLevel, zoomLevel) );
-    p.setY( remapToPow2(p.y(), MaxZoomLevel, zoomLevel) );
+    QPoint p = CoordsHelper::InternalGeoCoordToCoord(GeoCoord(r->location().latitude()), GeoCoord(r->location().longitude()), zoomLevel);
     RestaurantMarkerItem *item = new RestaurantMarkerItem(r);
     item->setPos(p);
     scene->addItem(item);
@@ -388,12 +338,21 @@ void MapViewBase::remapMarkers( int oldzoomlevel, int newzoomlevel )
     BOOST_FOREACH(QGraphicsItem* item, items)
     {
         RestaurantMarkerItem *ritem = qgraphicsitem_cast<RestaurantMarkerItem*>(item);
+        RouteItem* routeitem = qgraphicsitem_cast<RouteItem*>(item);
         if (ritem)
         {
-            QPoint p = InternalGeoCoordToCoord(GeoCoord(ritem->restaurantInfo()->location().latitude()), GeoCoord(ritem->restaurantInfo()->location().longitude()));
-            p.setX( remapToPow2(p.x(), MaxZoomLevel, newzoomlevel) );
-            p.setY( remapToPow2(p.y(), MaxZoomLevel, newzoomlevel) );
+            QPoint p = CoordsHelper::InternalGeoCoordToCoord(GeoCoord(ritem->restaurantInfo()->location().latitude()), GeoCoord(ritem->restaurantInfo()->location().longitude()), newzoomlevel);
             ritem->setPos(p);
         }
+        else if (routeitem)
+        {
+            routeitem->changeZoom(newzoomlevel);
+        }
     }
+}
+
+void MapViewBase::addRoute( const QList<GeoPoint>& p )
+{
+    RouteItem * item = new RouteItem(p);
+    item->changeZoom(zoomLevel);
 }

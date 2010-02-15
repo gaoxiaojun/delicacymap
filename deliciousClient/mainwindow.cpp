@@ -48,7 +48,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     controller->setMapView(navi);
     connect(navi, SIGNAL(boundsChange(const GeoBound&)), controller, SLOT(MapViewBoundsChange(const GeoBound&)));
 
-    navi->setZoomLevel(17);
+    navi->setZoomLevel(15);
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
 
     svc = new MapServices;

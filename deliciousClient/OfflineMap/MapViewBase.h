@@ -26,6 +26,7 @@ public:
     void appendDecorator(Decorator* decorator);
 public slots:
     void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
+    void addRoute(const QList<GeoPoint>&);
     void resetCoords();
     void zoomIn();
     void zoomOut();
@@ -50,14 +51,10 @@ signals:
     void restaurantMarkerClicked(const ProtocolBuffer::Restaurant*);
 
 protected:
-    enum {MaxZoomLevel = 17, TilePower2 = 8, TileSize=256};
     int xCenter;
     int yCenter;
     int zoomLevel;
     int last_xcenter, last_ycenter;
-
-    QPoint InternalGeoCoordToCoord(const GeoCoord& latitude, const GeoCoord& longitude) const;
-    void InternalCoordToGeoCoord(QPoint coord, GeoCoord &latitude, GeoCoord &longitude) const;
 
     void drawBackground(QPainter *painter, const QRectF &rect);
     int getSide() const;
@@ -77,7 +74,6 @@ protected:
 private:
     ImageCache *images;
     QGraphicsScene *scene;
-    QPixmap markerImage;
     Decorator decorator;
     GeoBound currentBound;
     bool shouldProcessReleaseEvent;
