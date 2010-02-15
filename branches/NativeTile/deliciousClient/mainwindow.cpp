@@ -41,7 +41,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 //     navi->appendDecorator(coordsDecorator);
 
     imageCache.setDownloader(&downloader);
-    imageCache.setCacheDir("BJ");
+    imageCache.setCacheDBPath("tiles.map");
     navi->setCache(&imageCache);
 
     controller = new MapController;

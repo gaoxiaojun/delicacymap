@@ -2,6 +2,7 @@
 #define IMAGE_CACHE_H
 #include <QObject>
 #include <QString>
+#include <QSqlDatabase>
 #include <QMap>
 #include <QPixmap>
 
@@ -33,37 +34,31 @@ public:
 	};
 	
 	QPixmap* getImage(int x, int y, int zoom);
+    void setDownloader(Downloader* newDownloader);
 	void downloadImage(int x, int y, int zoom);
-	void setDownloader(Downloader* newDownloader);
 	void tryDownload(int x, int y, int zoom);
-	void setCacheDir(const QString& cacheDir);
-	const QString& getCacheDir();
+	void setCacheDBPath(const QString& cacheDir);
+	const QString& getCacheDBPath();
 	ImageCache();
-	virtual ~ImageCache();
+	~ImageCache();
 	void update();
 	void clear();
-	const QString& getFileNameTemplate();
 	const QString& getUrlTemplate();
-	
-	void setFileNameTemplate(const QString& newFileNameTemplate);
 	void setUrlTemplate(const QString &newUrlTemplate);
 signals:
 	void imageChanged();
 protected:
 	QMap<TileCoord, Tile> images;
-	
-	QString cacheDir;
-	QPixmap errorImg;
+
 	QPixmap loadingImg;
 	Downloader* downloader;
 	void loadImage(const TileCoord& tileCoord, int possibility);
 	QString getDownloadUrl(int x, int y, int zoom);
-	QString getCacheName(int x, int y, int zoom);
 	QString getCoordsQstr(int x, int y, int zoom);
-	QString makeFileName(int x, int y, int zoom);
 	
 	QString urlTemplate;
-	QString filenameTemplate;
+    QString dbpath;
+    QSqlDatabase db;
 	
 	void paintLoadingImage();
 	bool isLoading(const TileCoord& tileCoord);

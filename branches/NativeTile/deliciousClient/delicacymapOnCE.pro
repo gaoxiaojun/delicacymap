@@ -13,7 +13,8 @@ MOBILITY += location \
 
 # Input
 win32:CONFIG += console
-QT += network
+QT += network \
+      sql
 FORMS += mainwindow.ui \
     loginWindow.ui
 HEADERS += md5.h \
