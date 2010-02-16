@@ -41,7 +41,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 //     navi->appendDecorator(coordsDecorator);
 
     imageCache.setDownloader(&downloader);
-    imageCache.setCacheDBPath("/Storage Card/tiles.map");
+    imageCache.setCacheDBPath("tiles.map");
     navi->setCache(&imageCache);
 
     controller = new MapController;
