@@ -3,7 +3,6 @@
 #include <QColor>
 #include <QVariant>
 #include <QPainter>
-#include <QSqlQuery>
 #include <stdlib.h>
 
 ImageCache::~ImageCache(){
@@ -22,6 +21,7 @@ void ImageCache::setCacheDBPath(const QString& newCachePath){
         db.setDatabaseName(dbpath);
         db.open();
         downloader->setDB(db);
+        prepareStatements();
     }
 }
 
@@ -87,12 +87,10 @@ void ImageCache::loadImage(const TileCoord& tileCoord, int possibility){
 //     if (possibility > 90 || (rand() % 100)  < possibility)
     {
         ImageCache::Tile newtile;
-        QSqlQuery query(QString("SELECT data FROM [%1] WHERE x=%2 AND y=%3 ")
-            .arg(tileCoord.zoom)
-            .arg(tileCoord.x)
-            .arg(tileCoord.y));
-        query.setForwardOnly(true);
-        if (query.next()) 
+        QSqlQuery &query = queries[tileCoord.zoom];
+        query.bindValue(0, tileCoord.x);
+        query.bindValue(1, tileCoord.y);
+        if (query.exec() && query.next()) 
         {
             newtile.image.loadFromData(query.value(0).toByteArray());
             images[tileCoord] = newtile;
@@ -184,4 +182,14 @@ QString ImageCache::getCoordsQstr(int x, int y, int zoom){
 		y = y>>1;
 	}
 	return tmp;
+}
+
+void ImageCache::prepareStatements()
+{
+    for (int i=0;i< sizeof(queries) / sizeof(queries[0]);i++)
+    {
+        queries[i] = QSqlQuery();
+        queries[i].prepare(QString("SELECT data FROM [%1] WHERE x=:x AND y=:y ").arg(i));
+        queries[i].setForwardOnly(true);
+    }
 }

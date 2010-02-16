@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QString>
 #include <QSqlDatabase>
+#include <QSqlQuery>
 #include <QMap>
 #include <QPixmap>
 
@@ -51,10 +52,12 @@ protected:
 	QMap<TileCoord, Tile> images;
 
 	QPixmap loadingImg;
+    QSqlQuery queries[18];
 	Downloader* downloader;
 	void loadImage(const TileCoord& tileCoord, int possibility);
 	QString getDownloadUrl(int x, int y, int zoom);
 	QString getCoordsQstr(int x, int y, int zoom);
+    void prepareStatements();
 	
 	QString urlTemplate;
     QString dbpath;
