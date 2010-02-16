@@ -1,15 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "mapview.h"
 #include "bluetoothmanager.h"
 #include "QTProtobufWaitResponse.h"
-#include "CommentItemDelegate.h"
+#include "MapController.h"
 #include "Session.h"
 #include "../protocol-buffer-src/MapProtocol.pb.h"
-
+#include "OfflineMap/MapViewBase.h"
+#include "OfflineMap/MapDecorators.h"
+#include "OfflineMap/MapServices.h"
+#include "OfflineMap/GeoCoord.h"
 #include <QMenuBar>
 #include <QDebug>
-#include <QWebFrame>
 
 
 using namespace ProtocolBuffer;
@@ -19,7 +20,6 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     m_ui(new Ui::MainWindow)
 {
     m_ui->setupUi(this);
-    m_ui->list_latestcomment->setItemDelegate(new CommentItemDelegate());
 
 #if _WIN32_WCE
     //menuBar()->setDefaultAction(m_ui->menuZoomOut);
@@ -28,23 +28,51 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 	//qDebug()<<this->m_ui->stackedWidget->widget(1)->size().width()<<endl;
 	//qDebug()<<this->m_ui->stackedWidget->widget(1)->size().height()<<endl;
 
-	navi = new mapview(this);
+    navi = new MapViewBase;
+    navi->setDecorator(new MoveDecorator(navi));
+    navi->insertDecorator(new ZoomDecorator(navi));
+    navi->insertDecorator(new DownloadDecorator(navi));
+//     CrossDecorator *crossDecorator = new CrossDecorator(navi);
+//     connect(crossDecorator, SIGNAL(stateChanged()), navi, SLOT(repaint()));
+//     navi->appendDecorator(crossDecorator);
+//     connect(&imageCache, SIGNAL(imageChanged()), navi, SLOT(repaint()));
+//     CoordsDecorator* coordsDecorator = new CoordsDecorator(navi);
+//     connect(coordsDecorator, SIGNAL(stateChanged()), navi, SLOT(repaint()));
+//     navi->appendDecorator(coordsDecorator);
+
+    imageCache.setDownloader(&downloader);
+    imageCache.setCacheDBPath("tiles.map");
+    navi->setCache(&imageCache);
+
+    controller = new MapController;
+    controller->setMapView(navi);
+    connect(navi, SIGNAL(boundsChange(const GeoBound&)), controller, SLOT(MapViewBoundsChange(const GeoBound&)));
+
+    navi->setZoomLevel(15);
+    navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
+
+    svc = new MapServices;
+    //svc->GeoCode(QString::fromLocal8Bit("北京"));
+    //svc->ReverseGeoCode(39.96067508327288, 116.35796070098877);
+    //svc->QueryRoute(QString::fromLocal8Bit("北京"), QString::fromLocal8Bit("天津"));
+    //connect(svc, SIGNAL(GeoCodeResult(const QString, double, double)), this, SLOT(GeoCodeHandle(const QString, double, double)));
+    //connect(svc, SIGNAL(ReverseGeoCodeResult(const QString, const QString)), this, SLOT(ReverseGeoCodeHandle(const QString, const QString)));
+    //connect(navi, SIGNAL(boundsChange(const GeoBound&)), this, SLOT(BoundsUpdates(const GeoBound&)));
+
 	int index = this->m_ui->stackedWidget->insertWidget(0,navi);
 	qDebug()<<index<<endl;
 	this->m_ui->stackedWidget->setCurrentWidget(navi);
 
-    connect(navi, SIGNAL(NewCommentListArrived(ProtocolBuffer::CommentList*)), this, SLOT(showLatestComments(ProtocolBuffer::CommentList*)));
-    connect(navi, SIGNAL(LocationUpdate(QString)), this, SLOT(UpdateCurrentLocation( QString )));
-
     changeSession(s);
 
 	interfaceTransit_map();
-
 }
 
 MainWindow::~MainWindow()
 {
     delete m_ui;
+    delete controller;
+    delete svc;
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -78,11 +106,12 @@ void MainWindow::BTHFind()
 void MainWindow::changeSession( Session *s )
 {
     session = s;
-    navi->changeSession(s);
+    //navi->changeSession(s);
     if (s)
     {
         connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
     }
+    controller->setSession(s);
 }
 
 Session* MainWindow::getSession()
@@ -120,8 +149,8 @@ void MainWindow::interfaceTransit_map()
 	m_ui->toolButton_D->setVisible(true);
 	m_ui->toolButton_E->setVisible(true);
 
-	connect(m_ui->actionR,SIGNAL(triggered()),this->navi,SLOT(zoomin()));
-	connect(m_ui->actionL,SIGNAL(triggered()),this->navi,SLOT(zoomout()));
+	//connect(m_ui->actionR,SIGNAL(triggered()),this->navi,SLOT(zoomin()));
+	//connect(m_ui->actionL,SIGNAL(triggered()),this->navi,SLOT(zoomout()));
 	connect(m_ui->actionA,SIGNAL(triggered()),this,SLOT(interfaceTransit_comment()));
 	connect(m_ui->actionB,SIGNAL(triggered()),this,SLOT(interfaceTransit_favourite()));
 	connect(m_ui->actionPL, SIGNAL(triggered()), this, SLOT(close()));
@@ -152,8 +181,8 @@ void MainWindow::interfaceTransit_favourite()
 {
 	qDebug()<<"click"<<endl;
 	//navi->page()->mainFrame()->evaluateJavaScript(QString("alert('aa');"));
-	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(1);"));
-	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(2);"));
+// 	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(1);"));
+// 	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(2);"));
 
 
 
@@ -200,4 +229,25 @@ void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
     qDebug()<<"From User: "<<msg->fromuser();
     qDebug()<<"To User: "<<msg->touser();
     qDebug()<<"============================ Msg End ===================================";
+}
+
+void MainWindow::GeoCodeHandle( const QString query, double lat, double lng )
+{
+    qDebug()<<"GeoCode Result for"<<query<<" : "<<lat<<", "<<lng;
+}
+
+void MainWindow::ReverseGeoCodeHandle( const QString originalQuery, const QString address )
+{
+    qDebug()<<"Reverse GeoCode Result for"<<originalQuery<<" : "<<address;
+}
+
+void MainWindow::BoundsUpdates( const GeoBound& bound )
+{
+    qDebug()<<"New Bound \t"<<bound.NE.lat.getDouble();
+    qDebug()<<"         "<<bound.SW.lng.getDouble()<<"\t"<<bound.NE.lng.getDouble();
+    qDebug()<<"          \t"<<bound.SW.lat.getDouble();
+//     getSession()->getDataSource().GetRestaurants(bound.SW.lat.getDouble(), bound.SW.lng.getDouble(),
+//         bound.NE.lat.getDouble(), bound.NE.lng.getDouble(),
+//         17,
+//         new ProtocolBuffer::RestaurantList)
 }

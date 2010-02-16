@@ -4,10 +4,14 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QTextEdit>
 #include <QString>
-#include "mapview.h"
+#include "OfflineMap/ImageCache.h"
+#include "OfflineMap/Downloader.h"
 
 class ProtobufDataEvent;
 class Session;
+class GeoBound;
+class MapServices;
+class MapViewBase;
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -16,6 +20,8 @@ namespace ProtocolBuffer{
     class User;
     class DMessage;
 }
+
+class MapController;
 
 namespace Ui {
     class MainWindow;
@@ -45,10 +51,17 @@ public slots:
 private slots:
     void UpdateCurrentLocation(QString);
     void printMessage(const ProtocolBuffer::DMessage*);
+    void GeoCodeHandle(const QString, double, double);
+    void ReverseGeoCodeHandle(const QString originalQuery, const QString address);
+    void BoundsUpdates(const GeoBound&);
 
 private:
     Ui::MainWindow *m_ui;
-    mapview *navi;
+    MapViewBase *navi;
+    MapServices *svc;
+    MapController *controller;
+    ImageCache imageCache;
+    Downloader downloader;
     Session *session;
 };
 

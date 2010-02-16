@@ -7,55 +7,68 @@ INCLUDEPATH += ./rclib/include \
 LIBPATH += ../protocol-buffer-src/lib
 OBJECTS_DIR = ./objs
 CONFIG += mobility
+CONFIG -= flat
 MOBILITY += location \
     bearer
 
 # Input
 win32:CONFIG += console
-QT += webkit \
-    network
+QT += network \
+      sql
 FORMS += mainwindow.ui \
     loginWindow.ui
-HEADERS += mapview.h \
-    MapListener.h \
-    MapListenerPrivate.h \
-    CommentItemDelegate.h \
-    md5.h \
+HEADERS += md5.h \
     bluetoothmanager.h \
     MapDataSource.h \
+    MapController.h \
     mainwindow.h \
     LoginWindow.h \
     QTProtobufChannel.h \
 	QTProtobufChannelDriver.h \
     QTProtobufWaitResponse.h \
-    DisplaySchema.h \
     Session.h \
     ../protocol-buffer-src/Message.pb.h \
-    ../protocol-buffer-src/MapProtocol.pb.h
+    ../protocol-buffer-src/MapProtocol.pb.h \
+    OfflineMap/JSON/json_spirit_error_position.h \
+    OfflineMap/JSON/json_spirit_reader_template.h \
+    OfflineMap/JSON/json_spirit_writer_template.h \
+    OfflineMap/JSON/json_spirit_value.h \
+    OfflineMap/CoordsHelper.h \
+    OfflineMap/MarkerItem.h \
+    OfflineMap/MapServices.h \
+    OfflineMap/Decorator.h \
+    OfflineMap/ImageCache.h \
+    OfflineMap/MapDecorators.h \
+    OfflineMap/MapViewBase.h \
+    OfflineMap/Downloader.h \
+    OfflineMap/GeoCoord.h
 SOURCES += main.cpp \
-    MapListener.cpp \
-    MapListenerPrivate.cpp \
-    CommentItemDelegate.cpp \
     md5.cpp \
-    mapview.cpp \
     bluetoothmanager.cpp \
     MapDataSource.cpp \
+    MapController.cpp \
     mainwindow.cpp \
     LoginWindow.cpp \
     QTProtobufChannel.cpp \
 	QTProtobufChannelDriver.cpp \
     QTProtobufWaitResponse.cpp \
-    DisplaySchema.cpp \
     Session.cpp \
     ../protocol-buffer-src/Message.pb.cc \
-    ../protocol-buffer-src/MapProtocol.pb.cc
+    ../protocol-buffer-src/MapProtocol.pb.cc \
+    OfflineMap/MarkerItem.cpp \
+    OfflineMap/MapServices.cpp \
+    OfflineMap/Decorator.cpp \
+    OfflineMap/ImageCache.cpp \
+    OfflineMap/MapDecorators.cpp \
+    OfflineMap/MapViewBase.cpp \
+    OfflineMap/Downloader.cpp \
+    OfflineMap/GeoCoord.cpp
 RESOURCES += webpage.qrc
 
 # DEPLOYMENT_PLUGIN += qsqlite qjpeg qgif qmng
 linux-* { 
     RCC_DIR = ./objs
     MOC_DIR = ./objs
-    SOURCES += mapview_linux.cpp
     RESOURCES += mainwindow.qrc
     
     # LIBPATH += /usr/local/lib
@@ -67,25 +80,22 @@ wince* {
         myFiles.sources = F:\QT\delicacymap\msvcr90.dll
         myFiles.path = %CSIDL_PROGRAM_FILES%\delicacyClient
         DEPLOYMENT += myFiles
-        SOURCES += mapview_wince.cpp
         LIBS += libprotobuf-lite_wince6_release.lib \
                 ../QtMobility/lib_wince6/QtBearer_tp.lib 
     }else{
-        SOURCES += bluetoothmanager_wince.cpp \
-            mapview_wince.cpp
+        SOURCES += bluetoothmanager_wince.cpp
         HEADERS += bluetoothmanager_wince.h \
             bluetoothmanager_win_common.h
         LIBS += bthutil.lib \
             ws2.lib \
             Gpsapi.lib \
-            libprotobuf_wince_release.lib \
+            libprotobuf-lite_wince_release.lib \
             ../QtMobility/lib_wince/QtBearer_tp.lib \
             ../QtMobility/lib_wince/QtLocation_tp.lib
     }
 }
 win32:!wince* { 
-    SOURCES += mapview_win32.cpp \
-        bluetoothmanager_win.cpp
+    SOURCES += bluetoothmanager_win.cpp
     HEADERS += bluetoothmanager_wince.h \
         bluetoothmanager_win.h
     RESOURCES += mainwindow.qrc
@@ -108,6 +118,5 @@ macx {
 
     CONFIG += x86_64
     LIBS += -lprotobuf -F../QtMobility/lib_macx -framework QtLocation_tp -framework QtBearer_tp
-    SOURCES += mapview_linux.cpp
     RESOURCES += mainwindow.qrc
 }
