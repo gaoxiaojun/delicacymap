@@ -303,13 +303,13 @@ size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, const st
         ", text=",text,
         ", tm=", validTimePeriod,
         ")");
-    char querystr[500], digits[12], timebuf[64], modifierbuf[200];
+    char querystr[500], digits[12], modifierbuf[200];
     sprintf_s(querystr, sizeof(querystr),
         "INSERT INTO Messages "
         "(FromUID, ToUID, AddTime, ExpireTime, MSG) "
         "VALUES (%s, %d, datetime('now'), datetime('now'%s));"
         "SELECT msgid FROM Messages WHERE Messages.rowid = last_insert_rowid();"
-        , from_uid == 0 ? "NULL" : itoa(from_uid, digits, 10)
+        , from_uid == 0 ? "NULL" : _itoa(from_uid, digits, 10)
         , to_uid
         , tmToSqliteTimeModifiers(modifierbuf, validTimePeriod));
 
