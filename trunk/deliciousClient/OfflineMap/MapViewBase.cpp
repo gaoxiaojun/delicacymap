@@ -257,8 +257,6 @@ void MapViewBase::updateBound()
     // avoid emitting too much signals
     if ( abs(xCenter - last_xcenter) > 50 || abs(yCenter - last_ycenter) > 50 )
     {
-        last_xcenter = xCenter;
-        last_ycenter = yCenter;
         int xLeft, xRight, yTop, yBottom;
         int halfWidth, halfHeight;
         halfWidth = width() / 2;
@@ -268,10 +266,17 @@ void MapViewBase::updateBound()
         yTop = yCenter - halfHeight;
         yBottom = yCenter + halfHeight;
 
-        CoordsHelper::InternalCoordToGeoCoord(QPoint(xLeft, yBottom), zoomLevel, currentBound.SW.lat, currentBound.SW.lng);
-        CoordsHelper::InternalCoordToGeoCoord(QPoint(xRight, yTop), zoomLevel, currentBound.NE.lat, currentBound.NE.lng);
+        GeoPoint geoSW;
+        CoordsHelper::InternalCoordToGeoCoord(QPoint(xLeft, yBottom), zoomLevel, geoSW.lat, geoSW.lng);
+        if ( abs(currentBound.SW.lat.getDouble() - geoSW.lat.getDouble()) > 0.008 || abs(currentBound.SW.lng.getDouble() - geoSW.lng.getDouble()) > 0.008 )
+        {
+            last_xcenter = xCenter;
+            last_ycenter = yCenter;
+            currentBound.SW = geoSW;
+            CoordsHelper::InternalCoordToGeoCoord(QPoint(xRight, yTop), zoomLevel, currentBound.NE.lat, currentBound.NE.lng);
 
-        emit boundsChange(currentBound);
+            emit boundsChange(currentBound);
+        }
     }
 }
 
@@ -320,7 +325,7 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
                 }		
             }
         }		
-        images->update();
+        images->tick();
     }
 }
 

@@ -23,7 +23,7 @@ public:
 	
 	class Tile{
 	public:
-		enum {DefaultLife=16};
+		enum {DefaultLife=8};
 		inline int getLife(){return life;};
 		inline void revive(){life = DefaultLife;};
 		inline int countdown(){life--; return life;};
@@ -42,29 +42,32 @@ public:
 	const QString& getCacheDBPath();
 	ImageCache();
 	~ImageCache();
-	void update();
+    void tick();
 	void clear();
 	const QString& getUrlTemplate();
 	void setUrlTemplate(const QString &newUrlTemplate);
 signals:
 	void imageChanged();
-protected:
-	QMap<TileCoord, Tile> images;
 
-	QPixmap loadingImg;
-    QSqlQuery queries[18];
-	Downloader* downloader;
+private slots:
+    void update();
+protected:
 	void loadImage(const TileCoord& tileCoord, int possibility);
 	QString getDownloadUrl(int x, int y, int zoom);
 	QString getCoordsQstr(int x, int y, int zoom);
     void prepareStatements();
-	
+    void paintLoadingImage();
+    bool isLoading(const TileCoord& tileCoord);
+
+    QMap<TileCoord, Tile> images;
+
+    QPixmap loadingImg;
+    QSqlQuery queries[18];
+    Downloader* downloader;
 	QString urlTemplate;
     QString dbpath;
     QSqlDatabase db;
-	
-	void paintLoadingImage();
-	bool isLoading(const TileCoord& tileCoord);
+	bool _updateAction;
 };
 
 bool operator< (const ImageCache::TileCoord& arg1, const ImageCache::TileCoord arg2);

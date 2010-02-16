@@ -3,6 +3,7 @@
 #include <QColor>
 #include <QVariant>
 #include <QPainter>
+#include <QTimer>
 #include <stdlib.h>
 
 ImageCache::~ImageCache(){
@@ -33,6 +34,7 @@ ImageCache::ImageCache()
 :downloader(0),
 urlTemplate("http://mt2.google.com/vt/lyrs=m@116&hl=zh&x=%1&y=%2&z=%3")
 {
+    _updateAction = false;
 	paintLoadingImage();
 }
 
@@ -90,10 +92,9 @@ void ImageCache::loadImage(const TileCoord& tileCoord, int possibility){
         QSqlQuery &query = queries[tileCoord.zoom];
         query.bindValue(0, tileCoord.x);
         query.bindValue(1, tileCoord.y);
-        if (query.exec() && query.next()) 
+        if (query.exec() && query.next() && newtile.image.loadFromData(query.value(0).toByteArray())) 
         {
-            newtile.image.loadFromData(query.value(0).toByteArray());
-            images[tileCoord] = newtile;
+            images.insert(tileCoord, newtile);
         }
 //         TileCoord tryload;
 //         tryload.zoom = tileCoord.zoom;
@@ -142,13 +143,14 @@ void ImageCache::paintLoadingImage(){
 }
 
 void ImageCache::update(){
-	for (QMap<TileCoord, Tile>::iterator i = images.begin(); i != images.end();){
-		i->countdown();
-		if (i->getLife() <= 0)
-			i = images.erase(i);
-        else
-            ++i;
-	}
+    _updateAction = false;
+    for (QMap<TileCoord, Tile>::iterator i = images.begin(); i != images.end();){
+        QMap<TileCoord, Tile>::iterator cur = i; 
+        ++i;
+        cur->countdown();
+        if (cur->getLife() <= 0)
+            images.erase(cur);
+    }
 }
 
 bool ImageCache::isLoading(const TileCoord& tileCoord){
@@ -191,5 +193,14 @@ void ImageCache::prepareStatements()
         queries[i] = QSqlQuery();
         queries[i].prepare(QString("SELECT data FROM [%1] WHERE x=:x AND y=:y ").arg(i));
         queries[i].setForwardOnly(true);
+    }
+}
+
+void ImageCache::tick()
+{
+    if (!_updateAction)
+    {
+        _updateAction = true;
+        QTimer::singleShot(100, this, SLOT(update()));
     }
 }
