@@ -8,5 +8,6 @@
     <file alias="view_comments.png">Resources/image/view_comments.png</file>
     <file alias="view_friends.png">Resources/image/view_friends.png</file>
     <file alias="marker.png">Resources/marker.png</file>
+    <file alias="arrow.png">Resources/arrow.png</file>
   </qresource>
 </RCC>

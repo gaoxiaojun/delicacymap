@@ -63,7 +63,6 @@ SOURCES += main.cpp \
     OfflineMap/MapViewBase.cpp \
     OfflineMap/Downloader.cpp \
     OfflineMap/GeoCoord.cpp
-RESOURCES += webpage.qrc
 
 # DEPLOYMENT_PLUGIN += qsqlite qjpeg qgif qmng
 linux-* { 
