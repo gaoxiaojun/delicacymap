@@ -12,6 +12,7 @@ class Session;
 class GeoBound;
 class MapServices;
 class MapViewBase;
+class MapController;
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -20,8 +21,6 @@ namespace ProtocolBuffer{
     class User;
     class DMessage;
 }
-
-class MapController;
 
 namespace Ui {
     class MainWindow;

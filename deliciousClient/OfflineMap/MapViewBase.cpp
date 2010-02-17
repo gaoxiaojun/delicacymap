@@ -18,7 +18,7 @@ const GeoCoord CoordsHelper::maxLongitude(180, 0, 0, 0);
 const double CoordsHelper::pi = 3.1415926535897932384626433832795028841971693993751;
 
 MapViewBase::MapViewBase(QWidget *parent)
-:QGraphicsView(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0)
+:QGraphicsView(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0), self(NULL)
 {
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     last_xcenter = xCenter;
@@ -34,6 +34,8 @@ MapViewBase::MapViewBase(QWidget *parent)
 }
 
 MapViewBase::~MapViewBase(){
+    delete scene;
+    delete self;
 }
 
 void MapViewBase::setCache(ImageCache* imageCache){
@@ -70,6 +72,8 @@ void MapViewBase::setZoomLevel(int level){
             remapMarkers(zoomLevel, level);
             zoomLevel = level;
             emit zoomLevelChanged(zoomLevel);
+            if (images)
+                images->clear();
             updateBound();
             scene->setSceneRect(0, 0, 1<<(zoomLevel+CoordsHelper::TilePower2), 1<<(zoomLevel+CoordsHelper::TilePower2));
             centerOn(xCenter, yCenter);
@@ -98,6 +102,8 @@ void MapViewBase::setZoomLevelAt(int level, int x, int y){
             remapMarkers(zoomLevel, level);
             zoomLevel = level;
             emit zoomLevelChanged(zoomLevel);
+            if (images)
+                images->clear();
             updateBound();
             scene->setSceneRect(0, 0, 1<<(zoomLevel+CoordsHelper::TilePower2), 1<<(zoomLevel+CoordsHelper::TilePower2));
             centerOn(xCenter, yCenter);
@@ -268,7 +274,7 @@ void MapViewBase::updateBound()
 
         GeoPoint geoSW;
         CoordsHelper::InternalCoordToGeoCoord(QPoint(xLeft, yBottom), zoomLevel, geoSW.lat, geoSW.lng);
-        if ( abs(currentBound.SW.lat.getDouble() - geoSW.lat.getDouble()) > 0.008 || abs(currentBound.SW.lng.getDouble() - geoSW.lng.getDouble()) > 0.008 )
+        if ( abs(currentBound.SW.lat.getDouble() - geoSW.lat.getDouble()) > 0.005 || abs(currentBound.SW.lng.getDouble() - geoSW.lng.getDouble()) > 0.005 )
         {
             last_xcenter = xCenter;
             last_ycenter = yCenter;
@@ -331,9 +337,9 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
 
 void MapViewBase::addRestaurantMarker(const ProtocolBuffer::Restaurant* r)
 {
-    QPoint p = CoordsHelper::InternalGeoCoordToCoord(GeoCoord(r->location().latitude()), GeoCoord(r->location().longitude()), zoomLevel);
     RestaurantMarkerItem *item = new RestaurantMarkerItem(r);
-    item->setPos(p);
+    item->setPos(GeoPoint(r->location().latitude(), r->location().longitude()));
+    item->setZoom(zoomLevel);
     scene->addItem(item);
 }
 
@@ -342,22 +348,23 @@ void MapViewBase::remapMarkers( int oldzoomlevel, int newzoomlevel )
     QList<QGraphicsItem*> items = scene->items();
     BOOST_FOREACH(QGraphicsItem* item, items)
     {
-        RestaurantMarkerItem *ritem = qgraphicsitem_cast<RestaurantMarkerItem*>(item);
-        RouteItem* routeitem = qgraphicsitem_cast<RouteItem*>(item);
-        if (ritem)
-        {
-            QPoint p = CoordsHelper::InternalGeoCoordToCoord(GeoCoord(ritem->restaurantInfo()->location().latitude()), GeoCoord(ritem->restaurantInfo()->location().longitude()), newzoomlevel);
-            ritem->setPos(p);
-        }
-        else if (routeitem)
-        {
-            routeitem->changeZoom(newzoomlevel);
-        }
+        ZoomSensitiveItem* zoomitem = (ZoomSensitiveItem*)item;  // !!! Not Safe!!!!
+        zoomitem->setZoom(newzoomlevel);
     }
 }
 
 void MapViewBase::addRoute( const QList<GeoPoint>& p )
 {
     RouteItem * item = new RouteItem(p);
-    item->changeZoom(zoomLevel);
+    item->setZoom(zoomLevel);
+}
+
+void MapViewBase::setSelfLocation( GeoPoint coord )
+{
+    if (!self)
+    {
+        self = new SelfMarkerItem;
+        self->setZoom(zoomLevel);
+    }
+    self->setPos(coord);
 }
