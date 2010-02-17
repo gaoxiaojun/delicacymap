@@ -2,7 +2,8 @@
 #include "MapProtocol.pb.h"
 #include "Session.h"
 #include "OfflineMap/MapViewBase.h"
-#include "OfflineMap/GeoCoord.h"
+#include <QGeoPositionInfoSource>
+
 
 MapController::MapController(void)
 : map(NULL), session(NULL)
@@ -47,4 +48,21 @@ void MapController::setMapView( MapViewBase* m )
 {
     map = m;
     connect(this, SIGNAL(newRestaurantMarker(const ProtocolBuffer::Restaurant*)), map, SLOT(addRestaurantMarker(const ProtocolBuffer::Restaurant*)));
+}
+
+void MapController::setLocationSource( QGeoPositionInfoSource* loc )
+{
+    if (loc)
+    {
+        loc_svc = loc;
+        loc_svc->setUpdateInterval(3000);
+        connect(loc_svc, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(translateLocationSignal(QGeoPositionInfo)));
+        loc_svc->startUpdates();
+    }
+}
+
+void MapController::translateLocationSignal( QGeoPositionInfo info )
+{
+    GeoPoint location(info.coordinate().latitude(), info.coordinate().longitude());
+    emit currentLocationUpdate(location);
 }

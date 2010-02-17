@@ -89,8 +89,8 @@ wince* {
             ws2.lib \
             Gpsapi.lib \
             libprotobuf-lite_wince_release.lib \
-            ../QtMobility/lib_wince/QtBearer_tp.lib \
-            ../QtMobility/lib_wince/QtLocation_tp.lib
+            ../QtMobility/lib_wince/QtBearer.lib \
+            ../QtMobility/lib_wince/QtLocation.lib
     }
 }
 win32:!wince* { 
@@ -98,11 +98,13 @@ win32:!wince* {
     HEADERS += bluetoothmanager_wince.h \
         bluetoothmanager_win.h
     RESOURCES += mainwindow.qrc
-    LIBS += Ws2_32.lib \
-        ../QtMobility/lib_win32/QtBearer_tp.lib \
-        ../QtMobility/lib_win32/QtLocation_tp.lib
-    CONFIG(debug, debug|release):LIBS += libprotobuf-lite_win32_debug.lib
-    else:LIBS += libprotobuf-lite_win32_release.lib
+    LIBS += Ws2_32.lib
+    CONFIG(debug, debug|release):LIBS += libprotobuf-lite_win32_debug.lib \
+                                         ../QtMobility/lib_win32/QtBearerd.lib \
+                                         ../QtMobility/lib_win32/QtLocationd.lib
+    else:LIBS += libprotobuf-lite_win32_release.lib \
+                 ../QtMobility/lib_win32/QtBearer.lib \
+                 ../QtMobility/lib_win32/QtLocation.lib
 }
 symbian { 
     target.capability = networkservices
@@ -116,6 +118,6 @@ macx {
     MOC_DIR = ./objs
 
     CONFIG += x86_64
-    LIBS += -lprotobuf -F../QtMobility/lib_macx -framework QtLocation_tp -framework QtBearer_tp
+    LIBS += -lprotobuf -F../QtMobility/lib_macx -framework QtLocation -framework QtBearer
     RESOURCES += mainwindow.qrc
 }

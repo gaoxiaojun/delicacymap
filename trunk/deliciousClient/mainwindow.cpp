@@ -11,9 +11,11 @@
 #include "OfflineMap/GeoCoord.h"
 #include <QMenuBar>
 #include <QDebug>
-
+#include <QGeoPositionInfo>
+#include <QGeoPositionInfoSource>
 
 using namespace ProtocolBuffer;
+QTM_USE_NAMESPACE
 
 MainWindow::MainWindow(Session *s, QWidget *parent) :
     QMainWindow(parent),
@@ -46,7 +48,9 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 
     controller = new MapController;
     controller->setMapView(navi);
+    controller->setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
     connect(navi, SIGNAL(boundsChange(const GeoBound&)), controller, SLOT(MapViewBoundsChange(const GeoBound&)));
+    connect(controller, SIGNAL(currentLocationUpdate(const GeoPoint&)), navi, SLOT(setSelfLocation(const GeoPoint& coord)));
 
     navi->setZoomLevel(15);
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
@@ -70,6 +74,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete navi;
     delete m_ui;
     delete controller;
     delete svc;

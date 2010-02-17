@@ -5,6 +5,18 @@
 #include <QPixmap>
 #include <boost/foreach.hpp>
 
+void ZoomSensitiveItem::setZoom( int zoom )
+{
+    currentZoom = zoom;
+    setPos(getPos());
+}
+
+void ZoomSensitiveItem::setPos( const GeoPoint& center )
+{
+    location = center;
+    setPos(CoordsHelper::InternalGeoCoordToCoord(location.lat, location.lng, getZoom()));
+}
+
 void RestaurantMarkerItem::paint( QPainter *p, const QStyleOptionGraphicsItem *, QWidget * )
 {
     p->drawEllipse(0, 0, 3, 3);
@@ -23,15 +35,15 @@ QPixmap& RestaurantMarkerItem::markerImage()
     return image;
 }
 
-void RouteItem::paint( QPainter *, const QStyleOptionGraphicsItem *, QWidget */* = 0 */ )
+void RouteItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * /* = 0 */ )
 {
-
+    painter->drawPolyline(sceneCoords);
 }
 
 QRectF RouteItem::boundingRect() const
 {
-    QPoint sw = CoordsHelper::InternalGeoCoordToCoord(boundRect.SW.lat, boundRect.SW.lng, currentZoomlevel);
-    QPoint ne = CoordsHelper::InternalGeoCoordToCoord(boundRect.NE.lat, boundRect.NE.lng, currentZoomlevel);
+    QPoint sw = CoordsHelper::InternalGeoCoordToCoord(boundRect.SW.lat, boundRect.SW.lng, getZoom());
+    QPoint ne = CoordsHelper::InternalGeoCoordToCoord(boundRect.NE.lat, boundRect.NE.lng, getZoom());
     return QRectF(
         sw.x(),
         ne.y(),
@@ -39,14 +51,15 @@ QRectF RouteItem::boundingRect() const
         ne.y() - sw.y());
 }
 
-void RouteItem::changeZoom( int zoom )
+void RouteItem::setZoom( int zoom )
 {
-    if (zoom != currentZoomlevel)
+    if (zoom != getZoom())
     {
-        currentZoomlevel = zoom;
+        ZoomSensitiveItem::setZoom(zoom);
+        sceneCoords.clear();
         BOOST_FOREACH( const GeoPoint &c, points )
         {
-
+            sceneCoords.push_back(CoordsHelper::InternalGeoCoordToCoord(c.lat, c.lng, getZoom()));
         }
         prepareGeometryChange();
     }
@@ -68,4 +81,30 @@ RouteItem::RouteItem( const QList<GeoPoint>& r, bool editable /*= false*/ )
         if (boundRect.NE.lng < c.lng)
             boundRect.NE.lng = c.lng;
     }
+}
+
+void UserMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */ )
+{
+
+}
+
+QRectF UserMarkerItem::boundingRect() const
+{
+    return QRectF();
+}
+
+const QPixmap& UserMarkerItem::defaultUserIcon()
+{
+    static QPixmap image(":/Icons/arrow.png");
+    return image;
+}
+
+const QPixmap& UserMarkerItem::UserIcon()
+{
+    return defaultUserIcon();
+}
+
+void SelfMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */ )
+{
+
 }

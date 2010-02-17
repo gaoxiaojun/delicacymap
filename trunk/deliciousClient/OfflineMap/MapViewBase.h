@@ -10,6 +10,7 @@
 class ImageCache;
 struct MarkerInfo;
 class QGraphicsScene;
+class SelfMarkerItem;
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -27,6 +28,7 @@ public:
 public slots:
     void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
     void addRoute(const QList<GeoPoint>&);
+    void setSelfLocation(GeoPoint coord);
     void resetCoords();
     void zoomIn();
     void zoomOut();
@@ -74,6 +76,7 @@ protected:
 private:
     ImageCache *images;
     QGraphicsScene *scene;
+    SelfMarkerItem *self;
     Decorator decorator;
     GeoBound currentBound;
     bool shouldProcessReleaseEvent;
