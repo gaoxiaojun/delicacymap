@@ -15,7 +15,7 @@ class QPixmap;
 class ZoomSensitiveItem : public QGraphicsItem
 {
 public:
-    ZoomSensitiveItem() : currentZoom(0), location(0., 0.){}
+    ZoomSensitiveItem() : currentZoom(-1), location(0., 0.){}
     void setPos(const GeoPoint& center);
     using QGraphicsItem::setPos;
     const GeoPoint& getPos() {return location;};
@@ -64,7 +64,7 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */);
     QRectF boundingRect() const;
     int type() const { return UserType + 1002; }
-    virtual const QPixmap& UserIcon();
+    virtual const QPixmap& UserIcon() const;
     static const QPixmap& defaultUserIcon();
 };
 

@@ -20,6 +20,7 @@ const double CoordsHelper::pi = 3.1415926535897932384626433832795028841971693993
 MapViewBase::MapViewBase(QWidget *parent)
 :QGraphicsView(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0), self(NULL)
 {
+    movingMarker = shouldProcessReleaseEvent = false;
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     last_xcenter = xCenter;
     last_ycenter = yCenter;
@@ -27,7 +28,6 @@ MapViewBase::MapViewBase(QWidget *parent)
     setScene(scene);
     centerOn(xCenter, yCenter);
     //setCacheMode(QGraphicsView::CacheBackground);
-    setInteractive(false);
     setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setAttribute( Qt::WA_OpaquePaintEvent );// a small optimization
@@ -157,12 +157,25 @@ void MapViewBase::insertDecorator(Decorator *newDecorator){
 
 void MapViewBase::mouseMoveEvent(QMouseEvent *event){
     shouldProcessReleaseEvent = false;
-    decorator.mouseMoveEvent(event);
+    if (movingMarker)
+        QGraphicsView::mouseMoveEvent(event);
+    else
+        decorator.mouseMoveEvent(event);
 }
 
 void MapViewBase::mousePressEvent(QMouseEvent *event){
+    if (event->button() == Qt::LeftButton)
+    {
+        QGraphicsItem *item = itemAt(event->pos());
+        RestaurantMarkerItem *r;
+        if (item && (r = qgraphicsitem_cast<RestaurantMarkerItem*>(item)))
+        {
+            movingMarker = true;
+        }
+    }
     shouldProcessReleaseEvent = true;
     decorator.mousePressEvent(event);
+    QGraphicsView::mousePressEvent(event);
 }
 
 void MapViewBase::mouseReleaseEvent(QMouseEvent *event){
@@ -175,7 +188,9 @@ void MapViewBase::mouseReleaseEvent(QMouseEvent *event){
             emit restaurantMarkerClicked(r->restaurantInfo());
         }
     }
+    movingMarker = false;
     decorator.mouseReleaseEvent(event);
+    QGraphicsView::mouseReleaseEvent(event);
 }
 
 void MapViewBase::mouseDoubleClickEvent(QMouseEvent *event){
@@ -357,9 +372,10 @@ void MapViewBase::addRoute( const QList<GeoPoint>& p )
 {
     RouteItem * item = new RouteItem(p);
     item->setZoom(zoomLevel);
+    scene->addItem(item);
 }
 
-void MapViewBase::setSelfLocation( GeoPoint coord )
+void MapViewBase::setSelfLocation( const GeoPoint& coord )
 {
     if (!self)
     {

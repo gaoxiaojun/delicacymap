@@ -14,19 +14,19 @@ void ZoomSensitiveItem::setZoom( int zoom )
 void ZoomSensitiveItem::setPos( const GeoPoint& center )
 {
     location = center;
-    setPos(CoordsHelper::InternalGeoCoordToCoord(location.lat, location.lng, getZoom()));
+    if (getZoom() != -1)
+        setPos(CoordsHelper::InternalGeoCoordToCoord(location.lat, location.lng, getZoom()));
 }
 
 void RestaurantMarkerItem::paint( QPainter *p, const QStyleOptionGraphicsItem *, QWidget * )
 {
-    p->drawEllipse(0, 0, 3, 3);
     p->drawPixmap(-markerImage().width()/2, -markerImage().height(), markerImage());
     p->drawText(-10, 10, QString::fromUtf8(restaurantInfo()->name().c_str()));
 }
 
 QRectF RestaurantMarkerItem::boundingRect() const
 {
-    return QRectF(-markerImage().width()/2, -markerImage().height(), markerImage().width(), markerImage().height());
+    return QRectF(-markerImage().width()/2, -markerImage().height(), markerImage().width(), markerImage().height() + 5);
 }
 
 QPixmap& RestaurantMarkerItem::markerImage()
@@ -37,18 +37,22 @@ QPixmap& RestaurantMarkerItem::markerImage()
 
 void RouteItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * /* = 0 */ )
 {
+    QPen pen(QColor(25, 255, 50));
+    pen.setWidth(3);
+    painter->setPen(pen);
     painter->drawPolyline(sceneCoords);
 }
 
 QRectF RouteItem::boundingRect() const
 {
-    QPoint sw = CoordsHelper::InternalGeoCoordToCoord(boundRect.SW.lat, boundRect.SW.lng, getZoom());
-    QPoint ne = CoordsHelper::InternalGeoCoordToCoord(boundRect.NE.lat, boundRect.NE.lng, getZoom());
+    QPoint SW = CoordsHelper::InternalGeoCoordToCoord(boundRect.SW.lat, boundRect.SW.lng, getZoom());
+    QPoint NE = CoordsHelper::InternalGeoCoordToCoord(boundRect.NE.lat, boundRect.NE.lng, getZoom());
+    QPoint Center( (SW.x() + NE.x())/2, (SW.y() + NE.y())/2 );
     return QRectF(
-        sw.x(),
-        ne.y(),
-        ne.x() - sw.x(),
-        ne.y() - sw.y());
+        SW.x() - Center.x(),
+        NE.y() - Center.y(),
+        NE.x() - SW.x(),
+        SW.y() - NE.y());
 }
 
 void RouteItem::setZoom( int zoom )
@@ -57,10 +61,14 @@ void RouteItem::setZoom( int zoom )
     {
         ZoomSensitiveItem::setZoom(zoom);
         sceneCoords.clear();
+        QPoint SW = CoordsHelper::InternalGeoCoordToCoord(boundRect.SW.lat, boundRect.SW.lng, getZoom());
+        QPoint NE = CoordsHelper::InternalGeoCoordToCoord(boundRect.NE.lat, boundRect.NE.lng, getZoom());
+        QPoint Center( (SW.x() + NE.x())/2, (SW.y() + NE.y())/2 );
         BOOST_FOREACH( const GeoPoint &c, points )
         {
-            sceneCoords.push_back(CoordsHelper::InternalGeoCoordToCoord(c.lat, c.lng, getZoom()));
+            sceneCoords.push_back(CoordsHelper::InternalGeoCoordToCoord(c.lat, c.lng, getZoom()) - Center);
         }
+        setPos(Center);
         prepareGeometryChange();
     }
 }
@@ -85,12 +93,14 @@ RouteItem::RouteItem( const QList<GeoPoint>& r, bool editable /*= false*/ )
 
 void UserMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */ )
 {
-
+    const QPixmap& image = UserIcon();
+    painter->drawPixmap(-image.width()/2, -image.height(), image);
 }
 
 QRectF UserMarkerItem::boundingRect() const
 {
-    return QRectF();
+    const QPixmap& image = UserIcon();
+    return QRectF(-image.width()/2, -image.height(), image.width(), image.height());
 }
 
 const QPixmap& UserMarkerItem::defaultUserIcon()
@@ -99,7 +109,7 @@ const QPixmap& UserMarkerItem::defaultUserIcon()
     return image;
 }
 
-const QPixmap& UserMarkerItem::UserIcon()
+const QPixmap& UserMarkerItem::UserIcon() const
 {
     return defaultUserIcon();
 }
