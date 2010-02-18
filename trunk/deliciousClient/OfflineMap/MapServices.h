@@ -3,6 +3,8 @@
 #include <QObject>
 #include <QSet>
 #include <QString>
+#include <QList>
+#include "GeoCoord.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -21,7 +23,7 @@ public:
 signals:
     void GeoCodeResult(const QString originalQuery, double lattitude, double longitude);
     void ReverseGeoCodeResult(const QString originalQuery, const QString address);
-    void NewRoutingResult();
+    void RoutingResult(QList<GeoPoint>);
 
 protected slots:
     void ProcessJSONResult(QNetworkReply*);

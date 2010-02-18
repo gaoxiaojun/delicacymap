@@ -28,7 +28,7 @@ public:
 public slots:
     void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
     void addRoute(const QList<GeoPoint>&);
-    void setSelfLocation(GeoPoint coord);
+    void setSelfLocation(const GeoPoint& coord);
     void resetCoords();
     void zoomIn();
     void zoomOut();
@@ -79,7 +79,7 @@ private:
     SelfMarkerItem *self;
     Decorator decorator;
     GeoBound currentBound;
-    bool shouldProcessReleaseEvent;
+    bool shouldProcessReleaseEvent, movingMarker;
 };
 
 #endif
