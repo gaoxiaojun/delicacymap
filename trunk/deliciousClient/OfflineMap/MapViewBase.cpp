@@ -20,7 +20,7 @@ const double CoordsHelper::pi = 3.1415926535897932384626433832795028841971693993
 MapViewBase::MapViewBase(QWidget *parent)
 :QGraphicsView(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0), self(NULL)
 {
-    movingMarker = shouldProcessReleaseEvent = false;
+    handleDblClickEvent = handleMoveEvent = handlePressEvent = handleReleaseEvent = true;
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     last_xcenter = xCenter;
     last_ycenter = yCenter;
@@ -156,45 +156,58 @@ void MapViewBase::insertDecorator(Decorator *newDecorator){
 }
 
 void MapViewBase::mouseMoveEvent(QMouseEvent *event){
-    shouldProcessReleaseEvent = false;
-    if (movingMarker)
-        QGraphicsView::mouseMoveEvent(event);
-    else
+    handleReleaseEvent = false;
+    if (handleMoveEvent)
         decorator.mouseMoveEvent(event);
+    else
+        QGraphicsView::mouseMoveEvent(event);        
 }
 
 void MapViewBase::mousePressEvent(QMouseEvent *event){
-    if (event->button() == Qt::LeftButton)
-    {
-        QGraphicsItem *item = itemAt(event->pos());
-        RestaurantMarkerItem *r;
-        if (item && (r = qgraphicsitem_cast<RestaurantMarkerItem*>(item)))
-        {
-            movingMarker = true;
-        }
-    }
-    shouldProcessReleaseEvent = true;
-    decorator.mousePressEvent(event);
-    QGraphicsView::mousePressEvent(event);
+    handleReleaseEvent = true;
+    if (handlePressEvent)
+        decorator.mousePressEvent(event);
+    else
+        QGraphicsView::mousePressEvent(event);
 }
 
 void MapViewBase::mouseReleaseEvent(QMouseEvent *event){
-    if (shouldProcessReleaseEvent && event->button() == Qt::LeftButton)
+    if (handleReleaseEvent)
     {
-        QGraphicsItem *item = itemAt(event->pos());
-        RestaurantMarkerItem *r;
-        if (item && (r = qgraphicsitem_cast<RestaurantMarkerItem*>(item)))
+        if (event->button() == Qt::LeftButton)
         {
-            emit restaurantMarkerClicked(r->restaurantInfo());
+            QGraphicsItem *item = itemAt(event->pos());
+            RestaurantMarkerItem *r;
+            if (item && (r = qgraphicsitem_cast<RestaurantMarkerItem*>(item)))
+            {
+                emit restaurantMarkerClicked(r->restaurantInfo());
+            }
         }
+        decorator.mouseReleaseEvent(event);
     }
-    movingMarker = false;
-    decorator.mouseReleaseEvent(event);
-    QGraphicsView::mouseReleaseEvent(event);
+    else
+        QGraphicsView::mouseReleaseEvent(event);
+    handleMoveEvent = true;
 }
 
 void MapViewBase::mouseDoubleClickEvent(QMouseEvent *event){
-    decorator.mouseDoubleClickEvent(event);
+    if (handleDblClickEvent)
+    {
+        if (event->button() == Qt::LeftButton)
+        {
+            // specify here which marks we want to make interactive
+            QGraphicsItem *item = itemAt(event->pos());
+            RouteItem *r;
+            if (item && (r = qgraphicsitem_cast<RouteItem*>(item)))
+            {
+                QGraphicsView::mouseDoubleClickEvent(event);
+                return;
+            }
+        }
+        decorator.mouseDoubleClickEvent(event);
+    }
+    else
+        QGraphicsView::mouseDoubleClickEvent(event);
 }
 
 void MapViewBase::keyPressEvent(QKeyEvent *event){

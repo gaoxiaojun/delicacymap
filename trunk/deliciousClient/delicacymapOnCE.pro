@@ -5,7 +5,6 @@ INCLUDEPATH += ./rclib/include \
     ../protocol-buffer-src \
     ../QtMobility/include
 LIBPATH += ../protocol-buffer-src/lib
-OBJECTS_DIR = ./objs
 CONFIG += mobility
 CONFIG -= flat
 MOBILITY += location \
@@ -55,6 +54,7 @@ SOURCES += main.cpp \
     Session.cpp \
     ../protocol-buffer-src/Message.pb.cc \
     ../protocol-buffer-src/MapProtocol.pb.cc \
+    OfflineMap/EditableRouteMarker.cpp \
     OfflineMap/MarkerItem.cpp \
     OfflineMap/MapServices.cpp \
     OfflineMap/Decorator.cpp \
@@ -68,6 +68,7 @@ SOURCES += main.cpp \
 linux-* { 
     RCC_DIR = ./objs
     MOC_DIR = ./objs
+    OBJECTS_DIR = ./objs
     RESOURCES += mainwindow.qrc
     
     # LIBPATH += /usr/local/lib
@@ -116,6 +117,7 @@ macx {
     LIBPATH += /opt/local/lib
     RCC_DIR = ./objs
     MOC_DIR = ./objs
+    OBJECTS_DIR = ./objs
 
     CONFIG += x86_64
     LIBS += -lprotobuf -F../QtMobility/lib_macx -framework QtLocation -framework QtBearer

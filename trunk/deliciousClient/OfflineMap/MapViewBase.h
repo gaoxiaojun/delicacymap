@@ -79,7 +79,7 @@ private:
     SelfMarkerItem *self;
     Decorator decorator;
     GeoBound currentBound;
-    bool shouldProcessReleaseEvent, movingMarker;
+    bool handleReleaseEvent, handlePressEvent, handleDblClickEvent, handleMoveEvent;
 };
 
 #endif
