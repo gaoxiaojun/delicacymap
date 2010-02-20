@@ -43,6 +43,7 @@ signals:
 
 public slots:
     void MapViewBoundsChange(const GeoBound&);
+    void HandleSystemMessages(const ProtocolBuffer::DMessage*);
 
 private:
     void RestaurantListHandler(ProtocolBuffer::RestaurantList*, MapViewBase*);

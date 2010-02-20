@@ -19,7 +19,8 @@ QTM_USE_NAMESPACE
 
 MainWindow::MainWindow(Session *s, QWidget *parent) :
     QMainWindow(parent),
-    m_ui(new Ui::MainWindow)
+    m_ui(new Ui::MainWindow),
+    session(NULL)
 {
     m_ui->setupUi(this);
 
@@ -50,15 +51,16 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     controller->setMapView(navi);
     controller->setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
     connect(navi, SIGNAL(boundsChange(const GeoBound&)), controller, SLOT(MapViewBoundsChange(const GeoBound&)));
-    connect(controller, SIGNAL(currentLocationUpdate(const GeoPoint&)), navi, SLOT(setSelfLocation(const GeoPoint& coord)));
+    connect(controller, SIGNAL(currentLocationUpdate(const GeoPoint&)), navi, SLOT(setSelfLocation(const GeoPoint&)));
 
     navi->setZoomLevel(15);
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
 
     svc = new MapServices;
+    connect(svc, SIGNAL(RoutingResult(QList<GeoPoint>)), navi, SLOT(addRoute(const QList<GeoPoint>&)));
     //svc->GeoCode(QString::fromLocal8Bit("北京"));
     //svc->ReverseGeoCode(39.96067508327288, 116.35796070098877);
-    //svc->QueryRoute(QString::fromLocal8Bit("北京"), QString::fromLocal8Bit("天津"));
+    //svc->QueryRoute(QString::fromLocal8Bit("北京市海淀区西土城路10号 (北京邮电大学)"), QString::fromLocal8Bit("西直门"));
     //connect(svc, SIGNAL(GeoCodeResult(const QString, double, double)), this, SLOT(GeoCodeHandle(const QString, double, double)));
     //connect(svc, SIGNAL(ReverseGeoCodeResult(const QString, const QString)), this, SLOT(ReverseGeoCodeHandle(const QString, const QString)));
     //connect(navi, SIGNAL(boundsChange(const GeoBound&)), this, SLOT(BoundsUpdates(const GeoBound&)));
@@ -110,11 +112,17 @@ void MainWindow::BTHFind()
 
 void MainWindow::changeSession( Session *s )
 {
+    if (session)
+    {
+        disconnect(&session->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
+        disconnect(&session->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
+    }
     session = s;
     //navi->changeSession(s);
     if (s)
     {
         connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
+        connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
     }
     controller->setSession(s);
 }

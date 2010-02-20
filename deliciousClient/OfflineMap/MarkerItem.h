@@ -51,11 +51,15 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */);
     QRectF boundingRect() const;
     int type() const { return UserType + 1001; }
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
     QList<GeoPoint> points;
     QPolygon sceneCoords;
     GeoBound boundRect;
-    bool isEditable;
+    bool isEditable, isEditing;
 };
 
 class UserMarkerItem : public ZoomSensitiveItem
