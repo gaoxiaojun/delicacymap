@@ -73,6 +73,8 @@ struct StaticDescriptorInitializer_MapProtocol_2eproto {
 bool SystemMessageType_IsValid(int value) {
   switch(value) {
     case 1:
+    case 2:
+    case 3:
       return true;
     default:
       return false;
@@ -2792,6 +2794,7 @@ const int Query::kTimeFieldNumber;
 const int Query::kRIDFieldNumber;
 const int Query::kUIDFieldNumber;
 const int Query::kNFieldNumber;
+const int Query::kRelationFieldNumber;
 const int Query::kMsgFieldNumber;
 const int Query::kImageFieldNumber;
 const int Query::kEmailAddressFieldNumber;
@@ -2824,6 +2827,7 @@ void Query::SharedCtor() {
   rid_ = 0u;
   uid_ = 0u;
   n_ = 0u;
+  relation_ = 0u;
   msg_ = const_cast< ::std::string*>(&_default_msg_);
   image_ = const_cast< ::std::string*>(&_default_image_);
   emailaddress_ = const_cast< ::std::string*>(&_default_emailaddress_);
@@ -2883,29 +2887,30 @@ void Query::Clear() {
     rid_ = 0u;
     uid_ = 0u;
     n_ = 0u;
-    if (_has_bit(6)) {
+    relation_ = 0u;
+    if (_has_bit(7)) {
       if (msg_ != &_default_msg_) {
         msg_->clear();
-      }
-    }
-    if (_has_bit(7)) {
-      if (image_ != &_default_image_) {
-        image_->clear();
       }
     }
   }
   if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (_has_bit(8)) {
+      if (image_ != &_default_image_) {
+        image_->clear();
+      }
+    }
+    if (_has_bit(9)) {
       if (emailaddress_ != &_default_emailaddress_) {
         emailaddress_->clear();
       }
     }
-    if (_has_bit(9)) {
+    if (_has_bit(10)) {
       if (password_ != &_default_password_) {
         password_->clear();
       }
     }
-    if (_has_bit(10)) {
+    if (_has_bit(11)) {
       if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
     }
   }
@@ -3075,6 +3080,22 @@ bool Query::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(96)) goto parse_relation;
+        break;
+      }
+      
+      // optional uint32 relation = 12;
+      case 12: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_relation:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &relation_)));
+          _set_bit(6);
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -3129,33 +3150,38 @@ void Query::SerializeWithCachedSizes(
   }
   
   // optional string msg = 7;
-  if (_has_bit(6)) {
+  if (_has_bit(7)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       7, this->msg(), output);
   }
   
   // optional bytes image = 8;
-  if (_has_bit(7)) {
+  if (_has_bit(8)) {
     ::google::protobuf::internal::WireFormatLite::WriteBytes(
       8, this->image(), output);
   }
   
   // optional string emailAddress = 9;
-  if (_has_bit(8)) {
+  if (_has_bit(9)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       9, this->emailaddress(), output);
   }
   
   // optional string password = 10;
-  if (_has_bit(9)) {
+  if (_has_bit(10)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       10, this->password(), output);
   }
   
   // optional .ProtocolBuffer.User userinfo = 11;
-  if (_has_bit(10)) {
+  if (_has_bit(11)) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
       11, this->userinfo(), output);
+  }
+  
+  // optional uint32 relation = 12;
+  if (_has_bit(6)) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->relation(), output);
   }
   
 }
@@ -3206,6 +3232,13 @@ int Query::ByteSize() const {
           this->n());
     }
     
+    // optional uint32 relation = 12;
+    if (has_relation()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->relation());
+    }
+    
     // optional string msg = 7;
     if (has_msg()) {
       total_size += 1 +
@@ -3213,6 +3246,8 @@ int Query::ByteSize() const {
           this->msg());
     }
     
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     // optional bytes image = 8;
     if (has_image()) {
       total_size += 1 +
@@ -3220,8 +3255,6 @@ int Query::ByteSize() const {
           this->image());
     }
     
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     // optional string emailAddress = 9;
     if (has_emailaddress()) {
       total_size += 1 +
@@ -3277,20 +3310,23 @@ void Query::MergeFrom(const Query& from) {
       set_n(from.n());
     }
     if (from._has_bit(6)) {
-      set_msg(from.msg());
+      set_relation(from.relation());
     }
     if (from._has_bit(7)) {
-      set_image(from.image());
+      set_msg(from.msg());
     }
   }
   if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from._has_bit(8)) {
-      set_emailaddress(from.emailaddress());
+      set_image(from.image());
     }
     if (from._has_bit(9)) {
-      set_password(from.password());
+      set_emailaddress(from.emailaddress());
     }
     if (from._has_bit(10)) {
+      set_password(from.password());
+    }
+    if (from._has_bit(11)) {
       mutable_userinfo()->::ProtocolBuffer::User::MergeFrom(from.userinfo());
     }
   }
@@ -3324,6 +3360,7 @@ void Query::Swap(Query* other) {
     std::swap(rid_, other->rid_);
     std::swap(uid_, other->uid_);
     std::swap(n_, other->n_);
+    std::swap(relation_, other->relation_);
     std::swap(msg_, other->msg_);
     std::swap(image_, other->image_);
     std::swap(emailaddress_, other->emailaddress_);
@@ -3347,6 +3384,7 @@ const ::std::string DMessage::_default_buffer_;
 const int DMessage::kFromUserFieldNumber;
 const int DMessage::kToUserFieldNumber;
 const int DMessage::kMsgIDFieldNumber;
+const int DMessage::kIsSystemMessageFieldNumber;
 const int DMessage::kTextFieldNumber;
 const int DMessage::kSystemMessageTypeFieldNumber;
 const int DMessage::kBufferFieldNumber;
@@ -3371,6 +3409,7 @@ void DMessage::SharedCtor() {
   fromuser_ = 0u;
   touser_ = 0u;
   msgid_ = 0u;
+  issystemmessage_ = false;
   text_ = const_cast< ::std::string*>(&_default_text_);
   systemmessagetype_ = 1;
   buffer_ = const_cast< ::std::string*>(&_default_buffer_);
@@ -3412,13 +3451,14 @@ void DMessage::Clear() {
     fromuser_ = 0u;
     touser_ = 0u;
     msgid_ = 0u;
-    if (_has_bit(3)) {
+    issystemmessage_ = false;
+    if (_has_bit(4)) {
       if (text_ != &_default_text_) {
         text_->clear();
       }
     }
     systemmessagetype_ = 1;
-    if (_has_bit(5)) {
+    if (_has_bit(6)) {
       if (buffer_ != &_default_buffer_) {
         buffer_->clear();
       }
@@ -3523,6 +3563,22 @@ bool DMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(56)) goto parse_isSystemMessage;
+        break;
+      }
+      
+      // required bool isSystemMessage = 7;
+      case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_isSystemMessage:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &issystemmessage_)));
+          _set_bit(3);
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -3555,19 +3611,19 @@ void DMessage::SerializeWithCachedSizes(
   }
   
   // optional string text = 3;
-  if (_has_bit(3)) {
+  if (_has_bit(4)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       3, this->text(), output);
   }
   
   // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
-  if (_has_bit(4)) {
+  if (_has_bit(5)) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       4, this->systemmessagetype(), output);
   }
   
   // optional string buffer = 5;
-  if (_has_bit(5)) {
+  if (_has_bit(6)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       5, this->buffer(), output);
   }
@@ -3575,6 +3631,11 @@ void DMessage::SerializeWithCachedSizes(
   // required uint32 msgID = 6;
   if (_has_bit(2)) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->msgid(), output);
+  }
+  
+  // required bool isSystemMessage = 7;
+  if (_has_bit(3)) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(7, this->issystemmessage(), output);
   }
   
 }
@@ -3602,6 +3663,11 @@ int DMessage::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->msgid());
+    }
+    
+    // required bool isSystemMessage = 7;
+    if (has_issystemmessage()) {
+      total_size += 1 + 1;
     }
     
     // optional string text = 3;
@@ -3649,12 +3715,15 @@ void DMessage::MergeFrom(const DMessage& from) {
       set_msgid(from.msgid());
     }
     if (from._has_bit(3)) {
-      set_text(from.text());
+      set_issystemmessage(from.issystemmessage());
     }
     if (from._has_bit(4)) {
-      set_systemmessagetype(from.systemmessagetype());
+      set_text(from.text());
     }
     if (from._has_bit(5)) {
+      set_systemmessagetype(from.systemmessagetype());
+    }
+    if (from._has_bit(6)) {
       set_buffer(from.buffer());
     }
   }
@@ -3667,7 +3736,7 @@ void DMessage::CopyFrom(const DMessage& from) {
 }
 
 bool DMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
   
   return true;
 }
@@ -3677,6 +3746,7 @@ void DMessage::Swap(DMessage* other) {
     std::swap(fromuser_, other->fromuser_);
     std::swap(touser_, other->touser_);
     std::swap(msgid_, other->msgid_);
+    std::swap(issystemmessage_, other->issystemmessage_);
     std::swap(text_, other->text_);
     std::swap(systemmessagetype_, other->systemmessagetype_);
     std::swap(buffer_, other->buffer_);

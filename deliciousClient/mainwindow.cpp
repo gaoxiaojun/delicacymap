@@ -10,6 +10,7 @@
 #include "OfflineMap/MapServices.h"
 #include "OfflineMap/GeoCoord.h"
 #include <QMenuBar>
+#include <QMessageBox>
 #include <QDebug>
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
@@ -52,6 +53,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     controller->setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
     connect(navi, SIGNAL(boundsChange(const GeoBound&)), controller, SLOT(MapViewBoundsChange(const GeoBound&)));
     connect(controller, SIGNAL(currentLocationUpdate(const GeoPoint&)), navi, SLOT(setSelfLocation(const GeoPoint&)));
+    connect(controller, SIGNAL(SysMsgRequestRouting(int)), this, SLOT(handleRequestRouting(int)));
 
     navi->setZoomLevel(15);
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
@@ -60,7 +62,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(svc, SIGNAL(RoutingResult(QList<GeoPoint>)), navi, SLOT(addRoute(const QList<GeoPoint>&)));
     //svc->GeoCode(QString::fromLocal8Bit("北京"));
     //svc->ReverseGeoCode(39.96067508327288, 116.35796070098877);
-    //svc->QueryRoute(QString::fromLocal8Bit("北京市海淀区西土城路10号 (北京邮电大学)"), QString::fromLocal8Bit("西直门"));
+    svc->QueryRoute(QString::fromLocal8Bit("北京市海淀区西土城路10号 (北京邮电大学)"), QString::fromLocal8Bit("西直门"));
     //connect(svc, SIGNAL(GeoCodeResult(const QString, double, double)), this, SLOT(GeoCodeHandle(const QString, double, double)));
     //connect(svc, SIGNAL(ReverseGeoCodeResult(const QString, const QString)), this, SLOT(ReverseGeoCodeHandle(const QString, const QString)));
     //connect(navi, SIGNAL(boundsChange(const GeoBound&)), this, SLOT(BoundsUpdates(const GeoBound&)));
@@ -263,4 +265,26 @@ void MainWindow::BoundsUpdates( const GeoBound& bound )
 //         bound.NE.lat.getDouble(), bound.NE.lng.getDouble(),
 //         17,
 //         new ProtocolBuffer::RestaurantList)
+}
+
+void MainWindow::handleRequestRouting(int uid)
+{
+    QMessageBox msgbox;
+    QString text = QString("%1 is asking your help to guide him.").arg(QString::fromUtf8(getSession()->getUser(uid)->nickname().c_str()));
+    QPushButton* googlebutton = msgbox.addButton(QString("google direction"), QMessageBox::AcceptRole);
+    msgbox.setIcon(QMessageBox::Question);
+    msgbox.setText(text);
+    msgbox.setInformativeText("Routing request");
+    msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgbox.setDefaultButton(googlebutton);
+    int ret = msgbox.exec();
+    switch (ret)
+    {
+    case 0:
+        break;
+    case QMessageBox::Yes:
+        break;
+    case QMessageBox::No:
+        break;
+    }
 }

@@ -74,10 +74,10 @@ void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::p
             done);
         break;
     case protorpc::GetRelatedUsers:
-//         GetRelatedUsers(controller,
-//             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-//             ::google::protobuf::down_cast< ::ProtocolBuffer::UserList*>(response),
-//             done);
+        GetRelatedUsers(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::UserList*>(response),
+            done);
         break;
     case protorpc::AddCommentForRestaurant:
         AddCommentForRestaurant(controller,
@@ -309,6 +309,24 @@ void DMServiceLocalDBImpl::UpdateUserInfo( ::google::protobuf::RpcController* co
     done->Run();
 }
 
+void DMServiceLocalDBImpl::GetRelatedUsers( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::UserList* response, ::google::protobuf::Closure* done )
+{
+    if (request->has_uid() && request->has_relation())
+    {
+        adapter->GetRelatedUsersWith(
+            request->uid(),
+            request->relation(),
+            bind(&DMServiceLocalDBImpl::GetUsersCallback, this, _1, response));
+    }
+    else
+    {
+        pantheios::log_WARNING("calling GetRelatedUser() with wrong request message.");
+        controller->SetFailed("calling GetRelatedUser() with wrong request message.");
+    }
+
+    done->Run();
+}
+
 void DMServiceLocalDBImpl::GetRestaurantsCallback( const DBRow& row, RestaurantList* result )
 {
     Restaurant *newr = result->add_restaurants();
@@ -332,4 +350,10 @@ void DMServiceLocalDBImpl::GetCommentsCallback( const DBRow& row, ProtocolBuffer
     newc->set_uid(row.GetValueAs<int>("UID"));
     newc->set_rid(row.GetValueAs<int>("RID"));
     newc->mutable_timestamp()->set_timestamp(row["AddTime"]);
+}
+
+void DMServiceLocalDBImpl::GetUsersCallback( const DBRow& row, ProtocolBuffer::UserList* result )
+{
+    User* newuser = result->add_users();
+    ProtubufDBRowConversion::Convert(row, *newuser);
 }

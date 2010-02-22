@@ -95,6 +95,7 @@ message Query
     optional uint32                                          RID                         = 4;
     optional uint32                                          UID                         = 5;
     optional uint32                                          n                           = 6;
+    optional uint32                                          relation                    = 12;   // used with GetRelatedUsers
     optional string                                          msg                         = 7;    // used in add restaurant
     optional bytes                                           image                       = 8;    // used in add restaurant
     optional string                                          emailAddress                = 9;    // emailAddress used to validate user input
@@ -107,7 +108,8 @@ message Query
 enum SystemMessageType
 {
     RequestRouting                  = 1;
-    
+    RejectRouting                   = 2;
+    RoutingReply                    = 3;
 }
 
 message DMessage
@@ -115,6 +117,7 @@ message DMessage
     required uint32                                          fromUser                    = 1;
     required uint32                                          toUser                      = 2;
     required uint32                                          msgID                       = 6;
+    required bool                                            isSystemMessage             = 7;
     optional string                                          text                        = 3;   // only if not systemMessage
     optional SystemMessageType                               systemMessageType           = 4;   // only if isSystemMessage
     optional string                                          buffer                      = 5;   // only if isSystemMessage

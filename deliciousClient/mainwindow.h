@@ -53,6 +53,7 @@ private slots:
     void GeoCodeHandle(const QString, double, double);
     void ReverseGeoCodeHandle(const QString originalQuery, const QString address);
     void BoundsUpdates(const GeoBound&);
+    void handleRequestRouting(int);
 
 private:
     Ui::MainWindow *m_ui;

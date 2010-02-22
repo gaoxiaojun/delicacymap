@@ -47,11 +47,13 @@ class Query;
 class DMessage;
 
 enum SystemMessageType {
-  RequestRouting = 1
+  RequestRouting = 1,
+  RejectRouting = 2,
+  RoutingReply = 3
 };
 bool SystemMessageType_IsValid(int value);
 const SystemMessageType SystemMessageType_MIN = RequestRouting;
-const SystemMessageType SystemMessageType_MAX = RequestRouting;
+const SystemMessageType SystemMessageType_MAX = RoutingReply;
 const int SystemMessageType_ARRAYSIZE = SystemMessageType_MAX + 1;
 
 // ===================================================================
@@ -1282,6 +1284,13 @@ class Query : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 n() const;
   inline void set_n(::google::protobuf::uint32 value);
   
+  // optional uint32 relation = 12;
+  inline bool has_relation() const;
+  inline void clear_relation();
+  static const int kRelationFieldNumber = 12;
+  inline ::google::protobuf::uint32 relation() const;
+  inline void set_relation(::google::protobuf::uint32 value);
+  
   // optional string msg = 7;
   inline bool has_msg() const;
   inline void clear_msg();
@@ -1339,6 +1348,7 @@ class Query : public ::google::protobuf::MessageLite {
   ::google::protobuf::uint32 rid_;
   ::google::protobuf::uint32 uid_;
   ::google::protobuf::uint32 n_;
+  ::google::protobuf::uint32 relation_;
   ::std::string* msg_;
   static const ::std::string _default_msg_;
   ::std::string* image_;
@@ -1352,7 +1362,7 @@ class Query : public ::google::protobuf::MessageLite {
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(11 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(12 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -1434,6 +1444,13 @@ class DMessage : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 msgid() const;
   inline void set_msgid(::google::protobuf::uint32 value);
   
+  // required bool isSystemMessage = 7;
+  inline bool has_issystemmessage() const;
+  inline void clear_issystemmessage();
+  static const int kIsSystemMessageFieldNumber = 7;
+  inline bool issystemmessage() const;
+  inline void set_issystemmessage(bool value);
+  
   // optional string text = 3;
   inline bool has_text() const;
   inline void clear_text();
@@ -1468,6 +1485,7 @@ class DMessage : public ::google::protobuf::MessageLite {
   ::google::protobuf::uint32 fromuser_;
   ::google::protobuf::uint32 touser_;
   ::google::protobuf::uint32 msgid_;
+  bool issystemmessage_;
   ::std::string* text_;
   static const ::std::string _default_text_;
   int systemmessagetype_;
@@ -1477,7 +1495,7 @@ class DMessage : public ::google::protobuf::MessageLite {
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -2419,42 +2437,58 @@ inline void Query::set_n(::google::protobuf::uint32 value) {
   n_ = value;
 }
 
+// optional uint32 relation = 12;
+inline bool Query::has_relation() const {
+  return _has_bit(6);
+}
+inline void Query::clear_relation() {
+  relation_ = 0u;
+  _clear_bit(6);
+}
+inline ::google::protobuf::uint32 Query::relation() const {
+  return relation_;
+}
+inline void Query::set_relation(::google::protobuf::uint32 value) {
+  _set_bit(6);
+  relation_ = value;
+}
+
 // optional string msg = 7;
 inline bool Query::has_msg() const {
-  return _has_bit(6);
+  return _has_bit(7);
 }
 inline void Query::clear_msg() {
   if (msg_ != &_default_msg_) {
     msg_->clear();
   }
-  _clear_bit(6);
+  _clear_bit(7);
 }
 inline const ::std::string& Query::msg() const {
   return *msg_;
 }
 inline void Query::set_msg(const ::std::string& value) {
-  _set_bit(6);
+  _set_bit(7);
   if (msg_ == &_default_msg_) {
     msg_ = new ::std::string;
   }
   msg_->assign(value);
 }
 inline void Query::set_msg(const char* value) {
-  _set_bit(6);
+  _set_bit(7);
   if (msg_ == &_default_msg_) {
     msg_ = new ::std::string;
   }
   msg_->assign(value);
 }
 inline void Query::set_msg(const char* value, size_t size) {
-  _set_bit(6);
+  _set_bit(7);
   if (msg_ == &_default_msg_) {
     msg_ = new ::std::string;
   }
   msg_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* Query::mutable_msg() {
-  _set_bit(6);
+  _set_bit(7);
   if (msg_ == &_default_msg_) {
     msg_ = new ::std::string;
   }
@@ -2463,40 +2497,40 @@ inline ::std::string* Query::mutable_msg() {
 
 // optional bytes image = 8;
 inline bool Query::has_image() const {
-  return _has_bit(7);
+  return _has_bit(8);
 }
 inline void Query::clear_image() {
   if (image_ != &_default_image_) {
     image_->clear();
   }
-  _clear_bit(7);
+  _clear_bit(8);
 }
 inline const ::std::string& Query::image() const {
   return *image_;
 }
 inline void Query::set_image(const ::std::string& value) {
-  _set_bit(7);
+  _set_bit(8);
   if (image_ == &_default_image_) {
     image_ = new ::std::string;
   }
   image_->assign(value);
 }
 inline void Query::set_image(const char* value) {
-  _set_bit(7);
+  _set_bit(8);
   if (image_ == &_default_image_) {
     image_ = new ::std::string;
   }
   image_->assign(value);
 }
 inline void Query::set_image(const void* value, size_t size) {
-  _set_bit(7);
+  _set_bit(8);
   if (image_ == &_default_image_) {
     image_ = new ::std::string;
   }
   image_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* Query::mutable_image() {
-  _set_bit(7);
+  _set_bit(8);
   if (image_ == &_default_image_) {
     image_ = new ::std::string;
   }
@@ -2505,40 +2539,40 @@ inline ::std::string* Query::mutable_image() {
 
 // optional string emailAddress = 9;
 inline bool Query::has_emailaddress() const {
-  return _has_bit(8);
+  return _has_bit(9);
 }
 inline void Query::clear_emailaddress() {
   if (emailaddress_ != &_default_emailaddress_) {
     emailaddress_->clear();
   }
-  _clear_bit(8);
+  _clear_bit(9);
 }
 inline const ::std::string& Query::emailaddress() const {
   return *emailaddress_;
 }
 inline void Query::set_emailaddress(const ::std::string& value) {
-  _set_bit(8);
+  _set_bit(9);
   if (emailaddress_ == &_default_emailaddress_) {
     emailaddress_ = new ::std::string;
   }
   emailaddress_->assign(value);
 }
 inline void Query::set_emailaddress(const char* value) {
-  _set_bit(8);
+  _set_bit(9);
   if (emailaddress_ == &_default_emailaddress_) {
     emailaddress_ = new ::std::string;
   }
   emailaddress_->assign(value);
 }
 inline void Query::set_emailaddress(const char* value, size_t size) {
-  _set_bit(8);
+  _set_bit(9);
   if (emailaddress_ == &_default_emailaddress_) {
     emailaddress_ = new ::std::string;
   }
   emailaddress_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* Query::mutable_emailaddress() {
-  _set_bit(8);
+  _set_bit(9);
   if (emailaddress_ == &_default_emailaddress_) {
     emailaddress_ = new ::std::string;
   }
@@ -2547,40 +2581,40 @@ inline ::std::string* Query::mutable_emailaddress() {
 
 // optional string password = 10;
 inline bool Query::has_password() const {
-  return _has_bit(9);
+  return _has_bit(10);
 }
 inline void Query::clear_password() {
   if (password_ != &_default_password_) {
     password_->clear();
   }
-  _clear_bit(9);
+  _clear_bit(10);
 }
 inline const ::std::string& Query::password() const {
   return *password_;
 }
 inline void Query::set_password(const ::std::string& value) {
-  _set_bit(9);
+  _set_bit(10);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(value);
 }
 inline void Query::set_password(const char* value) {
-  _set_bit(9);
+  _set_bit(10);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(value);
 }
 inline void Query::set_password(const char* value, size_t size) {
-  _set_bit(9);
+  _set_bit(10);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* Query::mutable_password() {
-  _set_bit(9);
+  _set_bit(10);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
@@ -2589,17 +2623,17 @@ inline ::std::string* Query::mutable_password() {
 
 // optional .ProtocolBuffer.User userinfo = 11;
 inline bool Query::has_userinfo() const {
-  return _has_bit(10);
+  return _has_bit(11);
 }
 inline void Query::clear_userinfo() {
   if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
-  _clear_bit(10);
+  _clear_bit(11);
 }
 inline const ::ProtocolBuffer::User& Query::userinfo() const {
   return userinfo_ != NULL ? *userinfo_ : *default_instance_->userinfo_;
 }
 inline ::ProtocolBuffer::User* Query::mutable_userinfo() {
-  _set_bit(10);
+  _set_bit(11);
   if (userinfo_ == NULL) userinfo_ = new ::ProtocolBuffer::User;
   return userinfo_;
 }
@@ -2656,42 +2690,58 @@ inline void DMessage::set_msgid(::google::protobuf::uint32 value) {
   msgid_ = value;
 }
 
+// required bool isSystemMessage = 7;
+inline bool DMessage::has_issystemmessage() const {
+  return _has_bit(3);
+}
+inline void DMessage::clear_issystemmessage() {
+  issystemmessage_ = false;
+  _clear_bit(3);
+}
+inline bool DMessage::issystemmessage() const {
+  return issystemmessage_;
+}
+inline void DMessage::set_issystemmessage(bool value) {
+  _set_bit(3);
+  issystemmessage_ = value;
+}
+
 // optional string text = 3;
 inline bool DMessage::has_text() const {
-  return _has_bit(3);
+  return _has_bit(4);
 }
 inline void DMessage::clear_text() {
   if (text_ != &_default_text_) {
     text_->clear();
   }
-  _clear_bit(3);
+  _clear_bit(4);
 }
 inline const ::std::string& DMessage::text() const {
   return *text_;
 }
 inline void DMessage::set_text(const ::std::string& value) {
-  _set_bit(3);
+  _set_bit(4);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
   text_->assign(value);
 }
 inline void DMessage::set_text(const char* value) {
-  _set_bit(3);
+  _set_bit(4);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
   text_->assign(value);
 }
 inline void DMessage::set_text(const char* value, size_t size) {
-  _set_bit(3);
+  _set_bit(4);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
   text_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* DMessage::mutable_text() {
-  _set_bit(3);
+  _set_bit(4);
   if (text_ == &_default_text_) {
     text_ = new ::std::string;
   }
@@ -2700,57 +2750,57 @@ inline ::std::string* DMessage::mutable_text() {
 
 // optional .ProtocolBuffer.SystemMessageType systemMessageType = 4;
 inline bool DMessage::has_systemmessagetype() const {
-  return _has_bit(4);
+  return _has_bit(5);
 }
 inline void DMessage::clear_systemmessagetype() {
   systemmessagetype_ = 1;
-  _clear_bit(4);
+  _clear_bit(5);
 }
 inline ProtocolBuffer::SystemMessageType DMessage::systemmessagetype() const {
   return static_cast< ProtocolBuffer::SystemMessageType >(systemmessagetype_);
 }
 inline void DMessage::set_systemmessagetype(ProtocolBuffer::SystemMessageType value) {
   GOOGLE_DCHECK(ProtocolBuffer::SystemMessageType_IsValid(value));
-  _set_bit(4);
+  _set_bit(5);
   systemmessagetype_ = value;
 }
 
 // optional string buffer = 5;
 inline bool DMessage::has_buffer() const {
-  return _has_bit(5);
+  return _has_bit(6);
 }
 inline void DMessage::clear_buffer() {
   if (buffer_ != &_default_buffer_) {
     buffer_->clear();
   }
-  _clear_bit(5);
+  _clear_bit(6);
 }
 inline const ::std::string& DMessage::buffer() const {
   return *buffer_;
 }
 inline void DMessage::set_buffer(const ::std::string& value) {
-  _set_bit(5);
+  _set_bit(6);
   if (buffer_ == &_default_buffer_) {
     buffer_ = new ::std::string;
   }
   buffer_->assign(value);
 }
 inline void DMessage::set_buffer(const char* value) {
-  _set_bit(5);
+  _set_bit(6);
   if (buffer_ == &_default_buffer_) {
     buffer_ = new ::std::string;
   }
   buffer_->assign(value);
 }
 inline void DMessage::set_buffer(const char* value, size_t size) {
-  _set_bit(5);
+  _set_bit(6);
   if (buffer_ == &_default_buffer_) {
     buffer_ = new ::std::string;
   }
   buffer_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* DMessage::mutable_buffer() {
-  _set_bit(5);
+  _set_bit(6);
   if (buffer_ == &_default_buffer_) {
     buffer_ = new ::std::string;
   }
