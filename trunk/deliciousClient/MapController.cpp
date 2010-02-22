@@ -69,11 +69,12 @@ void MapController::translateLocationSignal( QGeoPositionInfo info )
 
 void MapController::HandleSystemMessages( const ProtocolBuffer::DMessage* msg )
 {
-    if (msg->fromuser() == 0) // This is a system message
+    if (msg->issystemmessage())
     {
         switch (msg->systemmessagetype())
         {
         case ProtocolBuffer::RequestRouting:
+            emit SysMsgRequestRouting(msg->fromuser());
             break;
         }
     }

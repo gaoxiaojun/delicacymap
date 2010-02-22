@@ -5,11 +5,15 @@
 #include "qmobilityglobal.h"
 
 #include <string>
-#include <QtCore>
+#include <QObject>
+#include <QMap>
+#include <QList>
+#include <QBasicTimer>
 
 namespace ProtocolBuffer
 {
     class User;
+    class UserList;
 }
 
 QTM_BEGIN_NAMESPACE
@@ -29,7 +33,13 @@ public:
     MapDataSource& getDataSource();
     ProtocolBuffer::User* getUser(); 
 
+    QList<ProtocolBuffer::User*> friends();
+    ProtocolBuffer::User* getUser(int uid);
+
     void UserLocationUpdate(double latitude, double longitude);
+
+public slots:
+    void loginMessenger();
 
 signals:
     void ready(bool);
@@ -39,9 +49,11 @@ protected:
 
 private:
     void UpdatedUserInfo();
+    void FriendsResponse(ProtocolBuffer::UserList*);
 
     QBasicTimer timer;
     MapDataSource datasource;
+    QMap<int, ProtocolBuffer::User*> myfriends;
     ProtocolBuffer::User *user, *infotoupdate;
     google::protobuf::Closure *updatedone;
     QTM_PREPEND_NAMESPACE(QNetworkSession)* network;

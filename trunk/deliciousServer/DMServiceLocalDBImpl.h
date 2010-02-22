@@ -51,6 +51,10 @@ public:
 		const ::ProtocolBuffer::Query* request,
 		::ProtocolBuffer::User* response,
 		::google::protobuf::Closure* done);
+    /*virtual*/ void GetRelatedUsers(::google::protobuf::RpcController* controller,
+        const ::ProtocolBuffer::Query* request,
+        ::ProtocolBuffer::UserList* response,
+        ::google::protobuf::Closure* done);
     void UpdateUserInfo(::google::protobuf::RpcController* controller,
         const ::ProtocolBuffer::Query* request,
         ::ProtocolBuffer::User* response,
@@ -59,6 +63,7 @@ public:
 private://callbacks
     void GetRestaurantsCallback( const DBRow& row, ProtocolBuffer::RestaurantList* result );
     void GetCommentsCallback( const DBRow& row, ProtocolBuffer::CommentList* result );
+    void GetUsersCallback( const DBRow& row, ProtocolBuffer::UserList* result);
 private:
     deliciousDataAdapter* adapter;
     google::protobuf::RpcController* controller;

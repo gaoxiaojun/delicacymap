@@ -343,3 +343,20 @@ void deliciousDataAdapter::ConfirmMessageDelivered( unsigned int msgid )
 
     dbconn->Execute(querystr);
 }
+
+size_t deliciousDataAdapter::GetRelatedUsersWith( int uid, int relation, CallbackFunc callback )
+{
+    pantheios::log_INFORMATIONAL("GetRelatedUsersWith(",
+        "uid=", pantheios::integer(uid),
+        ",relation=", pantheios::integer(relation),
+        ")");
+    char querystr[500];
+    sprintf_s(querystr, sizeof(querystr),
+        "SELECT Users.* "
+        "FROM Relation_User_User INNER JOIN Users ON UID_Target = UID "
+        "WHERE UID_Host=%d AND Relation=%d"
+        , uid
+        , relation);
+
+    return ExecuteNormal(querystr, callback);
+}

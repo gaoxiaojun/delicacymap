@@ -1,8 +1,10 @@
 #include "Session.h"
-#include "../protocol-buffer-src/MapProtocol.pb.h"
-#include "qnetworksession.h"
-#include "qnetworkconfigmanager.h"
-#include "qnetworkconfiguration.h"
+#include "MapProtocol.pb.h"
+#include "QNetworksession"
+#include "QNetworkConfiguration"
+#include "QNetworkConfigurationManager"
+
+#include <QTimerEvent>
 
 QTM_USE_NAMESPACE
 
@@ -32,6 +34,12 @@ MapDataSource& Session::getDataSource()
 ProtocolBuffer::User* Session::getUser()
 {
     return user;
+}
+
+ProtocolBuffer::User* Session::getUser( int uid )
+{
+    // temporary solution
+    return myfriends.value(uid);//avoid inserting NULL into the container
 }
 
 void Session::start()
@@ -86,4 +94,29 @@ void Session::UpdatedUserInfo()
 {
     std::swap(infotoupdate, user);
     infotoupdate->CopyFrom(*user);
+}
+
+QList<ProtocolBuffer::User*> Session::friends()
+{
+    return myfriends.values();
+}
+
+void Session::loginMessenger()
+{
+    if (getUser()->has_uid())
+    {
+        ProtocolBuffer::UserList* users = new ProtocolBuffer::UserList;
+        google::protobuf::Closure* closure = google::protobuf::NewCallback(this, &Session::FriendsResponse, users);
+        getDataSource().GetRelatedUsers(getUser()->uid(), 0, users, closure);
+    }
+}
+
+void Session::FriendsResponse(ProtocolBuffer::UserList* users)
+{
+    for (int i=0;i<users->users_size();i++)
+    {
+        const ProtocolBuffer::User& u = users->users(i);
+        myfriends.insert(u.uid(), new ProtocolBuffer::User(u));
+    }
+    delete users;
 }

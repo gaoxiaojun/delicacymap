@@ -30,6 +30,7 @@ void LoginWindow::login_step1()
     {
         session = new Session();
         connect(&session->getDataSource(), SIGNAL(ready(bool)), this, SLOT(login_step2(bool)));
+        connect(this, SIGNAL(loginSuccess()), session, SLOT(loginMessenger()));
     }
 
     session->getDataSource().connect();
