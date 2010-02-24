@@ -38,54 +38,63 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef QGEOAREAMONITOR_H
-#define QGEOAREAMONITOR_H
+#ifndef QGEOSATELLITEINFO_H
+#define QGEOSATELLITEINFO_H
 
 #include "qmobilityglobal.h"
-#include "qgeocoordinate.h"
 
-#include <QObject>
+QT_BEGIN_NAMESPACE
+class QDebug;
+QT_END_NAMESPACE
 
 QT_BEGIN_HEADER
 
-#ifdef Q_QDOC
-//normally we would use macro only but this causes some other compilation issues 
-QTM_BEGIN_NAMESPACE 
-#else
-namespace QtMobility {
-#endif
+QTM_BEGIN_NAMESPACE
 
-
-class QGeoPositionInfo;
-class QGeoAreaMonitorPrivate;
-class Q_LOCATION_EXPORT QGeoAreaMonitor : public QObject
+class QGeoSatelliteInfoPrivate;
+class Q_LOCATION_EXPORT QGeoSatelliteInfo
 {
-    Q_OBJECT
-    Q_PROPERTY(QGeoCoordinate center READ center WRITE setCenter)
-    Q_PROPERTY(qreal radius READ radius WRITE setRadius)
-
 public:
-    explicit QGeoAreaMonitor(QObject *parent);
-    virtual ~QGeoAreaMonitor() = 0;
+    enum Attribute {
+        Elevation,
+        Azimuth
+    };
 
-    virtual void setCenter(const QGeoCoordinate &coordinate);
-    QGeoCoordinate center() const;
+    QGeoSatelliteInfo();
+    QGeoSatelliteInfo(const QGeoSatelliteInfo &other);
+    ~QGeoSatelliteInfo();
 
-    virtual void setRadius(qreal radius);
-    qreal radius() const;
+    QGeoSatelliteInfo &operator=(const QGeoSatelliteInfo &other);
 
-    static QGeoAreaMonitor *createDefaultMonitor(QObject *parent);
+    bool operator==(const QGeoSatelliteInfo &other) const;
+    inline bool operator!=(const QGeoSatelliteInfo &other) const {
+        return !operator==(other);
+    }
 
-Q_SIGNALS:
-    void areaEntered(const QGeoPositionInfo &update);
-    void areaExited(const QGeoPositionInfo &update);
+    void setPrnNumber(int prn);
+    int prnNumber() const;
+
+    void setSignalStrength(int signalStrength);
+    int signalStrength() const;
+
+    void setAttribute(Attribute attribute, qreal value);
+    qreal attribute(Attribute attribute) const;
+    void removeAttribute(Attribute attribute);
+
+    bool hasAttribute(Attribute attribute) const;
 
 private:
-    Q_DISABLE_COPY(QGeoAreaMonitor)
-    QGeoAreaMonitorPrivate *d;
-}; 
+#ifndef QT_NO_DEBUG_STREAM
+    friend Q_LOCATION_EXPORT QDebug operator<<(QDebug dbg, const QGeoSatelliteInfo &info);
+#endif
+    QGeoSatelliteInfoPrivate *d;
+};
 
-}
+#ifndef QT_NO_DEBUG_STREAM
+Q_LOCATION_EXPORT QDebug operator<<(QDebug dbg, const QGeoSatelliteInfo &info);
+#endif
+
+QTM_END_NAMESPACE
 
 QT_END_HEADER
 
