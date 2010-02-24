@@ -38,60 +38,77 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef QGEOSATELLITEINFO_H
-#define QGEOSATELLITEINFO_H
+
+#ifndef QNETWORKCONFIGURATION_H
+#define QNETWORKCONFIGURATION_H
 
 #include "qmobilityglobal.h"
 
-class QDebug;
+#include <QtCore/qshareddata.h>
+#include <QtCore/qstring.h>
+#include <QtCore/qlist.h>
 
 QT_BEGIN_HEADER
 
 QTM_BEGIN_NAMESPACE
 
-class QGeoSatelliteInfoPrivate;
-class Q_LOCATION_EXPORT QGeoSatelliteInfo
+class QNetworkConfigurationPrivate;
+class Q_BEARER_EXPORT QNetworkConfiguration
 {
 public:
-    enum Property {
-        Elevation,
-        Azimuth
+    QNetworkConfiguration();
+    QNetworkConfiguration(const QNetworkConfiguration& other);
+    QNetworkConfiguration &operator=(const QNetworkConfiguration& other);
+    ~QNetworkConfiguration();
+
+    bool operator==(const QNetworkConfiguration& cp) const;
+    inline bool operator!=(const QNetworkConfiguration& cp) const
+    { return !operator==(cp); }
+
+    enum Type {
+        InternetAccessPoint = 0,
+        ServiceNetwork,
+        UserChoice,
+        Invalid
     };
 
-    QGeoSatelliteInfo();
-    QGeoSatelliteInfo(const QGeoSatelliteInfo &other);
-    ~QGeoSatelliteInfo();
+    enum Purpose {
+        UnknownPurpose = 0,
+        PublicPurpose,
+        PrivatePurpose,
+        ServiceSpecificPurpose
+    };
 
-    QGeoSatelliteInfo &operator=(const QGeoSatelliteInfo &other);
+    enum StateFlag {
+        Undefined        = 0x0000001,
+        Defined          = 0x0000002,
+        Discovered       = 0x0000006,
+        Active           = 0x000000e
+    };
 
-    bool operator==(const QGeoSatelliteInfo &other) const;
-    inline bool operator!=(const QGeoSatelliteInfo &other) const { return !operator==(other); }
+    Q_DECLARE_FLAGS(StateFlags, StateFlag)
 
-    void setPrnNumber(int prn);
-    int prnNumber() const;
+    StateFlags state() const;
+    Type type() const;
+    Purpose purpose() const;
+    QString bearerName() const;
+    QString identifier() const;
+    bool isRoamingAvailable() const;
+    QList<QNetworkConfiguration> children() const;
 
-    void setSignalStrength(int signalStrength);
-    int signalStrength() const;
-
-    void setProperty(Property property, qreal value);
-    qreal property(Property property) const;
-    void removeProperty(Property property);
-
-    bool hasProperty(Property property) const;
+    QString name() const;
+    bool isValid() const;
 
 private:
-#ifndef QT_NO_DEBUG_STREAM
-    friend Q_LOCATION_EXPORT QDebug operator<<(QDebug dbg, const QGeoSatelliteInfo &info);
-#endif
-    QGeoSatelliteInfoPrivate *d;
+    friend class QNetworkConfigurationPrivate;
+    friend class QNetworkConfigurationManager;
+    friend class QNetworkConfigurationManagerPrivate;
+    friend class QNetworkSessionPrivate;
+    QExplicitlySharedDataPointer<QNetworkConfigurationPrivate> d;
 };
-
-#ifndef QT_NO_DEBUG_STREAM
-Q_LOCATION_EXPORT QDebug operator<<(QDebug dbg, const QGeoSatelliteInfo &info);
-#endif
 
 QTM_END_NAMESPACE
 
 QT_END_HEADER
 
-#endif
+#endif //QNETWORKCONFIGURATION_H
