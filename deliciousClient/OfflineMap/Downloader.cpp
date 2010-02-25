@@ -29,7 +29,7 @@ void Downloader::requestFinished(QNetworkReply * reply){
     TileCoord tile = replytofile[reply];
     if (reply->isFinished())
     {
-        QVariant &header = reply->header(QNetworkRequest::ContentTypeHeader);
+        const QVariant &header = reply->header(QNetworkRequest::ContentTypeHeader);
         if (header.isValid() && header.toString().contains("image", Qt::CaseInsensitive))
         {
             QSqlQuery query;
