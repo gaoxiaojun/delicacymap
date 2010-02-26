@@ -139,14 +139,16 @@ void MapDataSource::UserLogin( ProtocolBuffer::Query *query, ProtocolBuffer::Use
     channel->CallMethod(protorpc::UserLogin, query, usr, done);
 }
 
-void MapDataSource::GetUser( ProtocolBuffer::Query *, ProtocolBuffer::User *, google::protobuf::Closure * )
+void MapDataSource::GetUser( ProtocolBuffer::Query *query, ProtocolBuffer::User *usr, google::protobuf::Closure *done )
 {
-
+    channel->CallMethod(protorpc::GetUserInfo, query, usr, done);
 }
 
-void MapDataSource::GetUser( int uid, ProtocolBuffer::User *, google::protobuf::Closure * )
+void MapDataSource::GetUser( int uid, ProtocolBuffer::User *usr, google::protobuf::Closure *done )
 {
-
+    query.Clear();
+    query.set_uid(uid);
+    GetUser(&query, usr, done);
 }
 
 void MapDataSource::UpdateUserInfo( int uid, const std::string& password, ProtocolBuffer::User* info, google::protobuf::Closure *done )

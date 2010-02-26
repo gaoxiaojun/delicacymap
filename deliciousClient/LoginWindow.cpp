@@ -1,7 +1,7 @@
-﻿#include "LoginWindow.h"
+#include "LoginWindow.h"
 #include "Session.h"
 #include "md5.h"
-#include "protocol-buffer-src/MapProtocol.pb.h"
+#include "MapProtocol.pb.h"
 #include "ui_loginWindow.h"
 
 LoginWindow::LoginWindow(void)
