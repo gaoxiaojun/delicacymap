@@ -156,7 +156,7 @@ void MapViewBase::insertDecorator(Decorator *newDecorator){
 }
 
 void MapViewBase::mouseMoveEvent(QMouseEvent *event){
-    handleReleaseEvent = false;
+    //handleReleaseEvent = false;
     if (handleMoveEvent)
         decorator.mouseMoveEvent(event);
     else
@@ -371,7 +371,7 @@ void MapViewBase::addRestaurantMarker(const ProtocolBuffer::Restaurant* r)
     scene->addItem(item);
 }
 
-void MapViewBase::remapMarkers( int oldzoomlevel, int newzoomlevel )
+void MapViewBase::remapMarkers( int /*oldzoomlevel*/, int newzoomlevel )
 {
     QList<QGraphicsItem*> items = scene->items();
     BOOST_FOREACH(QGraphicsItem* item, items)

@@ -35,7 +35,7 @@ QPixmap& RestaurantMarkerItem::markerImage()
     return image;
 }
 
-void UserMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */ )
+void UserMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * /* = 0 */ )
 {
     const QPixmap& image = UserIcon();
     painter->drawPixmap(-image.width()/2, -image.height(), image);
@@ -58,7 +58,7 @@ const QPixmap& UserMarkerItem::UserIcon() const
     return defaultUserIcon();
 }
 
-void SelfMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */ )
+void SelfMarkerItem::paint( QPainter *, const QStyleOptionGraphicsItem *, QWidget * /* = 0 */ )
 {
 
 }
