@@ -3,12 +3,9 @@ package ProtocolBuffer;
 option optimize_for = LITE_RUNTIME;
 
 message Location
-
 {
     required double                                          latitude                    = 1;
-
     required double                                          longitude                   = 2;
-
 }
 
 //Representing a rectangular geographic area, specified by the locations of its northeast corner and southwest corner.

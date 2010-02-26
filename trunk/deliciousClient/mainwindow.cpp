@@ -274,13 +274,17 @@ void MainWindow::handleRequestRouting(int uid)
     QPushButton* googlebutton = msgbox.addButton(QString("google direction"), QMessageBox::AcceptRole);
     msgbox.setIcon(QMessageBox::Question);
     msgbox.setText(text);
-    msgbox.setInformativeText("Routing request");
+    msgbox.setWindowTitle("Routing request");
     msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgbox.setDefaultButton(googlebutton);
     int ret = msgbox.exec();
     switch (ret)
     {
     case 0:
+        if (msgbox.clickedButton() == googlebutton)
+        {
+            //svc->QueryRoute()
+        }
         break;
     case QMessageBox::Yes:
         break;
