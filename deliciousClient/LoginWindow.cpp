@@ -1,7 +1,7 @@
-#include "LoginWindow.h"
+ï»¿#include "LoginWindow.h"
 #include "Session.h"
 #include "md5.h"
-#include "../protocol-buffer-src/MapProtocol.pb.h"
+#include "protocol-buffer-src/MapProtocol.pb.h"
 #include "ui_loginWindow.h"
 
 LoginWindow::LoginWindow(void)
@@ -25,7 +25,7 @@ LoginWindow::~LoginWindow(void)
 
 void LoginWindow::login_step1()
 {
-    dialog->label_status->setText(QString::fromLocal8Bit("ÕýÔÚÁ¬½Ó·þÎñÆ÷...."));
+    dialog->label_status->setText(QString::fromLocal8Bit("æ­£åœ¨è¿žæŽ¥æœåŠ¡å™¨...."));
     if (!session)
     {
         session = new Session();
@@ -52,20 +52,20 @@ void LoginWindow::loginResponse()
 
 void LoginWindow::success()
 {
-    dialog->label_status->setText(QString::fromLocal8Bit("µÇÂ½³É¹¦...."));
+    dialog->label_status->setText(QString::fromLocal8Bit("ç™»é™†æˆåŠŸ...."));
     accept();
 }
 
 void LoginWindow::failed()
 {
-    dialog->label_status->setText(QString::fromLocal8Bit("µÇÂ½Ê§°Ü£¬ÓÃ»§ÃûÃÜÂë²»Æ¥Åä£¡...."));
+    dialog->label_status->setText(QString::fromLocal8Bit("ç™»é™†å¤±è´¥ï¼Œç”¨æˆ·åå¯†ç ä¸åŒ¹é…ï¼...."));
 }
 
 void LoginWindow::login_step2(bool connected)
 {
     if (connected)
     {
-        dialog->label_status->setText(QString::fromLocal8Bit("ÕýÔÚµÇÂ½...."));
+        dialog->label_status->setText(QString::fromLocal8Bit("æ­£åœ¨ç™»é™†...."));
         MD5 md5(dialog->lineEdit_password->text());
         std::string email(dialog->lineEdit_username->text().toUtf8().constData());
         std::string pwd(md5.toString().toUtf8().constData());
@@ -73,6 +73,6 @@ void LoginWindow::login_step2(bool connected)
     }
     else
     {
-        dialog->label_status->setText(QString::fromLocal8Bit("Á¬½Ó·þÎñÆ÷Ê§°Ü£º").append(session->getDataSource().error()));
+        dialog->label_status->setText(QString::fromLocal8Bit("è¿žæŽ¥æœåŠ¡å™¨å¤±è´¥ï¼š").append(session->getDataSource().error()));
     }
 }

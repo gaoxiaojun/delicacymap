@@ -7,7 +7,7 @@
 
 MapDataSource::MapDataSource()
 {
-    channel = new QTProtobufChannel(QHostAddress("192.168.1.2"), PORT_NUM);
+    channel = new QTProtobufChannel(QHostAddress("192.168.123.194"), PORT_NUM);
     QObject::connect(channel, SIGNAL(connected()), this, SLOT(channel_connected()));
     QObject::connect(channel, SIGNAL(error()), this, SLOT(channel_error()));
     QObject::connect(channel, SIGNAL(disconnected()), this, SLOT(channel_disconnected()));
