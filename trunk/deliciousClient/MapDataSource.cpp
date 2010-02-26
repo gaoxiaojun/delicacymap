@@ -1,7 +1,6 @@
 #include "MapDataSource.h"
 #include "QTProtobufChannel.h"
 #include <QDebug>
-#include <QtDebug>
 
 #define PORT_NUM 24000
 

@@ -15,7 +15,7 @@ class QPixmap;
 class ZoomSensitiveItem : public QGraphicsItem
 {
 public:
-    ZoomSensitiveItem() : currentZoom(-1), location(0., 0.){}
+    ZoomSensitiveItem() : location(0., 0.), currentZoom(-1){}
     void setPos(const GeoPoint& center);
     using QGraphicsItem::setPos;
     const GeoPoint& getPos() {return location;};
