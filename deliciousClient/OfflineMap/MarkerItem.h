@@ -57,6 +57,7 @@ protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
     QList<GeoPoint> points;
+    QList<QGraphicsItem*> subitems;
     QPolygon sceneCoords;
     GeoBound boundRect;
     bool isEditable, isEditing;

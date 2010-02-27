@@ -159,16 +159,14 @@ void MapViewBase::mouseMoveEvent(QMouseEvent *event){
     //handleReleaseEvent = false;
     if (handleMoveEvent)
         decorator.mouseMoveEvent(event);
-    else
-        QGraphicsView::mouseMoveEvent(event);        
+    QGraphicsView::mouseMoveEvent(event);
 }
 
 void MapViewBase::mousePressEvent(QMouseEvent *event){
     handleReleaseEvent = true;
     if (handlePressEvent)
         decorator.mousePressEvent(event);
-    else
-        QGraphicsView::mousePressEvent(event);
+    QGraphicsView::mousePressEvent(event);
 }
 
 void MapViewBase::mouseReleaseEvent(QMouseEvent *event){
@@ -185,8 +183,7 @@ void MapViewBase::mouseReleaseEvent(QMouseEvent *event){
         }
         decorator.mouseReleaseEvent(event);
     }
-    else
-        QGraphicsView::mouseReleaseEvent(event);
+    QGraphicsView::mouseReleaseEvent(event);
     handleMoveEvent = true;
 }
 
@@ -206,8 +203,7 @@ void MapViewBase::mouseDoubleClickEvent(QMouseEvent *event){
         }
         decorator.mouseDoubleClickEvent(event);
     }
-    else
-        QGraphicsView::mouseDoubleClickEvent(event);
+    QGraphicsView::mouseDoubleClickEvent(event);
 }
 
 void MapViewBase::keyPressEvent(QKeyEvent *event){

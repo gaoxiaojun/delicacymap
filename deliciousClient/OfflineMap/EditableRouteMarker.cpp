@@ -1,6 +1,7 @@
 #include "MarkerItem.h"
 #include "CoordsHelper.h"
 #include <QPainter>
+#include <QGraphicsSceneMouseEvent>
 #include <boost/foreach.hpp>
 
 RouteItem::RouteItem( const QList<GeoPoint>& r, bool editable /*= false*/ )
@@ -66,7 +67,14 @@ void RouteItem::setZoom( int zoom )
 
 void RouteItem::mousePressEvent( QGraphicsSceneMouseEvent *event )
 {
+    QPoint SW = CoordsHelper::InternalGeoCoordToCoord(boundRect.SW.lat, boundRect.SW.lng, getZoom());
+    QPoint NE = CoordsHelper::InternalGeoCoordToCoord(boundRect.NE.lat, boundRect.NE.lng, getZoom());
+    QPoint Center( (SW.x() + NE.x())/2, (SW.y() + NE.y())/2 );
+    QPoint point = event->scenePos().toPoint() - Center;
+    if (sceneCoords.contains(point))
+    {
 
+    }
 }
 
 void RouteItem::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )

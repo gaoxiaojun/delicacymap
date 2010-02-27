@@ -60,9 +60,9 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 
     svc = new MapServices;
     connect(svc, SIGNAL(RoutingResult(QList<GeoPoint>)), navi, SLOT(addRoute(const QList<GeoPoint>&)));
-    //svc->GeoCode(QString::fromLocal8Bit("±±¾©"));
+    //svc->GeoCode(QString::fromLocal8Bit("Â±Â±Â¾Â©"));
     //svc->ReverseGeoCode(39.96067508327288, 116.35796070098877);
-    svc->QueryRoute(QString::fromLocal8Bit("±±¾©ÊÐº£µíÇøÎ÷ÍÁ³ÇÂ·10ºÅ (±±¾©ÓÊµç´óÑ§)"), QString::fromLocal8Bit("Î÷Ö±ÃÅ"));
+    svc->QueryRoute(QString::fromUtf8("åŒ—äº¬å¸‚æµ·æ·€åŒºè¥¿åœŸåŸŽè·¯10å· (åŒ—äº¬é‚®ç”µå¤§å­¦)"), QString::fromUtf8("è¥¿ç›´é—¨"));
     //connect(svc, SIGNAL(GeoCodeResult(const QString, double, double)), this, SLOT(GeoCodeHandle(const QString, double, double)));
     //connect(svc, SIGNAL(ReverseGeoCodeResult(const QString, const QString)), this, SLOT(ReverseGeoCodeHandle(const QString, const QString)));
     //connect(navi, SIGNAL(boundsChange(const GeoBound&)), this, SLOT(BoundsUpdates(const GeoBound&)));
@@ -235,7 +235,7 @@ void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
 
 void MainWindow::UpdateCurrentLocation( QString s )
 {
-    m_ui->label_currentlocation->setText(QString::fromLocal8Bit("µ±Ç°Î»ÖÃ£º") + s);
+    m_ui->label_currentlocation->setText(QString::fromLocal8Bit("ÂµÂ±Ã‡Â°ÃŽÂ»Ã–ÃƒÂ£Âº") + s);
 }
 
 void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
