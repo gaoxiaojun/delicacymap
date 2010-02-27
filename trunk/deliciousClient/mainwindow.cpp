@@ -261,10 +261,10 @@ void MainWindow::BoundsUpdates( const GeoBound& bound )
     qDebug()<<"New Bound \t"<<bound.NE.lat.getDouble();
     qDebug()<<"         "<<bound.SW.lng.getDouble()<<"\t"<<bound.NE.lng.getDouble();
     qDebug()<<"          \t"<<bound.SW.lat.getDouble();
-//     getSession()->getDataSource().GetRestaurants(bound.SW.lat.getDouble(), bound.SW.lng.getDouble(),
-//         bound.NE.lat.getDouble(), bound.NE.lng.getDouble(),
-//         17,
-//         new ProtocolBuffer::RestaurantList)
+//    getSession()->getDataSource().GetRestaurants(bound.SW.lat.getDouble(), bound.SW.lng.getDouble(),
+//        bound.NE.lat.getDouble(), bound.NE.lng.getDouble(),
+//        17,
+//        new ProtocolBuffer::RestaurantList);
 }
 
 void MainWindow::handleRequestRouting(int uid)

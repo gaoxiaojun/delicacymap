@@ -1,12 +1,14 @@
 #include "MarkerItem.h"
 #include "CoordsHelper.h"
 #include <QPainter>
+#include <QRect>
 #include <QGraphicsSceneMouseEvent>
 #include <boost/foreach.hpp>
 
 RouteItem::RouteItem( const QList<GeoPoint>& r, bool editable /*= false*/ )
 : points(r), isEditable(editable), isEditing(false)
 {
+    pointEditing = -1;
     boundRect.SW = points.first();
     boundRect.NE = points.first();
     BOOST_FOREACH( const GeoPoint &c, points )
@@ -33,18 +35,23 @@ void RouteItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWid
     painter->setPen(pen);
     painter->drawPolyline(sceneCoords);
     painter->drawRect(boundingRect());
+    if (isEditing)
+    {
+        pen.setWidth(10);
+        painter->setPen(pen);
+        painter->drawPoints(sceneCoords);
+    }
 }
 
 QRectF RouteItem::boundingRect() const
 {
     QPoint SW = CoordsHelper::InternalGeoCoordToCoord(boundRect.SW.lat, boundRect.SW.lng, getZoom());
     QPoint NE = CoordsHelper::InternalGeoCoordToCoord(boundRect.NE.lat, boundRect.NE.lng, getZoom());
-    QPoint Center( (SW.x() + NE.x())/2, (SW.y() + NE.y())/2 );
     return QRectF(
-        SW.x() - Center.x() - 10,
-        NE.y() - Center.y() - 10,
-        NE.x() - SW.x() + 20,
-        SW.y() - NE.y() + 20);
+        SW.x() - Center.x() - 20,
+        NE.y() - Center.y() - 20,
+        NE.x() - SW.x() + 40,
+        SW.y() - NE.y() + 40);
 }
 
 void RouteItem::setZoom( int zoom )
@@ -55,7 +62,7 @@ void RouteItem::setZoom( int zoom )
         sceneCoords.clear();
         QPoint SW = CoordsHelper::InternalGeoCoordToCoord(boundRect.SW.lat, boundRect.SW.lng, getZoom());
         QPoint NE = CoordsHelper::InternalGeoCoordToCoord(boundRect.NE.lat, boundRect.NE.lng, getZoom());
-        QPoint Center( (SW.x() + NE.x())/2, (SW.y() + NE.y())/2 );
+        Center = QPoint( (SW.x() + NE.x())/2, (SW.y() + NE.y())/2 );
         BOOST_FOREACH( const GeoPoint &c, points )
         {
             sceneCoords.push_back(CoordsHelper::InternalGeoCoordToCoord(c.lat, c.lng, getZoom()) - Center);
@@ -65,32 +72,77 @@ void RouteItem::setZoom( int zoom )
     }
 }
 
+static inline
+int ContainsPoint(const QPolygon& polygon, const QPoint& p)
+{
+    QPoint delta(5, 5);
+    QRect rect(p - delta, p + delta);
+    for (int i=0;i<polygon.size();i++)
+        if (rect.contains(polygon[i]))
+        {
+            return i;
+        }
+    return -1;
+}
+
 void RouteItem::mousePressEvent( QGraphicsSceneMouseEvent *event )
 {
-    QPoint SW = CoordsHelper::InternalGeoCoordToCoord(boundRect.SW.lat, boundRect.SW.lng, getZoom());
-    QPoint NE = CoordsHelper::InternalGeoCoordToCoord(boundRect.NE.lat, boundRect.NE.lng, getZoom());
-    QPoint Center( (SW.x() + NE.x())/2, (SW.y() + NE.y())/2 );
-    QPoint point = event->scenePos().toPoint() - Center;
-    if (sceneCoords.contains(point))
+    if (isEditing)
     {
-
+        QPoint point = event->scenePos().toPoint() - Center;
+        pointEditing = ContainsPoint(sceneCoords, point);
     }
 }
 
-void RouteItem::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )
+void RouteItem::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
 {
-
+    pointEditing = -1;
 }
 
 void RouteItem::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 {
-    if (isEditing)
+    if (isEditing && pointEditing != -1)
     {
+        QPoint modifiedPoint = event->scenePos().toPoint();
+        bool boundChanged = false;
+        sceneCoords[pointEditing] = modifiedPoint - Center;
+        CoordsHelper::InternalCoordToGeoCoord(modifiedPoint, getZoom(), points[pointEditing].lat, points[pointEditing].lng);
 
+        // Adjusting bounds
+        GeoPoint geop;
+        CoordsHelper::InternalCoordToGeoCoord(modifiedPoint, getZoom(), geop.lat, geop.lng);
+        if (geop.lat < boundRect.SW.lat)
+            boundRect.SW.lat = geop.lat, boundChanged = true;
+        if (geop.lng < boundRect.SW.lng)
+            boundRect.SW.lng = geop.lng, boundChanged = true;
+        if (boundRect.NE.lat < geop.lat)
+            boundRect.NE.lat = geop.lat, boundChanged = true;
+        if (boundRect.NE.lng < geop.lng)
+            boundRect.NE.lng = geop.lng, boundChanged = true;
+        if (boundChanged)
+            this->prepareGeometryChange();
+        update();
     }
 }
 
 void RouteItem::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *event )
 {
-    isEditing = !isEditing;
+    bool isdeletingpoint = false;
+    if (isEditing && sceneCoords.size() > 2)
+    {
+        QPoint point = event->scenePos().toPoint() - Center;
+        int pointdeleting = ContainsPoint(sceneCoords, point);
+        if (pointdeleting != -1)
+        {
+            sceneCoords.remove(pointdeleting);
+            points.removeAt(pointdeleting);
+            isdeletingpoint = true;
+        }
+    }
+    if (!isdeletingpoint)
+    {
+        isEditing = !isEditing;
+        pointEditing = -1;
+    }
+    update();
 }
