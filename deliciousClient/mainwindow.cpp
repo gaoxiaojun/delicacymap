@@ -62,7 +62,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(svc, SIGNAL(RoutingResult(QList<GeoPoint>)), navi, SLOT(addRoute(const QList<GeoPoint>&)));
     //svc->GeoCode(QString::fromLocal8Bit("±±¾©"));
     //svc->ReverseGeoCode(39.96067508327288, 116.35796070098877);
-    svc->QueryRoute(QString::fromUtf8("北京市海淀区西土城路10号 (北京邮电大学)"), QString::fromUtf8("西直门"));
+    //svc->QueryRoute(QString::fromUtf8("北京市海淀区西土城路10号 (北京邮电大学)"), QString::fromUtf8("西直门"));
     //connect(svc, SIGNAL(GeoCodeResult(const QString, double, double)), this, SLOT(GeoCodeHandle(const QString, double, double)));
     //connect(svc, SIGNAL(ReverseGeoCodeResult(const QString, const QString)), this, SLOT(ReverseGeoCodeHandle(const QString, const QString)));
     //connect(navi, SIGNAL(boundsChange(const GeoBound&)), this, SLOT(BoundsUpdates(const GeoBound&)));
