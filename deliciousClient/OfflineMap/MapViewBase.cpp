@@ -158,7 +158,16 @@ void MapViewBase::insertDecorator(Decorator *newDecorator){
 void MapViewBase::mouseMoveEvent(QMouseEvent *event){
     //handleReleaseEvent = false;
     if (handleMoveEvent)
+    {
+        QGraphicsItem *item = itemAt(event->pos());
+        RouteItem *r;
+        if (item && (r = qgraphicsitem_cast<RouteItem*>(item)))
+        {
+            QGraphicsView::mouseMoveEvent(event);
+            return;
+        }
         decorator.mouseMoveEvent(event);
+    }
     QGraphicsView::mouseMoveEvent(event);
 }
 
@@ -298,7 +307,7 @@ void MapViewBase::updateBound()
 
         GeoPoint geoSW;
         CoordsHelper::InternalCoordToGeoCoord(QPoint(xLeft, yBottom), zoomLevel, geoSW.lat, geoSW.lng);
-        if ( abs(currentBound.SW.lat.getDouble() - geoSW.lat.getDouble()) > 0.005 || abs(currentBound.SW.lng.getDouble() - geoSW.lng.getDouble()) > 0.005 )
+        //if ( abs(currentBound.SW.lat.getDouble() - geoSW.lat.getDouble()) > 0.005 || abs(currentBound.SW.lng.getDouble() - geoSW.lng.getDouble()) > 0.005 )
         {
             last_xcenter = xCenter;
             last_ycenter = yCenter;
