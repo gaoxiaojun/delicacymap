@@ -125,21 +125,72 @@ void RouteItem::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
     }
 }
 
+static inline
+bool ValueInBetween(int val, int target1, int target2)
+{
+    if (abs(target1 - target2) < 5) // special case straight lines
+    {
+        if (target1 < target2)
+        {
+            target1 -= 3;
+            target2 += 3;
+        }
+        else
+        {
+            target1 += 3;
+            target2 -= 3;
+        }
+    }
+    return (target1 <= val && val <= target2) || (target2 <= val && val <= target1);
+}
+
+static inline
+bool PointOnLine(const QPoint& lineStart, const QPoint& lineEnd, const QPoint& p)
+{
+    if (ValueInBetween(p.x(), lineStart.x(), lineEnd.x()) && ValueInBetween(p.y(), lineStart.y(), lineEnd.y()))
+    {
+        int a1 = (p.y() - lineStart.y()) * (lineEnd.x() - lineStart.x());
+        int a2 = (lineEnd.y() - lineStart.y()) * (p.x() - lineStart.x());
+        int y = (p.x() - lineStart.x()) * (lineEnd.y() - lineStart.y()) / (lineEnd.x() - lineStart.x()) + lineStart.y();
+        return abs( y - p.y() ) < abs(y * 0.08);
+    }
+    return false;
+}
+
 void RouteItem::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *event )
 {
-    bool isdeletingpoint = false;
+    QPoint mousePoint = event->scenePos().toPoint() - Center;
+    bool endEditing = true;
     if (isEditing && sceneCoords.size() > 2)
     {
-        QPoint point = event->scenePos().toPoint() - Center;
-        int pointdeleting = ContainsPoint(sceneCoords, point);
+        int pointdeleting = ContainsPoint(sceneCoords, mousePoint);
         if (pointdeleting != -1)
         {
             sceneCoords.remove(pointdeleting);
             points.removeAt(pointdeleting);
-            isdeletingpoint = true;
+            endEditing = false;
         }
     }
-    if (!isdeletingpoint)
+    if (isEditing && endEditing)
+    {
+        int pointCnt = sceneCoords.size();
+        for (int i=0;i<pointCnt-1;++i)
+        {
+            const QPoint lineStart = sceneCoords[i];
+            const QPoint lineEnd = sceneCoords[i+1];
+            if (PointOnLine(lineStart, lineEnd, mousePoint))
+            {
+                // This would invalidate all iterators, be careful!!!
+                sceneCoords.insert(i+1, mousePoint);
+                GeoPoint newPoint;
+                CoordsHelper::InternalCoordToGeoCoord(mousePoint + Center, getZoom(), newPoint.lat, newPoint.lng);
+                points.insert(i+1, newPoint);
+                endEditing = false;
+                break;
+            }
+        }
+    }
+    if (endEditing)
     {
         isEditing = !isEditing;
         pointEditing = -1;
