@@ -13,6 +13,7 @@ class GeoBound;
 class MapServices;
 class MapViewBase;
 class MapController;
+struct GeoCodeResultPair;
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -53,7 +54,7 @@ private slots:
     void GeoCodeHandle(const QString, double, double);
     void ReverseGeoCodeHandle(const QString originalQuery, const QString address);
     void BoundsUpdates(const GeoBound&);
-    void handleRequestRouting(int);
+    void handleRequestRouting(int, const QString&, const QString&);
 
 private:
     Ui::MainWindow *m_ui;

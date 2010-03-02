@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include <QSet>
+#include <QMap>
 #include <QString>
 #include <QList>
 #include "GeoCoord.h"
@@ -16,19 +16,21 @@ public:
     MapServices(void);
     ~MapServices(void);
 
-    void GeoCode(const QString& where);
-    void ReverseGeoCode(double latitude, double longitude);
-    void QueryRoute(const QString& from, const QString& to);
+    void GeoCode(const QString& where, void* data);
+    void ReverseGeoCode(double latitude, double longitude, void* data);
+    void QueryRoute(const QString& from, const QString& to, void* data);
 
 signals:
-    void GeoCodeResult(const QString originalQuery, double lattitude, double longitude);
-    void ReverseGeoCodeResult(const QString originalQuery, const QString address);
-    void RoutingResult(QList<GeoPoint>);
+    void GeoCodeResult(const QString originalQuery, double lattitude, double longitude, void* data);
+    void ReverseGeoCodeResult(const QString originalQuery, const QString address, void* data);
+    void RoutingResult(QList<GeoPoint>, void* data);
 
 protected slots:
     void ProcessJSONResult(QNetworkReply*);
 
 private:
-    QSet<QNetworkReply*> reverseGeoRequests;
+    QMap<QNetworkReply*, void*> geoRequests;
+    QMap<QNetworkReply*, void*> reverseGeoRequests;
+    QMap<QNetworkReply*, void*> directionRequests;
     QNetworkAccessManager *network;
 };

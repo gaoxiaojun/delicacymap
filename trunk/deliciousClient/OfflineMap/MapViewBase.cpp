@@ -392,6 +392,13 @@ void MapViewBase::addRoute( const QList<GeoPoint>& p )
     scene->addItem(item);
 }
 
+void MapViewBase::addRoute( const QList<GeoPoint>& p, int user )
+{
+    RouteItem * item = new RouteItem(p, true);
+    item->setZoom(zoomLevel);
+    scene->addItem(item);
+}
+
 void MapViewBase::setSelfLocation( const GeoPoint& coord )
 {
     if (!self)

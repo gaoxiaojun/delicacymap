@@ -18,6 +18,12 @@
 using namespace ProtocolBuffer;
 QTM_USE_NAMESPACE
 
+struct GeoCodeResultPair
+{
+    GeoPoint first, second;
+    bool firstSet, secondSet;
+};
+
 MainWindow::MainWindow(Session *s, QWidget *parent) :
     QMainWindow(parent),
     m_ui(new Ui::MainWindow),
@@ -53,16 +59,16 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     controller->setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
     connect(navi, SIGNAL(boundsChange(const GeoBound&)), controller, SLOT(MapViewBoundsChange(const GeoBound&)));
     connect(controller, SIGNAL(currentLocationUpdate(const GeoPoint&)), navi, SLOT(setSelfLocation(const GeoPoint&)));
-    connect(controller, SIGNAL(SysMsgRequestRouting(int)), this, SLOT(handleRequestRouting(int)));
+    connect(controller, SIGNAL(SysMsgRequestRouting(int, QString, QString)), this, SLOT(handleRequestRouting(int, const QString&, const QString&)));
 
     navi->setZoomLevel(15);
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
 
     svc = new MapServices;
-    connect(svc, SIGNAL(RoutingResult(QList<GeoPoint>)), navi, SLOT(addRoute(const QList<GeoPoint>&)));
+    connect(svc, SIGNAL(RoutingResult(QList<GeoPoint>, void*)), controller, SLOT(AddEditingRouteInFavorOf(const QList<GeoPoint>&, void*)));
     //svc->GeoCode(QString::fromLocal8Bit("±±¾©"));
     //svc->ReverseGeoCode(39.96067508327288, 116.35796070098877);
-    //svc->QueryRoute(QString::fromUtf8("北京市海淀区西土城路10号 (北京邮电大学)"), QString::fromUtf8("西直门"));
+    svc->QueryRoute(QString::fromUtf8("北京市海淀区西土城路10号 (北京邮电大学)"), QString::fromUtf8("西直门"), NULL);
     //connect(svc, SIGNAL(GeoCodeResult(const QString, double, double)), this, SLOT(GeoCodeHandle(const QString, double, double)));
     //connect(svc, SIGNAL(ReverseGeoCodeResult(const QString, const QString)), this, SLOT(ReverseGeoCodeHandle(const QString, const QString)));
     //connect(navi, SIGNAL(boundsChange(const GeoBound&)), this, SLOT(BoundsUpdates(const GeoBound&)));
@@ -267,7 +273,7 @@ void MainWindow::BoundsUpdates( const GeoBound& bound )
 //        new ProtocolBuffer::RestaurantList);
 }
 
-void MainWindow::handleRequestRouting(int uid)
+void MainWindow::handleRequestRouting(int uid, const QString& from, const QString& to)
 {
     QMessageBox msgbox;
     QString text = QString("%1 is asking your help to guide him.").arg(QString::fromUtf8(getSession()->getUser(uid)->nickname().c_str()));
@@ -283,7 +289,7 @@ void MainWindow::handleRequestRouting(int uid)
     case 0:
         if (msgbox.clickedButton() == googlebutton)
         {
-            //svc->QueryRoute()
+            svc->QueryRoute(from, to, (void*)uid);
         }
         break;
     case QMessageBox::Yes:
