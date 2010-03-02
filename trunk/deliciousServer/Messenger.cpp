@@ -56,12 +56,15 @@ void Messenger::GetMessageCallback( const DBRow& row )
 {
     DMessageWrap *newmsg = new DMessageWrap;
 
-    newmsg->set_text(row["MSG"]);
-
     newmsg->set_fromuser(row.GetValueAs<int>("FromUID"));
     newmsg->set_touser(row.GetValueAs<int>("ToUID"));
     newmsg->set_msgid(row.GetValueAs<unsigned int>("MSGID"));
     newmsg->set_issystemmessage(row.GetValueAs<bool>("IsSystemMessage"));
+
+    if (newmsg->issystemmessage())
+        newmsg->set_buffer(row["MSG"]);
+    else
+        newmsg->set_text(row["MSG"]);
 
     // All times stored in DB is in UTC time
     newmsg->AddTime = time_from_string(row["AddTime"]);
