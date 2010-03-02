@@ -28,6 +28,7 @@ public:
 public slots:
     void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
     void addRoute(const QList<GeoPoint>&);
+    void addRoute(const QList<GeoPoint>&, int);
     void setSelfLocation(const GeoPoint& coord);
     void resetCoords();
     void zoomIn();

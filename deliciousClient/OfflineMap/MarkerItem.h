@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GeoCoord.h"
+#include <QObject>
 #include <QGraphicsItem>
 #include <QList>
 #include <QPolygon>
@@ -42,11 +43,16 @@ private:
     const ProtocolBuffer::Restaurant* r;
 };
 
-class RouteItem : public ZoomSensitiveItem
+class RouteItem : public QObject, public ZoomSensitiveItem
 {
+    Q_OBJECT
 public:
     RouteItem(const QList<GeoPoint>& r, bool editable = false);
     void setZoom(int zoom);
+    QList<GeoPoint> getRoute() const {return points;}
+
+signals:
+    void EditFinished();
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */);
     QRectF boundingRect() const;

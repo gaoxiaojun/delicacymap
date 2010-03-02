@@ -2,7 +2,9 @@
 #include "MapProtocol.pb.h"
 #include "Session.h"
 #include "OfflineMap/MapViewBase.h"
+#include "OfflineMap/MarkerItem.h"
 #include <QGeoPositionInfoSource>
+#include <QDebug>
 
 
 MapController::MapController(void)
@@ -74,8 +76,29 @@ void MapController::HandleSystemMessages( const ProtocolBuffer::DMessage* msg )
         switch (msg->systemmessagetype())
         {
         case ProtocolBuffer::RequestRouting:
-            emit SysMsgRequestRouting(msg->fromuser());
+        {
+            int pos = msg->buffer().find('|');
+            QString from = QString::fromUtf8(msg->buffer().c_str(), pos);
+            QString to = QString::fromUtf8(msg->buffer().c_str() + pos + 1);
+            emit SysMsgRequestRouting(msg->fromuser(), from, to);
             break;
         }
+        case ProtocolBuffer::RoutingReply:
+            break;
+        case ProtocolBuffer::RejectRouting:
+            break;
+        default:
+            qDebug()<<"Unhandled message type: "<< msg->systemmessagetype();
+        }
+    }
+}
+
+void MapController::AddEditingRouteInFavorOf( const QList<GeoPoint>& points, void* data )
+{
+    if (data && map)
+    {
+        // for now, data could only be uid
+        int uid = reinterpret_cast<intptr_t>( data ); // This is dangerous.
+        map->addRoute(points, uid);
     }
 }

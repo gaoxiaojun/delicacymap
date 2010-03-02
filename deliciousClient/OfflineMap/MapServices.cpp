@@ -196,22 +196,22 @@ void MapServices::ProcessJSONResult( QNetworkReply* reply )
                             QString address;
                             reverseGeoRequests.remove(reply);
                             if (ReadPlacementForAddress(rootobj, address))
-                                emit ReverseGeoCodeResult(originalquery, address);
+                                emit ReverseGeoCodeResult(originalquery, address, reverseGeoRequests.take(reply));
                             else
-                                emit ReverseGeoCodeResult(originalquery, QString());
+                                emit ReverseGeoCodeResult(originalquery, QString(), NULL);
                         }
                         else
                         {
                             double lattitude, longitude;
                             if (ReadPlacementForCoordinate(rootobj, lattitude, longitude))
-                                emit GeoCodeResult(originalquery, lattitude, longitude);
+                                emit GeoCodeResult(originalquery, lattitude, longitude, geoRequests.take(reply));
                             else
-                                emit GeoCodeResult(originalquery, 0.0, 0.0);
+                                emit GeoCodeResult(originalquery, 0.0, 0.0, NULL);
                         }
                     }
                     else if (requesttype == "directions")
                     {
-                        emit RoutingResult( ReadRoute(rootobj) );
+                        emit RoutingResult( ReadRoute(rootobj), directionRequests.take(reply) );
                     }
                 }
             }
@@ -221,24 +221,24 @@ void MapServices::ProcessJSONResult( QNetworkReply* reply )
     reply->deleteLater();
 }
 
-void MapServices::GeoCode( const QString& where )
+void MapServices::GeoCode( const QString& where, void* data )
 {
     QUrl url(_GeoCodeURL.arg(_APIKey, where));
     QNetworkRequest request(url);
-    network->get(request);
+    geoRequests.insert(network->get(request), data);
 }
 
-void MapServices::ReverseGeoCode( double latitude, double longitude )
+void MapServices::ReverseGeoCode( double latitude, double longitude, void* data )
 {
     QUrl url(_RevGeoCodeURL.arg(_APIKey).arg(latitude, 0, 'g', 9).arg(longitude, 0, 'g', 9));
     QNetworkRequest request(url);
-    reverseGeoRequests.insert(network->get(request));
+    reverseGeoRequests.insert(network->get(request), data);
 }
 
-void MapServices::QueryRoute( const QString& from, const QString& to )
+void MapServices::QueryRoute( const QString& from, const QString& to, void* data )
 {
     QString s = _GDirectionURL.arg(_APIKey, from, to);
     QUrl url(s);
     QNetworkRequest request(url);
-    network->get(request);
+    directionRequests.insert(network->get(request), data);
 }

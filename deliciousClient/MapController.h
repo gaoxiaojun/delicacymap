@@ -3,6 +3,7 @@
 #include "OfflineMap/GeoCoord.h"
 #include <QGeoPositionInfo>
 #include <QObject>
+#include <QString>
 #include <QSet>
 
 QTM_USE_NAMESPACE
@@ -15,8 +16,6 @@ namespace ProtocolBuffer{
     class DMessage;
 }
 
-class GeoPoint;
-class GeoBound;
 class MapViewBase;
 class Session;
 
@@ -40,11 +39,12 @@ public:
 signals:
     void newRestaurantMarker(const ProtocolBuffer::Restaurant*);
     void currentLocationUpdate(GeoPoint);
-    void SysMsgRequestRouting(int);
+    void SysMsgRequestRouting(int, QString, QString);
 
 public slots:
     void MapViewBoundsChange(const GeoBound&);
     void HandleSystemMessages(const ProtocolBuffer::DMessage*);
+    void AddEditingRouteInFavorOf(const QList<GeoPoint>&, void* data);
 
 private:
     void RestaurantListHandler(ProtocolBuffer::RestaurantList*, MapViewBase*);
