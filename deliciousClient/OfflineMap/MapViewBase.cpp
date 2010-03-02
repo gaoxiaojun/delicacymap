@@ -228,7 +228,6 @@ void MapViewBase::leaveEvent(QEvent *event){
 }
 
 void MapViewBase::downloadMissingImages(){
-    printf("download missing images\n");
     if (!images)
         return;
 
