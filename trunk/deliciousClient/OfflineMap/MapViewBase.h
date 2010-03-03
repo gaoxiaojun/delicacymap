@@ -11,6 +11,7 @@ class ImageCache;
 struct MarkerInfo;
 class QGraphicsScene;
 class SelfMarkerItem;
+class RouteItem;
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -28,7 +29,7 @@ public:
 public slots:
     void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
     void addRoute(const QList<GeoPoint>&);
-    void addRoute(const QList<GeoPoint>&, int);
+    RouteItem* addRoute(const QList<GeoPoint>&, int);
     void setSelfLocation(const GeoPoint& coord);
     void resetCoords();
     void zoomIn();
