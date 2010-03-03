@@ -8,6 +8,11 @@ message Location
     required double                                          longitude                   = 2;
 }
 
+message Route
+{
+    repeated Location                                        WayPoints                   = 1;
+}
+
 //Representing a rectangular geographic area, specified by the locations of its northeast corner and southwest corner.
 message Area
 {

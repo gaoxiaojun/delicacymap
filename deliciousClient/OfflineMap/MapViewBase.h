@@ -12,6 +12,7 @@ struct MarkerInfo;
 class QGraphicsScene;
 class SelfMarkerItem;
 class RouteItem;
+class ZoomSensitiveItem;
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -26,6 +27,8 @@ public:
     void setDecorator(Decorator* decorator = 0);
     void insertDecorator(Decorator* decorator);
     void appendDecorator(Decorator* decorator);
+
+    void removeItem(ZoomSensitiveItem*);
 public slots:
     void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
     void addRoute(const QList<GeoPoint>&);

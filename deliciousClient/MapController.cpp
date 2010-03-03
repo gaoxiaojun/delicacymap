@@ -4,6 +4,7 @@
 #include "OfflineMap/MapViewBase.h"
 #include "OfflineMap/MarkerItem.h"
 #include <QGeoPositionInfoSource>
+#include <QMessageBox>
 #include <QDebug>
 
 
@@ -100,6 +101,35 @@ void MapController::AddEditingRouteInFavorOf( const QList<GeoPoint>& points, voi
         // for now, data could only be uid
         int uid = reinterpret_cast<intptr_t>( data ); // This is dangerous.
         RouteItem* item = map->addRoute(points, uid);
-        //connect(item, SIGNAL(EditFinished(RouteItem*)), this, SLOT)
+        connect(item, SIGNAL(EditFinished(RouteItem*)), this, SLOT(finishedRouteEditing(RouteItem*)));
+    }
+}
+
+void MapController::finishedRouteEditing( RouteItem* item )
+{
+    // Prompt the user if he wants to send this back
+    if ( item->getRouteReceiverWhenDoneEditing() )
+    {
+        QMessageBox msgbox;
+        QString text = QString("Do you want to send this route back to %1?.").arg(QString::fromUtf8(getSession()->getUser(item->getRouteReceiverWhenDoneEditing())->nickname().c_str()));
+        msgbox.setIcon(QMessageBox::Question);
+        msgbox.setText(text);
+        msgbox.setWindowTitle("Finished editing route");
+        msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        int ret = msgbox.exec();
+        switch (ret)
+        {
+        case QMessageBox::Yes:
+            // send this route back.
+            getSession()->SendRoutingReply( item->getRoute(), item->getRouteReceiverWhenDoneEditing() );
+            // assume it would success
+            // remove this route
+            map->removeItem(item);
+            item->deleteLater();
+            break;
+        case QMessageBox::No:
+            // do nothing
+            break;
+        }
     }
 }

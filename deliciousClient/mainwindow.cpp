@@ -68,7 +68,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(svc, SIGNAL(RoutingResult(QList<GeoPoint>, void*)), controller, SLOT(AddEditingRouteInFavorOf(const QList<GeoPoint>&, void*)));
     //svc->GeoCode(QString::fromLocal8Bit("±±¾©"));
     //svc->ReverseGeoCode(39.96067508327288, 116.35796070098877);
-    svc->QueryRoute(QString::fromUtf8("北京市海淀区西土城路10号 (北京邮电大学)"), QString::fromUtf8("西直门"), NULL);
+    //svc->QueryRoute(QString::fromUtf8("北京市海淀区西土城路10号 (北京邮电大学)"), QString::fromUtf8("西直门"), NULL);
     //connect(svc, SIGNAL(GeoCodeResult(const QString, double, double)), this, SLOT(GeoCodeHandle(const QString, double, double)));
     //connect(svc, SIGNAL(ReverseGeoCodeResult(const QString, const QString)), this, SLOT(ReverseGeoCodeHandle(const QString, const QString)));
     //connect(navi, SIGNAL(boundsChange(const GeoBound&)), this, SLOT(BoundsUpdates(const GeoBound&)));
@@ -293,8 +293,10 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
         }
         break;
     case QMessageBox::Yes:
+        // TODO: Create a simple path from source location to target location
         break;
     case QMessageBox::No:
+        // TODO: Send back reject message
         break;
     }
 }

@@ -18,6 +18,7 @@ namespace ProtocolBuffer{
 
 class MapViewBase;
 class Session;
+class RouteItem;
 
 QTM_BEGIN_NAMESPACE
 class QGeoPositionInfoSource;
@@ -51,6 +52,7 @@ private:
 
 private slots:
     void translateLocationSignal(QGeoPositionInfo);
+    void finishedRouteEditing(RouteItem*);
 
 private:
     QSet<int> _restaurants;

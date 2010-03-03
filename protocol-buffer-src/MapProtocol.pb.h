@@ -32,6 +32,7 @@ void protobuf_AssignDesc_MapProtocol_2eproto();
 void protobuf_ShutdownFile_MapProtocol_2eproto();
 
 class Location;
+class Route;
 class Area;
 class Time;
 class Comment;
@@ -140,6 +141,88 @@ class Location : public ::google::protobuf::MessageLite {
   
   void InitAsDefaultInstance();
   static Location* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Route : public ::google::protobuf::MessageLite {
+ public:
+  Route();
+  virtual ~Route();
+  
+  Route(const Route& from);
+  
+  inline Route& operator=(const Route& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  static const Route& default_instance();
+  
+  void Swap(Route* other);
+  
+  // implements Message ----------------------------------------------
+  
+  Route* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const Route& from);
+  void MergeFrom(const Route& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // repeated .ProtocolBuffer.Location WayPoints = 1;
+  inline int waypoints_size() const;
+  inline void clear_waypoints();
+  static const int kWayPointsFieldNumber = 1;
+  inline const ::ProtocolBuffer::Location& waypoints(int index) const;
+  inline ::ProtocolBuffer::Location* mutable_waypoints(int index);
+  inline ::ProtocolBuffer::Location* add_waypoints();
+  inline const ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::Location >&
+      waypoints() const;
+  inline ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::Location >*
+      mutable_waypoints();
+  
+  // @@protoc_insertion_point(class_scope:ProtocolBuffer.Route)
+ private:
+  mutable int _cached_size_;
+  
+  ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::Location > waypoints_;
+  friend void  protobuf_AddDesc_MapProtocol_2eproto();
+  friend void protobuf_AssignDesc_MapProtocol_2eproto();
+  friend void protobuf_ShutdownFile_MapProtocol_2eproto();
+  
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  
+  // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
+  inline bool _has_bit(int index) const {
+    return (_has_bits_[index / 32] & (1u << (index % 32))) != 0;
+  }
+  inline void _set_bit(int index) {
+    _has_bits_[index / 32] |= (1u << (index % 32));
+  }
+  inline void _clear_bit(int index) {
+    _has_bits_[index / 32] &= ~(1u << (index % 32));
+  }
+  
+  void InitAsDefaultInstance();
+  static Route* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -1548,6 +1631,35 @@ inline double Location::longitude() const {
 inline void Location::set_longitude(double value) {
   _set_bit(1);
   longitude_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// Route
+
+// repeated .ProtocolBuffer.Location WayPoints = 1;
+inline int Route::waypoints_size() const {
+  return waypoints_.size();
+}
+inline void Route::clear_waypoints() {
+  waypoints_.Clear();
+}
+inline const ::ProtocolBuffer::Location& Route::waypoints(int index) const {
+  return waypoints_.Get(index);
+}
+inline ::ProtocolBuffer::Location* Route::mutable_waypoints(int index) {
+  return waypoints_.Mutable(index);
+}
+inline ::ProtocolBuffer::Location* Route::add_waypoints() {
+  return waypoints_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::Location >&
+Route::waypoints() const {
+  return waypoints_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::ProtocolBuffer::Location >*
+Route::mutable_waypoints() {
+  return &waypoints_;
 }
 
 // -------------------------------------------------------------------

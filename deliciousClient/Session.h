@@ -3,6 +3,7 @@
 
 #include "MapDataSource.h"
 #include "qmobilityglobal.h"
+#include "OfflineMap/GeoCoord.h"
 
 #include <string>
 #include <QObject>
@@ -20,6 +21,8 @@ QTM_BEGIN_NAMESPACE
     class QNetworkSession;
 QTM_END_NAMESPACE
 
+template < typename _ty >
+class QList;
 
 class Session : public QObject
 {
@@ -37,6 +40,7 @@ public:
     ProtocolBuffer::User* getUser(int uid);
 
     void UserLocationUpdate(double latitude, double longitude);
+    void SendRoutingReply( const QList<GeoPoint>& route, int user );
 
 public slots:
     void loginMessenger();

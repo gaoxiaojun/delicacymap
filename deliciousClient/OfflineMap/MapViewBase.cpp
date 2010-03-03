@@ -410,3 +410,8 @@ void MapViewBase::setSelfLocation( const GeoPoint& coord )
     }
     self->setPos(coord);
 }
+
+void MapViewBase::removeItem( ZoomSensitiveItem* item )
+{
+    scene->removeItem(item);  
+}

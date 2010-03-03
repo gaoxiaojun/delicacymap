@@ -5,6 +5,7 @@
 #include "QNetworkConfigurationManager"
 
 #include <QTimerEvent>
+#include <boost/foreach.hpp>
 
 QTM_USE_NAMESPACE
 
@@ -119,4 +120,25 @@ void Session::FriendsResponse(ProtocolBuffer::UserList* users)
         myfriends.insert(u.uid(), new ProtocolBuffer::User(u));
     }
     delete users;
+}
+
+void Session::SendRoutingReply( const QList<GeoPoint>& route, int user )
+{
+    ProtocolBuffer::Route* routereply = new ProtocolBuffer::Route;
+    BOOST_FOREACH(const GeoPoint& p, route)
+    {
+        ProtocolBuffer::Location* point = routereply->add_waypoints();
+        point->set_latitude(p.lat.getDouble());
+        point->set_longitude(p.lng.getDouble());
+    }
+    ProtocolBuffer::DMessage* msg = new ProtocolBuffer::DMessage;
+    msg->set_fromuser(getUser()->uid());
+    msg->set_touser(user);
+    msg->set_issystemmessage(true);
+    msg->set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
+    msg->set_systemmessagetype(ProtocolBuffer::RoutingReply);
+    msg->set_buffer(routereply->SerializeAsString());
+    getDataSource().SendMessage(msg);
+    delete msg;
+    delete routereply;
 }
