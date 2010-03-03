@@ -142,3 +142,18 @@ void Session::SendRoutingReply( const QList<GeoPoint>& route, int user )
     delete msg;
     delete routereply;
 }
+
+void Session::SendRoutingRequest( const QString& from, const QString& to, int user )
+{
+    ProtocolBuffer::DMessage* msg = new ProtocolBuffer::DMessage;
+    msg->set_fromuser(getUser()->uid());
+    msg->set_touser(user);
+    msg->set_issystemmessage(true);
+    msg->set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
+    msg->set_systemmessagetype(ProtocolBuffer::RequestRouting);
+    QString text = from + "|" + to;
+    QByteArray utf8encoded = text.toUtf8();
+    msg->set_buffer( utf8encoded.constData(), utf8encoded.length() );
+    getDataSource().SendMessage(msg);
+    delete msg;
+}

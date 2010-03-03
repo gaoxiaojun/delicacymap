@@ -288,6 +288,7 @@ void naked_conn::handle_messaging()
     }
     else
         pantheios::log_WARNING("Incompatible message type. missing buffer");
+    readrequest(0);
 }
 
 void naked_conn::messageTimerHandler(const boost::system::error_code& err)
