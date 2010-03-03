@@ -24,7 +24,7 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         dbconn->Free(&ret);
         prepared_Message = dbconn->NewPreparedStatement("INSERT INTO Messages "
             "(FromUID, ToUID, AddTime, ExpireTime, MessageType, MSG) "
-            "VALUES(?, ?, datetime('now'), ?, ?, ?);");
+            "VALUES(?, ?, datetime('now'), datetime('now', '5 minutes'), ?, ?);");
     }
     catch (exception&)
     {
@@ -309,19 +309,22 @@ size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, int mess
         /*", text=",text,*/
         /*", tm=", validTimePeriod,*/
         ")");
-    char querystr[500], digits[12], modifierbuf[200];
-    sprintf_s(querystr, sizeof(querystr),
-        "SELECT msgid FROM Messages WHERE Messages.rowid = last_insert_rowid();"
-    );
+    char querystr[500], modifierbuf[200];
     prepared_Message->reset();
     if (from_uid)
         prepared_Message->bindParameter(1, from_uid);
     else
         prepared_Message->bindParameter(1);
     prepared_Message->bindParameter(2, to_uid);
-    prepared_Message->bindParameter(3, tmToSqliteTimeModifiers(modifierbuf, validTimePeriod));
-    prepared_Message->bindParameter(4, messageType);
-    prepared_Message->bindParameter(5, text);
+    // FIXME: cannot bind "datetime('now' '5 minutes') " to prepared statements, it is hardcoded in the query for now.
+//     sprintf_s(modifierbuf, sizeof(modifierbuf), "datetime('now'%s)", tmToSqliteTimeModifiers(querystr, validTimePeriod));
+//     prepared_Message->bindParameter(3, modifierbuf);
+    prepared_Message->bindParameter(3, messageType);
+    prepared_Message->bindParameter(4, text);
+
+    sprintf_s(querystr, sizeof(querystr),
+        "SELECT msgid FROM Messages WHERE Messages.rowid = last_insert_rowid();"
+        );
 
     DBResult *result = dbconn->Execute(prepared_Message);
     dbconn->Free(&result);

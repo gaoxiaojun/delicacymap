@@ -41,6 +41,7 @@ public:
 
     void UserLocationUpdate(double latitude, double longitude);
     void SendRoutingReply( const QList<GeoPoint>& route, int user );
+    void SendRoutingRequest( const QString&, const QString&, int user);
 
 public slots:
     void loginMessenger();
