@@ -51,9 +51,6 @@ public slots:
 private slots:
     void UpdateCurrentLocation(QString);
     void printMessage(const ProtocolBuffer::DMessage*);
-    void GeoCodeHandle(const QString, double, double);
-    void ReverseGeoCodeHandle(const QString originalQuery, const QString address);
-    void BoundsUpdates(const GeoBound&);
     void handleRequestRouting(int, const QString&, const QString&);
 
 private:
