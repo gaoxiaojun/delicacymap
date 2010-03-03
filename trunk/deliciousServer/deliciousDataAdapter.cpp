@@ -3,6 +3,7 @@
 
 #include "DBContext.h"
 #include "DBResult.h"
+#include "DBPrepared.h"
 
 #include <pantheios/inserters/real.hpp>
 
@@ -21,11 +22,15 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
+        prepared_Message = dbconn->NewPreparedStatement("INSERT INTO Messages "
+            "(FromUID, ToUID, AddTime, ExpireTime, MessageType, MSG) "
+            "VALUES(?, ?, datetime('now'), ?, ?, ?);");
     }
     catch (exception&)
     {
         delete dbconn;
         dbconn = NULL;
+        prepared_Message = NULL;
         throw;
     }
 }
@@ -33,6 +38,7 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
 deliciousDataAdapter::~deliciousDataAdapter(void)
 {
     delete dbconn;
+    delete prepared_Message;
 }
 
 deliciousDataAdapter* deliciousDataAdapter::GetInstance()
@@ -295,25 +301,31 @@ char* tmToSqliteTimeModifiers(char* buf, tm& time)
 #undef MODIFIER_FOR
 }
 
-size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, const std::string& text, tm validTimePeriod )
+size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, int messageType, const std::string& text, tm validTimePeriod )
 {
     pantheios::log_INFORMATIONAL("AddMessagesToDB(",
         "from_uid=", pantheios::integer(from_uid),
         ", to_uid=", pantheios::integer(to_uid),
-        ", text=",text,
-        ", tm=", validTimePeriod,
+        /*", text=",text,*/
+        /*", tm=", validTimePeriod,*/
         ")");
     char querystr[500], digits[12], modifierbuf[200];
     sprintf_s(querystr, sizeof(querystr),
-        "INSERT INTO Messages "
-        "(FromUID, ToUID, AddTime, ExpireTime, MSG) "
-        "VALUES (%s, %d, datetime('now'), datetime('now'%s));"
         "SELECT msgid FROM Messages WHERE Messages.rowid = last_insert_rowid();"
-        , from_uid == 0 ? "NULL" : _itoa(from_uid, digits, 10)
-        , to_uid
-        , tmToSqliteTimeModifiers(modifierbuf, validTimePeriod));
+    );
+    prepared_Message->reset();
+    if (from_uid)
+        prepared_Message->bindParameter(1, from_uid);
+    else
+        prepared_Message->bindParameter(1);
+    prepared_Message->bindParameter(2, to_uid);
+    prepared_Message->bindParameter(3, tmToSqliteTimeModifiers(modifierbuf, validTimePeriod));
+    prepared_Message->bindParameter(4, messageType);
+    prepared_Message->bindParameter(5, text);
 
-    DBResult *result = dbconn->Execute(querystr);
+    DBResult *result = dbconn->Execute(prepared_Message);
+    dbconn->Free(&result);
+    result = dbconn->Execute(querystr);
     unsigned int msgid = result->GetRow(0).GetValueAs<unsigned int>("MSGID");
     dbconn->Free(&result);
     return msgid;

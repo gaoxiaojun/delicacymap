@@ -3,6 +3,7 @@
 
 struct sqlite3;
 class DBResult;
+class DBPrepared;
 
 class DBContext
 {
@@ -12,7 +13,11 @@ public:
 
     DBResult* Execute(const std::string &sql);
 
+    DBResult* Execute(DBPrepared*);
+
     void Free(DBResult**);
+
+    DBPrepared* NewPreparedStatement(const std::string& sql);
 
     ~DBContext(void);
 

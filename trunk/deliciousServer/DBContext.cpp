@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "DBContext.h"
 #include "DBResult.h"
+#include "DBPrepared.h"
 #include "sqlite3.h"
 
 #include <exception>
@@ -64,4 +65,36 @@ DBResult* DBContext::Execute( const std::string &sql )
     }
 
     return result;
+}
+
+DBResult* DBContext::Execute( DBPrepared* stmt )
+{
+    if (stmt && stmt->isValid())
+    {
+        int returncode = sqlite3_step(stmt->stmt);
+        if ( returncode == SQLITE_ROW)
+        {
+            // this is the case where we need to return data
+        }
+        else if (returncode == SQLITE_DONE)
+        {
+            // success.
+        }
+        else
+        {
+            pantheios::log_WARNING("Execute prepared statement failed, error code: ", pantheios::integer(returncode));
+        }
+    }
+    return NULL;
+}
+
+DBPrepared* DBContext::NewPreparedStatement( const std::string& sql )
+{
+    sqlite3_stmt* stmt;
+    int err = sqlite3_prepare_v2(db, sql.c_str(), sql.size(), &stmt, NULL);
+    if (err != SQLITE_OK)
+    {
+        pantheios::log_ERROR("Create prepared statement failed, error code: ", pantheios::integer(err));
+    }
+    return new DBPrepared(stmt);
 }

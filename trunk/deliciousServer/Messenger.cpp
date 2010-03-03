@@ -59,7 +59,14 @@ void Messenger::GetMessageCallback( const DBRow& row )
     newmsg->set_fromuser(row.GetValueAs<int>("FromUID"));
     newmsg->set_touser(row.GetValueAs<int>("ToUID"));
     newmsg->set_msgid(row.GetValueAs<unsigned int>("MSGID"));
-    newmsg->set_issystemmessage(row.GetValueAs<bool>("IsSystemMessage"));
+    int msgType = row.GetValueAs<int>("MessageType");
+    if (msgType)
+    {
+        newmsg->set_issystemmessage( true );
+        newmsg->set_systemmessagetype( (ProtocolBuffer::SystemMessageType)msgType );
+    }
+    else
+        newmsg->set_issystemmessage( false );
 
     if (newmsg->issystemmessage())
         newmsg->set_buffer(row["MSG"]);
@@ -97,7 +104,8 @@ void Messenger::SendMessageToUser( ProtocolBuffer::DMessage* msg )
         size_t msgid = dataadapter->AddMessagesToDB( 
             msg->fromuser(),
             msg->touser(),
-            msg->SerializeAsString(),
+            msg->issystemmessage() ? msg->systemmessagetype() : 0,
+            msg->issystemmessage() ? msg->buffer() : msg->text(),
             expiretime);
 
         DMessageWrap *newmsg = new DMessageWrap;
