@@ -50,9 +50,11 @@ public:
     RouteItem(const QList<GeoPoint>& r, bool editable = false);
     void setZoom(int zoom);
     QList<GeoPoint> getRoute() const {return points;}
+    void setRouteReceiverWhenDoneEditing(int);
+    int getRouteReceiverWhenDoneEditing() { return targetUser; }
 
 signals:
-    void EditFinished();
+    void EditFinished(RouteItem*);
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */);
     QRectF boundingRect() const;
@@ -66,7 +68,7 @@ protected:
     QPolygon sceneCoords;
     GeoBound boundRect;
     QPoint Center;
-    int pointEditing;
+    int pointEditing, targetUser;
     bool isEditable, isEditing;
 };
 

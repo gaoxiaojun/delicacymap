@@ -99,6 +99,7 @@ void MapController::AddEditingRouteInFavorOf( const QList<GeoPoint>& points, voi
     {
         // for now, data could only be uid
         int uid = reinterpret_cast<intptr_t>( data ); // This is dangerous.
-        map->addRoute(points, uid);
+        RouteItem* item = map->addRoute(points, uid);
+        //connect(item, SIGNAL(EditFinished(RouteItem*)), this, SLOT)
     }
 }

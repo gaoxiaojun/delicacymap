@@ -9,6 +9,7 @@ RouteItem::RouteItem( const QList<GeoPoint>& r, bool editable /*= false*/ )
 : points(r), isEditable(editable), isEditing(false)
 {
     pointEditing = -1;
+    targetUser = 0;
     boundRect.SW = points.first();
     boundRect.NE = points.first();
     BOOST_FOREACH( const GeoPoint &c, points )
@@ -52,6 +53,11 @@ QRectF RouteItem::boundingRect() const
         NE.y() - Center.y() - 20,
         NE.x() - SW.x() + 40,
         SW.y() - NE.y() + 40);
+}
+
+void RouteItem::setRouteReceiverWhenDoneEditing(int user)
+{
+    targetUser = user;
 }
 
 void RouteItem::setZoom( int zoom )
@@ -149,8 +155,8 @@ bool PointOnLine(const QPoint& lineStart, const QPoint& lineEnd, const QPoint& p
 {
     if (ValueInBetween(p.x(), lineStart.x(), lineEnd.x()) && ValueInBetween(p.y(), lineStart.y(), lineEnd.y()))
     {
-        int a1 = (p.y() - lineStart.y()) * (lineEnd.x() - lineStart.x());
-        int a2 = (lineEnd.y() - lineStart.y()) * (p.x() - lineStart.x());
+        //int a1 = (p.y() - lineStart.y()) * (lineEnd.x() - lineStart.x());
+        //int a2 = (lineEnd.y() - lineStart.y()) * (p.x() - lineStart.x());
         int y = (p.x() - lineStart.x()) * (lineEnd.y() - lineStart.y()) / (lineEnd.x() - lineStart.x()) + lineStart.y();
         return abs( y - p.y() ) < abs(y * 0.08);
     }
@@ -196,6 +202,10 @@ void RouteItem::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *event )
         {
             isEditing = !isEditing;
             pointEditing = -1;
+        }
+        if (!isEditing && targetUser != 0) // user 0 is invalid
+        {
+            emit EditFinished(this);
         }
         update();
     }
