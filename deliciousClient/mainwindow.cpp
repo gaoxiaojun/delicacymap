@@ -66,12 +66,6 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 
     svc = new MapServices;
     connect(svc, SIGNAL(RoutingResult(QList<GeoPoint>, void*)), controller, SLOT(AddEditingRouteInFavorOf(const QList<GeoPoint>&, void*)));
-    //svc->GeoCode(QString::fromLocal8Bit("±±¾©"));
-    //svc->ReverseGeoCode(39.96067508327288, 116.35796070098877);
-    //svc->QueryRoute(QString::fromUtf8("北京市海淀区西土城路10号 (北京邮电大学)"), QString::fromUtf8("西直门"), NULL);
-    //connect(svc, SIGNAL(GeoCodeResult(const QString, double, double)), this, SLOT(GeoCodeHandle(const QString, double, double)));
-    //connect(svc, SIGNAL(ReverseGeoCodeResult(const QString, const QString)), this, SLOT(ReverseGeoCodeHandle(const QString, const QString)));
-    //connect(navi, SIGNAL(boundsChange(const GeoBound&)), this, SLOT(BoundsUpdates(const GeoBound&)));
 
 	int index = this->m_ui->stackedWidget->insertWidget(0,navi);
 	qDebug()<<index<<endl;
@@ -250,27 +244,6 @@ void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
     qDebug()<<"From User: "<<msg->fromuser();
     qDebug()<<"To User: "<<msg->touser();
     qDebug()<<"============================ Msg End ===================================";
-}
-
-void MainWindow::GeoCodeHandle( const QString query, double lat, double lng )
-{
-    qDebug()<<"GeoCode Result for"<<query<<" : "<<lat<<", "<<lng;
-}
-
-void MainWindow::ReverseGeoCodeHandle( const QString originalQuery, const QString address )
-{
-    qDebug()<<"Reverse GeoCode Result for"<<originalQuery<<" : "<<address;
-}
-
-void MainWindow::BoundsUpdates( const GeoBound& bound )
-{
-    qDebug()<<"New Bound \t"<<bound.NE.lat.getDouble();
-    qDebug()<<"         "<<bound.SW.lng.getDouble()<<"\t"<<bound.NE.lng.getDouble();
-    qDebug()<<"          \t"<<bound.SW.lat.getDouble();
-//    getSession()->getDataSource().GetRestaurants(bound.SW.lat.getDouble(), bound.SW.lng.getDouble(),
-//        bound.NE.lat.getDouble(), bound.NE.lng.getDouble(),
-//        17,
-//        new ProtocolBuffer::RestaurantList);
 }
 
 void MainWindow::handleRequestRouting(int uid, const QString& from, const QString& to)
