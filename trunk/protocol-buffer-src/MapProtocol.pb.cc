@@ -11,6 +11,7 @@ namespace ProtocolBuffer {
 
 void protobuf_ShutdownFile_MapProtocol_2eproto() {
   delete Location::default_instance_;
+  delete Route::default_instance_;
   delete Area::default_instance_;
   delete Time::default_instance_;
   delete Comment::default_instance_;
@@ -33,6 +34,7 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   Location::default_instance_ = new Location();
+  Route::default_instance_ = new Route();
   Area::default_instance_ = new Area();
   Time::default_instance_ = new Time();
   Comment::default_instance_ = new Comment();
@@ -47,6 +49,7 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   Query::default_instance_ = new Query();
   DMessage::default_instance_ = new DMessage();
   Location::default_instance_->InitAsDefaultInstance();
+  Route::default_instance_->InitAsDefaultInstance();
   Area::default_instance_->InitAsDefaultInstance();
   Time::default_instance_->InitAsDefaultInstance();
   Comment::default_instance_->InitAsDefaultInstance();
@@ -269,6 +272,160 @@ void Location::Swap(Location* other) {
 
 ::std::string Location::GetTypeName() const {
   return "ProtocolBuffer.Location";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int Route::kWayPointsFieldNumber;
+#endif  // !_MSC_VER
+
+Route::Route()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void Route::InitAsDefaultInstance() {
+}
+
+Route::Route(const Route& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void Route::SharedCtor() {
+  _cached_size_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+Route::~Route() {
+  SharedDtor();
+}
+
+void Route::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void Route::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const Route& Route::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
+}
+
+Route* Route::default_instance_ = NULL;
+
+Route* Route::New() const {
+  return new Route;
+}
+
+void Route::Clear() {
+  waypoints_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool Route::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // repeated .ProtocolBuffer.Location WayPoints = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_WayPoints:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_waypoints()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(10)) goto parse_WayPoints;
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void Route::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // repeated .ProtocolBuffer.Location WayPoints = 1;
+  for (int i = 0; i < this->waypoints_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      1, this->waypoints(i), output);
+  }
+  
+}
+
+int Route::ByteSize() const {
+  int total_size = 0;
+  
+  // repeated .ProtocolBuffer.Location WayPoints = 1;
+  total_size += 1 * this->waypoints_size();
+  for (int i = 0; i < this->waypoints_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->waypoints(i));
+  }
+  
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void Route::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Route*>(&from));
+}
+
+void Route::MergeFrom(const Route& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  waypoints_.MergeFrom(from.waypoints_);
+}
+
+void Route::CopyFrom(const Route& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Route::IsInitialized() const {
+  
+  for (int i = 0; i < waypoints_size(); i++) {
+    if (!this->waypoints(i).IsInitialized()) return false;
+  }
+  return true;
+}
+
+void Route::Swap(Route* other) {
+  if (other != this) {
+    waypoints_.Swap(&other->waypoints_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string Route::GetTypeName() const {
+  return "ProtocolBuffer.Route";
 }
 
 
