@@ -8,6 +8,7 @@
 class DBContext;
 class DBRow;
 class DBResult;
+class DBPrepared;
 
 class DBResultWrap
 {
@@ -65,7 +66,7 @@ public://DB methods
     /*                    Methods Used by Messenger                         */
     /************************************************************************/
 
-    size_t AddMessagesToDB( int from_uid, int to_uid, const std::string& text, tm validTimePeriod );
+    size_t AddMessagesToDB( int from_uid, int to_uid, int messageType, const std::string& text, tm validTimePeriod );
 
     size_t RetrieveAllNonDeliveredMessages( CallbackFunc callback );
 
@@ -75,5 +76,8 @@ private://methods
     size_t ExecuteNormal( char* query, CallbackFunc callback );
 private://data
     static deliciousDataAdapter* _single;
+
+    // prepared statements
+    DBPrepared* prepared_Message;
     DBContext *dbconn;
 };
