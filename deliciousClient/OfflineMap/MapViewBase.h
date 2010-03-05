@@ -31,7 +31,7 @@ public:
     void removeItem(ZoomSensitiveItem*);
 public slots:
     void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
-    void addRoute(const QList<GeoPoint>&);
+    RouteItem* addRoute(const QList<GeoPoint>&);
     RouteItem* addRoute(const QList<GeoPoint>&, int);
     void setSelfLocation(const GeoPoint& coord);
     void resetCoords();

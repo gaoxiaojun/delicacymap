@@ -83,6 +83,7 @@ public:
     }
 
     const std::vector<int> ColumnModified() const { return colmodified; }
+    void ResetState();
 
     //void swap(const DBRow& other);
 private:
@@ -98,8 +99,10 @@ public:
     friend class DBContext;
     friend class DBRow;
     DBResult(void);
+    DBResult(size_t);
     ~DBResult(void);
 
+    void SetColumnName(size_t index, const std::string& colname);
     const std::string& ColumnName(size_t index) const;
     size_t RowsCount() const;
     size_t ColCount() const;
@@ -110,6 +113,8 @@ public:
 
     DBRow& operator[](int index);
     DBRow& GetRow(size_t index);
+
+    DBRow& AddRow();
 
 private:
     size_t ResolveColumnName(const std::string& colname);

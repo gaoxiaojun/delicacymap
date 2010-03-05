@@ -41,6 +41,7 @@ signals:
     void newRestaurantMarker(const ProtocolBuffer::Restaurant*);
     void currentLocationUpdate(GeoPoint);
     void SysMsgRequestRouting(int, QString, QString);
+    void SysMsgRoutingReply(int, QList<GeoPoint>);
 
 public slots:
     void MapViewBoundsChange(const GeoBound&);

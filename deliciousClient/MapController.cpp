@@ -6,7 +6,7 @@
 #include <QGeoPositionInfoSource>
 #include <QMessageBox>
 #include <QDebug>
-
+#include <QList>
 
 MapController::MapController(void)
 : map(NULL), session(NULL)
@@ -77,14 +77,25 @@ void MapController::HandleSystemMessages( const ProtocolBuffer::DMessage* msg )
         switch (msg->systemmessagetype())
         {
         case ProtocolBuffer::RequestRouting:
-        {
-            int pos = msg->buffer().find('|');
-            QString from = QString::fromUtf8(msg->buffer().c_str(), pos);
-            QString to = QString::fromUtf8(msg->buffer().c_str() + pos + 1);
-            emit SysMsgRequestRouting(msg->fromuser(), from, to);
+            {
+                int pos = msg->buffer().find('|');
+                QString from = QString::fromUtf8(msg->buffer().c_str(), pos);
+                QString to = QString::fromUtf8(msg->buffer().c_str() + pos + 1);
+                emit SysMsgRequestRouting(msg->fromuser(), from, to);
+            }
             break;
-        }
         case ProtocolBuffer::RoutingReply:
+            {
+                ProtocolBuffer::Route r;
+                QList<GeoPoint> route;
+                r.ParseFromString(msg->buffer());
+                for (int i=0;i<r.waypoints_size();i++)
+                {
+                    const ProtocolBuffer::Location& p = r.waypoints(i);
+                    route.append( GeoPoint(p.latitude(), p.longitude()) );
+                }
+                emit SysMsgRoutingReply(msg->fromuser(), route);
+            }
             break;
         case ProtocolBuffer::RejectRouting:
             break;
