@@ -385,11 +385,12 @@ void MapViewBase::remapMarkers( int /*oldzoomlevel*/, int newzoomlevel )
     }
 }
 
-void MapViewBase::addRoute( const QList<GeoPoint>& p )
+RouteItem* MapViewBase::addRoute( const QList<GeoPoint>& p )
 {
     RouteItem * item = new RouteItem(p);
     item->setZoom(zoomLevel);
     scene->addItem(item);
+    return item;
 }
 
 RouteItem* MapViewBase::addRoute( const QList<GeoPoint>& p, int user )

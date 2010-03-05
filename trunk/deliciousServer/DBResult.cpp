@@ -10,24 +10,28 @@ DBResult::DBResult(void)
 {
 }
 
+DBResult::DBResult( size_t size )
+{
+    colnames.resize(size);
+}
+
 DBResult::~DBResult(void)
 {
 }
 
 void DBResult::AppendData( int argc, char** argv, char** colname )
 {
-    data.reserve(argc);
-    colnames.reserve(argc);
+    data.reserve( data.size() + argc );
+    colnames.reserve( data.size() + argc );
     if (colnames.empty())
     {
         for (int i=0;i<argc;++i)
             colnames.push_back( colname[i] );
         colnames.resize(colnames.size());
     }
-    DBRow newrow(this);
+    DBRow& newrow = AddRow();
     for (int i=0;i<argc;++i)
-        newrow.values.push_back( argv[i] ? argv[i] : "" );
-    data.push_back(newrow);
+        newrow[i] = argv[i] ? argv[i] : "" ;
 }
 
 const string& DBResult::ColumnName( size_t index ) const
@@ -87,6 +91,19 @@ size_t DBResult::ResolveColumnName( const std::string& colname )
     return it==resolvecache.end() ? -1 :it->second;
 }
 
+void DBResult::SetColumnName( size_t index, const std::string& colname )
+{
+    if (index > colnames.size())
+        throw;
+    colnames[index] = colname;
+}
+
+DBRow& DBResult::AddRow()
+{
+    data.push_back(DBRow(this));
+    return data.back();
+}
+
 const std::string& DBRow::operator[]( const std::string& colname ) const
 {
     assert(result);
@@ -117,5 +134,10 @@ RowModifier DBRow::operator[]( const std::string& colname )
 DBRow::DBRow( DBResult* parent )
 :result(parent)
 {
+    values.resize(result->ColCount());
+}
 
+void DBRow::ResetState()
+{
+    colmodified.resize(0);
 }

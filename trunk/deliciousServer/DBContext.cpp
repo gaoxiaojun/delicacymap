@@ -69,12 +69,28 @@ DBResult* DBContext::Execute( const std::string &sql )
 
 DBResult* DBContext::Execute( DBPrepared* stmt )
 {
+    DBResult *result = NULL;
     if (stmt && stmt->isValid())
     {
         int returncode = sqlite3_step(stmt->stmt);
         if ( returncode == SQLITE_ROW)
         {
             // this is the case where we need to return data
+            size_t columnCount = sqlite3_column_count(stmt->stmt);
+            result = new DBResult(columnCount);
+            for (size_t i=0;i<columnCount;i++)
+            {
+                result->SetColumnName(i, sqlite3_column_name(stmt->stmt, i));
+            }
+            do 
+            {
+                DBRow& newrow = result->AddRow();
+                for (size_t i=0;i<columnCount;i++)
+                {
+                    newrow[i] = string((const char*)sqlite3_column_text(stmt->stmt, i));
+                }
+                newrow.ResetState();
+            } while (sqlite3_step(stmt->stmt) == SQLITE_ROW);
         }
         else if (returncode == SQLITE_DONE)
         {
@@ -85,7 +101,7 @@ DBResult* DBContext::Execute( DBPrepared* stmt )
             pantheios::log_WARNING("Execute prepared statement failed, error code: ", pantheios::integer(returncode));
         }
     }
-    return NULL;
+    return result;
 }
 
 DBPrepared* DBContext::NewPreparedStatement( const std::string& sql )

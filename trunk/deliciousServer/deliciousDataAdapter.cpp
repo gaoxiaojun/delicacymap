@@ -22,15 +22,26 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
-        prepared_Message = dbconn->NewPreparedStatement("INSERT INTO Messages "
+        prepared_Message = dbconn->NewPreparedStatement(
+            "INSERT INTO Messages "
             "(FromUID, ToUID, AddTime, ExpireTime, MessageType, MSG) "
             "VALUES(?, ?, datetime('now'), datetime('now', '5 minutes'), ?, ?);");
+        prepared_RestaurantWithinBound = dbconn->NewPreparedStatement(
+            "SELECT Restaurants.*, count(cid) as CommentCount, RestaurantTypes.* "
+            "FROM Restaurants NATURAL INNER JOIN Relation_Restaurant_RestaurantType NATURAL INNER JOIN RestaurantTypes LEFT OUTER JOIN comments ON Restaurants.rid = Comments.rid "
+            "WHERE Longtitude BETWEEN ? AND ? "
+            "AND Latitude BETWEEN ? AND ? "
+            "GROUP BY rid");
+        prepared_ConfirmMessage = dbconn->NewPreparedStatement(
+            "UPDATE Messages SET Delivered=1 WHERE msgid=?;");
     }
     catch (exception&)
     {
         delete dbconn;
         dbconn = NULL;
         prepared_Message = NULL;
+        prepared_RestaurantWithinBound = NULL;
+        prepared_ConfirmMessage = NULL;
         throw;
     }
 }
@@ -39,6 +50,7 @@ deliciousDataAdapter::~deliciousDataAdapter(void)
 {
     delete dbconn;
     delete prepared_Message;
+    delete prepared_RestaurantWithinBound;
 }
 
 deliciousDataAdapter* deliciousDataAdapter::GetInstance()
@@ -83,38 +95,57 @@ bool DBResultWrap::empty() const
 
 size_t deliciousDataAdapter::ExecuteNormal( char* query, CallbackFunc callback )
 {
+    size_t rows = 0;
     DBResult* ret = dbconn->Execute(query);
 
-    size_t rows = ret->RowsCount();
+    if (ret)
+    {
+        rows = ret->RowsCount();
 
-    for (size_t i=0;i<rows;++i)
-        callback(ret->GetRow(i));
+        for (size_t i=0;i<rows;++i)
+            callback(ret->GetRow(i));
 
-    dbconn->Free(&ret);
+        dbconn->Free(&ret);
+    }
 
     return rows;
 }
 
-size_t deliciousDataAdapter::QueryRestaurantWithinLocation( double longtitude_from, double latitude_from, double lontitude_to, double latitude_to, int level, CallbackFunc callback )
+size_t deliciousDataAdapter::ExecuteNormal( DBPrepared* query, CallbackFunc callback )
+{
+    size_t rows = 0;
+    DBResult* ret = dbconn->Execute(query);
+
+    if (ret)
+    {
+        rows = ret->RowsCount();
+
+        for (size_t i=0;i<rows;++i)
+            callback(ret->GetRow(i));
+
+        dbconn->Free(&ret);
+    }
+
+    return rows;
+}
+
+size_t deliciousDataAdapter::QueryRestaurantWithinLocation( double longtitude_from, double latitude_from, double longtitude_to, double latitude_to, int level, CallbackFunc callback )
 {
     pantheios::log_INFORMATIONAL("QueryRestaurantWithinLocation(",
         "longtitude_from=", pantheios::real(longtitude_from),
         ",latitude_from=", pantheios::real(latitude_from),
-        ",longtitue_to=", pantheios::real(lontitude_to),
+        ",longtitue_to=", pantheios::real(longtitude_to),
         ",latitude_to=", pantheios::real(latitude_to),
         ",level=", pantheios::integer(level),
         ")");
-    char querystr[500];
-    sprintf_s(querystr, sizeof(querystr),
-        "SELECT Restaurants.*, count(cid) as CommentCount, RestaurantTypes.* "
-        "FROM Restaurants NATURAL INNER JOIN Relation_Restaurant_RestaurantType NATURAL INNER JOIN RestaurantTypes LEFT OUTER JOIN comments ON Restaurants.rid = Comments.rid "
-        "WHERE Longtitude BETWEEN %.10f AND %.10f "
-        "AND Latitude BETWEEN %.10f AND %.10f "
-        "GROUP BY rid"
-        , longtitude_from, lontitude_to
-        , latitude_from, latitude_to);
 
-    return ExecuteNormal(querystr, callback);
+    prepared_RestaurantWithinBound->reset();
+    prepared_RestaurantWithinBound->bindParameter(1, longtitude_from);
+    prepared_RestaurantWithinBound->bindParameter(2, longtitude_to);
+    prepared_RestaurantWithinBound->bindParameter(3, latitude_from);
+    prepared_RestaurantWithinBound->bindParameter(4, latitude_to);
+    
+    return ExecuteNormal(prepared_RestaurantWithinBound, callback);
 }
 
 size_t deliciousDataAdapter::QueryLatestCommentsOfRestaurant( int rid, int n, CallbackFunc callback )
@@ -283,12 +314,13 @@ const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows, const st
     return rows;
 }
 
-char* tmToSqliteTimeModifiers(char* buf, tm& time)
+static inline
+char* tmToSqliteTimeModifiers(char* buf, size_t size, tm& time)
 {
     char *step = buf;
 #define MODIFIER_FOR( tm_part, modifier_name )                                  \
     if (time.tm_##tm_part > 0)                                                   \
-        step += sprintf(step, ", '%d %s'", time.tm_##tm_part, #modifier_name);
+        step += sprintf_s(step, size - (step-buf), ", '%d %s'", time.tm_##tm_part, #modifier_name);
 
     MODIFIER_FOR( year, years);
     MODIFIER_FOR( mon, months);
@@ -317,7 +349,7 @@ size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, int mess
         prepared_Message->bindParameter(1);
     prepared_Message->bindParameter(2, to_uid);
     // FIXME: cannot bind "datetime('now' '5 minutes') " to prepared statements, it is hardcoded in the query for now.
-//     sprintf_s(modifierbuf, sizeof(modifierbuf), "datetime('now'%s)", tmToSqliteTimeModifiers(querystr, validTimePeriod));
+//     sprintf_s(modifierbuf, sizeof(modifierbuf), "datetime('now'%s)", tmToSqliteTimeModifiers(querystr, sizeof(modifierbuf)/sizeof(modifierbuf[0]), validTimePeriod));
 //     prepared_Message->bindParameter(3, modifierbuf);
     prepared_Message->bindParameter(3, messageType);
     prepared_Message->bindParameter(4, text);
@@ -351,12 +383,10 @@ void deliciousDataAdapter::ConfirmMessageDelivered( unsigned int msgid )
 {
     pantheios::log_INFORMATIONAL("ConfirmMessageDelivered(", "msgid=", pantheios::integer(msgid),")");
 
-    char querystr[500];
-    sprintf_s(querystr, sizeof(querystr),
-        "UPDATE Messages SET Delivered=1 WHERE msgid=%d;"
-        , msgid);
+    prepared_ConfirmMessage->reset();
+    prepared_ConfirmMessage->bindParameter(1, msgid);
 
-    dbconn->Execute(querystr);
+    dbconn->Execute(prepared_ConfirmMessage);
 }
 
 size_t deliciousDataAdapter::GetRelatedUsersWith( int uid, int relation, CallbackFunc callback )

@@ -74,10 +74,11 @@ public://DB methods
 
 private://methods
     size_t ExecuteNormal( char* query, CallbackFunc callback );
+    size_t ExecuteNormal( DBPrepared* query, CallbackFunc callback );
 private://data
     static deliciousDataAdapter* _single;
 
     // prepared statements
-    DBPrepared* prepared_Message;
+    DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage;
     DBContext *dbconn;
 };
