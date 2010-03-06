@@ -2,6 +2,7 @@
 #include "Session.h"
 #include "md5.h"
 #include "MapProtocol.pb.h"
+#include "Configurations.h"
 #include "ui_loginWindow.h"
 
 LoginWindow::LoginWindow(void)
@@ -13,6 +14,12 @@ LoginWindow::LoginWindow(void)
     connect(dialog->okButton, SIGNAL(clicked(bool)), this, SLOT(login_step1()));
     connect(this, SIGNAL(loginSuccess()), this, SLOT(success()));
     connect(this, SIGNAL(loginFailed()), this, SLOT(failed()));
+    if (Configurations::Instance().EnableAutoLogin())
+    {
+        this->dialog->lineEdit_username->setText( QString::fromUtf8(Configurations::Instance().AutoLogin_Username().c_str()) );
+        this->dialog->lineEdit_password->setText( QString::fromUtf8(Configurations::Instance().AutoLogin_Password().c_str()) );
+        login_step1();
+    }
 }
 
 LoginWindow::~LoginWindow(void)
@@ -34,6 +41,22 @@ void LoginWindow::login_step1()
     }
 
     session->getDataSource().connect();
+}
+
+void LoginWindow::login_step2(bool connected)
+{
+    if (connected)
+    {
+        dialog->label_status->setText(QString::fromUtf8("正在登陆...."));
+        MD5 md5(dialog->lineEdit_password->text());
+        std::string email(dialog->lineEdit_username->text().toUtf8().constData());
+        std::string pwd(md5.toString().toUtf8().constData());
+        session->getDataSource().UserLogin(email, pwd, session->getUser(), logincallback);
+    }
+    else
+    {
+        dialog->label_status->setText(QString::fromUtf8("连接服务器失败：").append(session->getDataSource().error()));
+    }
 }
 
 Session* LoginWindow::getSession()
@@ -61,18 +84,3 @@ void LoginWindow::failed()
     dialog->label_status->setText(QString::fromUtf8("登陆失败，用户名密码不匹配！...."));
 }
 
-void LoginWindow::login_step2(bool connected)
-{
-    if (connected)
-    {
-        dialog->label_status->setText(QString::fromUtf8("正在登陆...."));
-        MD5 md5(dialog->lineEdit_password->text());
-        std::string email(dialog->lineEdit_username->text().toUtf8().constData());
-        std::string pwd(md5.toString().toUtf8().constData());
-        session->getDataSource().UserLogin(email, pwd, session->getUser(), logincallback);
-    }
-    else
-    {
-        dialog->label_status->setText(QString::fromUtf8("连接服务器失败：").append(session->getDataSource().error()));
-    }
-}

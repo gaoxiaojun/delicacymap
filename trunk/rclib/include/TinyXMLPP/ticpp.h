@@ -183,7 +183,7 @@ namespace ticpp
 			void FromString( const std::string& temp, T* out ) const
 		{
 			std::istringstream val( temp );
-			val >> *out;
+			val >> std::boolalpha >> *out;
 
 			if ( val.fail() )
 			{

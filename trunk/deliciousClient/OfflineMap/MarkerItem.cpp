@@ -58,7 +58,7 @@ const QPixmap& UserMarkerItem::UserIcon() const
     return defaultUserIcon();
 }
 
-void SelfMarkerItem::paint( QPainter *, const QStyleOptionGraphicsItem *, QWidget * /* = 0 */ )
+const QPixmap& SelfMarkerItem::UserIcon() const
 {
-
+    return UserMarkerItem::UserIcon();
 }

@@ -85,6 +85,6 @@ protected:
 class SelfMarkerItem : public UserMarkerItem
 {
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */);
+    const QPixmap& UserIcon() const;
     int type() const { return UserType + 1003; }
 };
