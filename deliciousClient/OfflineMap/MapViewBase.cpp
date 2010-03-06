@@ -96,9 +96,6 @@ void MapViewBase::setZoomLevelAt(int level, int x, int y){
             xCenter = CoordsHelper::remapToPow2(xCenter, zoomLevel, level);
             yCenter = CoordsHelper::remapToPow2(yCenter, zoomLevel, level);
 
-            xCenter -= deltaX;
-            yCenter -= deltaY;
-
             remapMarkers(zoomLevel, level);
             zoomLevel = level;
             emit zoomLevelChanged(zoomLevel);
