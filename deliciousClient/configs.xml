@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<deliciousClient>
+    <autologin enabled="true">
+        <username></username>
+        <password></password>
+    </autologin>
+    <locations>
+        <followselfmarker>true</followselfmarker>
+    </locations>
+    <server>
+        <address>192.168.0.199</address>
+        <port>24000</port>
+    </server>
+</deliciousClient>
