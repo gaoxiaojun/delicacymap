@@ -65,6 +65,10 @@ distribution.
 // test. If you get compilation troubles, undefine TIXML_SAFE
 #define TIXML_SAFE
 
+#ifdef WINCE
+#undef TIXML_SAFE
+#endif
+
 #ifdef TIXML_SAFE
 	#if defined(_MSC_VER) && (_MSC_VER >= 1400 )
 		// Microsoft visual studio, version 2005 and higher.
@@ -86,6 +90,8 @@ distribution.
 	#else
 		#define TIXML_SSCANF   sscanf
 	#endif
+#else
+    #define TIXML_SSCANF   sscanf
 #endif
 
 class TiXmlDocument;
@@ -1827,6 +1833,7 @@ public:
 	virtual bool Visit( const TiXmlText& text );
 	virtual bool Visit( const TiXmlComment& comment );
 	virtual bool Visit( const TiXmlUnknown& unknown );
+	virtual bool Visit( const TiXmlStylesheetReference& stylesheet );
 
 	/** Set the indent characters for printing. By default 4 spaces
 		but tab (\t) is also useful, or null/empty string for no indentation.

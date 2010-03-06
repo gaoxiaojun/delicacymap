@@ -1,12 +1,13 @@
 TEMPLATE = app
 TARGET = delicacyClient
 DEPENDPATH += .
-INCLUDEPATH += ./rclib/include \
+INCLUDEPATH += ../rclib/include \
     ../protocol-buffer-src \
     ../QtMobility/include
 LIBPATH += ../protocol-buffer-src/lib
 CONFIG += mobility
 CONFIG -= flat
+DEFINES += TIXML_USE_TICPP
 MOBILITY += location \
     bearer
 
@@ -18,6 +19,7 @@ FORMS += mainwindow.ui \
     loginWindow.ui
 HEADERS += md5.h \
     bluetoothmanager.h \
+    Configurations.h \
     MapDataSource.h \
     MapController.h \
     mainwindow.h \
@@ -26,6 +28,10 @@ HEADERS += md5.h \
 	QTProtobufChannelDriver.h \
     QTProtobufWaitResponse.h \
     Session.h \
+    ../rclib/include/TinyXMLPP/ticpp.h \
+    ../rclib/include/TinyXMLPP/tinyxml.h \
+    ../rclib/include/TinyXMLPP/tinystr.h \
+    ../rclib/include/TinyXMLPP/ticpprc.h \
     ../protocol-buffer-src/Message.pb.h \
     ../protocol-buffer-src/MapProtocol.pb.h \
     OfflineMap/JSON/json_spirit_error_position.h \
@@ -43,6 +49,7 @@ HEADERS += md5.h \
     OfflineMap/GeoCoord.h
 SOURCES += main.cpp \
     md5.cpp \
+    Configurations.cpp \
     bluetoothmanager.cpp \
     MapDataSource.cpp \
     MapController.cpp \
@@ -52,6 +59,11 @@ SOURCES += main.cpp \
 	QTProtobufChannelDriver.cpp \
     QTProtobufWaitResponse.cpp \
     Session.cpp \
+    ../rclib/include/TinyXMLPP/ticpp.cpp \
+    ../rclib/include/TinyXMLPP/tinyxml.cpp \
+    ../rclib/include/TinyXMLPP/tinystr.cpp \
+    ../rclib/include/TinyXMLPP/tinyxmlparser.cpp \
+    ../rclib/include/TinyXMLPP/tinyxmlerror.cpp \
     ../protocol-buffer-src/Message.pb.cc \
     ../protocol-buffer-src/MapProtocol.pb.cc \
     OfflineMap/EditableRouteMarker.cpp \
@@ -76,9 +88,10 @@ linux-* {
 }
 wince* {
     RESOURCES += mainwindow_480_800.qrc
+    configs.sources = configs.xml
+    DEPLOYMENT += configs
     contains(DEFINES, _WIN32_WCE=0x600) {
         myFiles.sources = F:\QT\delicacymap\msvcr90.dll
-        myFiles.path = %CSIDL_PROGRAM_FILES%\delicacyClient
         DEPLOYMENT += myFiles
         LIBS += libprotobuf-lite_wince6_release.lib \
                 ../QtMobility/lib_wince6/QtBearer_tp.lib 

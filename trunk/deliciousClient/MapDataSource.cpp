@@ -1,12 +1,11 @@
+#include "Configurations.h"
 #include "MapDataSource.h"
 #include "QTProtobufChannel.h"
 #include <QDebug>
 
-#define PORT_NUM 24000
-
 MapDataSource::MapDataSource()
 {
-    channel = new QTProtobufChannel(QHostAddress("127.0.0.1"), PORT_NUM);
+    channel = new QTProtobufChannel(QHostAddress(QString::fromStdString(Configurations::Instance().Server_Address())), Configurations::Instance().Server_Port());
     QObject::connect(channel, SIGNAL(connected()), this, SLOT(channel_connected()));
     QObject::connect(channel, SIGNAL(error()), this, SLOT(channel_error()));
     QObject::connect(channel, SIGNAL(disconnected()), this, SLOT(channel_disconnected()));
