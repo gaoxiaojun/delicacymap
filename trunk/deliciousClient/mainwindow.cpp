@@ -151,27 +151,26 @@ void MainWindow::clearConnections()
 
 void MainWindow::interfaceTransit_map()
 {
-	clearConnections();
+    clearConnections();
 
-	m_ui->toolButton_L->setText("-");
-	m_ui->toolButton_R->setText("+");
-	m_ui->pushButton_L->setText("Exit");
-	m_ui->pushButton_R->setText("Lock map");
+    m_ui->toolButton_L->setText("-");
+    m_ui->toolButton_R->setText("+");
+    m_ui->pushButton_L->setText("Exit");
+    m_ui->pushButton_R->setText("Lock map");
 
-	m_ui->stackedWidget->setCurrentIndex(0);
-	m_ui->lineEdit->setVisible(true);
-	m_ui->toolButton_A->setVisible(true);
-	m_ui->toolButton_B->setVisible(true);
-	m_ui->toolButton_C->setVisible(true);
-	m_ui->toolButton_D->setVisible(true);
-	m_ui->toolButton_E->setVisible(true);
+    m_ui->stackedWidget->setCurrentIndex(0);
+    m_ui->lineEdit->setVisible(true);
+    m_ui->toolButton_A->setVisible(true);
+    m_ui->toolButton_B->setVisible(true);
+    m_ui->toolButton_C->setVisible(true);
+    m_ui->toolButton_D->setVisible(true);
+    m_ui->toolButton_E->setVisible(true);
 
-//	connect(m_ui->actionR,SIGNAL(triggered()),this->navi,SLOT(zoomin()));
-//	connect(m_ui->actionL,SIGNAL(triggered()),this->navi,SLOT(zoomout()));
-	connect(m_ui->actionA,SIGNAL(triggered()),this,SLOT(interfaceTransit_comment()));
-	connect(m_ui->actionB,SIGNAL(triggered()),this,SLOT(interfaceTransit_favourite()));
-	connect(m_ui->actionPL, SIGNAL(triggered()), this, SLOT(close()));
-	
+    connect(m_ui->actionR,SIGNAL(triggered()),this->navi,SLOT(zoomIn()));
+    connect(m_ui->actionL,SIGNAL(triggered()),this->navi,SLOT(zoomOut()));
+    connect(m_ui->actionA,SIGNAL(triggered()),this,SLOT(interfaceTransit_comment()));
+    connect(m_ui->actionB,SIGNAL(triggered()),this,SLOT(interfaceTransit_favourite()));
+    connect(m_ui->actionPL, SIGNAL(triggered()), this, SLOT(close()));
 }
 
 
@@ -237,7 +236,7 @@ void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
 
 void MainWindow::UpdateCurrentLocation( QString s )
 {
-    m_ui->label_currentlocation->setText(QString::fromLocal8Bit("µ±Ç°Î»ÖÃ£º") + s);
+    m_ui->label_currentlocation->setText(QString::fromUtf8("当前位置：") + s);
 }
 
 void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
@@ -278,20 +277,20 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
 
 void MainWindow::RestaurantMarkerResponse(const ProtocolBuffer::Restaurant* res)
 {
-	char tmp[20];
-	int num;
-	
-	ProtocolBuffer::CommentList* commentlist=new ProtocolBuffer::CommentList();
-	google::protobuf::Closure* commentDataArrive;
-	commentDataArrive=google::protobuf::NewCallback(this,&MainWindow::showLatestComments,commentlist);
-	
-	session->getDataSource().GetLastestCommentsOfRestaurant(res->rid(), 20, commentlist, commentDataArrive);
-	m_ui->list_latestcomment->clear();
-	sprintf(tmp,"AveragePrice: %.2f yuan",res->averageexpense().amount());
-	m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(("餐厅名称:"+res->name()).c_str())));
-	m_ui->list_latestcomment->addItem(new QListWidgetItem(tmp));
-	m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8("网友评论:")));
-	m_ui->stackedWidget->setCurrentIndex(1);
+    char tmp[50];
+    int num;
 
-	interfaceTransit_comment();
+    ProtocolBuffer::CommentList* commentlist=new ProtocolBuffer::CommentList();
+    google::protobuf::Closure* commentDataArrive;
+    commentDataArrive=google::protobuf::NewCallback(this,&MainWindow::showLatestComments,commentlist);
+
+    session->getDataSource().GetLastestCommentsOfRestaurant(res->rid(), 20, commentlist, commentDataArrive);
+    m_ui->list_latestcomment->clear();
+    sprintf(tmp,"AveragePrice: %.2f yuan",res->averageexpense().amount());
+    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(("餐厅名称:"+res->name()).c_str())));
+    m_ui->list_latestcomment->addItem(new QListWidgetItem(tmp));
+    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8("网友评论:")));
+    m_ui->stackedWidget->setCurrentIndex(1);
+
+    interfaceTransit_comment();
 }
