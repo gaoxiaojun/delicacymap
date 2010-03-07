@@ -286,6 +286,20 @@ const DBResultWrap deliciousDataAdapter::GerUserAfterValidation( int uid, const 
     return DBResultWrap(ret, dbconn);
 }
 
+const DBResultWrap deliciousDataAdapter::GetUserInfo( int uid )
+{
+    pantheios::log_INFORMATIONAL("GerUserInfo(uid = ", pantheios::integer(uid), ")");
+
+    char querystr[500];
+    sprintf_s(querystr, sizeof(querystr),
+        "SELECT * "
+        "FROM Users "
+        "WHERE uid = %d;"
+        , uid);
+
+    return DBResultWrap(dbconn->Execute(querystr), dbconn);
+}
+
 // TODO: maybe database schema object to manage all primary keys and stuff?
 const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows, const std::string& table, const std::string& primarykey )
 {
