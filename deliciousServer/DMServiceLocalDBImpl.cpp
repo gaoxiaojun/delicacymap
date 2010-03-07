@@ -270,7 +270,20 @@ void DMServiceLocalDBImpl::GetUser( ::google::protobuf::RpcController* controlle
 {
     if (request->has_uid())
     {
-        pantheios::log_WARNING("GetUser() not implemented.");
+        DBResultWrap ret = adapter->GetUserInfo(request->uid());
+        if (!ret.empty())
+        {
+            const DBRow& usr = ret.getResult()->GetRow(0);
+
+            ProtubufDBRowConversion::Convert(usr, *response);
+            response->set_password("");
+            // preferTypes and friends is not implemented yet.
+        }
+        else
+        {
+            pantheios::log_INFORMATIONAL("Login failed. usr=", request->emailaddress(), ", pwd=", request->password(), ".");
+            controller->SetFailed("Login filed, username password mismatch.");
+        }
     }
     else
     {

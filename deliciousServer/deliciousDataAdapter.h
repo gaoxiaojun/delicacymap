@@ -60,6 +60,8 @@ public://DB methods
 
 	const DBResultWrap UserLogin( const std::string& email, const std::string& password );
 
+    const DBResultWrap GetUserInfo( int uid );
+
     const DBResultWrap GerUserAfterValidation( int uid, const std::string& password );
 
     /************************************************************************/
