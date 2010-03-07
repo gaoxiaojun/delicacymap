@@ -281,8 +281,8 @@ void DMServiceLocalDBImpl::GetUser( ::google::protobuf::RpcController* controlle
         }
         else
         {
-            pantheios::log_INFORMATIONAL("Login failed. usr=", request->emailaddress(), ", pwd=", request->password(), ".");
-            controller->SetFailed("Login filed, username password mismatch.");
+            pantheios::log_INFORMATIONAL("No user exist whose uid = ", pantheios::integer(request->uid()), ".");
+            controller->SetFailed("User do not exist.");
         }
     }
     else
