@@ -112,6 +112,8 @@ enum SystemMessageType
     RequestRouting                  = 1;
     RejectRouting                   = 2;
     RoutingReply                    = 3;
+    
+    ShareLocationWith               = 4;
 }
 
 message DMessage

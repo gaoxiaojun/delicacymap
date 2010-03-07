@@ -50,11 +50,12 @@ class DMessage;
 enum SystemMessageType {
   RequestRouting = 1,
   RejectRouting = 2,
-  RoutingReply = 3
+  RoutingReply = 3,
+  ShareLocationWith = 4
 };
 bool SystemMessageType_IsValid(int value);
 const SystemMessageType SystemMessageType_MIN = RequestRouting;
-const SystemMessageType SystemMessageType_MAX = RoutingReply;
+const SystemMessageType SystemMessageType_MAX = ShareLocationWith;
 const int SystemMessageType_ARRAYSIZE = SystemMessageType_MAX + 1;
 
 // ===================================================================
