@@ -35,7 +35,7 @@ public:
     virtual ~MainWindow();
     void changeSession(Session *);
     Session* getSession();
-
+	
 protected:
     virtual void changeEvent(QEvent *e);
     void clearConnections();
@@ -45,9 +45,8 @@ public slots:
     void interfaceTransit_map();
     void interfaceTransit_comment();
     void interfaceTransit_favourite();
-
-    void showLatestComments( ProtocolBuffer::CommentList* );
-
+	void RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*);
+	void showLatestComments( ProtocolBuffer::CommentList* );
 private slots:
     void UpdateCurrentLocation(QString);
     void printMessage(const ProtocolBuffer::DMessage*);
@@ -61,6 +60,7 @@ private:
     ImageCache imageCache;
     Downloader downloader;
     Session *session;
+
 };
 
 #endif // MAINWINDOW_H

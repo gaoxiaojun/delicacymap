@@ -14,7 +14,6 @@
 #include <QDebug>
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
-
 using namespace ProtocolBuffer;
 QTM_USE_NAMESPACE
 
@@ -58,7 +57,10 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     controller->setMapView(navi);
     controller->setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
     connect(navi, SIGNAL(boundsChange(const GeoBound&)), controller, SLOT(MapViewBoundsChange(const GeoBound&)));
-    connect(controller, SIGNAL(currentLocationUpdate(const GeoPoint&)), navi, SLOT(setSelfLocation(const GeoPoint&)));
+    //ZZQ edited,编辑一个slot,专门用来显示餐厅信息
+	connect(navi,SIGNAL(restaurantMarkerClicked(const ProtocolBuffer::Restaurant*)),SLOT(RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*)));
+
+	connect(controller, SIGNAL(currentLocationUpdate(const GeoPoint&)), navi, SLOT(setSelfLocation(const GeoPoint&)));
     connect(controller, SIGNAL(SysMsgRequestRouting(int, QString, QString)), this, SLOT(handleRequestRouting(int, const QString&, const QString&)));
 
     navi->setZoomLevel(15);
@@ -164,8 +166,8 @@ void MainWindow::interfaceTransit_map()
 	m_ui->toolButton_D->setVisible(true);
 	m_ui->toolButton_E->setVisible(true);
 
-	//connect(m_ui->actionR,SIGNAL(triggered()),this->navi,SLOT(zoomin()));
-	//connect(m_ui->actionL,SIGNAL(triggered()),this->navi,SLOT(zoomout()));
+//	connect(m_ui->actionR,SIGNAL(triggered()),this->navi,SLOT(zoomin()));
+//	connect(m_ui->actionL,SIGNAL(triggered()),this->navi,SLOT(zoomout()));
 	connect(m_ui->actionA,SIGNAL(triggered()),this,SLOT(interfaceTransit_comment()));
 	connect(m_ui->actionB,SIGNAL(triggered()),this,SLOT(interfaceTransit_favourite()));
 	connect(m_ui->actionPL, SIGNAL(triggered()), this, SLOT(close()));
@@ -222,13 +224,13 @@ void MainWindow::interfaceTransit_favourite()
 
 void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
 {
-    m_ui->list_latestcomment->clear();
     for (int i=0;i<list->comments_size();++i)
     {
         //m_ui->textEdit->append(QString::fromStdString(list->comments(i).content()));
         QListWidgetItem* item = new QListWidgetItem();
         // this need extra caution
-        item->setData(Qt::UserRole, qVariantFromValue((void*)&list->comments(i)));
+		item->setText(list->comments(i).content().c_str());
+        //item->setData(Qt::UserRole, qVariantFromValue((void*)&list->comments(i)));
         m_ui->list_latestcomment->addItem(item);
     }
 }
@@ -272,4 +274,24 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
         // TODO: Send back reject message
         break;
     }
+}
+
+void MainWindow::RestaurantMarkerResponse(const ProtocolBuffer::Restaurant* res)
+{
+	char tmp[20];
+	int num;
+	
+	ProtocolBuffer::CommentList* commentlist=new ProtocolBuffer::CommentList();
+	google::protobuf::Closure* commentDataArrive;
+	commentDataArrive=google::protobuf::NewCallback(this,&MainWindow::showLatestComments,commentlist);
+	
+	session->getDataSource().GetLastestCommentsOfRestaurant(res->rid(), 20, commentlist, commentDataArrive);
+	m_ui->list_latestcomment->clear();
+	sprintf(tmp,"AveragePrice: %.2f yuan",res->averageexpense().amount());
+	m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(("餐厅名称:"+res->name()).c_str())));
+	m_ui->list_latestcomment->addItem(new QListWidgetItem(tmp));
+	m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8("网友评论:")));
+	m_ui->stackedWidget->setCurrentIndex(1);
+
+	interfaceTransit_comment();
 }

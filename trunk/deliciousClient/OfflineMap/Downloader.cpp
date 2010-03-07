@@ -72,7 +72,7 @@ Downloader::Request::Request(const QString& _url, int x, int y, int zoom)
 }
 
 void Downloader::nextRequest(){
-	while (!requests.empty()){
+	while (!requests.empty()){  //为啥要用while循环呢...,还不如直接用if
 		Request& cur = requests.head();
         QNetworkRequest request(cur.url);
 		QNetworkReply* reply = network.get(request);
