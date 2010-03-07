@@ -81,6 +81,6 @@ private://data
     static deliciousDataAdapter* _single;
 
     // prepared statements
-    DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage;
+    DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage, *prepared_GetUserByUID;
     DBContext *dbconn;
 };

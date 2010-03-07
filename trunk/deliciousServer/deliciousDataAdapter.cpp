@@ -19,6 +19,10 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
     try
     {
         dbconn = NULL;
+        prepared_GetUserByUID = NULL;
+        prepared_Message = NULL;
+        prepared_RestaurantWithinBound = NULL;
+        prepared_ConfirmMessage = NULL;
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
@@ -34,14 +38,18 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "GROUP BY rid");
         prepared_ConfirmMessage = dbconn->NewPreparedStatement(
             "UPDATE Messages SET Delivered=1 WHERE msgid=?;");
+        prepared_GetUserByUID = dbconn->NewPreparedStatement(
+            "SELECT * "
+            "FROM Users "
+            "WHERE uid = ?;");
     }
     catch (exception&)
     {
         delete dbconn;
-        dbconn = NULL;
-        prepared_Message = NULL;
-        prepared_RestaurantWithinBound = NULL;
-        prepared_ConfirmMessage = NULL;
+        delete prepared_GetUserByUID;
+        delete prepared_Message;
+        delete prepared_RestaurantWithinBound;
+        delete prepared_ConfirmMessage;
         throw;
     }
 }
@@ -49,8 +57,10 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
 deliciousDataAdapter::~deliciousDataAdapter(void)
 {
     delete dbconn;
+    delete prepared_GetUserByUID;
     delete prepared_Message;
     delete prepared_RestaurantWithinBound;
+    delete prepared_ConfirmMessage;
 }
 
 deliciousDataAdapter* deliciousDataAdapter::GetInstance()
@@ -266,14 +276,10 @@ const DBResultWrap deliciousDataAdapter::GerUserAfterValidation( int uid, const 
 {
     pantheios::log_INFORMATIONAL("GerUserAfterValidation(uid = ", pantheios::integer(uid), ", password = ", password);
 
-    char querystr[500];
-    sprintf_s(querystr, sizeof(querystr),
-        "SELECT * "
-        "FROM Users "
-        "WHERE uid = %d;"
-        , uid);
+    prepared_GetUserByUID->reset();
+    prepared_GetUserByUID->bindParameter(1, uid);
 
-    DBResult* ret = dbconn->Execute(querystr);
+    DBResult* ret = dbconn->Execute(prepared_GetUserByUID);
     if (ret->RowsCount() != 1 || (*ret)[0]["Password"] != password) // uid is unique, so only 0 or 1 row.
     {
         pantheios::log_INFORMATIONAL("Authentication failed!");
@@ -290,14 +296,10 @@ const DBResultWrap deliciousDataAdapter::GetUserInfo( int uid )
 {
     pantheios::log_INFORMATIONAL("GerUserInfo(uid = ", pantheios::integer(uid), ")");
 
-    char querystr[500];
-    sprintf_s(querystr, sizeof(querystr),
-        "SELECT * "
-        "FROM Users "
-        "WHERE uid = %d;"
-        , uid);
+    prepared_GetUserByUID->reset();
+    prepared_GetUserByUID->bindParameter(1, uid);
 
-    return DBResultWrap(dbconn->Execute(querystr), dbconn);
+    return DBResultWrap(dbconn->Execute(prepared_GetUserByUID), dbconn);
 }
 
 // TODO: maybe database schema object to manage all primary keys and stuff?
