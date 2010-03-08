@@ -23,7 +23,7 @@ void MapController::MapViewBoundsChange( const GeoBound& bound )
     if (getSession() && getMapView())
     {
         ProtocolBuffer::RestaurantList *rlist = new ProtocolBuffer::RestaurantList;
-        google::protobuf::Closure *rClosure = google::protobuf::NewCallback(this, &MapController::RestaurantListHandler, rlist, getMapView());
+		google::protobuf::Closure *rClosure = google::protobuf::NewCallback(this, &MapController::RestaurantListHandler, rlist, getMapView());
         getSession()->getDataSource().GetRestaurants(
             bound.SW.lat.getDouble(), bound.SW.lng.getDouble(),
             bound.NE.lat.getDouble(), bound.NE.lng.getDouble(),

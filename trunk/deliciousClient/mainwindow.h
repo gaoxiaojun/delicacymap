@@ -7,6 +7,7 @@
 #include "OfflineMap/ImageCache.h"
 #include "OfflineMap/Downloader.h"
 
+#define maxlisting 10
 class ProtobufDataEvent;
 class Session;
 class GeoBound;
@@ -15,17 +16,22 @@ class MapViewBase;
 class MapController;
 struct GeoCodeResultPair;
 
+
 namespace ProtocolBuffer{
+    class DMessage;
     class Restaurant;
+    class Comment;
     class RestaurantList;
     class CommentList;
     class User;
-    class DMessage;
 }
+struct showRestaurant;
+struct commentAnduser;
 
 namespace Ui {
     class MainWindow;
 }
+
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -35,7 +41,6 @@ public:
     virtual ~MainWindow();
     void changeSession(Session *);
     Session* getSession();
-	
 protected:
     virtual void changeEvent(QEvent *e);
     void clearConnections();
@@ -47,6 +52,7 @@ public slots:
     void interfaceTransit_favourite();
 	void RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*);
 	void showLatestComments( ProtocolBuffer::CommentList* );
+	void showUser(const int, ProtocolBuffer::User*);
 private slots:
     void UpdateCurrentLocation(QString);
     void printMessage(const ProtocolBuffer::DMessage*);
@@ -60,7 +66,7 @@ private:
     ImageCache imageCache;
     Downloader downloader;
     Session *session;
-
+    showRestaurant * showrestaurant;
 };
 
 #endif // MAINWINDOW_H
