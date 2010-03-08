@@ -75,7 +75,7 @@ void LoginWindow::loginResponse()
 
 void LoginWindow::success()
 {
-    dialog->label_status->setText(tr("Login suceeded...."));
+    dialog->label_status->setText(tr("Login succeeded...."));
     accept();
 }
 

@@ -92,6 +92,33 @@ void Messenger::start()
     msgExpireTimer.async_wait(bind(&Messenger::ExpireTimerHandler, this, placeholders::error));
 }
 
+bool Messenger::ShouldForwardSystemMessage( ProtocolBuffer::DMessage* msg )
+{
+    bool shouldforward = false;
+    if (msg->systemmessagetype() == ProtocolBuffer::ShareLocationWith)
+    {
+        // send the user updated location to the appointed user
+        usersSharingLocation[msg->fromuser()].insert(msg->touser());
+    }
+    else if (msg->systemmessagetype() == ProtocolBuffer::StopShareLocationWith)
+    {
+        usersSharingLocation[msg->fromuser()].erase(msg->touser());
+    }
+    else if (msg->systemmessagetype() == ProtocolBuffer::UserLocationUpdate && msg->touser() == 0)
+    {
+        msg->clear_buffer();
+        msg->clear_text();
+        BOOST_FOREACH(int usr, usersSharingLocation[msg->fromuser()])
+        {
+            msg->set_touser(usr);
+            SendMessageToUser(msg);
+        }
+    }
+    else
+        shouldforward = true;
+    return shouldforward;
+}
+
 void Messenger::SendMessageToUser( ProtocolBuffer::DMessage* msg )
 {
     // FIXME: Validate msg first!
@@ -99,7 +126,7 @@ void Messenger::SendMessageToUser( ProtocolBuffer::DMessage* msg )
     try
     {
         tm expiretime = {0};
-        expiretime.tm_min = 5;
+        expiretime.tm_min = msg->issystemmessage() && msg->systemmessagetype() == ProtocolBuffer::UserLocationUpdate ? 1 : 5; // Don't propagate location update when we restart.
 
         size_t msgid = dataadapter->AddMessagesToDB( 
             msg->fromuser(),
@@ -107,19 +134,22 @@ void Messenger::SendMessageToUser( ProtocolBuffer::DMessage* msg )
             msg->issystemmessage() ? msg->systemmessagetype() : 0,
             msg->issystemmessage() ? msg->buffer() : msg->text(),
             expiretime);
+        msg->set_msgid(msgid);
 
-        DMessageWrap *newmsg = new DMessageWrap;
-        newmsg->CopyFrom(*msg);
-        newmsg->set_msgid(msgid);
-        newmsg->AddTime = second_clock::universal_time();
-        newmsg->ExpireTime = second_clock::universal_time() + time_duration(expiretime.tm_hour, expiretime.tm_min, expiretime.tm_sec);
+        if (!msg->issystemmessage() || ShouldForwardSystemMessage(msg))
+        {
+            DMessageWrap *newmsg = new DMessageWrap;
+            newmsg->CopyFrom(*msg);
+            newmsg->AddTime = second_clock::universal_time();
+            newmsg->ExpireTime = second_clock::universal_time() + time_duration(expiretime.tm_hour, expiretime.tm_min, expiretime.tm_sec);
 
-        scoped_lock<MutexType> lock(mutex);
-        msgpool.insert(newmsg);
+            scoped_lock<MutexType> lock(mutex);
+            msgpool.insert(newmsg);
+        }
     }
-    catch (std::exception* e)
+    catch (const std::exception& e)
     {
-        pantheios::log_WARNING("Error adding the msg to internal storage. message discarded. Error Msg:", e->what());
+        pantheios::log_WARNING("Error adding the msg to internal storage. message discarded. Error Msg:", e.what());
     }
 }
 
@@ -184,7 +214,6 @@ void Messenger::MessageConfirmedRecieved(::google::protobuf::uint32 msgid)
         pantheios::log_WARNING("Error confirming message is delivered(msgid=", pantheios::integer(msgid), "). Error Msg:", e->what());
     }
 }
-
 
 Messenger::MessageRange::MessageRange( const MessageRange& other )
 : lock(move(other.lock))

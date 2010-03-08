@@ -11,6 +11,9 @@
 #include <boost/interprocess/sync/interprocess_upgradable_mutex.hpp>
 #include <boost/interprocess/sync/sharable_lock.hpp>
 
+#include <set>
+#include <map>
+
 #include <time.h>
 
 #include "MapProtocol.pb.h"
@@ -111,6 +114,7 @@ namespace rclib
 
         protected:
             Messenger(boost::asio::io_service &);
+            bool ShouldForwardSystemMessage( ProtocolBuffer::DMessage*);
 
         private: //call back
             void GetMessageCallback( const DBRow& row );
@@ -119,6 +123,7 @@ namespace rclib
 
         private:
             MutexType mutex;
+            std::map<int, std::set<int> > usersSharingLocation;
             boost::asio::deadline_timer msgExpireTimer;
             boost::asio::io_service &ios;
             ::deliciousDataAdapter *dataadapter;

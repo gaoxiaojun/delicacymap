@@ -60,12 +60,16 @@ void MapController::setLocationSource( QGeoPositionInfoSource* loc )
     {
         loc_svc = loc;
         loc_svc->setUpdateInterval(3000);
-        connect(loc_svc, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(translateLocationSignal(QGeoPositionInfo)));
+        connect(loc_svc, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(translateLocationSignal(const QGeoPositionInfo&)));
         loc_svc->startUpdates();
+        if (getSession())
+        {
+            connect(this, SIGNAL(currentLocationUpdate(GeoPoint)), getSession(), SLOT(UserLocationUpdate(const GeoPoint&)));
+        }
     }
 }
 
-void MapController::translateLocationSignal( QGeoPositionInfo& info )
+void MapController::translateLocationSignal( const QGeoPositionInfo& info )
 {
     GeoPoint location(info.coordinate().latitude(), info.coordinate().longitude());
     emit currentLocationUpdate(location);
@@ -100,6 +104,16 @@ void MapController::HandleSystemMessages( const ProtocolBuffer::DMessage* msg )
             break;
         case ProtocolBuffer::RejectRouting:
             break;
+        case ProtocolBuffer::UserLocationUpdate:
+            {
+                ProtocolBuffer::Location loc;
+                GeoPoint p;
+                loc.ParseFromString(msg->buffer());
+                p.lat.setDouble(loc.latitude());
+                p.lng.setDouble(loc.longitude());
+                emit SysMsgUserLocationUpdate(msg->fromuser(), p);
+            }
+            break;
         default:
             qDebug()<<"Unhandled message type: "<< msg->systemmessagetype();
         }
@@ -122,7 +136,7 @@ void MapController::finishedRouteEditing( RouteItem* item )
     if ( item->getRouteReceiverWhenDoneEditing() )
     {
         QMessageBox msgbox;
-        QString text = QString("Do you want to send this route back to %1?.").arg(QString::fromUtf8(getSession()->getUser(item->getRouteReceiverWhenDoneEditing())->nickname().c_str()));
+        QString text = tr("Do you want to send this route back to %1?.").arg(QString::fromUtf8(getSession()->getUser(item->getRouteReceiverWhenDoneEditing())->nickname().c_str()));
         msgbox.setIcon(QMessageBox::Question);
         msgbox.setText(text);
         msgbox.setWindowTitle("Finished editing route");
@@ -143,4 +157,16 @@ void MapController::finishedRouteEditing( RouteItem* item )
             break;
         }
     }
+}
+
+void MapController::setSession( Session* s )
+{
+    if (loc_svc)
+    {
+        if (session)
+            disconnect(this, SIGNAL(currentLocationUpdate(GeoPoint)), session, SLOT(UserLocationUpdate(const GeoPoint&)));
+        if (s)
+            connect(this, SIGNAL(currentLocationUpdate(GeoPoint)), s, SLOT(UserLocationUpdate(const GeoPoint&)));
+    }
+    session = s;
 }
