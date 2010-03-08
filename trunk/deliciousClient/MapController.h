@@ -33,7 +33,7 @@ public:
 
     void setMapView(MapViewBase* m);;
     MapViewBase* getMapView() { return map; }
-    void setSession(Session* s) { session = s; }
+    void setSession(Session* s);
     Session* getSession() { return session; }
     void setLocationSource(QGeoPositionInfoSource*);
 
@@ -42,6 +42,7 @@ signals:
     void currentLocationUpdate(GeoPoint);
     void SysMsgRequestRouting(int, QString, QString);
     void SysMsgRoutingReply(int, QList<GeoPoint>);
+    void SysMsgUserLocationUpdate(int, GeoPoint);
 
 public slots:
     void MapViewBoundsChange(const GeoBound&);
@@ -52,7 +53,7 @@ private:
     void RestaurantListHandler(ProtocolBuffer::RestaurantList*, MapViewBase*);
 
 private slots:
-    void translateLocationSignal(QGeoPositionInfo&);
+    void translateLocationSignal(const QGeoPositionInfo&);
     void finishedRouteEditing(RouteItem*);
 
 private:

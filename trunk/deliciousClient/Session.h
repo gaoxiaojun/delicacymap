@@ -39,11 +39,12 @@ public:
     QList<ProtocolBuffer::User*> friends();
     ProtocolBuffer::User* getUser(int uid);
 
-    void UserLocationUpdate(double latitude, double longitude);
     void SendRoutingReply( const QList<GeoPoint>& route, int user );
     void SendRoutingRequest( const QString&, const QString&, int user);
+    void ShareMyLocationWith( int otherUser );
 
 public slots:
+    void UserLocationUpdate(const GeoPoint&);
     void loginMessenger();
 
 signals:

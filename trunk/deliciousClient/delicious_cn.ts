@@ -43,7 +43,8 @@ zoom level: %3
     </message>
     <message>
         <location filename="LoginWindow.cpp" line="78"/>
-        <source>Login suceeded....</source>
+        <source>Login succeeded....</source>
+        <oldsource>Login suceeded....</oldsource>
         <translation type="unfinished">登陆成功...</translation>
     </message>
     <message>
@@ -147,9 +148,22 @@ zoom level: %3
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="258"/>
+        <location filename="mainwindow.cpp" line="253"/>
         <source>Current Location:</source>
         <translation type="unfinished">当前位置：</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="267"/>
+        <source>%1 is asking your help to guide him.</source>
+        <translation type="unfinished">%1希望请你帮助他指引一条路径.</translation>
+    </message>
+</context>
+<context>
+    <name>MapController</name>
+    <message>
+        <location filename="MapController.cpp" line="139"/>
+        <source>Do you want to send this route back to %1?.</source>
+        <translation type="unfinished">你希望把导航的结果返回给%1吗?</translation>
     </message>
 </context>
 <context>

@@ -78,7 +78,7 @@ void Session::timerEvent( QTimerEvent *ev )
     }
 }
 
-void Session::UserLocationUpdate( double latitude, double longitude )
+void Session::UserLocationUpdate( const GeoPoint& p )
 {
     if (getUser()->password().empty())
         return;
@@ -92,9 +92,17 @@ void Session::UserLocationUpdate( double latitude, double longitude )
     {
         timer.start(10000, this);
     }
-    infotoupdate->mutable_lastlocation()->set_latitude(latitude);
-    infotoupdate->mutable_lastlocation()->set_longitude(longitude);
+    infotoupdate->mutable_lastlocation()->set_latitude(p.lat.getDouble());
+    infotoupdate->mutable_lastlocation()->set_longitude(p.lng.getDouble());
     info_isdirty = true;
+    
+    ProtocolBuffer::DMessage msg;
+    msg.set_fromuser(getUser()->uid());
+    msg.set_touser(0);
+    msg.set_issystemmessage(true);
+    msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
+    msg.set_systemmessagetype(ProtocolBuffer::UserLocationUpdate);
+    getDataSource().SendMessage(&msg);
 }
 
 void Session::UpdatedUserInfo()
@@ -130,36 +138,44 @@ void Session::FriendsResponse(ProtocolBuffer::UserList* users)
 
 void Session::SendRoutingReply( const QList<GeoPoint>& route, int user )
 {
-    ProtocolBuffer::Route* routereply = new ProtocolBuffer::Route;
+    ProtocolBuffer::Route routereply;
     BOOST_FOREACH(const GeoPoint& p, route)
     {
-        ProtocolBuffer::Location* point = routereply->add_waypoints();
+        ProtocolBuffer::Location* point = routereply.add_waypoints();
         point->set_latitude(p.lat.getDouble());
         point->set_longitude(p.lng.getDouble());
     }
-    ProtocolBuffer::DMessage* msg = new ProtocolBuffer::DMessage;
-    msg->set_fromuser(getUser()->uid());
-    msg->set_touser(user);
-    msg->set_issystemmessage(true);
-    msg->set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
-    msg->set_systemmessagetype(ProtocolBuffer::RoutingReply);
-    msg->set_buffer(routereply->SerializeAsString());
-    getDataSource().SendMessage(msg);
-    delete msg;
-    delete routereply;
+    ProtocolBuffer::DMessage msg;
+    msg.set_fromuser(getUser()->uid());
+    msg.set_touser(user);
+    msg.set_issystemmessage(true);
+    msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
+    msg.set_systemmessagetype(ProtocolBuffer::RoutingReply);
+    msg.set_buffer(routereply.SerializeAsString());
+    getDataSource().SendMessage(&msg);
 }
 
 void Session::SendRoutingRequest( const QString& from, const QString& to, int user )
 {
-    ProtocolBuffer::DMessage* msg = new ProtocolBuffer::DMessage;
-    msg->set_fromuser(getUser()->uid());
-    msg->set_touser(user);
-    msg->set_issystemmessage(true);
-    msg->set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
-    msg->set_systemmessagetype(ProtocolBuffer::RequestRouting);
+    ProtocolBuffer::DMessage msg;
+    msg.set_fromuser(getUser()->uid());
+    msg.set_touser(user);
+    msg.set_issystemmessage(true);
+    msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
+    msg.set_systemmessagetype(ProtocolBuffer::RequestRouting);
     QString text = from + "|" + to;
     QByteArray utf8encoded = text.toUtf8();
-    msg->set_buffer( utf8encoded.constData(), utf8encoded.length() );
-    getDataSource().SendMessage(msg);
-    delete msg;
+    msg.set_buffer( utf8encoded.constData(), utf8encoded.length() );
+    getDataSource().SendMessage(&msg);
+}
+
+void Session::ShareMyLocationWith( int otherUser )
+{
+    ProtocolBuffer::DMessage msg;
+    msg.set_fromuser(getUser()->uid());
+    msg.set_touser(otherUser);
+    msg.set_issystemmessage(true);
+    msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
+    msg.set_systemmessagetype(ProtocolBuffer::ShareLocationWith);
+    getDataSource().SendMessage(&msg);
 }

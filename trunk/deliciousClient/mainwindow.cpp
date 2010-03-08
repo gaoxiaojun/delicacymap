@@ -63,7 +63,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     //ZZQ edited,编辑一个slot,专门用来显示餐厅信息
     connect(navi,SIGNAL(restaurantMarkerClicked(const ProtocolBuffer::Restaurant*)),SLOT(RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*)));
 
-    connect(&controller, SIGNAL(currentLocationUpdate(const GeoPoint&)), navi, SLOT(setSelfLocation(const GeoPoint&)));
+    connect(&controller, SIGNAL(currentLocationUpdate(GeoPoint)), navi, SLOT(setSelfLocation(const GeoPoint&)));
     connect(&controller, SIGNAL(SysMsgRequestRouting(int, QString, QString)), this, SLOT(handleRequestRouting(int, const QString&, const QString&)));
 
     navi->setZoomLevel(15);
@@ -264,7 +264,7 @@ void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
 void MainWindow::handleRequestRouting(int uid, const QString& from, const QString& to)
 {
     QMessageBox msgbox;
-    QString text = QString("%1 is asking your help to guide him.").arg(QString::fromUtf8(getSession()->getUser(uid)->nickname().c_str()));
+    QString text = tr("%1 is asking your help to guide him.").arg(QString::fromUtf8(getSession()->getUser(uid)->nickname().c_str()));
     QPushButton* googlebutton = msgbox.addButton(QString("google direction"), QMessageBox::AcceptRole);
     msgbox.setIcon(QMessageBox::Question);
     msgbox.setText(text);

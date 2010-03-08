@@ -82,7 +82,7 @@ public:
         return boost::lexical_cast<To>(ret);
     }
 
-    const std::vector<int> ColumnModified() const { return colmodified; }
+    const std::vector<int>& ColumnModified() const { return colmodified; }
     void ResetState();
 
     //void swap(const DBRow& other);
