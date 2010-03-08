@@ -67,7 +67,6 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
 
     svc = new MapServices;
-    connect(svc, SIGNAL(RoutingResult(QList<GeoPoint>, void*)), controller, SLOT(AddEditingRouteInFavorOf(const QList<GeoPoint>&, void*)));
 
 	int index = this->m_ui->stackedWidget->insertWidget(0,navi);
 	qDebug()<<index<<endl;
@@ -263,7 +262,9 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
     case 0:
         if (msgbox.clickedButton() == googlebutton)
         {
-            svc->QueryRoute(from, to, (void*)uid);
+            QList<GeoPoint> *result = new QList<GeoPoint>;
+            google::protobuf::Closure* closure = google::protobuf::NewCallback(controller, &MapController::AddEditingRouteInFavorOf, (const QList<GeoPoint>*)result, uid);
+            svc->QueryRoute(from, to, *result, closure);
         }
         break;
     case QMessageBox::Yes:

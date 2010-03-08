@@ -105,15 +105,14 @@ void MapController::HandleSystemMessages( const ProtocolBuffer::DMessage* msg )
     }
 }
 
-void MapController::AddEditingRouteInFavorOf( const QList<GeoPoint>& points, void* data )
+void MapController::AddEditingRouteInFavorOf( const QList<GeoPoint>* points, int uid )
 {
-    if (data && map)
+    if (map)
     {
-        // for now, data could only be uid
-        int uid = reinterpret_cast<intptr_t>( data ); // This is dangerous.
-        RouteItem* item = map->addRoute(points, uid);
+        RouteItem* item = map->addRoute(*points, uid);
         connect(item, SIGNAL(EditFinished(RouteItem*)), this, SLOT(finishedRouteEditing(RouteItem*)));
     }
+    delete points;
 }
 
 void MapController::finishedRouteEditing( RouteItem* item )

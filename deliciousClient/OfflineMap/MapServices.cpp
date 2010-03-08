@@ -1,6 +1,7 @@
 #include "MapServices.h"
 #include "JSON/json_spirit_reader_template.h"
 #include "JSON/json_spirit_writer_template.h"
+#include "google/protobuf/stubs/common.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -145,9 +146,9 @@ bool ReadPlacementForAddress(json_spirit::wObject& object, QString& address)
 }
 
 inline static
-QList<GeoPoint> ReadRoute(json_spirit::wObject object)
+bool ReadRoute(json_spirit::wObject object, QList<GeoPoint>& result)
 {
-    QList<GeoPoint> result;
+    bool success = false;
     json_spirit::wObject& direction = ReadSubObject(object, L"Directions");
     json_spirit::wArray& route = ReadSubArray(direction, L"Routes");
     if (route.size() > 0)
@@ -164,12 +165,15 @@ QList<GeoPoint> ReadRoute(json_spirit::wObject object)
                     result.push_back(GeoPoint(lat, lng));
                 }
             }
+        success = true;
     }
-    return result;
+    return success;
 }
 
 void MapServices::ProcessJSONResult( QNetworkReply* reply )
 {
+    google::protobuf::Closure* done = resultCallbacks.take(reply);
+    ServiceResponse result = results.take(reply);
     if (reply->isFinished())
     {
         const QVariant &header = reply->header(QNetworkRequest::ContentTypeHeader);
@@ -193,25 +197,25 @@ void MapServices::ProcessJSONResult( QNetworkReply* reply )
                     {
                         if (reverseGeoRequests.contains(reply))
                         {
-                            QString address;
                             reverseGeoRequests.remove(reply);
-                            if (ReadPlacementForAddress(rootobj, address))
-                                emit ReverseGeoCodeResult(originalquery, address, reverseGeoRequests.take(reply));
-                            else
-                                emit ReverseGeoCodeResult(originalquery, QString(), NULL);
+                            if (ReadPlacementForAddress(rootobj, *result.address))
+                                done->Run();
                         }
                         else
                         {
                             double lattitude, longitude;
                             if (ReadPlacementForCoordinate(rootobj, lattitude, longitude))
-                                emit GeoCodeResult(originalquery, lattitude, longitude, geoRequests.take(reply));
-                            else
-                                emit GeoCodeResult(originalquery, 0.0, 0.0, NULL);
+                            {
+                                result.coord->lat.setDouble(lattitude);
+                                result.coord->lng.setDouble(longitude);
+                                done->Run();
+                            }
                         }
                     }
                     else if (requesttype == "directions")
                     {
-                        emit RoutingResult( ReadRoute(rootobj), directionRequests.take(reply) );
+                        if (ReadRoute(rootobj, *result.route))
+                            done->Run();
                     }
                 }
             }
@@ -221,24 +225,36 @@ void MapServices::ProcessJSONResult( QNetworkReply* reply )
     reply->deleteLater();
 }
 
-void MapServices::GeoCode( const QString& where, void* data )
+void MapServices::GeoCode( const QString& where, GeoPoint& point, google::protobuf::Closure* callback )
 {
+    ServiceResponse ret;
+    ret.coord = &point;
     QUrl url(_GeoCodeURL.arg(_APIKey, where));
     QNetworkRequest request(url);
-    geoRequests.insert(network->get(request), data);
+    QNetworkReply* reply = network->get(request);
+    resultCallbacks.insert(reply, callback);
+    results.insert(reply, ret);
 }
 
-void MapServices::ReverseGeoCode( double latitude, double longitude, void* data )
+void MapServices::ReverseGeoCode( double latitude, double longitude, QString& address, google::protobuf::Closure* callback )
 {
+    ServiceResponse ret;
+    ret.address = &address;
     QUrl url(_RevGeoCodeURL.arg(_APIKey).arg(latitude, 0, 'g', 9).arg(longitude, 0, 'g', 9));
     QNetworkRequest request(url);
-    reverseGeoRequests.insert(network->get(request), data);
+    QNetworkReply* reply = network->get(request);
+    resultCallbacks.insert(reply, callback);
+    results.insert(reply, ret);
+    reverseGeoRequests.insert(network->get(request));
 }
 
-void MapServices::QueryRoute( const QString& from, const QString& to, void* data )
+void MapServices::QueryRoute( const QString& from, const QString& to, QList<GeoPoint>& route, google::protobuf::Closure* callback )
 {
-    QString s = _GDirectionURL.arg(_APIKey, from, to);
-    QUrl url(s);
+    ServiceResponse ret;
+    ret.route = &route;
+    QUrl url(_GDirectionURL.arg(_APIKey, from, to));
     QNetworkRequest request(url);
-    directionRequests.insert(network->get(request), data);
+    QNetworkReply* reply = network->get(request);
+    resultCallbacks.insert(reply, callback);
+    results.insert(reply, ret);
 }
