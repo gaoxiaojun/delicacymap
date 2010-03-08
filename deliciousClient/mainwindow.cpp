@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
+
 using namespace ProtocolBuffer;
 QTM_USE_NAMESPACE
 
@@ -21,6 +22,18 @@ struct GeoCodeResultPair
 {
     GeoPoint first, second;
     bool firstSet, secondSet;
+};
+
+struct commentAnduser
+{
+    ProtocolBuffer::Comment comment;
+    ProtocolBuffer::User user;
+};
+struct showRestaurant
+{
+    ProtocolBuffer::Restaurant restaurant;
+    int n;
+    commentAnduser commentanduser[maxlisting];
 };
 
 MainWindow::MainWindow(Session *s, QWidget *parent) :
@@ -222,15 +235,28 @@ void MainWindow::interfaceTransit_favourite()
 
 void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
 {
-    for (int i=0;i<list->comments_size();++i)
+    QString str;
+      
+    str=QString("餐厅名称:     %1").arg(showrestaurant->restaurant.name().c_str());
+    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(str.toStdString().c_str())));
+    
+    str=QString("平均价格:     %1 RMB").arg(showrestaurant->restaurant.averageexpense().amount());
+    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(str.toStdString().c_str())));
+    
+    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8("网友评价:   ")));
+  
+    ProtocolBuffer::User* usr;
+    google::protobuf::Closure * closure;
+
+    showrestaurant->n=list->comments_size();
+    for (int i=0;i<showrestaurant->n;++i)
     {
-        //m_ui->textEdit->append(QString::fromStdString(list->comments(i).content()));
-        QListWidgetItem* item = new QListWidgetItem();
-        // this need extra caution
-		item->setText(list->comments(i).content().c_str());
-        //item->setData(Qt::UserRole, qVariantFromValue((void*)&list->comments(i)));
-        m_ui->list_latestcomment->addItem(item);
+        usr=new ProtocolBuffer::User();
+        closure=google::protobuf::NewCallback(this,&MainWindow::showUser,i,usr);
+        showrestaurant->commentanduser[i].comment.CopyFrom(list->comments(i));
+        session->getDataSource().GetUser(list->comments(i).uid(), usr,closure);
     }
+    delete list;
 }
 
 void MainWindow::UpdateCurrentLocation( QString s )
@@ -278,20 +304,27 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
 
 void MainWindow::RestaurantMarkerResponse(const ProtocolBuffer::Restaurant* res)
 {
-    char tmp[50];
-    int num;
-
+    showrestaurant=new showRestaurant;
+    showrestaurant->restaurant.CopyFrom(*res);
     ProtocolBuffer::CommentList* commentlist=new ProtocolBuffer::CommentList();
-    google::protobuf::Closure* commentDataArrive;
+  	google::protobuf::Closure* commentDataArrive;
     commentDataArrive=google::protobuf::NewCallback(this,&MainWindow::showLatestComments,commentlist);
-
-    session->getDataSource().GetLastestCommentsOfRestaurant(res->rid(), 20, commentlist, commentDataArrive);
+    session->getDataSource().GetLastestCommentsOfRestaurant(res->rid(), 20, commentlist, commentDataArrive);  
+   
     m_ui->list_latestcomment->clear();
-    sprintf(tmp,"AveragePrice: %.2f yuan",res->averageexpense().amount());
-    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(("餐厅名称:"+res->name()).c_str())));
-    m_ui->list_latestcomment->addItem(new QListWidgetItem(tmp));
-    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8("网友评论:")));
     m_ui->stackedWidget->setCurrentIndex(1);
-
     interfaceTransit_comment();
 }
+
+void MainWindow::showUser(const int num,ProtocolBuffer::User* usr)
+{
+    QString str;
+    
+	showrestaurant->commentanduser->user.CopyFrom(*usr);
+    str=QString("%1:   %2").arg(
+        usr->nickname().c_str()).arg(
+        showrestaurant->commentanduser[num].comment.content().c_str());
+    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(str.toStdString().c_str())));
+    delete usr;
+}
+
