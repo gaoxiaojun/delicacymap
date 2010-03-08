@@ -23,6 +23,8 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_Message = NULL;
         prepared_RestaurantWithinBound = NULL;
         prepared_ConfirmMessage = NULL;
+        prepared_GetCommentsOfRest_N = NULL;
+        prepared_Login = NULL;
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
@@ -42,10 +44,22 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "SELECT * "
             "FROM Users "
             "WHERE uid = ?;");
+        prepared_GetCommentsOfRest_N = dbconn->NewPreparedStatement(
+            "SELECT * "
+            "FROM Comments INNER JOIN Users ON Users.UID = Comments.UID "
+            "WHERE rid=? "
+            "ORDER BY addtime "
+            "LIMIT ?;");
+        prepared_Login = dbconn->NewPreparedStatement(
+            "SELECT * "
+            "FROM Users "
+            "WHERE EmailAddress=? AND Password=?;");
     }
     catch (exception&)
     {
         delete dbconn;
+        delete prepared_GetCommentsOfRest_N;
+        delete prepared_Login;
         delete prepared_GetUserByUID;
         delete prepared_Message;
         delete prepared_RestaurantWithinBound;
@@ -164,17 +178,11 @@ size_t deliciousDataAdapter::QueryLatestCommentsOfRestaurant( int rid, int n, Ca
         "rid=", pantheios::integer(rid),
         ",n=", pantheios::integer(n),
         ")");
-    char querystr[500];
-    sprintf_s(querystr, sizeof(querystr),
-        "SELECT Comments.* "
-        "FROM Comments "
-        "WHERE rid=%d "
-        "ORDER BY addtime "
-        "LIMIT %d;"
-        , rid
-        , n);
+    prepared_GetCommentsOfRest_N->reset();
+    prepared_GetCommentsOfRest_N->bindParameter(1, rid);
+    prepared_GetCommentsOfRest_N->bindParameter(2, n);
 
-    return ExecuteNormal(querystr, callback);
+    return ExecuteNormal(prepared_GetCommentsOfRest_N, callback);
 }
 
 size_t deliciousDataAdapter::QueryCommentsOfRestaurantSince( int rid, const std::string& timestamp, CallbackFunc callback )
@@ -185,8 +193,8 @@ size_t deliciousDataAdapter::QueryCommentsOfRestaurantSince( int rid, const std:
         "')");
     char querystr[500];
     sprintf_s(querystr, sizeof(querystr),
-        "SELECT Comments.* "
-        "FROM Relation_Restaurant_Comment NATURAL INNER JOIN Comments "
+        "SELECT * "
+        "FROM Comments INNER JOIN Users ON Users.UID = Comments.UID "
         "WHERE rid=%d AND addtime >= '%s';"
         , rid
         , timestamp.c_str());
@@ -203,7 +211,7 @@ size_t deliciousDataAdapter::QueryLastestCommentsByUser( int uid, int n, Callbac
     char querystr[500];
     sprintf_s(querystr, sizeof(querystr),
         "SELECT * "
-        "FROM Comments "
+        "FROM Comments INNER JOIN Users ON Users.UID = Comments.UID "
         "WHERE uid=%d "
         "ORDER BY addtime "
         "LIMIT %d;"
@@ -222,7 +230,7 @@ size_t deliciousDataAdapter::QueryCommentsOfUserSince( int uid, const std::strin
     char querystr[500];
     sprintf_s(querystr, sizeof(querystr),
         "SELECT * "
-        "FROM Comments "
+        "FROM Comments INNER JOIN Users ON Users.UID = Comments.UID "
         "WHERE uid == %d AND addtime >= '%s' "
         "ORDER BY addtime;"
         , uid
@@ -257,15 +265,12 @@ const DBResultWrap deliciousDataAdapter::UserLogin( const std::string& email, co
         "emailAddress=", email,
         ",password=", password,
         ")");
-    char querystr[500];
-    sprintf_s(querystr, sizeof(querystr),
-        "SELECT * "
-        "FROM Users "
-        "WHERE EmailAddress = '%s';"
-        , email.c_str()
-        );
-    DBResult* ret = dbconn->Execute(querystr);
-    if (ret->RowsCount() != 1 || (*ret)[0]["Password"] != password) // Email is unique, so only 0 or 1 row.
+    prepared_Login->reset();
+    prepared_Login->bindParameter(1, email);
+    prepared_Login->bindParameter(2, password);
+
+    DBResult* ret = dbconn->Execute(prepared_Login);
+    if (ret->RowsCount() != 1) // Email is unique, so only 0 or 1 row.
     {
         dbconn->Free(&ret);
     }
@@ -302,6 +307,24 @@ const DBResultWrap deliciousDataAdapter::GetUserInfo( int uid )
     return DBResultWrap(dbconn->Execute(prepared_GetUserByUID), dbconn);
 }
 
+
+size_t deliciousDataAdapter::GetRelatedUsersWith( int uid, int relation, CallbackFunc callback )
+{
+    pantheios::log_INFORMATIONAL("GetRelatedUsersWith(",
+        "uid=", pantheios::integer(uid),
+        ",relation=", pantheios::integer(relation),
+        ")");
+    char querystr[500];
+    sprintf_s(querystr, sizeof(querystr),
+        "SELECT Users.* "
+        "FROM Relation_User_User INNER JOIN Users ON UID_Target = UID "
+        "WHERE UID_Host=%d AND Relation=%d"
+        , uid
+        , relation);
+
+    return ExecuteNormal(querystr, callback);
+}
+
 // TODO: maybe database schema object to manage all primary keys and stuff?
 const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows, const std::string& table, const std::string& primarykey )
 {
@@ -329,6 +352,8 @@ const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows, const st
     }
     return rows;
 }
+
+// ============================================== Message part ===================================================
 
 static inline
 char* tmToSqliteTimeModifiers(char* buf, size_t size, tm& time)
@@ -403,21 +428,4 @@ void deliciousDataAdapter::ConfirmMessageDelivered( unsigned int msgid )
     prepared_ConfirmMessage->bindParameter(1, msgid);
 
     dbconn->Execute(prepared_ConfirmMessage);
-}
-
-size_t deliciousDataAdapter::GetRelatedUsersWith( int uid, int relation, CallbackFunc callback )
-{
-    pantheios::log_INFORMATIONAL("GetRelatedUsersWith(",
-        "uid=", pantheios::integer(uid),
-        ",relation=", pantheios::integer(relation),
-        ")");
-    char querystr[500];
-    sprintf_s(querystr, sizeof(querystr),
-        "SELECT Users.* "
-        "FROM Relation_User_User INNER JOIN Users ON UID_Target = UID "
-        "WHERE UID_Host=%d AND Relation=%d"
-        , uid
-        , relation);
-
-    return ExecuteNormal(querystr, callback);
 }

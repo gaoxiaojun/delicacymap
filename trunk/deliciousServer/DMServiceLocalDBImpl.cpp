@@ -363,6 +363,7 @@ void DMServiceLocalDBImpl::GetCommentsCallback( const DBRow& row, ProtocolBuffer
     newc->set_uid(row.GetValueAs<int>("UID"));
     newc->set_rid(row.GetValueAs<int>("RID"));
     newc->mutable_timestamp()->set_timestamp(row["AddTime"]);
+    ProtubufDBRowConversion::Convert(row, *newc->mutable_userinfo());
 }
 
 void DMServiceLocalDBImpl::GetUsersCallback( const DBRow& row, ProtocolBuffer::UserList* result )

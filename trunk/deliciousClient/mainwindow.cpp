@@ -18,12 +18,6 @@
 using namespace ProtocolBuffer;
 QTM_USE_NAMESPACE
 
-struct GeoCodeResultPair
-{
-    GeoPoint first, second;
-    bool firstSet, secondSet;
-};
-
 struct commentAnduser
 {
     ProtocolBuffer::Comment comment;
@@ -261,7 +255,7 @@ void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
 
 void MainWindow::UpdateCurrentLocation( QString s )
 {
-    m_ui->label_currentlocation->setText(QString::fromUtf8("当前位置：") + s);
+    //m_ui->label_currentlocation->setText(QString::fromUtf8("当前位置：") + s);
 }
 
 void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )

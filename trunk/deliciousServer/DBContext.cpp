@@ -87,7 +87,8 @@ DBResult* DBContext::Execute( DBPrepared* stmt )
                 DBRow& newrow = result->AddRow();
                 for (size_t i=0;i<columnCount;i++)
                 {
-                    newrow[i] = string((const char*)sqlite3_column_text(stmt->stmt, i));
+                    const char* col = (const char*)sqlite3_column_text(stmt->stmt, i);
+                    newrow[i] = string( col ? col : "" );
                 }
                 newrow.ResetState();
             } while (sqlite3_step(stmt->stmt) == SQLITE_ROW);
