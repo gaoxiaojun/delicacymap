@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QTranslator>
 #include <QMenuBar>
 #include <QDialog>
 
@@ -11,6 +12,10 @@ Session* TryLogin();
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    QTranslator trans;
+    trans.load("delicious_cn");
+    a.installTranslator(&trans);
 
     Session* s = TryLogin();
     if (s)

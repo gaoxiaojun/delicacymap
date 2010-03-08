@@ -32,7 +32,7 @@ LoginWindow::~LoginWindow(void)
 
 void LoginWindow::login_step1()
 {
-    dialog->label_status->setText(QString::fromUtf8("正在连接服务器...."));
+    dialog->label_status->setText(tr("Connecting server...."));
     if (!session)
     {
         session = new Session();
@@ -47,7 +47,7 @@ void LoginWindow::login_step2(bool connected)
 {
     if (connected)
     {
-        dialog->label_status->setText(QString::fromUtf8("正在登陆...."));
+        dialog->label_status->setText(tr("Verifing username/password...."));
         MD5 md5(dialog->lineEdit_password->text());
         std::string email(dialog->lineEdit_username->text().toUtf8().constData());
         std::string pwd(md5.toString().toUtf8().constData());
@@ -55,7 +55,7 @@ void LoginWindow::login_step2(bool connected)
     }
     else
     {
-        dialog->label_status->setText(QString::fromUtf8("连接服务器失败：").append(session->getDataSource().error()));
+        dialog->label_status->setText(tr("Error connecting server.").append(session->getDataSource().error()));
     }
 }
 
@@ -75,12 +75,12 @@ void LoginWindow::loginResponse()
 
 void LoginWindow::success()
 {
-    dialog->label_status->setText(QString::fromUtf8("登陆成功...."));
+    dialog->label_status->setText(tr("Login suceeded...."));
     accept();
 }
 
 void LoginWindow::failed()
 {
-    dialog->label_status->setText(QString::fromUtf8("登陆失败，用户名密码不匹配！...."));
+    dialog->label_status->setText(tr("Login failed! Wrong username or password!"));
 }
 

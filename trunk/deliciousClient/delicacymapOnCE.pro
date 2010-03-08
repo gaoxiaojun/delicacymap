@@ -76,6 +76,8 @@ SOURCES += main.cpp \
     OfflineMap/Downloader.cpp \
     OfflineMap/GeoCoord.cpp
 
+TRANSLATIONS = delicious_cn.ts
+
 # DEPLOYMENT_PLUGIN += qsqlite qjpeg qgif qmng
 linux-* { 
     RCC_DIR = ./objs
