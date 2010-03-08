@@ -46,7 +46,7 @@ signals:
 public slots:
     void MapViewBoundsChange(const GeoBound&);
     void HandleSystemMessages(const ProtocolBuffer::DMessage*);
-    void AddEditingRouteInFavorOf(const QList<GeoPoint>&, void* data);
+    void AddEditingRouteInFavorOf(const QList<GeoPoint>*, int);
 
 private:
     void RestaurantListHandler(ProtocolBuffer::RestaurantList*, MapViewBase*);

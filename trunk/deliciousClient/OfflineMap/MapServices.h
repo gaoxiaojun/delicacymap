@@ -1,13 +1,27 @@
 #pragma once
 
 #include <QObject>
-#include <QMap>
-#include <QString>
 #include <QList>
+#include <QMap>
+#include <QSet>
+#include <QString>
 #include "GeoCoord.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
+
+namespace google{
+    namespace protobuf{
+        class Closure;
+    }
+}
+
+union ServiceResponse
+{
+    QString *address;
+    GeoPoint *coord;
+    QList<GeoPoint> *route;
+};
 
 class MapServices : public QObject
 {
@@ -16,21 +30,16 @@ public:
     MapServices(void);
     ~MapServices(void);
 
-    void GeoCode(const QString& where, void* data);
-    void ReverseGeoCode(double latitude, double longitude, void* data);
-    void QueryRoute(const QString& from, const QString& to, void* data);
-
-signals:
-    void GeoCodeResult(const QString originalQuery, double lattitude, double longitude, void* data);
-    void ReverseGeoCodeResult(const QString originalQuery, const QString address, void* data);
-    void RoutingResult(QList<GeoPoint>, void* data);
+    void GeoCode(const QString& where, GeoPoint& point, google::protobuf::Closure* callback);
+    void ReverseGeoCode(double latitude, double longitude, QString& address, google::protobuf::Closure* callback);
+    void QueryRoute(const QString& from, const QString& to, QList<GeoPoint>& route, google::protobuf::Closure* callback);
 
 protected slots:
     void ProcessJSONResult(QNetworkReply*);
 
 private:
-    QMap<QNetworkReply*, void*> geoRequests;
-    QMap<QNetworkReply*, void*> reverseGeoRequests;
-    QMap<QNetworkReply*, void*> directionRequests;
+    QMap<QNetworkReply*, google::protobuf::Closure*> resultCallbacks;
+    QMap<QNetworkReply*, ServiceResponse> results;
+    QSet<QNetworkReply*> reverseGeoRequests;
     QNetworkAccessManager *network;
 };
