@@ -255,7 +255,7 @@ void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
 
 void MainWindow::UpdateCurrentLocation( QString s )
 {
-    //m_ui->label_currentlocation->setText(QString::fromUtf8("当前位置：") + s);
+    m_ui->label_currentlocation->setText(tr("Current Location:") + s);
 }
 
 void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
