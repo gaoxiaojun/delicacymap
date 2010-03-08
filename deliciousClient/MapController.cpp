@@ -3,6 +3,7 @@
 #include "Session.h"
 #include "OfflineMap/MapViewBase.h"
 #include "OfflineMap/MarkerItem.h"
+#include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
 #include <QMessageBox>
 #include <QDebug>
@@ -64,7 +65,7 @@ void MapController::setLocationSource( QGeoPositionInfoSource* loc )
     }
 }
 
-void MapController::translateLocationSignal( QGeoPositionInfo info )
+void MapController::translateLocationSignal( QGeoPositionInfo& info )
 {
     GeoPoint location(info.coordinate().latitude(), info.coordinate().longitude());
     emit currentLocationUpdate(location);

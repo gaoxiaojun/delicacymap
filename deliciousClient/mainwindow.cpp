@@ -37,15 +37,8 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-#if _WIN32_WCE
-    //menuBar()->setDefaultAction(m_ui->menuZoomOut);
-#endif
-    //connect(m_ui->menuExit, SIGNAL(triggered()), this, SLOT(close()));
-	//qDebug()<<this->m_ui->stackedWidget->widget(1)->size().width()<<endl;
-	//qDebug()<<this->m_ui->stackedWidget->widget(1)->size().height()<<endl;
-
     navi = new MapViewBase;
-    navi->setDecorator(new MoveDecorator(navi));
+    navi->setDecorator(new MoveDecorator(navi, true));
     navi->insertDecorator(new ZoomDecorator(navi));
     navi->insertDecorator(new DownloadDecorator(navi));
 //     CrossDecorator *crossDecorator = new CrossDecorator(navi);
@@ -57,38 +50,40 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 //     navi->appendDecorator(coordsDecorator);
 
     imageCache.setDownloader(&downloader);
+#if _WIN32_WCE
+    imageCache.setCacheDBPath("/Storage Card/tiles.map");
+#else
     imageCache.setCacheDBPath("tiles.map");
+#endif
     navi->setCache(&imageCache);
 
-    controller = new MapController;
-    controller->setMapView(navi);
-    controller->setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
-    connect(navi, SIGNAL(boundsChange(const GeoBound&)), controller, SLOT(MapViewBoundsChange(const GeoBound&)));
+    controller.setMapView(navi);
+    controller.setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
+    connect(navi, SIGNAL(boundsChange(const GeoBound&)), &controller, SLOT(MapViewBoundsChange(const GeoBound&)));
     //ZZQ edited,编辑一个slot,专门用来显示餐厅信息
-	connect(navi,SIGNAL(restaurantMarkerClicked(const ProtocolBuffer::Restaurant*)),SLOT(RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*)));
+    connect(navi,SIGNAL(restaurantMarkerClicked(const ProtocolBuffer::Restaurant*)),SLOT(RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*)));
 
-	connect(controller, SIGNAL(currentLocationUpdate(const GeoPoint&)), navi, SLOT(setSelfLocation(const GeoPoint&)));
-    connect(controller, SIGNAL(SysMsgRequestRouting(int, QString, QString)), this, SLOT(handleRequestRouting(int, const QString&, const QString&)));
+    connect(&controller, SIGNAL(currentLocationUpdate(const GeoPoint&)), navi, SLOT(setSelfLocation(const GeoPoint&)));
+    connect(&controller, SIGNAL(SysMsgRequestRouting(int, QString, QString)), this, SLOT(handleRequestRouting(int, const QString&, const QString&)));
 
     navi->setZoomLevel(15);
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
 
     svc = new MapServices;
 
-	int index = this->m_ui->stackedWidget->insertWidget(0,navi);
-	qDebug()<<index<<endl;
-	this->m_ui->stackedWidget->setCurrentWidget(navi);
+    int index = this->m_ui->stackedWidget->insertWidget(0,navi);
+    qDebug()<<index<<endl;
+    this->m_ui->stackedWidget->setCurrentWidget(navi);
 
     changeSession(s);
 
-	interfaceTransit_map();
+    interfaceTransit_map();
 }
 
 MainWindow::~MainWindow()
 {
     delete navi;
     delete m_ui;
-    delete controller;
     delete svc;
 }
 
@@ -125,16 +120,16 @@ void MainWindow::changeSession( Session *s )
     if (session)
     {
         disconnect(&session->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
-        disconnect(&session->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
+        disconnect(&session->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), &controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
     }
     session = s;
     //navi->changeSession(s);
     if (s)
     {
         connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
-        connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
+        connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), &controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
     }
-    controller->setSession(s);
+    controller.setSession(s);
 }
 
 Session* MainWindow::getSession()
@@ -283,7 +278,7 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
         if (msgbox.clickedButton() == googlebutton)
         {
             QList<GeoPoint> *result = new QList<GeoPoint>;
-            google::protobuf::Closure* closure = google::protobuf::NewCallback(controller, &MapController::AddEditingRouteInFavorOf, (const QList<GeoPoint>*)result, uid);
+            google::protobuf::Closure* closure = google::protobuf::NewCallback(&controller, &MapController::AddEditingRouteInFavorOf, (const QList<GeoPoint>*)result, uid);
             svc->QueryRoute(from, to, *result, closure);
         }
         break;
