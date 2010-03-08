@@ -69,6 +69,7 @@ void Session::timerEvent( QTimerEvent *ev )
         {
             getDataSource().UpdateUserInfo(getUser()->uid(), getUser()->password(), infotoupdate, updatedone);
             info_isdirty = false;
+            timer.stop();
         }
     }
     else
@@ -79,11 +80,16 @@ void Session::timerEvent( QTimerEvent *ev )
 
 void Session::UserLocationUpdate( double latitude, double longitude )
 {
-    if (!timer.isActive())
+    if (getUser()->password().empty())
+        return;
+    if (!infotoupdate)
     {
         infotoupdate = new ProtocolBuffer::User;
         infotoupdate->CopyFrom(*user);
         updatedone = google::protobuf::NewPermanentCallback(this, &Session::UpdatedUserInfo);
+    }
+    if (!timer.isActive())
+    {
         timer.start(10000, this);
     }
     infotoupdate->mutable_lastlocation()->set_latitude(latitude);
