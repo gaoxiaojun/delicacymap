@@ -3,7 +3,6 @@
 #include "OfflineMap/GeoCoord.h"
 #include <QGeoPositionInfo>
 #include <QObject>
-#include <QString>
 #include <QSet>
 
 QTM_USE_NAMESPACE
@@ -21,6 +20,7 @@ class Session;
 class RouteItem;
 
 QTM_BEGIN_NAMESPACE
+class QGeoPositionInfo;
 class QGeoPositionInfoSource;
 QTM_END_NAMESPACE
 
@@ -52,7 +52,7 @@ private:
     void RestaurantListHandler(ProtocolBuffer::RestaurantList*, MapViewBase*);
 
 private slots:
-    void translateLocationSignal(QGeoPositionInfo);
+    void translateLocationSignal(QGeoPositionInfo&);
     void finishedRouteEditing(RouteItem*);
 
 private:

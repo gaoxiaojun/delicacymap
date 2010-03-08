@@ -90,7 +90,7 @@ linux-* {
 }
 wince* {
     RESOURCES += mainwindow_480_800.qrc
-    configs.sources = configs.xml
+    configs.sources = configs.xml delicious_cn.qm
     DEPLOYMENT += configs
     contains(DEFINES, _WIN32_WCE=0x600) {
         myFiles.sources = F:\QT\delicacymap\msvcr90.dll

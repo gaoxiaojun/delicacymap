@@ -6,6 +6,7 @@
 #include <QString>
 #include "OfflineMap/ImageCache.h"
 #include "OfflineMap/Downloader.h"
+#include "MapController.h"
 
 #define maxlisting 10
 class ProtobufDataEvent;
@@ -14,8 +15,6 @@ class GeoBound;
 class MapServices;
 class MapViewBase;
 class MapController;
-struct GeoCodeResultPair;
-
 
 namespace ProtocolBuffer{
     class DMessage;
@@ -33,7 +32,8 @@ namespace Ui {
 }
 
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow 
+{
     Q_OBJECT
     Q_DISABLE_COPY(MainWindow)
 public:
@@ -62,7 +62,7 @@ private:
     Ui::MainWindow *m_ui;
     MapViewBase *navi;
     MapServices *svc;
-    MapController *controller;
+    MapController controller;
     ImageCache imageCache;
     Downloader downloader;
     Session *session;
