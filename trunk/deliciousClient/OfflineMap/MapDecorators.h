@@ -29,66 +29,74 @@ ErV2005@rambler.ru
 
 class MapViewBase;
 
-class MapDecorator: public Decorator{
+class MapDecorator: public Decorator
+{
 public:
-	MapDecorator(MapViewBase* mapView);
+    MapDecorator(MapViewBase* mapView);
 protected:
-	MapViewBase *target;
+    MapViewBase *target;
 };
 
-class MoveDecorator: public QObject, public MapDecorator{
+class MoveDecorator: public QObject, public MapDecorator
+{
     Q_OBJECT
 public:
-	void mousePressEvent(QMouseEvent *event);
-	void mouseReleaseEvent(QMouseEvent *event);
-	void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
     void timerEvent(QTimerEvent *e);
-	MoveDecorator(MapViewBase* mapView);
+    MoveDecorator(MapViewBase* mapView, bool smooth=false);
+    void EnableSmoothMovement(bool enable=true);
 protected:
     QPointF m_speed;
-	QPoint m_mouse_pos;
-	bool dragging;
+    QPoint m_mouse_pos;
+    int timerId;
+    bool dragging;
 };
 
-class ZoomDecorator: public MapDecorator{
+class ZoomDecorator: public MapDecorator
+{
 public:
-	void mouseDoubleClickEvent(QMouseEvent *event);
-	ZoomDecorator(MapViewBase* mapView);
+    void mouseDoubleClickEvent(QMouseEvent *event);
+    ZoomDecorator(MapViewBase* mapView);
 };
 
-class DownloadDecorator: public MapDecorator{
+class DownloadDecorator: public MapDecorator
+{
 public:
-	void mousePressEvent(QMouseEvent *event);
-	DownloadDecorator(MapViewBase* mapView);
+    void mousePressEvent(QMouseEvent *event);
+    DownloadDecorator(MapViewBase* mapView);
 public:
 };
 
-class CrossDecorator: public QObject, public MapDecorator{
-Q_OBJECT
+class CrossDecorator: public QObject, public MapDecorator
+{
+    Q_OBJECT
 protected:
-	bool isEnabled;
+    bool isEnabled;
 public:
-	bool enabled();
-	void paintEvent(QPainter &painter);
-	CrossDecorator(MapViewBase* mapView);
+    bool enabled();
+    void paintEvent(QPainter &painter);
+    CrossDecorator(MapViewBase* mapView);
 public slots:
-	void enable(bool enabled);
+    void enable(bool enabled);
 signals:
-	void stateChanged();
+    void stateChanged();
 };
 
-class CoordsDecorator: public QObject, public MapDecorator{
-Q_OBJECT
+class CoordsDecorator: public QObject, public MapDecorator
+{
+    Q_OBJECT
 protected:
-	bool isEnabled;
+    bool isEnabled;
 public:
-	bool enabled();
-	void paintEvent(QPainter &painter);
-	CoordsDecorator(MapViewBase* mapView);
+    bool enabled();
+    void paintEvent(QPainter &painter);
+    CoordsDecorator(MapViewBase* mapView);
 public slots:
-	void enable(bool enable);
+    void enable(bool enable);
 signals:
-	void stateChanged();
+    void stateChanged();
 };
 
 #endif

@@ -196,7 +196,7 @@ void ImageCache::prepareStatements()
     for (int i=0;i< sizeof(queries) / sizeof(queries[0]);i++)
     {
         queries[i] = QSqlQuery();
-        queries[i].prepare(QString("SELECT data FROM [%1] WHERE x=:x AND y=:y ").arg(i));
+        queries[i].prepare(QString("SELECT data FROM [%1] WHERE x=? AND y=? ").arg(i));
         queries[i].setForwardOnly(true);
     }
 }
