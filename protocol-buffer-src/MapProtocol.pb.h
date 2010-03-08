@@ -467,6 +467,13 @@ class Comment : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 rid() const;
   inline void set_rid(::google::protobuf::uint32 value);
   
+  // optional .ProtocolBuffer.User UserInfo = 6;
+  inline bool has_userinfo() const;
+  inline void clear_userinfo();
+  static const int kUserInfoFieldNumber = 6;
+  inline const ::ProtocolBuffer::User& userinfo() const;
+  inline ::ProtocolBuffer::User* mutable_userinfo();
+  
   // optional uint32 DID = 5;
   inline bool has_did() const;
   inline void clear_did();
@@ -483,12 +490,13 @@ class Comment : public ::google::protobuf::MessageLite {
   ::ProtocolBuffer::Time* timestamp_;
   ::google::protobuf::uint32 uid_;
   ::google::protobuf::uint32 rid_;
+  ::ProtocolBuffer::User* userinfo_;
   ::google::protobuf::uint32 did_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -1842,19 +1850,36 @@ inline void Comment::set_rid(::google::protobuf::uint32 value) {
   rid_ = value;
 }
 
+// optional .ProtocolBuffer.User UserInfo = 6;
+inline bool Comment::has_userinfo() const {
+  return _has_bit(4);
+}
+inline void Comment::clear_userinfo() {
+  if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
+  _clear_bit(4);
+}
+inline const ::ProtocolBuffer::User& Comment::userinfo() const {
+  return userinfo_ != NULL ? *userinfo_ : *default_instance_->userinfo_;
+}
+inline ::ProtocolBuffer::User* Comment::mutable_userinfo() {
+  _set_bit(4);
+  if (userinfo_ == NULL) userinfo_ = new ::ProtocolBuffer::User;
+  return userinfo_;
+}
+
 // optional uint32 DID = 5;
 inline bool Comment::has_did() const {
-  return _has_bit(4);
+  return _has_bit(5);
 }
 inline void Comment::clear_did() {
   did_ = 0u;
-  _clear_bit(4);
+  _clear_bit(5);
 }
 inline ::google::protobuf::uint32 Comment::did() const {
   return did_;
 }
 inline void Comment::set_did(::google::protobuf::uint32 value) {
-  _set_bit(4);
+  _set_bit(5);
   did_ = value;
 }
 

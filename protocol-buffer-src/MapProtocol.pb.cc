@@ -810,6 +810,7 @@ const int Comment::kContentFieldNumber;
 const int Comment::kTimeStampFieldNumber;
 const int Comment::kUIDFieldNumber;
 const int Comment::kRIDFieldNumber;
+const int Comment::kUserInfoFieldNumber;
 const int Comment::kDIDFieldNumber;
 #endif  // !_MSC_VER
 
@@ -820,6 +821,7 @@ Comment::Comment()
 
 void Comment::InitAsDefaultInstance() {
   timestamp_ = const_cast< ::ProtocolBuffer::Time*>(&::ProtocolBuffer::Time::default_instance());
+  userinfo_ = const_cast< ::ProtocolBuffer::User*>(&::ProtocolBuffer::User::default_instance());
 }
 
 Comment::Comment(const Comment& from)
@@ -834,6 +836,7 @@ void Comment::SharedCtor() {
   timestamp_ = NULL;
   uid_ = 0u;
   rid_ = 0u;
+  userinfo_ = NULL;
   did_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -848,6 +851,7 @@ void Comment::SharedDtor() {
   }
   if (this != default_instance_) {
     delete timestamp_;
+    delete userinfo_;
   }
 }
 
@@ -878,6 +882,9 @@ void Comment::Clear() {
     }
     uid_ = 0u;
     rid_ = 0u;
+    if (_has_bit(4)) {
+      if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
+    }
     did_ = 0u;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -956,7 +963,21 @@ bool Comment::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &did_)));
-          _set_bit(4);
+          _set_bit(5);
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(50)) goto parse_UserInfo;
+        break;
+      }
+      
+      // optional .ProtocolBuffer.User UserInfo = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_UserInfo:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_userinfo()));
         } else {
           goto handle_uninterpreted;
         }
@@ -1004,8 +1025,14 @@ void Comment::SerializeWithCachedSizes(
   }
   
   // optional uint32 DID = 5;
-  if (_has_bit(4)) {
+  if (_has_bit(5)) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->did(), output);
+  }
+  
+  // optional .ProtocolBuffer.User UserInfo = 6;
+  if (_has_bit(4)) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      6, this->userinfo(), output);
   }
   
 }
@@ -1040,6 +1067,13 @@ int Comment::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->rid());
+    }
+    
+    // optional .ProtocolBuffer.User UserInfo = 6;
+    if (has_userinfo()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->userinfo());
     }
     
     // optional uint32 DID = 5;
@@ -1077,6 +1111,9 @@ void Comment::MergeFrom(const Comment& from) {
       set_rid(from.rid());
     }
     if (from._has_bit(4)) {
+      mutable_userinfo()->::ProtocolBuffer::User::MergeFrom(from.userinfo());
+    }
+    if (from._has_bit(5)) {
       set_did(from.did());
     }
   }
@@ -1094,6 +1131,9 @@ bool Comment::IsInitialized() const {
   if (has_timestamp()) {
     if (!this->timestamp().IsInitialized()) return false;
   }
+  if (has_userinfo()) {
+    if (!this->userinfo().IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -1103,6 +1143,7 @@ void Comment::Swap(Comment* other) {
     std::swap(timestamp_, other->timestamp_);
     std::swap(uid_, other->uid_);
     std::swap(rid_, other->rid_);
+    std::swap(userinfo_, other->userinfo_);
     std::swap(did_, other->did_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
