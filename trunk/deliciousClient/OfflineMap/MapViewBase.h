@@ -34,6 +34,7 @@ public slots:
     RouteItem* addRoute(const QList<GeoPoint>&);
     RouteItem* addRoute(const QList<GeoPoint>&, int);
     void setSelfLocation(const GeoPoint& coord);
+    void updateUserLocation(int, const GeoPoint& coord);
     void resetCoords();
     void zoomIn();
     void zoomOut();

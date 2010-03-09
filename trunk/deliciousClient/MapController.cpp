@@ -59,7 +59,7 @@ void MapController::setLocationSource( QGeoPositionInfoSource* loc )
     if (loc)
     {
         loc_svc = loc;
-        loc_svc->setUpdateInterval(3000);
+        loc_svc->setUpdateInterval(7000);
         connect(loc_svc, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(translateLocationSignal(const QGeoPositionInfo&)));
         loc_svc->startUpdates();
         if (getSession())
@@ -71,7 +71,8 @@ void MapController::setLocationSource( QGeoPositionInfoSource* loc )
 
 void MapController::translateLocationSignal( const QGeoPositionInfo& info )
 {
-    GeoPoint location(info.coordinate().latitude(), info.coordinate().longitude());
+//    qDebug()<<"New geo coordinate: lat="<<info.coordinate().latitude()<<"; lng="<<info.coordinate().longitude();
+    GeoPoint location(info.coordinate().latitude() + 0.0014, info.coordinate().longitude() + 0.0065);
     emit currentLocationUpdate(location);
 }
 

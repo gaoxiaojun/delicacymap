@@ -33,9 +33,12 @@ MapViewBase::MapViewBase(QWidget *parent)
     setAttribute( Qt::WA_OpaquePaintEvent );// a small optimization
 }
 
-MapViewBase::~MapViewBase(){
-    delete scene;
+MapViewBase::~MapViewBase()
+{
+    if (self)
+        scene->removeItem(self);
     delete self;
+    delete scene;
 }
 
 void MapViewBase::setCache(ImageCache* imageCache){
@@ -405,11 +408,17 @@ void MapViewBase::setSelfLocation( const GeoPoint& coord )
     {
         self = new SelfMarkerItem;
         self->setZoom(zoomLevel);
+        scene->addItem(self);
     }
     self->setPos(coord);
 }
 
+void MapViewBase::updateUserLocation( int, const GeoPoint& coord )
+{
+
+}
+
 void MapViewBase::removeItem( ZoomSensitiveItem* item )
 {
-    scene->removeItem(item);  
+    scene->removeItem(item);
 }

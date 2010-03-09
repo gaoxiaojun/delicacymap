@@ -90,18 +90,22 @@ void Session::UserLocationUpdate( const GeoPoint& p )
     }
     if (!timer.isActive())
     {
-        timer.start(10000, this);
+        timer.start(30000, this);
     }
     infotoupdate->mutable_lastlocation()->set_latitude(p.lat.getDouble());
     infotoupdate->mutable_lastlocation()->set_longitude(p.lng.getDouble());
     info_isdirty = true;
     
     ProtocolBuffer::DMessage msg;
+    ProtocolBuffer::Location loc;
+    loc.set_latitude(p.lat.getDouble());
+    loc.set_longitude(p.lng.getDouble());
     msg.set_fromuser(getUser()->uid());
     msg.set_touser(0);
     msg.set_issystemmessage(true);
     msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
     msg.set_systemmessagetype(ProtocolBuffer::UserLocationUpdate);
+    msg.set_buffer(loc.SerializeAsString());
     getDataSource().SendMessage(&msg);
 }
 
