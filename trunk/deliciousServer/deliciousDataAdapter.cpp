@@ -25,6 +25,7 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_ConfirmMessage = NULL;
         prepared_GetCommentsOfRest_N = NULL;
         prepared_Login = NULL;
+        prepared_InsertComment = NULL;
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
@@ -54,6 +55,8 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "SELECT * "
             "FROM Users "
             "WHERE EmailAddress=? AND Password=?;");
+        prepared_InsertComment = dbconn->NewPreparedStatement(
+            "INSERT INTO Comments (UID, RID, DID, Comment, PhotoPath, AddTime, TimeZone) VALUES(?, ?, ?, ?, ?, datetime('now'), 8);");
     }
     catch (exception&)
     {
@@ -64,6 +67,7 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         delete prepared_Message;
         delete prepared_RestaurantWithinBound;
         delete prepared_ConfirmMessage;
+        delete prepared_InsertComment;
         throw;
     }
 }
@@ -71,10 +75,13 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
 deliciousDataAdapter::~deliciousDataAdapter(void)
 {
     delete dbconn;
+    delete prepared_GetCommentsOfRest_N;
+    delete prepared_Login;
     delete prepared_GetUserByUID;
     delete prepared_Message;
     delete prepared_RestaurantWithinBound;
     delete prepared_ConfirmMessage;
+    delete prepared_InsertComment;
 }
 
 deliciousDataAdapter* deliciousDataAdapter::GetInstance()
@@ -244,18 +251,23 @@ const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int 
     pantheios::log_INFORMATIONAL("PostCommentForRestaurant(",
         "rid=", pantheios::integer(rid),
         ",uid=", pantheios::integer(uid),
-        ",msg=", msg,
+        ",msg='", msg,
         "')");
     // Validate user Input!!!!!
     // user input, query might be very long.
-    char querystr[4096];
-    // single query run atomicity in sqlite, so this has no problem.
+    char querystr[500];
+    prepared_InsertComment->reset();
+    prepared_InsertComment->bindParameter(1, uid);
+    prepared_InsertComment->bindParameter(2, rid);
+    prepared_InsertComment->bindParameter(3);
+    prepared_InsertComment->bindParameter(4, msg);
+    if (image)
+        prepared_InsertComment->bindParameter(5);
+    else
+        prepared_InsertComment->bindParameter(5, *image);
+    dbconn->Execute(prepared_InsertComment);
     sprintf_s(querystr, sizeof(querystr),
-        "INSERT INTO Comments (UID, RID, Comment) VALUES(%d, %d, \"%s\");"
-        "SELECT * FROM Comments WHERE Comments.rowid = last_insert_rowid();"
-        , uid
-        , rid
-        , msg.c_str());
+        "SELECT * FROM Comments WHERE Comments.rowid = last_insert_rowid();");
     return DBResultWrap(dbconn->Execute(querystr), dbconn);
 }
 

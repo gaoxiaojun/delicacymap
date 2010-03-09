@@ -82,6 +82,6 @@ private://data
 
     // prepared statements
     DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage, *prepared_GetUserByUID, *prepared_GetCommentsOfRest_N;
-    DBPrepared* prepared_Login;
+    DBPrepared* prepared_Login, *prepared_InsertComment;
     DBContext *dbconn;
 };
