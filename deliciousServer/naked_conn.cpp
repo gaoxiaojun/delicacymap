@@ -230,6 +230,9 @@ MessageLite* ResultTypeForMethod(protorpc::FunctionID method_id)
     case protorpc::AddCommentForRestaurant:
         msg = new ::ProtocolBuffer::Comment;
         break;
+    case protorpc::UpdateUserInfo:
+        msg = new ::ProtocolBuffer::User;
+        break;
     default:
         pantheios::log_CRITICAL("Not handled method id!!!(Return type)");
     }
@@ -279,7 +282,7 @@ void naked_conn::handle_messaging()
     {
         message.Clear();
         message.ParseFromString(income.buffer());
-        if (message.IsInitialized() && message.fromuser() == linked_user && message.touser() != 0)  // Don't you mess with me. may need more validation here.
+        if (message.IsInitialized() && message.fromuser() == linked_user)  // Don't you mess with me. may need more validation here.
         {
             Messenger::GetInstance()->SendMessageToUser(&message);
         }

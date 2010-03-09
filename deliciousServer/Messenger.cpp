@@ -114,7 +114,7 @@ bool Messenger::ShouldForwardSystemMessage( ProtocolBuffer::DMessage* msg )
             SendMessageToUser(msg);
         }
     }
-    else
+    else if (msg->touser() != 0)
         shouldforward = true;
     return shouldforward;
 }
