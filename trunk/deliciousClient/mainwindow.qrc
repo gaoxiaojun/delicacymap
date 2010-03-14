@@ -1,13 +1,15 @@
 <RCC>
-  <qresource prefix="Icons" >
-    <file alias="add_favourite.png">Resources/image/add_favourite.png</file>
-    <file alias="add_friends.png">Resources/image/add_friends.png</file>
-    <file alias="background.png">Resources/image/background.png</file>
-    <file alias="favourite.png">Resources/image/favourite.png</file>
-    <file alias="submit_comments.png">Resources/image/submit_comments.png</file>
-    <file alias="view_comments.png">Resources/image/view_comments.png</file>
-    <file alias="view_friends.png">Resources/image/view_friends.png</file>
-    <file alias="marker.png">Resources/marker.png</file>
-    <file alias="arrow.png">Resources/arrow.png</file>
-  </qresource>
+    <qresource prefix="/Icons">
+        <file alias="add_favourite.png">Resources/image/add_favourite.png</file>
+        <file alias="add_friends.png">Resources/image/add_friends.png</file>
+        <file alias="background.png">Resources/image/background.png</file>
+        <file alias="favourite.png">Resources/image/favourite.png</file>
+        <file alias="submit_comments.png">Resources/image/submit_comments.png</file>
+        <file alias="view_comments.png">Resources/image/view_comments.png</file>
+        <file alias="view_friends.png">Resources/image/view_friends.png</file>
+        <file alias="marker.png">Resources/marker.png</file>
+        <file alias="arrow.png">Resources/arrow.png</file>
+        <file alias="zoomin.png">Resources/png-0675.png</file>
+        <file alias="zoomout.png">Resources/png-0676.png</file>
+    </qresource>
 </RCC>

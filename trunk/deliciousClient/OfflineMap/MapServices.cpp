@@ -3,6 +3,7 @@
 #include "JSON/json_spirit_writer_template.h"
 #include "google/protobuf/stubs/common.h"
 
+#include <QSystemNetworkInfo>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -16,9 +17,12 @@
 //    http://code.google.com/apis/maps/documentation/geocoding/index.html
 //    for information about GDirection
 //    try a query yourself and see what's in there!
+//    for information about cell tower location, see following
+//    http://www.anddev.org/poor_mans_gps_-_celltowerid_-_location_area_code_-lookup-t257.html
 //////////////////////////////////////////////////////////////////////////
 
 using namespace std;
+QTM_USE_NAMESPACE
 
 static const QString _APIKey("ABQIAAAAzZW9Kh-ejqMBSzkwxwi91RT3c6Xka6saTVQuYU1_pfXYA5CmJxS9Am9Z7YItvCYjbWHIjJKikswJ7Q");
 
@@ -26,6 +30,18 @@ static const QString _SearchURL("http://maps.google.com/maps?output=json&q=%1");
 static const QString _GeoCodeURL("http://maps.google.com/maps/geo?q=%2&output=json&sensor=false&key=%1&gl=cn");
 static const QString _RevGeoCodeURL("http://maps.google.com/maps/geo?q=%2,%3&output=json&sensor=false&key=%1&gl=cn");
 static const QString _GDirectionURL("http://maps.google.com/maps/nav?key=%1&output=js&doflg=ptj&q=from:%2 to:%3");
+static const QString _CellLocationURL("http://www.google.com/loc/json");
+
+static const QString _CellRequest("{"
+    "version\": \"1.1.0\","
+    "host\": \"maps.google.com\","
+    "cell_towers\": ["
+      "{"
+        "cell_id\": %1,"
+        "location_area_code\": %2,"
+        "mobile_country_code\": %3,"
+        "mobile_network_code\": %4"
+      "}]}");
 
 MapServices::MapServices(void)
 {
@@ -257,4 +273,15 @@ void MapServices::QueryRoute( const QString& from, const QString& to, QList<GeoP
     QNetworkReply* reply = network->get(request);
     resultCallbacks.insert(reply, callback);
     results.insert(reply, ret);
+}
+
+bool MapServices::LocationByCellID(google::protobuf::Closure* callback)
+{
+    QSystemNetworkInfo ninfo;
+    if (ninfo.currentMobileCountryCode().size() > 0 && ninfo.currentMobileNetworkCode().size() > 0)
+    {
+        QString requestbody = _CellRequest.arg(ninfo.cellId()).arg(ninfo.locationAreaCode()).arg(ninfo.currentMobileCountryCode(), ninfo.currentMobileNetworkCode());
+        QNetworkReply *reply = network->post(QNetworkRequest(QUrl(_CellLocationURL)), requestbody.toUtf8());
+    }
+    return false;
 }
