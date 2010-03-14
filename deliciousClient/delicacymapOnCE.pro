@@ -9,7 +9,8 @@ CONFIG += mobility
 CONFIG -= flat
 DEFINES += TIXML_USE_TICPP
 MOBILITY += location \
-    bearer
+    bearer \
+    systeminfo
 
 # Input
 win32:CONFIG += console
@@ -106,7 +107,8 @@ wince* {
             Gpsapi.lib \
             libprotobuf-lite_wince_release.lib \
             ../QtMobility/lib_wince/QtBearer.lib \
-            ../QtMobility/lib_wince/QtLocation.lib
+            ../QtMobility/lib_wince/QtLocation.lib \
+            ../QtMobility/lib_wince/QtSystemInfo.lib
     }
 }
 win32:!wince* { 
@@ -117,10 +119,12 @@ win32:!wince* {
     LIBS += Ws2_32.lib
     CONFIG(debug, debug|release):LIBS += libprotobuf-lite_win32_debug.lib \
                                          ../QtMobility/lib_win32/QtBearerd.lib \
-                                         ../QtMobility/lib_win32/QtLocationd.lib
+                                         ../QtMobility/lib_win32/QtLocationd.lib \
+                                         ../QtMobility/lib_win32/QtSystemInfod.lib
     else:LIBS += libprotobuf-lite_win32_release.lib \
                  ../QtMobility/lib_win32/QtBearer.lib \
-                 ../QtMobility/lib_win32/QtLocation.lib
+                 ../QtMobility/lib_win32/QtLocation.lib \
+                 ../QtMobility/lib_win32/QtSystemInfo.lib
 }
 symbian { 
     target.capability = networkservices
@@ -135,6 +139,6 @@ macx {
     OBJECTS_DIR = ./objs
 
     CONFIG += x86_64
-    LIBS += -lprotobuf -F../QtMobility/lib_macx -framework QtLocation -framework QtBearer
+    LIBS += -lprotobuf -F../QtMobility/lib_macx -framework QtLocation -framework QtBearer -framework QtSystemInfo
     RESOURCES += mainwindow.qrc
 }
