@@ -261,7 +261,7 @@ const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int 
     prepared_InsertComment->bindParameter(2, rid);
     prepared_InsertComment->bindParameter(3);
     prepared_InsertComment->bindParameter(4, msg);
-    if (image)
+    if (!image)
         prepared_InsertComment->bindParameter(5);
     else
         prepared_InsertComment->bindParameter(5, *image);

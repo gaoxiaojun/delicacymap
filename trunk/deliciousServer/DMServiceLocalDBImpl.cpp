@@ -220,9 +220,14 @@ void DMServiceLocalDBImpl::AddCommentForRestaurant( ::google::protobuf::RpcContr
         if (!ret.empty())
         {
             const DBRow& newcomment = ret.getResult()->GetRow(0);
+            response->set_rid( newcomment.GetValueAs<int>("RID") );
             response->set_uid( newcomment.GetValueAs<int>("UID") );
+            if (!newcomment["DID"].empty())
+                response->set_did( newcomment.GetValueAs<int>("DID") );
             response->set_content( newcomment["Comment"] );
             response->mutable_timestamp()->set_timestamp( newcomment["AddTime"] );
+//             if (!newcomment["PhotoPath"].empty())
+//                 response->set_image(newcomment["PhotoPath"]);
         }
         else
         {
@@ -365,7 +370,11 @@ void DMServiceLocalDBImpl::GetCommentsCallback( const DBRow& row, ProtocolBuffer
     newc->set_content(row["Comment"]);
     newc->set_uid(row.GetValueAs<int>("UID"));
     newc->set_rid(row.GetValueAs<int>("RID"));
+    if (!row["DID"].empty())
+        newc->set_did(row.GetValueAs<int>("DID"));
     newc->mutable_timestamp()->set_timestamp(row["AddTime"]);
+//     if (!row["PhotoPath"].empty())
+//         newc->set_image(row["PhotoPath"]);
     ProtubufDBRowConversion::Convert(row, *newc->mutable_userinfo());
 }
 
