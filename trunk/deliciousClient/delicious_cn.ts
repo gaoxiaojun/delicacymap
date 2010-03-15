@@ -62,31 +62,31 @@ zoom level: %3
     </message>
     <message>
         <location filename="mainwindow.ui" line="111"/>
-        <location filename="mainwindow.ui" line="442"/>
+        <location filename="mainwindow.ui" line="471"/>
         <source>A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="137"/>
-        <location filename="mainwindow.ui" line="447"/>
+        <location filename="mainwindow.ui" line="476"/>
         <source>B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="163"/>
-        <location filename="mainwindow.ui" line="452"/>
+        <location filename="mainwindow.ui" line="481"/>
         <source>C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="192"/>
-        <location filename="mainwindow.ui" line="457"/>
+        <location filename="mainwindow.ui" line="486"/>
         <source>D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="244"/>
-        <location filename="mainwindow.ui" line="462"/>
+        <location filename="mainwindow.ui" line="491"/>
         <source>E</source>
         <translation type="unfinished"></translation>
     </message>
@@ -101,59 +101,79 @@ zoom level: %3
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="361"/>
+        <location filename="mainwindow.ui" line="345"/>
+        <source>我要评论</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="mainwindow.ui" line="384"/>
         <source>餐厅推荐</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="366"/>
+        <location filename="mainwindow.ui" line="389"/>
         <source>近期优惠</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="371"/>
+        <location filename="mainwindow.ui" line="394"/>
         <source>我的收藏</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="385"/>
-        <location filename="mainwindow.ui" line="405"/>
+        <location filename="mainwindow.ui" line="408"/>
+        <location filename="mainwindow.ui" line="428"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="419"/>
-        <location filename="mainwindow.ui" line="429"/>
+        <location filename="mainwindow.ui" line="445"/>
+        <location filename="mainwindow.ui" line="458"/>
         <source>PushButton</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="467"/>
+        <location filename="mainwindow.ui" line="496"/>
         <source>L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="472"/>
+        <location filename="mainwindow.ui" line="501"/>
         <source>R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="477"/>
+        <location filename="mainwindow.ui" line="506"/>
         <source>PL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="482"/>
+        <location filename="mainwindow.ui" line="511"/>
         <source>PR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="253"/>
+        <location filename="mainwindow.ui" line="516"/>
+        <location filename="mainwindow.ui" line="519"/>
+        <source>Commit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="522"/>
+        <source>Ctrl+Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Current Location:</source>
+        <translation type="obsolete">当前位置：</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="255"/>
+        <source>Current Location: </source>
         <translation type="unfinished">当前位置：</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="267"/>
+        <location filename="mainwindow.cpp" line="269"/>
         <source>%1 is asking your help to guide him.</source>
         <translation type="unfinished">%1希望请你帮助他指引一条路径.</translation>
     </message>
@@ -161,7 +181,7 @@ zoom level: %3
 <context>
     <name>MapController</name>
     <message>
-        <location filename="MapController.cpp" line="139"/>
+        <location filename="MapController.cpp" line="140"/>
         <source>Do you want to send this route back to %1?.</source>
         <translation type="unfinished">你希望把导航的结果返回给%1吗?</translation>
     </message>
