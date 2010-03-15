@@ -118,12 +118,18 @@ void MapDataSource::GetCommentsOfRestaurantSince( int rid, const std::string& da
     query.mutable_time()->set_timestamp(datetime);
     GetCommentsOfUserSince(&query, clist, done);
 }
-
 void MapDataSource::AddCommentForRestaurant( ProtocolBuffer::Query *query, ProtocolBuffer::Comment *comment, google::protobuf::Closure *done )
 {
     channel->CallMethod(protorpc::AddCommentForRestaurant, query, comment, done);
 }
-
+void MapDataSource::AddCommentForRestaurant(int rid,int uid,const std::string & content,ProtocolBuffer::Comment* comment,google::protobuf::Closure *done)
+{
+    query.Clear();
+    query.set_uid(uid);
+    query.set_rid(rid);
+    query.set_msg(content.c_str());
+    AddCommentForRestaurant(&query,comment,done);
+}
 void MapDataSource::UserLogin( const std::string& useremailaddr, const std::string& password, ProtocolBuffer::User *usr, google::protobuf::Closure *done )
 {
     query.Clear();

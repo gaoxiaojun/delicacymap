@@ -75,7 +75,6 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     int index = this->m_ui->stackedWidget->insertWidget(0,navi);
     qDebug()<<index<<endl;
     this->m_ui->stackedWidget->setCurrentWidget(navi);
-
     changeSession(s);
 
     interfaceTransit_map();
@@ -149,6 +148,7 @@ void MainWindow::clearConnections()
 	this->m_ui->actionR->disconnect();
 	this->m_ui->actionPL->disconnect();
 	this->m_ui->actionPR->disconnect();
+
 }
 
 void MainWindow::interfaceTransit_map()
@@ -167,12 +167,13 @@ void MainWindow::interfaceTransit_map()
     m_ui->toolButton_C->setVisible(true);
     m_ui->toolButton_D->setVisible(true);
     m_ui->toolButton_E->setVisible(true);
-
+    
     connect(m_ui->actionR,SIGNAL(triggered()),this->navi,SLOT(zoomIn()));
     connect(m_ui->actionL,SIGNAL(triggered()),this->navi,SLOT(zoomOut()));
     connect(m_ui->actionA,SIGNAL(triggered()),this,SLOT(interfaceTransit_comment()));
     connect(m_ui->actionB,SIGNAL(triggered()),this,SLOT(interfaceTransit_favourite()));
     connect(m_ui->actionPL, SIGNAL(triggered()), this, SLOT(close()));
+    connect(m_ui->actionCommit,SIGNAL(triggered()),this,SLOT(commentCommited()));
 }
 
 
@@ -227,7 +228,7 @@ void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
 {
     QString str;
       
-    str=QString("餐厅名称:     %1").arg(showrestaurant->restaurant.name().c_str());
+    str= QString("餐厅名称:     %1").arg(showrestaurant->restaurant.name().c_str());
     m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(str.toStdString().c_str())));
     
     str=QString("平均价格:     %1 RMB").arg(showrestaurant->restaurant.averageexpense().amount());
@@ -251,7 +252,7 @@ void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
 
 void MainWindow::UpdateCurrentLocation( QString s )
 {
-    m_ui->label_currentlocation->setText(tr("Current Location:") + s);
+    m_ui->label_currentlocation->setText(tr("Current Location: ") + s);
 }
 
 void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
@@ -318,3 +319,52 @@ void MainWindow::showUser(const int num,ProtocolBuffer::User* usr)
     delete usr;
 }
 
+void MainWindow::commentSuccessed(void)
+{
+    qDebug()<<"Successed!!!";
+
+//     QMessageBox msgbox;
+//     msgbox.setIcon(QMessageBox::Information);
+//     msgbox.setText("Comment has been added!");
+//     msgbox.setWindowTitle("OK");
+//     msgbox.setStandardButtons(QMessageBox::Yes);
+//     msgbox.setDefaultButton(QMessageBox::Yes);
+//     msgbox.exec();
+    
+}
+
+void MainWindow::commentCommited(void)
+{
+        //先取得当前的用户名,然后再提交
+    QString content=this->m_ui->textComment->toPlainText();
+    std::string usrname=this->getSession()->getUser()->nickname();
+    if (!content.isEmpty())
+    {   
+        QString str=QString("%1:   %2").arg(usrname.c_str()).arg(content);
+        m_ui->list_latestcomment->addItem(new QListWidgetItem(str));
+        m_ui->textComment->setText("");
+        //提交给服务器
+        ProtocolBuffer::Comment *newComment=new ProtocolBuffer::Comment();
+
+        google::protobuf::Closure* commentadded;
+        QByteArray utf8Content = content.toUtf8();
+        std::string contentStr(utf8Content.constData(), utf8Content.size());
+        commentadded=google::protobuf::NewCallback(this,&MainWindow::commentSuccessed);
+        this->getSession()->getDataSource().AddCommentForRestaurant(
+            this->showrestaurant->restaurant.rid(),
+            this->getSession()->getUser()->uid(),
+            contentStr,newComment,commentadded);
+    }
+    else
+    {
+        QMessageBox msgbox;
+        msgbox.setIcon(QMessageBox::Warning);
+        msgbox.setText("Comment Cannot Be Empty!");
+        msgbox.setWindowTitle("ERROR");
+        msgbox.setStandardButtons(QMessageBox::Yes);
+        msgbox.setDefaultButton(QMessageBox::Yes);
+        msgbox.exec();
+    }
+
+}
+  

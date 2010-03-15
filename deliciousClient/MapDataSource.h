@@ -29,6 +29,7 @@ public:
     void GetLastestCommentsByUser(int uid, int max_entry, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
     void GetCommentsOfUserSince(int uid, const std::string& datetime, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
     void GetCommentsOfRestaurantSince(int rid, const std::string& datetime, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
+    void AddCommentForRestaurant(int rid,int uid,const std::string & content,ProtocolBuffer::Comment* comment,google::protobuf::Closure *done);   
     void UserLogin(const std::string& useremailaddr, const std::string& password, ProtocolBuffer::User *, google::protobuf::Closure *);
     void GetUser(int uid, ProtocolBuffer::User *, google::protobuf::Closure *);
     void GetRelatedUsers(int uid, int relation, ProtocolBuffer::UserList *, google::protobuf::Closure *);

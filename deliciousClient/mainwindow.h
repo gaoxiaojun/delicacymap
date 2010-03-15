@@ -8,7 +8,7 @@
 #include "OfflineMap/Downloader.h"
 #include "MapController.h"
 
-#define maxlisting 10
+#define maxlisting 40
 class ProtobufDataEvent;
 class Session;
 class GeoBound;
@@ -50,14 +50,17 @@ public slots:
     void interfaceTransit_map();
     void interfaceTransit_comment();
     void interfaceTransit_favourite();
+    //设置成私有成员也可以
 	void RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*);
 	void showLatestComments( ProtocolBuffer::CommentList* );
 	void showUser(const int, ProtocolBuffer::User*);
+    void commentCommited(void);
+    void commentSuccessed(void);
 private slots:
     void UpdateCurrentLocation(QString);
     void printMessage(const ProtocolBuffer::DMessage*);
     void handleRequestRouting(int, const QString&, const QString&);
-
+    
 private:
     Ui::MainWindow *m_ui;
     MapViewBase *navi;
