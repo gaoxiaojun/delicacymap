@@ -56,6 +56,18 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     imageCache.setCacheDBPath("tiles.map");
 #endif
     navi->setCache(&imageCache);
+    QPushButton *btn = new QPushButton(QIcon(":/Icons/zoomin.png"), "", navi);
+    btn->setGeometry(8, 8, 64, 64);
+    btn->setIconSize(QSize(64, 64));
+    btn->setFlat(true);
+    QPushButton *btn1 = new QPushButton(QIcon(":/Icons/zoomout.png"), "", navi);
+    btn1->setGeometry(80, 8, 64, 64);
+    btn1->setIconSize(QSize(64, 64));
+    btn1->setFlat(true);
+    connect(navi, SIGNAL(canZoomIn(bool)), btn, SLOT(setEnabled(bool)));
+    connect(navi, SIGNAL(canZoomOut(bool)), btn1, SLOT(setEnabled(bool)));
+    connect(btn, SIGNAL(clicked()), navi, SLOT(zoomIn()));
+    connect(btn1, SIGNAL(clicked()), navi, SLOT(zoomOut()));
 
     controller.setMapView(navi);
     controller.setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
@@ -123,7 +135,6 @@ void MainWindow::changeSession( Session *s )
         disconnect(&session->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), &controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
     }
     session = s;
-    //navi->changeSession(s);
     if (s)
     {
         connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
@@ -155,8 +166,6 @@ void MainWindow::interfaceTransit_map()
 {
     clearConnections();
 
-    m_ui->toolButton_L->setText("-");
-    m_ui->toolButton_R->setText("+");
     m_ui->pushButton_L->setText("Exit");
     m_ui->pushButton_R->setText("Lock map");
 
@@ -180,11 +189,6 @@ void MainWindow::interfaceTransit_map()
 void MainWindow::interfaceTransit_comment()
 {
     clearConnections();
-
-    m_ui->toolButton_L->setText("lock");
-    m_ui->toolButton_R->setText("delete");
-    m_ui->pushButton_L->setText("Back");
-    m_ui->pushButton_R->setText("Detail");
 
     m_ui->stackedWidget->setCurrentIndex(1);
     m_ui->tabWidget->setCurrentIndex(1);

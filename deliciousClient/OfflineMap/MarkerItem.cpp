@@ -60,5 +60,6 @@ const QPixmap& UserMarkerItem::UserIcon() const
 
 const QPixmap& SelfMarkerItem::UserIcon() const
 {
-    return UserMarkerItem::UserIcon();
+    static QPixmap image(":/Icons/selfMarker.png");
+    return image;
 }

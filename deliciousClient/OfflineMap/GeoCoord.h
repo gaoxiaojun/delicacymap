@@ -45,6 +45,13 @@ public:
     GeoCoord lat, lng;
 };
 
+class InaccurateGeoPoint
+{
+public:
+    GeoPoint p;
+    int accuracy;
+};
+
 class GeoBound
 {
 public:

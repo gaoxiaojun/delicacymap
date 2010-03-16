@@ -33,14 +33,14 @@ static const QString _GDirectionURL("http://maps.google.com/maps/nav?key=%1&outp
 static const QString _CellLocationURL("http://www.google.com/loc/json");
 
 static const QString _CellRequest("{"
-    "version\": \"1.1.0\","
-    "host\": \"maps.google.com\","
-    "cell_towers\": ["
+    "\"version\": \"1.1.0\","
+    "\"host\": \"maps.google.com\","
+    "\"cell_towers\": ["
       "{"
-        "cell_id\": %1,"
-        "location_area_code\": %2,"
-        "mobile_country_code\": %3,"
-        "mobile_network_code\": %4"
+        "\"cell_id\": %1,"
+        "\"location_area_code\": %2,"
+        "\"mobile_country_code\": %3,"
+        "\"mobile_network_code\": %4"
       "}]}");
 
 MapServices::MapServices(void)
@@ -137,6 +137,26 @@ bool ReadPoint(json_spirit::wObject& point, double& lat, double& lng )
 }
 
 inline static
+bool ReadLocation(json_spirit::wObject& location, InaccurateGeoPoint& geopoint)
+{
+    bool readSuccess = false;
+    json_spirit::wValue& lat = ReadSubItem(location, L"latitude");
+    json_spirit::wValue& lng = ReadSubItem(location, L"longitude");
+    json_spirit::wValue& acc = ReadSubItem(location, L"accuracy");
+    if (!lat.is_null() && !lng.is_null() && !acc.is_null()
+        && lat.type()==json_spirit::real_type
+        && lng.type()==json_spirit::real_type
+        && acc.type()==json_spirit::real_type)
+    {
+        readSuccess = true;
+        geopoint.p.lat.setDouble(lat.get_real());
+        geopoint.p.lng.setDouble(lng.get_real());
+        geopoint.accuracy = acc.get_real();
+    }
+    return readSuccess;
+}
+
+inline static
 bool ReadPlacementForCoordinate(json_spirit::wObject& object, double& lat, double& lng )
 {
     json_spirit::wArray& placemarkarray = ReadSubArray(object, L"Placemark");
@@ -193,7 +213,7 @@ void MapServices::ProcessJSONResult( QNetworkReply* reply )
     if (reply->isFinished())
     {
         const QVariant &header = reply->header(QNetworkRequest::ContentTypeHeader);
-        if (header.isValid() && header.toString().contains("text", Qt::CaseInsensitive))
+        if (header.isValid() && (header.toString().contains("javascript/text", Qt::CaseInsensitive) || header.toString().contains("application/json", Qt::CaseInsensitive)))
         {
             QByteArray buf = reply->read(1024 * 1024); // shouldn't be more than 1 MB, if it does, probably something went wrong
             QString jsonret = QString::fromUtf8(buf.constData(), buf.size());
@@ -205,9 +225,14 @@ void MapServices::ProcessJSONResult( QNetworkReply* reply )
 //                 qDebug()<<QString::fromStdWString(output);
 // #endif
                 json_spirit::wObject &rootobj = root.get_obj();
+                json_spirit::wObject &locationObj = ReadSubObject(rootobj, L"location");
                 QString originalquery, requesttype;
                 int returncode = 0;
-                if (ReadStatus(rootobj, returncode, requesttype) && returncode==200 && ReadPropertyValue(rootobj, L"name", originalquery))
+                if (locationObj.size() > 0)
+                {
+                    ReadLocation(locationObj, *result.acoord);
+                }
+                else if (ReadStatus(rootobj, returncode, requesttype) && returncode==200 && ReadPropertyValue(rootobj, L"name", originalquery))
                 {
                     if (requesttype == "geocode")
                     {
@@ -275,13 +300,19 @@ void MapServices::QueryRoute( const QString& from, const QString& to, QList<GeoP
     results.insert(reply, ret);
 }
 
-bool MapServices::LocationByCellID(google::protobuf::Closure* callback)
+bool MapServices::LocationByCellID(InaccurateGeoPoint& coord, google::protobuf::Closure* callback)
 {
     QSystemNetworkInfo ninfo;
     if (ninfo.currentMobileCountryCode().size() > 0 && ninfo.currentMobileNetworkCode().size() > 0)
     {
+        ServiceResponse ret;
+        ret.acoord = &coord;
         QString requestbody = _CellRequest.arg(ninfo.cellId()).arg(ninfo.locationAreaCode()).arg(ninfo.currentMobileCountryCode(), ninfo.currentMobileNetworkCode());
+        //QString requestbody = _CellRequest.arg(20442).arg(6015);
         QNetworkReply *reply = network->post(QNetworkRequest(QUrl(_CellLocationURL)), requestbody.toUtf8());
+        resultCallbacks.insert(reply, callback);
+        results.insert(reply, ret);
+        return true;
     }
     return false;
 }
