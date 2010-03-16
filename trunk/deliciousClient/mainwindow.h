@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+ï»¿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
@@ -50,10 +50,10 @@ public slots:
     void interfaceTransit_map();
     void interfaceTransit_comment();
     void interfaceTransit_favourite();
-    //ÉèÖÃ³ÉË½ÓĞ³ÉÔ±Ò²¿ÉÒÔ
-	void RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*);
-	void showLatestComments( ProtocolBuffer::CommentList* );
-	void showUser(const int, ProtocolBuffer::User*);
+    //è®¾ç½®æˆç§æœ‰æˆå‘˜ä¹Ÿå¯ä»¥
+    void RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*);
+    void showLatestComments( ProtocolBuffer::CommentList* );
+    void showUser(const int, ProtocolBuffer::User*);
     void commentCommited(void);
     void commentSuccessed(void);
 private slots:

@@ -105,6 +105,7 @@ wince* {
         LIBS += bthutil.lib \
             ws2.lib \
             Gpsapi.lib \
+            cellcore.lib \
             libprotobuf-lite_wince_release.lib \
             ../QtMobility/lib_wince/QtBearer.lib \
             ../QtMobility/lib_wince/QtLocation.lib \
