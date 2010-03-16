@@ -28,6 +28,10 @@ public:
     void insertDecorator(Decorator* decorator);
     void appendDecorator(Decorator* decorator);
 
+    void lockMap();
+    void unlockMap();
+    bool isLocked() { return mapIsLocked; }
+
     void removeItem(ZoomSensitiveItem*);
 public slots:
     void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
@@ -86,6 +90,7 @@ private:
     Decorator decorator;
     GeoBound currentBound;
     bool handleReleaseEvent, handlePressEvent, handleDblClickEvent, handleMoveEvent;
+    bool mapIsLocked;
 };
 
 #endif

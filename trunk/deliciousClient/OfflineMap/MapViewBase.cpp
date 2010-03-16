@@ -21,6 +21,7 @@ MapViewBase::MapViewBase(QWidget *parent)
 :QGraphicsView(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0), self(NULL)
 {
     handleDblClickEvent = handleMoveEvent = handlePressEvent = handleReleaseEvent = true;
+    mapIsLocked = false;
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     last_xcenter = xCenter;
     last_ycenter = yCenter;
@@ -39,6 +40,28 @@ MapViewBase::~MapViewBase()
         scene->removeItem(self);
     delete self;
     delete scene;
+}
+
+void MapViewBase::lockMap()
+{
+    if (!isLocked())
+    {
+        mapIsLocked = true;
+        this->setForegroundBrush(QBrush(QColor(50, 50, 50, 150)));
+        emit canZoomIn(false);
+        emit canZoomOut(false);
+    }
+}
+
+void MapViewBase::unlockMap()
+{
+    if (isLocked())
+    {
+        mapIsLocked = false;
+        this->setForegroundBrush(Qt::NoBrush);
+        emit canZoomIn(zoomLevel < CoordsHelper::MaxZoomLevel);
+        emit canZoomOut(zoomLevel > 0);
+    }
 }
 
 void MapViewBase::setCache(ImageCache* imageCache){
@@ -67,7 +90,7 @@ void MapViewBase::adjustCenter(){
 }
 
 void MapViewBase::setZoomLevel(int level){
-    if ((level >= 0) && (level <= CoordsHelper::MaxZoomLevel)){
+    if (!isLocked() && (level >= 0) && (level <= CoordsHelper::MaxZoomLevel)){
         if (zoomLevel != level){
             adjustCenter();
             xCenter = CoordsHelper::remapToPow2(xCenter, zoomLevel, level);
@@ -82,13 +105,13 @@ void MapViewBase::setZoomLevel(int level){
             centerOn(xCenter, yCenter);
             //repaint();
         }
-        emit canZoomIn(level < 16);
+        emit canZoomIn(level < CoordsHelper::MaxZoomLevel);
         emit canZoomOut(level > 0);
     }
 }
 
 void MapViewBase::setZoomLevelAt(int level, int x, int y){
-    if ((level >= 0) && (level <= CoordsHelper::MaxZoomLevel)){
+    if (!isLocked() && (level >= 0) && (level <= CoordsHelper::MaxZoomLevel)){
         if (zoomLevel != level){
             int deltaX = x - width()/2;
             int deltaY = y - height()/2;
@@ -108,7 +131,7 @@ void MapViewBase::setZoomLevelAt(int level, int x, int y){
             scene->setSceneRect(0, 0, 1<<(zoomLevel+CoordsHelper::TilePower2), 1<<(zoomLevel+CoordsHelper::TilePower2));
             centerOn(xCenter, yCenter);
         }
-        emit canZoomIn(level < 16);
+        emit canZoomIn(level < CoordsHelper::MaxZoomLevel);
         emit canZoomOut(level > 0);
     }
 }
@@ -136,11 +159,14 @@ struct TileCoord{
 };
 
 void MapViewBase::moveBy(int x, int y){
-    xCenter -= x;
-    yCenter -= y;
-    adjustCenter();
-    updateBound();
-    centerOn(xCenter, yCenter);
+    if (!isLocked())
+    {
+        xCenter -= x;
+        yCenter -= y;
+        adjustCenter();
+        updateBound();
+        centerOn(xCenter, yCenter);
+    }
 }
 
 void MapViewBase::setDecorator(Decorator *newDecorator){
@@ -268,10 +294,13 @@ QPoint MapViewBase::getCoords(){
 }
 
 void MapViewBase::setCoords(const QPoint& coords){
-    xCenter = CoordsHelper::remapToPow2(coords.x(), CoordsHelper::MaxZoomLevel, zoomLevel);
-    yCenter = CoordsHelper::remapToPow2(coords.y(), CoordsHelper::MaxZoomLevel, zoomLevel);
-    updateBound();
-    centerOn(xCenter, yCenter);
+    if (!isLocked())
+    {
+        xCenter = CoordsHelper::remapToPow2(coords.x(), CoordsHelper::MaxZoomLevel, zoomLevel);
+        yCenter = CoordsHelper::remapToPow2(coords.y(), CoordsHelper::MaxZoomLevel, zoomLevel);
+        updateBound();
+        centerOn(xCenter, yCenter);
+    }
 }
 
 void MapViewBase::resetCoords(){

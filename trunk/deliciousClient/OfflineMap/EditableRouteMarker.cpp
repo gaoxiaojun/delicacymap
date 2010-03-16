@@ -29,9 +29,9 @@ void RouteItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWid
 {
     QPen pen;
     if (isEditing)
-        pen.setColor(QColor(255, 40, 40));
+        pen.setColor(QColor(255, 40, 40, 160));
     else
-        pen.setColor(QColor(25, 255, 50));
+        pen.setColor(QColor(25, 255, 50, 160));
     pen.setWidth(3);
     painter->setPen(pen);
     painter->drawPolyline(sceneCoords);
