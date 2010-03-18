@@ -146,7 +146,7 @@
         <location filename="MapController.cpp" line="140"/>
         <source>Do you want to send this route back to %1?</source>
         <oldsource>Do you want to send this route back to %1?.</oldsource>
-        <translation type="unfinished">你希望把导航的结果返回给%1吗?</translation>
+        <translation>你希望把导航的结果返回给%1吗?</translation>
     </message>
 </context>
 <context>
@@ -159,12 +159,12 @@
     <message>
         <location filename="RestaurantInfoForm.ui" line="113"/>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>显示评论</translation>
     </message>
     <message>
         <location filename="RestaurantInfoForm.ui" line="126"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>添加评论</translation>
     </message>
 </context>
 <context>
