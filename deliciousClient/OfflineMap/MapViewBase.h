@@ -31,8 +31,15 @@ public:
     void lockMap();
     void unlockMap();
     bool isLocked() { return mapIsLocked; }
-
+    void addBlockingPanel(QWidget*);
     void removeItem(ZoomSensitiveItem*);
+
+    void setCache(ImageCache* cache);
+    int getZoomLevel();
+    QPoint getCoords();
+    void setCoords(const QPoint& coords);
+    void setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitude);
+    void getGeoCoords(GeoCoord& latitude, GeoCoord& longitude) const;
 public slots:
     void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
     RouteItem* addRoute(const QList<GeoPoint>&);
@@ -47,14 +54,8 @@ public slots:
     void setZoomLevel(int level);
     void setZoomLevelAt(int level, int x, int y);
     void moveBy(int x, int y);
-    void setCache(ImageCache* cache);
     void downloadMissingImages();
     void scheduleRepaint();
-    int getZoomLevel();
-    QPoint getCoords();
-    void setCoords(const QPoint& coords);
-    void setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitude);
-    void getGeoCoords(GeoCoord& latitude, GeoCoord& longitude) const;
 signals:
     void canZoomIn(bool status);
     void canZoomOut(bool status);

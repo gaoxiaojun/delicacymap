@@ -154,7 +154,7 @@ void CoordsDecorator::paintEvent(QPainter &painter)
         QPoint coords = target->getCoords();
         GeoCoord lat, lng;
         target->getGeoCoords(lat, lng);
-        str += QString(tr("coordinates:\n    x: %1\n    y: %2\ngeo coordinates:\n   lat: %4\n   lng: %5\nzoom level: %3\n"))
+        str += QString("coordinates:\n    x: %1\n    y: %2\ngeo coordinates:\n   lat: %4\n   lng: %5\nzoom level: %3\n")
             .arg(coords.x()).arg(coords.y())
             .arg(target->getZoomLevel())
             .arg(lat.getDouble())

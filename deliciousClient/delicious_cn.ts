@@ -2,55 +2,32 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="zh_CN">
 <context>
-    <name>CoordsDecorator</name>
-    <message>
-        <location filename="OfflineMap/MapDecorators.cpp" line="157"/>
-        <source>coordinates:
-    x: %1
-    y: %2
-geo coordinates:
-   lat: %4
-   lng: %5
-zoom level: %3
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ImageCache</name>
-    <message>
-        <location filename="OfflineMap/ImageCache.cpp" line="142"/>
-        <source>Downloading...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>LoginWindow</name>
     <message>
         <location filename="LoginWindow.cpp" line="35"/>
         <source>Connecting server....</source>
-        <translation type="unfinished">正在连接服务器...</translation>
+        <translation>正在连接服务器...</translation>
     </message>
     <message>
         <location filename="LoginWindow.cpp" line="50"/>
         <source>Verifing username/password....</source>
-        <translation type="unfinished">正在登陆...</translation>
+        <translation>正在登陆...</translation>
     </message>
     <message>
         <location filename="LoginWindow.cpp" line="58"/>
         <source>Error connecting server.</source>
-        <translation type="unfinished">连接服务器失败.</translation>
+        <translation>连接服务器失败.</translation>
     </message>
     <message>
         <location filename="LoginWindow.cpp" line="78"/>
         <source>Login succeeded....</source>
         <oldsource>Login suceeded....</oldsource>
-        <translation type="unfinished">登陆成功...</translation>
+        <translation>登陆成功...</translation>
     </message>
     <message>
         <location filename="LoginWindow.cpp" line="84"/>
         <source>Login failed! Wrong username or password!</source>
-        <translation type="unfinished">登陆失败！用户名或密码不正确!</translation>
+        <translation>登陆失败!用户名密码不匹配!</translation>
     </message>
 </context>
 <context>
@@ -61,129 +38,133 @@ zoom level: %3
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="111"/>
-        <location filename="mainwindow.ui" line="471"/>
+        <location filename="mainwindow.ui" line="44"/>
+        <location filename="mainwindow.ui" line="373"/>
         <source>A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="137"/>
-        <location filename="mainwindow.ui" line="476"/>
+        <location filename="mainwindow.ui" line="70"/>
+        <location filename="mainwindow.ui" line="378"/>
         <source>B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="163"/>
-        <location filename="mainwindow.ui" line="481"/>
+        <location filename="mainwindow.ui" line="96"/>
+        <location filename="mainwindow.ui" line="383"/>
         <source>C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="192"/>
-        <location filename="mainwindow.ui" line="486"/>
+        <location filename="mainwindow.ui" line="125"/>
+        <location filename="mainwindow.ui" line="388"/>
         <source>D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="244"/>
-        <location filename="mainwindow.ui" line="491"/>
+        <location filename="mainwindow.ui" line="177"/>
+        <location filename="mainwindow.ui" line="393"/>
         <source>E</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="312"/>
+        <location filename="mainwindow.ui" line="245"/>
         <source>菜式收藏</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="317"/>
+        <location filename="mainwindow.ui" line="250"/>
         <source>餐厅信息</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="345"/>
+        <location filename="mainwindow.ui" line="278"/>
         <source>我要评论</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="384"/>
+        <location filename="mainwindow.ui" line="317"/>
         <source>餐厅推荐</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="389"/>
+        <location filename="mainwindow.ui" line="322"/>
         <source>近期优惠</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="394"/>
+        <location filename="mainwindow.ui" line="327"/>
         <source>我的收藏</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="408"/>
-        <location filename="mainwindow.ui" line="428"/>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="445"/>
-        <location filename="mainwindow.ui" line="458"/>
+        <location filename="mainwindow.ui" line="347"/>
+        <location filename="mainwindow.ui" line="360"/>
         <source>PushButton</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="496"/>
+        <location filename="mainwindow.ui" line="398"/>
         <source>L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="501"/>
+        <location filename="mainwindow.ui" line="403"/>
         <source>R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="506"/>
+        <location filename="mainwindow.ui" line="408"/>
         <source>PL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="511"/>
+        <location filename="mainwindow.ui" line="413"/>
         <source>PR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="516"/>
-        <location filename="mainwindow.ui" line="519"/>
+        <location filename="mainwindow.ui" line="418"/>
+        <location filename="mainwindow.ui" line="421"/>
         <source>Commit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="522"/>
+        <location filename="mainwindow.ui" line="424"/>
         <source>Ctrl+Return</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Current Location:</source>
-        <translation type="obsolete">当前位置：</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="255"/>
-        <source>Current Location: </source>
-        <translation type="unfinished">当前位置：</translation>
-    </message>
-    <message>
         <location filename="mainwindow.cpp" line="269"/>
         <source>%1 is asking your help to guide him.</source>
-        <translation type="unfinished">%1希望请你帮助他指引一条路径.</translation>
+        <translation>%1希望请你帮助他指引一条路径.</translation>
     </message>
 </context>
 <context>
     <name>MapController</name>
     <message>
         <location filename="MapController.cpp" line="140"/>
-        <source>Do you want to send this route back to %1?.</source>
+        <source>Do you want to send this route back to %1?</source>
+        <oldsource>Do you want to send this route back to %1?.</oldsource>
         <translation type="unfinished">你希望把导航的结果返回给%1吗?</translation>
+    </message>
+</context>
+<context>
+    <name>RestaurantInfoForm</name>
+    <message>
+        <location filename="RestaurantInfoForm.ui" line="68"/>
+        <source>Price:</source>
+        <translation>价格:</translation>
+    </message>
+    <message>
+        <location filename="RestaurantInfoForm.ui" line="113"/>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="RestaurantInfoForm.ui" line="126"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -191,7 +172,7 @@ zoom level: %3
     <message>
         <location filename="loginWindow.ui" line="14"/>
         <source>Login to delicacyMap</source>
-        <translation type="unfinished">登陆系统</translation>
+        <translation>登陆系统</translation>
     </message>
     <message utf8="true">
         <location filename="loginWindow.ui" line="47"/>

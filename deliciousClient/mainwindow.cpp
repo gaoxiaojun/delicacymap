@@ -4,7 +4,8 @@
 #include "QTProtobufWaitResponse.h"
 #include "MapController.h"
 #include "Session.h"
-#include "../protocol-buffer-src/MapProtocol.pb.h"
+#include "MapProtocol.pb.h"
+#include "RestaurantInfoForm.h"
 #include "OfflineMap/MapViewBase.h"
 #include "OfflineMap/MapDecorators.h"
 #include "OfflineMap/MapServices.h"
@@ -56,18 +57,18 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     imageCache.setCacheDBPath("tiles.map");
 #endif
     navi->setCache(&imageCache);
-    QPushButton *btn = new QPushButton(QIcon(":/Icons/zoomin.png"), "", navi);
-    btn->setGeometry(8, 8, 64, 64);
-    btn->setIconSize(QSize(64, 64));
-    btn->setFlat(true);
-    QPushButton *btn1 = new QPushButton(QIcon(":/Icons/zoomout.png"), "", navi);
-    btn1->setGeometry(80, 8, 64, 64);
-    btn1->setIconSize(QSize(64, 64));
-    btn1->setFlat(true);
-    connect(navi, SIGNAL(canZoomIn(bool)), btn, SLOT(setEnabled(bool)));
-    connect(navi, SIGNAL(canZoomOut(bool)), btn1, SLOT(setEnabled(bool)));
-    connect(btn, SIGNAL(clicked()), navi, SLOT(zoomIn()));
-    connect(btn1, SIGNAL(clicked()), navi, SLOT(zoomOut()));
+    btn_zoomIn = new QPushButton(QIcon(":/Icons/zoomin.png"), "", navi);
+    btn_zoomIn->setGeometry(8, 8, 64, 64);
+    btn_zoomIn->setIconSize(QSize(64, 64));
+    btn_zoomIn->setFlat(true);
+    btn_zoomOut = new QPushButton(QIcon(":/Icons/zoomout.png"), "", navi);
+    btn_zoomOut->setGeometry(80, 8, 64, 64);
+    btn_zoomOut->setIconSize(QSize(64, 64));
+    btn_zoomOut->setFlat(true);
+    connect(navi, SIGNAL(canZoomIn(bool)), btn_zoomIn, SLOT(setEnabled(bool)));
+    connect(navi, SIGNAL(canZoomOut(bool)), btn_zoomOut, SLOT(setEnabled(bool)));
+    connect(btn_zoomIn, SIGNAL(clicked()), navi, SLOT(zoomIn()));
+    connect(btn_zoomOut, SIGNAL(clicked()), navi, SLOT(zoomOut()));
 
     controller.setMapView(navi);
     controller.setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
@@ -254,11 +255,6 @@ void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
     delete list;
 }
 
-void MainWindow::UpdateCurrentLocation( QString s )
-{
-    m_ui->label_currentlocation->setText(tr("Current Location: ") + s);
-}
-
 void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
 {
     qDebug()<<"============================ Msg Received ==============================";
@@ -299,16 +295,20 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
 
 void MainWindow::RestaurantMarkerResponse(const ProtocolBuffer::Restaurant* res)
 {
-    showrestaurant=new showRestaurant;
-    showrestaurant->restaurant.CopyFrom(*res);
-    ProtocolBuffer::CommentList* commentlist=new ProtocolBuffer::CommentList();
-  	google::protobuf::Closure* commentDataArrive;
-    commentDataArrive=google::protobuf::NewCallback(this,&MainWindow::showLatestComments,commentlist);
-    session->getDataSource().GetLastestCommentsOfRestaurant(res->rid(), 20, commentlist, commentDataArrive);  
-   
-    m_ui->list_latestcomment->clear();
-    m_ui->stackedWidget->setCurrentIndex(1);
-    interfaceTransit_comment();
+//    showrestaurant=new showRestaurant;
+//    showrestaurant->restaurant.CopyFrom(*res);
+//    ProtocolBuffer::CommentList* commentlist=new ProtocolBuffer::CommentList();
+//  	google::protobuf::Closure* commentDataArrive;
+//    commentDataArrive=google::protobuf::NewCallback(this,&MainWindow::showLatestComments,commentlist);
+//    session->getDataSource().GetLastestCommentsOfRestaurant(res->rid(), 20, commentlist, commentDataArrive);
+//
+//    m_ui->list_latestcomment->clear();
+//    m_ui->stackedWidget->setCurrentIndex(1);
+    RestaurantInfoForm* form = new RestaurantInfoForm();
+    form->setRestaurant(res);
+    form->setSession(getSession());
+    navi->addBlockingPanel(form);
+//    interfaceTransit_comment();
 }
 
 void MainWindow::showUser(const int num,ProtocolBuffer::User* usr)

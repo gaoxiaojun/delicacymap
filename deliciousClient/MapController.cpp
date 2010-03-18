@@ -137,7 +137,7 @@ void MapController::finishedRouteEditing( RouteItem* item )
     if ( item->getRouteReceiverWhenDoneEditing() )
     {
         QMessageBox msgbox;
-        QString text = tr("Do you want to send this route back to %1?.").arg(QString::fromUtf8(getSession()->getUser(item->getRouteReceiverWhenDoneEditing())->nickname().c_str()));
+        QString text = tr("Do you want to send this route back to %1?").arg(QString::fromUtf8(getSession()->getUser(item->getRouteReceiverWhenDoneEditing())->nickname().c_str()));
         msgbox.setIcon(QMessageBox::Question);
         msgbox.setText(text);
         msgbox.setWindowTitle("Finished editing route");

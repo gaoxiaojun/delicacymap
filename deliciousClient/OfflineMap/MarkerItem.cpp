@@ -1,8 +1,11 @@
 #include "MarkerItem.h"
 #include "CoordsHelper.h"
 #include "MapProtocol.pb.h"
+#include "OfflineMap/MapViewBase.h"
+#include <QGraphicsSceneResizeEvent>
 #include <QPainter>
 #include <QPixmap>
+#include <QWidget>
 #include <boost/foreach.hpp>
 
 void ZoomSensitiveItem::setZoom( int zoom )
@@ -62,4 +65,29 @@ const QPixmap& SelfMarkerItem::UserIcon() const
 {
     static QPixmap image(":/Icons/selfMarker.png");
     return image;
+}
+
+PanelWidget::PanelWidget(MapViewBase *map)
+{
+    target = map;
+}
+
+void PanelWidget::setWidget(QWidget *widget)
+{
+    connect(widget, SIGNAL(destroyed(QObject*)), this, SLOT(handleWidgetDestroyed(QObject*)));
+    QGraphicsProxyWidget::setWidget(widget);
+}
+
+void PanelWidget::handleWidgetDestroyed(QObject*)
+{
+    target->unlockMap();
+}
+
+void PanelWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
+{
+    QPointF p = target->mapToScene(target->width(), target->height());
+    if (this->y() + event->newSize().height() > p.y())
+    {
+        this->setPos(this->pos().x(), this->pos().y() - (this->y() + event->newSize().height() - p.y()) - 10);
+    }
 }
