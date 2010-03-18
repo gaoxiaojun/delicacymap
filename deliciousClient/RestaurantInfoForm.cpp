@@ -12,6 +12,7 @@ RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     loading = NULL;
     s = NULL;
     res = NULL;
+    connect(this, SIGNAL(commentListArrived(ProtocolBuffer::CommentList*)), SLOT(handleCommentList(ProtocolBuffer::CommentList*)));
 }
 
 RestaurantInfoForm::~RestaurantInfoForm()
@@ -69,6 +70,11 @@ void RestaurantInfoForm::on_btnAdd_clicked()
 }
 
 void RestaurantInfoForm::commentsResponse(ProtocolBuffer::CommentList *list)
+{
+    emit commentListArrived(list);
+}
+
+void RestaurantInfoForm::handleCommentList( ProtocolBuffer::CommentList* list )
 {
     delete loading;
     loading = NULL;
