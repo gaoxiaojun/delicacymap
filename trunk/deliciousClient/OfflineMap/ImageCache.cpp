@@ -139,7 +139,7 @@ void ImageCache::paintLoadingImage(){
     painter.setBrush(QColor(0, 0, 0));
     painter.setPen(QColor(255, 255, 255));
     painter.drawRect(0, 0, 255, 255);
-    painter.drawText(0, 0, 255, 255, Qt::AlignHCenter|Qt::AlignVCenter,	QString(tr("Downloading...")));
+    painter.drawText(0, 0, 255, 255, Qt::AlignHCenter|Qt::AlignVCenter,	QString("Downloading..."));
 }
 
 void ImageCache::timerEvent(QTimerEvent *ev)

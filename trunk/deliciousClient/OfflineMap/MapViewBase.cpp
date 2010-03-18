@@ -20,6 +20,7 @@ const double CoordsHelper::pi = 3.1415926535897932384626433832795028841971693993
 MapViewBase::MapViewBase(QWidget *parent)
 :QGraphicsView(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0), self(NULL)
 {
+    this->setBackgroundBrush(QBrush(QColor(50, 50, 50, 150)));
     handleDblClickEvent = handleMoveEvent = handlePressEvent = handleReleaseEvent = true;
     mapIsLocked = false;
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -47,7 +48,7 @@ void MapViewBase::lockMap()
     if (!isLocked())
     {
         mapIsLocked = true;
-        this->setForegroundBrush(QBrush(QColor(50, 50, 50, 150)));
+        this->update();
         emit canZoomIn(false);
         emit canZoomOut(false);
     }
@@ -58,7 +59,7 @@ void MapViewBase::unlockMap()
     if (isLocked())
     {
         mapIsLocked = false;
-        this->setForegroundBrush(Qt::NoBrush);
+        this->update();
         emit canZoomIn(zoomLevel < CoordsHelper::MaxZoomLevel);
         emit canZoomOut(zoomLevel > 0);
     }
@@ -366,7 +367,8 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
     int dirtywidth = rect.x() + rect.width();
     int dirtyheight = rect.y() + rect.height();
 
-    if (images){
+    if (images)
+    {
 #if 0
         qDebug()<<"Dirty Region: x: "<<(int)rect.x()<<" y: "<<(int)rect.y()
             <<"              w: "<<(int)rect.width()<<" h: "<<(int)rect.height();
@@ -394,6 +396,8 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
         }		
         images->tick();
     }
+    if (this->isLocked())
+        painter->fillRect(rect, this->backgroundBrush());
 }
 
 void MapViewBase::addRestaurantMarker(const ProtocolBuffer::Restaurant* r)
@@ -445,6 +449,17 @@ void MapViewBase::setSelfLocation( const GeoPoint& coord )
 void MapViewBase::updateUserLocation( int, const GeoPoint& coord )
 {
 
+}
+
+void MapViewBase::addBlockingPanel(QWidget* panel)
+{
+    lockMap();
+    panel->setAttribute(Qt::WA_DeleteOnClose, true);
+    PanelWidget *proxy = new PanelWidget(this);
+    proxy->setWidget(panel);
+    proxy->setPos(xCenter - panel->width()/2, qMax(yCenter - panel->height(), yCenter - this->height()/2));
+//    proxy->setPanelModality(QGraphicsItem::SceneModal);
+    scene->addItem(proxy);
 }
 
 void MapViewBase::removeItem( ZoomSensitiveItem* item )

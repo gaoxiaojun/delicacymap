@@ -17,7 +17,8 @@ win32:CONFIG += console
 QT += network \
       sql
 FORMS += mainwindow.ui \
-    loginWindow.ui
+    loginWindow.ui \
+    RestaurantInfoForm.ui
 HEADERS += md5.h \
     bluetoothmanager.h \
     Configurations.h \
@@ -26,9 +27,10 @@ HEADERS += md5.h \
     mainwindow.h \
     LoginWindow.h \
     QTProtobufChannel.h \
-	QTProtobufChannelDriver.h \
+    QTProtobufChannelDriver.h \
     QTProtobufWaitResponse.h \
     Session.h \
+    RestaurantInfoForm.h \
     ../rclib/include/TinyXMLPP/ticpp.h \
     ../rclib/include/TinyXMLPP/tinyxml.h \
     ../rclib/include/TinyXMLPP/tinystr.h \
@@ -57,9 +59,10 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     LoginWindow.cpp \
     QTProtobufChannel.cpp \
-	QTProtobufChannelDriver.cpp \
+    QTProtobufChannelDriver.cpp \
     QTProtobufWaitResponse.cpp \
     Session.cpp \
+    RestaurantInfoForm.cpp \
     ../rclib/include/TinyXMLPP/ticpp.cpp \
     ../rclib/include/TinyXMLPP/tinyxml.cpp \
     ../rclib/include/TinyXMLPP/tinystr.cpp \

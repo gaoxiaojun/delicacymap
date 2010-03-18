@@ -1,4 +1,4 @@
-﻿#ifndef MAINWINDOW_H
+#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
@@ -15,6 +15,7 @@ class GeoBound;
 class MapServices;
 class MapViewBase;
 class MapController;
+class QPushButton;
 
 namespace ProtocolBuffer{
     class DMessage;
@@ -57,7 +58,6 @@ public slots:
     void commentCommited(void);
     void commentSuccessed(void);
 private slots:
-    void UpdateCurrentLocation(QString);
     void printMessage(const ProtocolBuffer::DMessage*);
     void handleRequestRouting(int, const QString&, const QString&);
     
@@ -65,6 +65,7 @@ private:
     Ui::MainWindow *m_ui;
     MapViewBase *navi;
     MapServices *svc;
+    QPushButton *btn_zoomIn, *btn_zoomOut;
     MapController controller;
     ImageCache imageCache;
     Downloader downloader;
