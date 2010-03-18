@@ -26,9 +26,6 @@ public:
     Session* getSession() const { return s; }
     void setRestaurant(const ProtocolBuffer::Restaurant*);
 
-signals:
-    void commentListArrived(ProtocolBuffer::CommentList*);
-
 protected:
     void changeEvent(QEvent *e);
 private slots:

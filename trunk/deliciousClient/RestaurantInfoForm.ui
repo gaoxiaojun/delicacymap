@@ -136,14 +136,6 @@
     </rect>
    </property>
   </widget>
-  <zorder>label_RestaurantName</zorder>
-  <zorder>btnClose</zorder>
-  <zorder>_label_price</zorder>
-  <zorder>label_price</zorder>
-  <zorder>btnShow</zorder>
-  <zorder>btnAdd</zorder>
-  <zorder>listComment</zorder>
-  <zorder>label_spin</zorder>
  </widget>
  <resources>
   <include location="mainwindow.qrc"/>

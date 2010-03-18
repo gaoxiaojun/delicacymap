@@ -12,7 +12,7 @@ RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     loading = NULL;
     s = NULL;
     res = NULL;
-    connect(this, SIGNAL(commentListArrived(ProtocolBuffer::CommentList*)), SLOT(handleCommentList(ProtocolBuffer::CommentList*)));
+    qRegisterMetaType<ProtocolBuffer::CommentList*>("ProtocolBuffer::CommentList*");
 }
 
 RestaurantInfoForm::~RestaurantInfoForm()
@@ -51,8 +51,8 @@ void RestaurantInfoForm::on_btnShow_clicked()
     loading = new QMovie(":/Icons/loading.gif");
     ui->label_spin->setMovie(loading);
     ui->label_spin->setGeometry(
-            this->width()/2 - 16,
-            (this->height() - ui->btnAdd->geometry().bottom()) / 2 - 16 + ui->btnAdd->geometry().bottom(),
+            this->width() / 2 - 16,
+            (this->height() + ui->btnAdd->geometry().bottom()) / 2 - 16,
             32, 32);
     loading->start();
 
@@ -71,7 +71,7 @@ void RestaurantInfoForm::on_btnAdd_clicked()
 
 void RestaurantInfoForm::commentsResponse(ProtocolBuffer::CommentList *list)
 {
-    emit commentListArrived(list);
+    QMetaObject::invokeMethod(this, "handleCommentList", Q_ARG(ProtocolBuffer::CommentList*, list));
 }
 
 void RestaurantInfoForm::handleCommentList( ProtocolBuffer::CommentList* list )
@@ -80,6 +80,9 @@ void RestaurantInfoForm::handleCommentList( ProtocolBuffer::CommentList* list )
     loading = NULL;
     ui->label_spin->hide();
 
+    // This may crash, because we might have closed the form before the closure is ran
+    // To fix this problem, we have to implement cancelation mechanism in rpc.
+    ui->listComment->clear();
     for (int i=0;i<list->comments_size();++i)
     {
         const ProtocolBuffer::Comment& c = list->comments(i);
