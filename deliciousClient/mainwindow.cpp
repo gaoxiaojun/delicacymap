@@ -176,7 +176,6 @@ void MainWindow::interfaceTransit_map()
     m_ui->toolButton_B->setVisible(true);
     m_ui->toolButton_C->setVisible(true);
     m_ui->toolButton_D->setVisible(true);
-    m_ui->toolButton_E->setVisible(true);
     
     connect(m_ui->actionR,SIGNAL(triggered()),this->navi,SLOT(zoomIn()));
     connect(m_ui->actionL,SIGNAL(triggered()),this->navi,SLOT(zoomOut()));

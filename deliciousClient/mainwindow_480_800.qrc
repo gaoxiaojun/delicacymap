@@ -13,6 +13,7 @@
         <file alias="zoomout.png">Resources/png-0676.png</file>
         <file alias="selfMarker.png">Resources/png-0804.png</file>
         <file>Resources/close.png</file>
-        <file>Resources/loading.gif</file>
+        <file alias="search.png">Resources/loading.gif</file>
+        <file>Resources/image_480_800/png-0005.png</file>
     </qresource>
 </RCC>
