@@ -40,6 +40,12 @@
           <height>32</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
         <property name="text">
          <string>A</string>
         </property>
@@ -61,6 +67,12 @@
       <item>
        <widget class="QToolButton" name="toolButton_B">
         <property name="minimumSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
          <size>
           <width>32</width>
           <height>32</height>
@@ -92,6 +104,12 @@
           <height>32</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
         <property name="text">
          <string>C</string>
         </property>
@@ -113,6 +131,12 @@
       <item>
        <widget class="QToolButton" name="toolButton_D">
         <property name="minimumSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
          <size>
           <width>32</width>
           <height>32</height>
@@ -156,25 +180,44 @@
        <widget class="QLineEdit" name="lineEdit">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>80</width>
           <height>0</height>
          </size>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_E">
+       <widget class="QToolButton" name="toolButton_Search">
         <property name="minimumSize">
          <size>
-          <width>50</width>
-          <height>0</height>
+          <width>32</width>
+          <height>32</height>
          </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Search</string>
         </property>
         <property name="autoFillBackground">
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>E</string>
+         <string notr="true"/>
+        </property>
+        <property name="icon">
+         <iconset resource="mainwindow.qrc">
+          <normaloff>:/Icons/search.png</normaloff>:/Icons/search.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
@@ -494,22 +537,6 @@ background-color: rgba(255, 255, 255, 200);
    </hints>
   </connection>
   <connection>
-   <sender>toolButton_E</sender>
-   <signal>clicked()</signal>
-   <receiver>actionE</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>551</x>
-     <y>32</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>pushButton_L</sender>
    <signal>clicked()</signal>
    <receiver>actionPL</receiver>
@@ -550,6 +577,22 @@ background-color: rgba(255, 255, 255, 200);
     <hint type="sourcelabel">
      <x>367</x>
      <y>418</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButton_Search</sender>
+   <signal>clicked()</signal>
+   <receiver>actionE</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>551</x>
+     <y>32</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>

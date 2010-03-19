@@ -31,7 +31,8 @@ public:
     void lockMap();
     void unlockMap();
     bool isLocked() { return mapIsLocked; }
-    void addBlockingPanel(QWidget*);
+    // if balloonOn is NULL, the panel is placed in the center
+    void addBlockingPanel(QWidget*, ZoomSensitiveItem* balloonOn = NULL);
     void removeItem(ZoomSensitiveItem*);
 
     void setCache(ImageCache* cache);
@@ -77,6 +78,9 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseDoubleClickEvent(QMouseEvent *event);
+#ifndef QT_NO_WHEELEVENT
+    void wheelEvent(QWheelEvent *event);
+#endif
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void leaveEvent(QEvent *event);

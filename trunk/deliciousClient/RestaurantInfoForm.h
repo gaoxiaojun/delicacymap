@@ -14,6 +14,7 @@ namespace ProtocolBuffer{
 }
 
 class QMovie;
+class QTimeLine;
 class Session;
 
 class RestaurantInfoForm : public QWidget {
@@ -30,11 +31,13 @@ protected:
     void changeEvent(QEvent *e);
 private slots:
     void handleCommentList(ProtocolBuffer::CommentList*);
+    void frameChange(int);
 private:
     void commentsResponse(ProtocolBuffer::CommentList*);
 
     Ui::RestaurantInfoForm *ui;
     const ProtocolBuffer::Restaurant* res;
+    QTimeLine *timeline;
     QMovie *loading;
     Session *s;
 

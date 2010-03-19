@@ -14,5 +14,6 @@
         <file alias="selfMarker.png">Resources/png-0804.png</file>
         <file>Resources/close.png</file>
         <file alias="loading.gif">Resources/loading.gif</file>
+        <file alias="search.png">Resources/image/png-0005.png</file>
     </qresource>
 </RCC>

@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string notr="true">Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QLabel" name="label_RestaurantName">
    <property name="geometry">
     <rect>
@@ -42,7 +45,7 @@
     <string notr="true"/>
    </property>
    <property name="icon">
-    <iconset resource="mainwindow.qrc">
+    <iconset>
      <normaloff>:/Icons/Resources/close.png</normaloff>:/Icons/Resources/close.png</iconset>
    </property>
    <property name="iconSize">
@@ -137,8 +140,6 @@
    </property>
   </widget>
  </widget>
- <resources>
-  <include location="mainwindow.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

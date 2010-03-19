@@ -3,6 +3,7 @@
 #include "MapProtocol.pb.h"
 #include "Session.h"
 #include <QMovie>
+#include <QTimeLine>
 
 RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     QWidget(parent),
@@ -12,6 +13,8 @@ RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     loading = NULL;
     s = NULL;
     res = NULL;
+    timeline = new QTimeLine(300, this);
+    connect(timeline, SIGNAL(frameChanged(int)), SLOT(frameChange(int)));
     qRegisterMetaType<ProtocolBuffer::CommentList*>("ProtocolBuffer::CommentList*");
 }
 
@@ -40,6 +43,11 @@ void RestaurantInfoForm::changeEvent(QEvent *e)
     }
 }
 
+void RestaurantInfoForm::frameChange(int p)
+{
+    this->resize(this->width(), p);
+}
+
 void RestaurantInfoForm::on_btnClose_clicked()
 {
     this->close();
@@ -47,12 +55,14 @@ void RestaurantInfoForm::on_btnClose_clicked()
 
 void RestaurantInfoForm::on_btnShow_clicked()
 {
-    this->resize(width(), ui->listComment->geometry().bottom() + 5);
+    timeline->setFrameRange( this->height(), ui->listComment->geometry().bottom() );
+    timeline->setDirection(QTimeLine::Forward);
+    timeline->start();
     loading = new QMovie(":/Icons/loading.gif");
     ui->label_spin->setMovie(loading);
     ui->label_spin->setGeometry(
-            this->width() / 2 - 16,
-            (this->height() + ui->btnAdd->geometry().bottom()) / 2 - 16,
+            ui->listComment->geometry().center().x() - 16,
+            ui->listComment->geometry().center().y() - 16,
             32, 32);
     loading->start();
 
@@ -66,7 +76,8 @@ void RestaurantInfoForm::on_btnShow_clicked()
 
 void RestaurantInfoForm::on_btnAdd_clicked()
 {
-
+    timeline->setDirection(QTimeLine::Backward);
+    timeline->start();
 }
 
 void RestaurantInfoForm::commentsResponse(ProtocolBuffer::CommentList *list)

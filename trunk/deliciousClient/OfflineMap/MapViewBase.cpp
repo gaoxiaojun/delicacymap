@@ -242,6 +242,15 @@ void MapViewBase::mouseDoubleClickEvent(QMouseEvent *event){
     QGraphicsView::mouseDoubleClickEvent(event);
 }
 
+#ifndef QT_NO_WHEELEVENT
+void MapViewBase::wheelEvent(QWheelEvent *event)
+{
+    if (!isLocked())
+        QGraphicsView::wheelEvent(event);
+}
+
+#endif
+
 void MapViewBase::keyPressEvent(QKeyEvent *event){
     decorator.keyPressEvent(event);
 }
@@ -451,7 +460,7 @@ void MapViewBase::updateUserLocation( int, const GeoPoint& coord )
 
 }
 
-void MapViewBase::addBlockingPanel(QWidget* panel)
+void MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* balloonOn)
 {
     lockMap();
     panel->setAttribute(Qt::WA_DeleteOnClose, true);
