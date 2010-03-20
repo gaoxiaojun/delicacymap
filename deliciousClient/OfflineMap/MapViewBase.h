@@ -13,6 +13,7 @@ class QGraphicsScene;
 class SelfMarkerItem;
 class RouteItem;
 class ZoomSensitiveItem;
+class RestaurantMarkerItem;
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -41,6 +42,8 @@ public:
     void setCoords(const QPoint& coords);
     void setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitude);
     void getGeoCoords(GeoCoord& latitude, GeoCoord& longitude) const;
+
+    RestaurantMarkerItem* getRestaurantMarker(int rid);
 public slots:
     void addRestaurantMarker(const ProtocolBuffer::Restaurant*);
     RouteItem* addRoute(const QList<GeoPoint>&);

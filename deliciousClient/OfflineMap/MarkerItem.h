@@ -33,16 +33,19 @@ class PanelWidget : public QGraphicsProxyWidget
 {
     Q_OBJECT
 public:
-    enum { Type = UserType + 2000 };
-    PanelWidget(MapViewBase*);
-    void setWidget(QWidget *widget);
+    //enum { Type = UserType + 2000 };
+    PanelWidget(MapViewBase*, QGraphicsItem* parent=NULL, Qt::WindowFlags wFlags=0);
+    void setWidget(QWidget *widget, ZoomSensitiveItem* balloonOn=NULL);
+    void paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 private slots:
     void handleWidgetDestroyed(QObject*);
 protected:
-    int type() const { return Type; }
+    //int type() const { return Type; }
     void resizeEvent(QGraphicsSceneResizeEvent *event);
+   QRectF boundingRect() const;
 private:
     MapViewBase* target;
+    ZoomSensitiveItem *balloonTarget;
 };
 
 class RestaurantMarkerItem : public ZoomSensitiveItem

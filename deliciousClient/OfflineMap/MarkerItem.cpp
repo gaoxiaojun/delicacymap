@@ -67,20 +67,35 @@ const QPixmap& SelfMarkerItem::UserIcon() const
     return image;
 }
 
-PanelWidget::PanelWidget(MapViewBase *map)
+PanelWidget::PanelWidget(MapViewBase *map, QGraphicsItem* parent, Qt::WindowFlags wFlags)
+    : QGraphicsProxyWidget(parent, wFlags)
 {
     target = map;
+    balloonTarget = NULL;
 }
 
-void PanelWidget::setWidget(QWidget *widget)
+void PanelWidget::setWidget(QWidget *widget, ZoomSensitiveItem *balloonOn)
 {
     connect(widget, SIGNAL(destroyed(QObject*)), this, SLOT(handleWidgetDestroyed(QObject*)));
+    if (balloonOn)
+    {
+        balloonTarget = balloonOn;
+    }
     QGraphicsProxyWidget::setWidget(widget);
 }
 
 void PanelWidget::handleWidgetDestroyed(QObject*)
 {
     target->unlockMap();
+    this->deleteLater();
+}
+
+QRectF PanelWidget::boundingRect() const
+{
+    QRectF rect = QGraphicsProxyWidget::boundingRect();
+    if (balloonTarget)
+        rect.adjust(0., 0., 0., 10.);
+    return rect;
 }
 
 void PanelWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
@@ -90,4 +105,14 @@ void PanelWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
     {
         this->setPos(this->pos().x(), this->pos().y() - (this->y() + event->newSize().height() - p.y()) - 10);
     }
+    QGraphicsProxyWidget::resizeEvent(event);
+}
+
+void PanelWidget::paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    if (balloonTarget)
+    {
+        painter->drawEllipse(this->widget()->width()/2, this->widget()->height()+5,10, 10);
+    }
+    QGraphicsProxyWidget::paintWindowFrame(painter, option, widget);
 }
