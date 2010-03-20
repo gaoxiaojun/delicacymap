@@ -464,10 +464,12 @@ void MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* balloonOn)
 {
     lockMap();
     panel->setAttribute(Qt::WA_DeleteOnClose, true);
-    PanelWidget *proxy = new PanelWidget(this);
-    proxy->setWidget(panel);
-    proxy->setPos(xCenter - panel->width()/2, qMax(yCenter - panel->height(), yCenter - this->height()/2));
+    PanelWidget *proxy = new PanelWidget(this, NULL, Qt::Window);
+    proxy->setWidget(panel, balloonOn);
+    if (!balloonOn)
+        proxy->setPos(xCenter - panel->width()/2, qMax(yCenter - panel->height(), yCenter - this->height()/2));
 //    proxy->setPanelModality(QGraphicsItem::SceneModal);
+    this->ensureVisible(proxy);
     scene->addItem(proxy);
 }
 

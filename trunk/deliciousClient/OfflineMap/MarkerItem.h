@@ -42,7 +42,7 @@ private slots:
 protected:
     //int type() const { return Type; }
     void resizeEvent(QGraphicsSceneResizeEvent *event);
-   QRectF boundingRect() const;
+    void retieToTarget();
 private:
     MapViewBase* target;
     ZoomSensitiveItem *balloonTarget;
@@ -54,9 +54,9 @@ public:
     enum { Type = UserType + 1000 };
     RestaurantMarkerItem(const ProtocolBuffer::Restaurant* restaurant) : r(restaurant){}
     const ProtocolBuffer::Restaurant* restaurantInfo() const { return r; }
+    QRectF boundingRect() const;
 protected:
     void paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidget *);
-    QRectF boundingRect() const;
     int type() const { return Type; }
 
     static QPixmap& markerImage();
