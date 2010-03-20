@@ -80,6 +80,9 @@ void PanelWidget::setWidget(QWidget *widget, ZoomSensitiveItem *balloonOn)
     if (balloonOn)
     {
         balloonTarget = balloonOn;
+        this->setWindowFrameMargins(0., 0., 0., 12.);
+//        QPointF p = balloonTarget->pos();
+//        QRectF rect = balloonTarget->boundingRect();
     }
     QGraphicsProxyWidget::setWidget(widget);
 }
@@ -90,20 +93,29 @@ void PanelWidget::handleWidgetDestroyed(QObject*)
     this->deleteLater();
 }
 
-QRectF PanelWidget::boundingRect() const
+void PanelWidget::retieToTarget()
 {
-    QRectF rect = QGraphicsProxyWidget::boundingRect();
-    if (balloonTarget)
-        rect.adjust(0., 0., 0., 10.);
-    return rect;
+    Q_ASSERT( balloonTarget );
+    QRectF itemBound = balloonTarget->boundingRect(),
+           panelBound = this->boundingRect();
+    QPointF topCenter = balloonTarget->pos() + QPointF(itemBound.center().x(), itemBound.top());
+    QPointF proxyBottomCenterPos = topCenter - QPointF(panelBound.width()/2, panelBound.height());
+    this->setPos(proxyBottomCenterPos);
 }
 
 void PanelWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
 {
-    QPointF p = target->mapToScene(target->width(), target->height());
-    if (this->y() + event->newSize().height() > p.y())
+    if (balloonTarget)
     {
-        this->setPos(this->pos().x(), this->pos().y() - (this->y() + event->newSize().height() - p.y()) - 10);
+        retieToTarget();
+    }
+    else
+    {
+        QPointF p = target->mapToScene(target->width(), target->height());
+        if (this->y() + event->newSize().height() > p.y())
+        {
+            this->setPos(this->pos().x(), this->pos().y() - (this->y() + event->newSize().height() - p.y()) - 10);
+        }
     }
     QGraphicsProxyWidget::resizeEvent(event);
 }
@@ -112,7 +124,13 @@ void PanelWidget::paintWindowFrame(QPainter *painter, const QStyleOptionGraphics
 {
     if (balloonTarget)
     {
-        painter->drawEllipse(this->widget()->width()/2, this->widget()->height()+5,10, 10);
+        painter->setBrush(this->widget()->palette().background());
+        painter->setPen(Qt::NoPen);
+        QPoint triangle[] = {
+            QPoint(this->widget()->width()/2 - 10, this->widget()->height()),
+            QPoint(this->widget()->width()/2, this->widget()->height() + 10),
+            QPoint(this->widget()->width()/2 + 10, this->widget()->height())
+        };
+        painter->drawConvexPolygon(triangle, 3);
     }
-    QGraphicsProxyWidget::paintWindowFrame(painter, option, widget);
 }
