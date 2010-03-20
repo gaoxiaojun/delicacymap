@@ -6,6 +6,7 @@
 #include "Session.h"
 #include "MapProtocol.pb.h"
 #include "RestaurantInfoForm.h"
+#include "OfflineMap/MarkerItem.h"
 #include "OfflineMap/MapViewBase.h"
 #include "OfflineMap/MapDecorators.h"
 #include "OfflineMap/MapServices.h"
@@ -306,7 +307,7 @@ void MainWindow::RestaurantMarkerResponse(const ProtocolBuffer::Restaurant* res)
     RestaurantInfoForm* form = new RestaurantInfoForm();
     form->setRestaurant(res);
     form->setSession(getSession());
-    navi->addBlockingPanel(form);
+    navi->addBlockingPanel(form, navi->getRestaurantMarker(res->rid()));
 //    interfaceTransit_comment();
 }
 

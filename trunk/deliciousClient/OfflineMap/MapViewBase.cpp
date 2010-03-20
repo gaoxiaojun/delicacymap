@@ -475,3 +475,22 @@ void MapViewBase::removeItem( ZoomSensitiveItem* item )
 {
     scene->removeItem(item);
 }
+
+RestaurantMarkerItem* MapViewBase::getRestaurantMarker(int rid)
+{
+    RestaurantMarkerItem* marker = NULL;
+    QList<QGraphicsItem*> allitems = items();
+
+    BOOST_FOREACH(QGraphicsItem* e, allitems)
+        if (e->type() == RestaurantMarkerItem::Type)
+        {
+            RestaurantMarkerItem* r = static_cast<RestaurantMarkerItem*>(e);
+            if (r->restaurantInfo()->rid() == rid)
+            {
+                marker = r;
+                break;
+            }
+        }
+
+    return marker;
+}
