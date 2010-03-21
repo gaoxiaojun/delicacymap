@@ -1,6 +1,7 @@
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QTimer>
+#include <QTimeLine>
 #include <QDebug>
 #include <QMouseEvent>
 #include <math.h>
@@ -27,6 +28,10 @@ MapViewBase::MapViewBase(QWidget *parent)
     last_xcenter = xCenter;
     last_ycenter = yCenter;
     scene = new QGraphicsScene;
+    panMapTimelineX = new QTimeLine();
+    panMapTimelineY = new QTimeLine();
+    connect(panMapTimelineX, SIGNAL(frameChanged(int)), SLOT(panMapX(int)));
+    connect(panMapTimelineY, SIGNAL(frameChanged(int)), SLOT(panMapY(int)));
     setScene(scene);
     centerOn(xCenter, yCenter);
     //setCacheMode(QGraphicsView::CacheBackground);
@@ -37,6 +42,8 @@ MapViewBase::MapViewBase(QWidget *parent)
 
 MapViewBase::~MapViewBase()
 {
+    delete panMapTimelineX;
+    delete panMapTimelineY;
     if (self)
         scene->removeItem(self);
     delete self;
@@ -182,7 +189,8 @@ void MapViewBase::insertDecorator(Decorator *newDecorator){
     decorator.insertDecorator(newDecorator);
 }
 
-void MapViewBase::mouseMoveEvent(QMouseEvent *event){
+void MapViewBase::mouseMoveEvent(QMouseEvent *event)
+{
     //handleReleaseEvent = false;
     if (handleMoveEvent)
     {
@@ -198,15 +206,17 @@ void MapViewBase::mouseMoveEvent(QMouseEvent *event){
     QGraphicsView::mouseMoveEvent(event);
 }
 
-void MapViewBase::mousePressEvent(QMouseEvent *event){
+void MapViewBase::mousePressEvent(QMouseEvent *event)
+{
     handleReleaseEvent = true;
-    if (handlePressEvent)
+    if (!isLocked() && handlePressEvent)
         decorator.mousePressEvent(event);
     QGraphicsView::mousePressEvent(event);
 }
 
-void MapViewBase::mouseReleaseEvent(QMouseEvent *event){
-    if (handleReleaseEvent)
+void MapViewBase::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (!isLocked() && handleReleaseEvent)
     {
         if (event->button() == Qt::LeftButton)
         {
@@ -223,8 +233,9 @@ void MapViewBase::mouseReleaseEvent(QMouseEvent *event){
     handleMoveEvent = true;
 }
 
-void MapViewBase::mouseDoubleClickEvent(QMouseEvent *event){
-    if (handleDblClickEvent)
+void MapViewBase::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    if (!isLocked() && handleDblClickEvent)
     {
         if (event->button() == Qt::LeftButton)
         {
@@ -288,8 +299,20 @@ void MapViewBase::downloadMissingImages(){
     }
 }
 
+void MapViewBase::panMapX(int x)
+{
+    xCenter = x;
+    centerOn(xCenter, yCenter);
+}
+
+void MapViewBase::panMapY(int y)
+{
+    yCenter = y;
+    centerOn(xCenter, yCenter);
+}
+
 void MapViewBase::scheduleRepaint(){
-    QTimer::singleShot(500, this, SLOT(repaint()));
+    update();
 }
 
 int MapViewBase::getZoomLevel(){
@@ -334,23 +357,16 @@ void MapViewBase::updateBound()
     // avoid emitting too much signals
     if ( abs(xCenter - last_xcenter) > 50 || abs(yCenter - last_ycenter) > 50 )
     {
-        int xLeft, xRight, yTop, yBottom;
-        int halfWidth, halfHeight;
-        halfWidth = width() / 2;
-        halfHeight = height() / 2;
-        xLeft = xCenter - halfWidth;
-        xRight = xCenter + halfWidth;
-        yTop = yCenter - halfHeight;
-        yBottom = yCenter + halfHeight;
+        QRect exposed = exposedView();
 
         GeoPoint geoSW;
-        CoordsHelper::InternalCoordToGeoCoord(QPoint(xLeft, yBottom), zoomLevel, geoSW.lat, geoSW.lng);
+        CoordsHelper::InternalCoordToGeoCoord(exposed.bottomLeft(), zoomLevel, geoSW.lat, geoSW.lng);
         //if ( abs(currentBound.SW.lat.getDouble() - geoSW.lat.getDouble()) > 0.005 || abs(currentBound.SW.lng.getDouble() - geoSW.lng.getDouble()) > 0.005 )
         {
             last_xcenter = xCenter;
             last_ycenter = yCenter;
             currentBound.SW = geoSW;
-            CoordsHelper::InternalCoordToGeoCoord(QPoint(xRight, yTop), zoomLevel, currentBound.NE.lat, currentBound.NE.lng);
+            CoordsHelper::InternalCoordToGeoCoord(exposed.topRight(), zoomLevel, currentBound.NE.lat, currentBound.NE.lng);
 
             emit boundsChange(currentBound);
         }
@@ -478,6 +494,15 @@ void MapViewBase::removeItem( ZoomSensitiveItem* item )
     scene->removeItem(item);
 }
 
+QRect MapViewBase::exposedView() const
+{
+    return QRect(
+            xCenter - width()/2,
+            yCenter - height()/2,
+            width(),
+            height());
+}
+
 RestaurantMarkerItem* MapViewBase::getRestaurantMarker(int rid)
 {
     RestaurantMarkerItem* marker = NULL;
@@ -495,4 +520,60 @@ RestaurantMarkerItem* MapViewBase::getRestaurantMarker(int rid)
         }
 
     return marker;
+}
+
+void MapViewBase::panBy(QPoint p)
+{
+    if (p.manhattanLength() < 5)
+    {
+        xCenter += p.x();
+        yCenter += p.y();
+        centerOn(xCenter, yCenter);
+    }
+    else
+    {
+        if (panMapTimelineX->state() == QTimeLine::Running)
+            panMapTimelineX->stop();
+        if (panMapTimelineY->state() == QTimeLine::Running)
+            panMapTimelineY->stop();
+        panMapTimelineX->setDuration(300);
+        panMapTimelineY->setDuration(300);
+        panMapTimelineX->setDirection(QTimeLine::Forward);
+        panMapTimelineY->setDirection(QTimeLine::Forward);
+        panMapTimelineX->setFrameRange(xCenter, xCenter + p.x());
+        panMapTimelineY->setFrameRange(yCenter, yCenter + p.y());
+        panMapTimelineX->start();
+        panMapTimelineY->start();
+    }
+}
+
+void MapViewBase::ensureVisible(const QGraphicsItem *item, int xmargin, int ymargin)
+{
+    if (item)
+    {
+        QPoint delta;
+        QRect exposed = exposedView();
+        QRect itemBound = item->sceneBoundingRect().toRect();
+
+        delta.setX( qMin(itemBound.x() - exposed.x(), 0) );
+        delta.setY( qMin(itemBound.y() - exposed.y(), 0) );
+        if (delta.x() < 0)
+            delta.setX(delta.x() - xmargin);
+        else //delta.x() == 0
+        {
+            delta.setX( qMax(itemBound.right() - exposed.right(), 0) );
+            if (delta.x() > 0)
+                delta.setX(delta.x() + xmargin);
+        }
+        if (delta.y() < 0)
+            delta.setY(delta.y() - ymargin);
+        else
+        {
+            delta.setY( qMax(itemBound.bottom() - exposed.bottom(), 0) );
+            if (delta.y() > 0)
+                delta.setX(delta.y() + xmargin);
+        }
+
+        panBy(delta);
+    }
 }
