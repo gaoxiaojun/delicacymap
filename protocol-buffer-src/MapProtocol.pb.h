@@ -1378,6 +1378,13 @@ class Query : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 n() const;
   inline void set_n(::google::protobuf::uint32 value);
   
+  // optional uint32 UID_Target = 13;
+  inline bool has_uid_target() const;
+  inline void clear_uid_target();
+  static const int kUIDTargetFieldNumber = 13;
+  inline ::google::protobuf::uint32 uid_target() const;
+  inline void set_uid_target(::google::protobuf::uint32 value);
+  
   // optional uint32 relation = 12;
   inline bool has_relation() const;
   inline void clear_relation();
@@ -1442,6 +1449,7 @@ class Query : public ::google::protobuf::MessageLite {
   ::google::protobuf::uint32 rid_;
   ::google::protobuf::uint32 uid_;
   ::google::protobuf::uint32 n_;
+  ::google::protobuf::uint32 uid_target_;
   ::google::protobuf::uint32 relation_;
   ::std::string* msg_;
   static const ::std::string _default_msg_;
@@ -1456,7 +1464,7 @@ class Query : public ::google::protobuf::MessageLite {
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(12 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(13 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -2577,58 +2585,74 @@ inline void Query::set_n(::google::protobuf::uint32 value) {
   n_ = value;
 }
 
+// optional uint32 UID_Target = 13;
+inline bool Query::has_uid_target() const {
+  return _has_bit(6);
+}
+inline void Query::clear_uid_target() {
+  uid_target_ = 0u;
+  _clear_bit(6);
+}
+inline ::google::protobuf::uint32 Query::uid_target() const {
+  return uid_target_;
+}
+inline void Query::set_uid_target(::google::protobuf::uint32 value) {
+  _set_bit(6);
+  uid_target_ = value;
+}
+
 // optional uint32 relation = 12;
 inline bool Query::has_relation() const {
-  return _has_bit(6);
+  return _has_bit(7);
 }
 inline void Query::clear_relation() {
   relation_ = 0u;
-  _clear_bit(6);
+  _clear_bit(7);
 }
 inline ::google::protobuf::uint32 Query::relation() const {
   return relation_;
 }
 inline void Query::set_relation(::google::protobuf::uint32 value) {
-  _set_bit(6);
+  _set_bit(7);
   relation_ = value;
 }
 
 // optional string msg = 7;
 inline bool Query::has_msg() const {
-  return _has_bit(7);
+  return _has_bit(8);
 }
 inline void Query::clear_msg() {
   if (msg_ != &_default_msg_) {
     msg_->clear();
   }
-  _clear_bit(7);
+  _clear_bit(8);
 }
 inline const ::std::string& Query::msg() const {
   return *msg_;
 }
 inline void Query::set_msg(const ::std::string& value) {
-  _set_bit(7);
+  _set_bit(8);
   if (msg_ == &_default_msg_) {
     msg_ = new ::std::string;
   }
   msg_->assign(value);
 }
 inline void Query::set_msg(const char* value) {
-  _set_bit(7);
+  _set_bit(8);
   if (msg_ == &_default_msg_) {
     msg_ = new ::std::string;
   }
   msg_->assign(value);
 }
 inline void Query::set_msg(const char* value, size_t size) {
-  _set_bit(7);
+  _set_bit(8);
   if (msg_ == &_default_msg_) {
     msg_ = new ::std::string;
   }
   msg_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* Query::mutable_msg() {
-  _set_bit(7);
+  _set_bit(8);
   if (msg_ == &_default_msg_) {
     msg_ = new ::std::string;
   }
@@ -2637,40 +2661,40 @@ inline ::std::string* Query::mutable_msg() {
 
 // optional bytes image = 8;
 inline bool Query::has_image() const {
-  return _has_bit(8);
+  return _has_bit(9);
 }
 inline void Query::clear_image() {
   if (image_ != &_default_image_) {
     image_->clear();
   }
-  _clear_bit(8);
+  _clear_bit(9);
 }
 inline const ::std::string& Query::image() const {
   return *image_;
 }
 inline void Query::set_image(const ::std::string& value) {
-  _set_bit(8);
+  _set_bit(9);
   if (image_ == &_default_image_) {
     image_ = new ::std::string;
   }
   image_->assign(value);
 }
 inline void Query::set_image(const char* value) {
-  _set_bit(8);
+  _set_bit(9);
   if (image_ == &_default_image_) {
     image_ = new ::std::string;
   }
   image_->assign(value);
 }
 inline void Query::set_image(const void* value, size_t size) {
-  _set_bit(8);
+  _set_bit(9);
   if (image_ == &_default_image_) {
     image_ = new ::std::string;
   }
   image_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* Query::mutable_image() {
-  _set_bit(8);
+  _set_bit(9);
   if (image_ == &_default_image_) {
     image_ = new ::std::string;
   }
@@ -2679,40 +2703,40 @@ inline ::std::string* Query::mutable_image() {
 
 // optional string emailAddress = 9;
 inline bool Query::has_emailaddress() const {
-  return _has_bit(9);
+  return _has_bit(10);
 }
 inline void Query::clear_emailaddress() {
   if (emailaddress_ != &_default_emailaddress_) {
     emailaddress_->clear();
   }
-  _clear_bit(9);
+  _clear_bit(10);
 }
 inline const ::std::string& Query::emailaddress() const {
   return *emailaddress_;
 }
 inline void Query::set_emailaddress(const ::std::string& value) {
-  _set_bit(9);
+  _set_bit(10);
   if (emailaddress_ == &_default_emailaddress_) {
     emailaddress_ = new ::std::string;
   }
   emailaddress_->assign(value);
 }
 inline void Query::set_emailaddress(const char* value) {
-  _set_bit(9);
+  _set_bit(10);
   if (emailaddress_ == &_default_emailaddress_) {
     emailaddress_ = new ::std::string;
   }
   emailaddress_->assign(value);
 }
 inline void Query::set_emailaddress(const char* value, size_t size) {
-  _set_bit(9);
+  _set_bit(10);
   if (emailaddress_ == &_default_emailaddress_) {
     emailaddress_ = new ::std::string;
   }
   emailaddress_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* Query::mutable_emailaddress() {
-  _set_bit(9);
+  _set_bit(10);
   if (emailaddress_ == &_default_emailaddress_) {
     emailaddress_ = new ::std::string;
   }
@@ -2721,40 +2745,40 @@ inline ::std::string* Query::mutable_emailaddress() {
 
 // optional string password = 10;
 inline bool Query::has_password() const {
-  return _has_bit(10);
+  return _has_bit(11);
 }
 inline void Query::clear_password() {
   if (password_ != &_default_password_) {
     password_->clear();
   }
-  _clear_bit(10);
+  _clear_bit(11);
 }
 inline const ::std::string& Query::password() const {
   return *password_;
 }
 inline void Query::set_password(const ::std::string& value) {
-  _set_bit(10);
+  _set_bit(11);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(value);
 }
 inline void Query::set_password(const char* value) {
-  _set_bit(10);
+  _set_bit(11);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(value);
 }
 inline void Query::set_password(const char* value, size_t size) {
-  _set_bit(10);
+  _set_bit(11);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* Query::mutable_password() {
-  _set_bit(10);
+  _set_bit(11);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
@@ -2763,17 +2787,17 @@ inline ::std::string* Query::mutable_password() {
 
 // optional .ProtocolBuffer.User userinfo = 11;
 inline bool Query::has_userinfo() const {
-  return _has_bit(11);
+  return _has_bit(12);
 }
 inline void Query::clear_userinfo() {
   if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
-  _clear_bit(11);
+  _clear_bit(12);
 }
 inline const ::ProtocolBuffer::User& Query::userinfo() const {
   return userinfo_ != NULL ? *userinfo_ : *default_instance_->userinfo_;
 }
 inline ::ProtocolBuffer::User* Query::mutable_userinfo() {
-  _set_bit(11);
+  _set_bit(12);
   if (userinfo_ == NULL) userinfo_ = new ::ProtocolBuffer::User;
   return userinfo_;
 }

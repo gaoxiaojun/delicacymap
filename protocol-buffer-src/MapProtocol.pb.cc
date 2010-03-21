@@ -2995,6 +2995,7 @@ const int Query::kTimeFieldNumber;
 const int Query::kRIDFieldNumber;
 const int Query::kUIDFieldNumber;
 const int Query::kNFieldNumber;
+const int Query::kUIDTargetFieldNumber;
 const int Query::kRelationFieldNumber;
 const int Query::kMsgFieldNumber;
 const int Query::kImageFieldNumber;
@@ -3028,6 +3029,7 @@ void Query::SharedCtor() {
   rid_ = 0u;
   uid_ = 0u;
   n_ = 0u;
+  uid_target_ = 0u;
   relation_ = 0u;
   msg_ = const_cast< ::std::string*>(&_default_msg_);
   image_ = const_cast< ::std::string*>(&_default_image_);
@@ -3088,30 +3090,31 @@ void Query::Clear() {
     rid_ = 0u;
     uid_ = 0u;
     n_ = 0u;
+    uid_target_ = 0u;
     relation_ = 0u;
-    if (_has_bit(7)) {
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    if (_has_bit(8)) {
       if (msg_ != &_default_msg_) {
         msg_->clear();
       }
     }
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    if (_has_bit(8)) {
+    if (_has_bit(9)) {
       if (image_ != &_default_image_) {
         image_->clear();
       }
     }
-    if (_has_bit(9)) {
+    if (_has_bit(10)) {
       if (emailaddress_ != &_default_emailaddress_) {
         emailaddress_->clear();
       }
     }
-    if (_has_bit(10)) {
+    if (_has_bit(11)) {
       if (password_ != &_default_password_) {
         password_->clear();
       }
     }
-    if (_has_bit(11)) {
+    if (_has_bit(12)) {
       if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
     }
   }
@@ -3293,6 +3296,22 @@ bool Query::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &relation_)));
+          _set_bit(7);
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(104)) goto parse_UID_Target;
+        break;
+      }
+      
+      // optional uint32 UID_Target = 13;
+      case 13: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_UID_Target:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &uid_target_)));
           _set_bit(6);
         } else {
           goto handle_uninterpreted;
@@ -3351,38 +3370,43 @@ void Query::SerializeWithCachedSizes(
   }
   
   // optional string msg = 7;
-  if (_has_bit(7)) {
+  if (_has_bit(8)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       7, this->msg(), output);
   }
   
   // optional bytes image = 8;
-  if (_has_bit(8)) {
+  if (_has_bit(9)) {
     ::google::protobuf::internal::WireFormatLite::WriteBytes(
       8, this->image(), output);
   }
   
   // optional string emailAddress = 9;
-  if (_has_bit(9)) {
+  if (_has_bit(10)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       9, this->emailaddress(), output);
   }
   
   // optional string password = 10;
-  if (_has_bit(10)) {
+  if (_has_bit(11)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       10, this->password(), output);
   }
   
   // optional .ProtocolBuffer.User userinfo = 11;
-  if (_has_bit(11)) {
+  if (_has_bit(12)) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
       11, this->userinfo(), output);
   }
   
   // optional uint32 relation = 12;
-  if (_has_bit(6)) {
+  if (_has_bit(7)) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->relation(), output);
+  }
+  
+  // optional uint32 UID_Target = 13;
+  if (_has_bit(6)) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(13, this->uid_target(), output);
   }
   
 }
@@ -3433,6 +3457,13 @@ int Query::ByteSize() const {
           this->n());
     }
     
+    // optional uint32 UID_Target = 13;
+    if (has_uid_target()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->uid_target());
+    }
+    
     // optional uint32 relation = 12;
     if (has_relation()) {
       total_size += 1 +
@@ -3440,6 +3471,8 @@ int Query::ByteSize() const {
           this->relation());
     }
     
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     // optional string msg = 7;
     if (has_msg()) {
       total_size += 1 +
@@ -3447,8 +3480,6 @@ int Query::ByteSize() const {
           this->msg());
     }
     
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     // optional bytes image = 8;
     if (has_image()) {
       total_size += 1 +
@@ -3511,23 +3542,26 @@ void Query::MergeFrom(const Query& from) {
       set_n(from.n());
     }
     if (from._has_bit(6)) {
-      set_relation(from.relation());
+      set_uid_target(from.uid_target());
     }
     if (from._has_bit(7)) {
-      set_msg(from.msg());
+      set_relation(from.relation());
     }
   }
   if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from._has_bit(8)) {
-      set_image(from.image());
+      set_msg(from.msg());
     }
     if (from._has_bit(9)) {
-      set_emailaddress(from.emailaddress());
+      set_image(from.image());
     }
     if (from._has_bit(10)) {
-      set_password(from.password());
+      set_emailaddress(from.emailaddress());
     }
     if (from._has_bit(11)) {
+      set_password(from.password());
+    }
+    if (from._has_bit(12)) {
       mutable_userinfo()->::ProtocolBuffer::User::MergeFrom(from.userinfo());
     }
   }
@@ -3561,6 +3595,7 @@ void Query::Swap(Query* other) {
     std::swap(rid_, other->rid_);
     std::swap(uid_, other->uid_);
     std::swap(n_, other->n_);
+    std::swap(uid_target_, other->uid_target_);
     std::swap(relation_, other->relation_);
     std::swap(msg_, other->msg_);
     std::swap(image_, other->image_);

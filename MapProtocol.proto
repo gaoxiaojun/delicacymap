@@ -98,6 +98,7 @@ message Query
     optional uint32                                          RID                         = 4;
     optional uint32                                          UID                         = 5;
     optional uint32                                          n                           = 6;
+    optional uint32                                          UID_Target                  = 13;
     optional uint32                                          relation                    = 12;   // used with GetRelatedUsers
     optional string                                          msg                         = 7;    // used in add restaurant
     optional bytes                                           image                       = 8;    // used in add restaurant

@@ -51,6 +51,7 @@ enum FunctionID {
   AddCommentForRestaurant                   = 9;
   AddRestaurant                             = 10;
   UpdateUserInfo                            = 11;
+  SetUserRelation                           = 12;    
 };
 
 message Message {
