@@ -14,6 +14,7 @@ class SelfMarkerItem;
 class RouteItem;
 class ZoomSensitiveItem;
 class RestaurantMarkerItem;
+class QTimeLine;
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -28,6 +29,9 @@ public:
     void setDecorator(Decorator* decorator = 0);
     void insertDecorator(Decorator* decorator);
     void appendDecorator(Decorator* decorator);
+    QRect exposedView() const;
+    void ensureVisible(const QGraphicsItem *item, int xmargin=30, int ymargin=30);// shadow base class methods
+    void panBy(QPoint);
 
     void lockMap();
     void unlockMap();
@@ -91,10 +95,15 @@ protected:
     void updateBound();
     void remapMarkers(int oldzoomlevel, int newzoomlevel);
 
+private slots:
+    void panMapX(int);
+    void panMapY(int);
+
 private:
     ImageCache *images;
     QGraphicsScene *scene;
     SelfMarkerItem *self;
+    QTimeLine *panMapTimelineX, *panMapTimelineY;
     Decorator decorator;
     GeoBound currentBound;
     bool handleReleaseEvent, handlePressEvent, handleDblClickEvent, handleMoveEvent;

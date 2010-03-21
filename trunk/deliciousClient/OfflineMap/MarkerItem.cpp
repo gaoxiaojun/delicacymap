@@ -118,6 +118,7 @@ void PanelWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
         }
     }
     QGraphicsProxyWidget::resizeEvent(event);
+    target->ensureVisible(this);
 }
 
 void PanelWidget::paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

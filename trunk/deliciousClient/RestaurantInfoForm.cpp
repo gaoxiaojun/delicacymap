@@ -14,6 +14,7 @@ RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     s = NULL;
     res = NULL;
     timeline = new QTimeLine(300, this);
+    timeline->setFrameRange( this->height(), ui->listComment->geometry().bottom() );
     connect(timeline, SIGNAL(frameChanged(int)), SLOT(frameChange(int)));
     qRegisterMetaType<ProtocolBuffer::CommentList*>("ProtocolBuffer::CommentList*");
 }
@@ -55,7 +56,6 @@ void RestaurantInfoForm::on_btnClose_clicked()
 
 void RestaurantInfoForm::on_btnShow_clicked()
 {
-    timeline->setFrameRange( this->height(), ui->listComment->geometry().bottom() );
     timeline->setDirection(QTimeLine::Forward);
     timeline->start();
     loading = new QMovie(":/Icons/loading.gif");
