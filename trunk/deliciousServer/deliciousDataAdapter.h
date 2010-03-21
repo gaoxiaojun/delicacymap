@@ -56,6 +56,8 @@ public://DB methods
 
     size_t GetRelatedUsersWith( int uid, int relation, CallbackFunc callback );
 
+    size_t SetUserRelation( int uid, int uid_target, int relation);
+
 	const DBResultWrap PostCommentForRestaurant( int rid, int uid, const std::string& msg, const std::string* const image );
 
 	const DBResultWrap UserLogin( const std::string& email, const std::string& password );

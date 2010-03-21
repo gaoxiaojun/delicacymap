@@ -187,7 +187,8 @@ void naked_conn::rpccalldone( google::protobuf::uint32 id, google::protobuf::Mes
     else//success
     {
         outcome.set_type(protorpc::RESPONSE);
-        outcome.set_buffer(msg->SerializeAsString());
+        if (msg)
+            outcome.set_buffer(msg->SerializeAsString());
     }
 
     write(&outcome);
@@ -219,6 +220,7 @@ MessageLite* ResultTypeForMethod(protorpc::FunctionID method_id)
         break;
     case protorpc::UserLogin:
     case protorpc::GetUserInfo:
+    case protorpc::UpdateUserInfo:
         msg = new ::ProtocolBuffer::User;
         break;
     case protorpc::GetRelatedUsers:
@@ -230,8 +232,8 @@ MessageLite* ResultTypeForMethod(protorpc::FunctionID method_id)
     case protorpc::AddCommentForRestaurant:
         msg = new ::ProtocolBuffer::Comment;
         break;
-    case protorpc::UpdateUserInfo:
-        msg = new ::ProtocolBuffer::User;
+    case protorpc::SetUserRelation:
+        msg = NULL;
         break;
     default:
         pantheios::log_CRITICAL("Not handled method id!!!(Return type)");
@@ -262,7 +264,6 @@ void naked_conn::handle_request()
                     msg_timer.async_wait(bind(&naked_conn::messageTimerHandler, shared_from_this(), placeholders::error));
                 }
                 delete response;
-                response = NULL;
             }
             catch (const std::exception& e)
             {

@@ -85,6 +85,11 @@ void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::p
             ::google::protobuf::down_cast< ::ProtocolBuffer::Comment*>(response),
             done);
         break;
+    case protorpc::SetUserRelation:
+        SetUserRelation(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            done);
+        break;
     case protorpc::AddRestaurant:
 //         AddRestaurant(controller,
 //             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
@@ -343,6 +348,24 @@ void DMServiceLocalDBImpl::GetRelatedUsers( ::google::protobuf::RpcController* c
     {
         pantheios::log_WARNING("calling GetRelatedUser() with wrong request message.");
         controller->SetFailed("calling GetRelatedUser() with wrong request message.");
+    }
+
+    done->Run();
+}
+
+void DMServiceLocalDBImpl::SetUserRelation( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::google::protobuf::Closure* done )
+{
+    if (request->has_uid() && request->has_uid_target() && request->has_relation())
+    {
+        if (!adapter->SetUserRelation(request->uid(), request->uid_target(), request->relation()))
+        {
+            controller->SetFailed("Set user relation failed");
+        }
+    }
+    else
+    {
+        pantheios::log_WARNING("calling SetUserRelation() with wrong request message.");
+        controller->SetFailed("calling SetUserRelation() with wrong request message.");
     }
 
     done->Run();

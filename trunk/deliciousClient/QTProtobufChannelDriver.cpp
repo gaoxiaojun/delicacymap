@@ -36,7 +36,8 @@ void QTProtobufChannelDriver::readMessage()
 					if (_currentCalls->contains(response.id()))
 					{
 						CallEntry entry = _currentCalls->value(response.id());
-						entry.response->ParseFromString(response.buffer());
+                        if (response.has_buffer())
+						    entry.response->ParseFromString(response.buffer());
 						parent->returnQueryBuffer(entry.request);
 						_currentCalls->remove(response.id());
 						entry.done->Run();
