@@ -337,6 +337,34 @@ size_t deliciousDataAdapter::GetRelatedUsersWith( int uid, int relation, Callbac
     return ExecuteNormal(querystr, callback);
 }
 
+size_t deliciousDataAdapter::SetUserRelation( int uid, int uid_target, int relation )
+{
+    size_t retval = 0;
+    try
+    {
+        pantheios::log_INFORMATIONAL("SetUserRelation(",
+            "uid=", pantheios::integer(uid),
+            ",uid_target=", pantheios::integer(uid_target),
+            ",relation=", pantheios::integer(relation),
+            ")");
+        char querystr[500];
+        sprintf_s(querystr, sizeof(querystr),
+            "INSERT OR REPLACE INTO Relation_User_User "
+            "(UID_Host, UID_Target, Relation) "
+            "VALUES(%d, %d, %d);"
+            , uid
+            , uid_target
+            , relation);
+        DBResult* ret = dbconn->Execute(querystr);
+        retval = ret ? 1 : 0;
+        dbconn->Free(&ret);
+    }
+    catch(...)
+    {
+    }
+    return retval;
+}
+
 // TODO: maybe database schema object to manage all primary keys and stuff?
 const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows, const std::string& table, const std::string& primarykey )
 {
