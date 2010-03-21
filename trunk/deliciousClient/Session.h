@@ -21,9 +21,6 @@ QTM_BEGIN_NAMESPACE
     class QNetworkSession;
 QTM_END_NAMESPACE
 
-template < typename _ty >
-class QList;
-
 class Session : public QObject
 {
     Q_OBJECT

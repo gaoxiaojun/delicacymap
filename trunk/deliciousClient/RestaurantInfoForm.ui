@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>240</width>
+    <width>260</width>
     <height>95</height>
    </rect>
   </property>
@@ -38,7 +38,7 @@
   <widget class="QPushButton" name="btnClose">
    <property name="geometry">
     <rect>
-     <x>208</x>
+     <x>228</x>
      <y>0</y>
      <width>32</width>
      <height>32</height>
@@ -48,7 +48,7 @@
     <string notr="true"/>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="mainwindow.qrc">
      <normaloff>:/Icons/Resources/close.png</normaloff>:/Icons/Resources/close.png</iconset>
    </property>
    <property name="iconSize">
@@ -109,7 +109,7 @@
   <widget class="QPushButton" name="btnShow">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>55</x>
      <y>60</y>
      <width>100</width>
      <height>32</height>
@@ -122,7 +122,7 @@
   <widget class="QPushButton" name="btnAdd">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>155</x>
      <y>60</y>
      <width>100</width>
      <height>32</height>
@@ -137,12 +137,37 @@
     <rect>
      <x>0</x>
      <y>100</y>
-     <width>240</width>
+     <width>260</width>
      <height>121</height>
     </rect>
    </property>
   </widget>
+  <widget class="QTextEdit" name="txtComment">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>230</y>
+     <width>180</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnCommit">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>230</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Commit</string>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="mainwindow.qrc"/>
+ </resources>
  <connections/>
 </ui>

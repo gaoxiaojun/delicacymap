@@ -126,7 +126,7 @@ void Session::loginMessenger()
     {
         ProtocolBuffer::UserList* users = new ProtocolBuffer::UserList;
         google::protobuf::Closure* closure = google::protobuf::NewCallback(this, &Session::FriendsResponse, users);
-        getDataSource().GetRelatedUsers(getUser()->uid(), 0, users, closure);
+        getDataSource().GetRelatedUsers(getUser()->uid(), Friend, users, closure);
     }
 }
 

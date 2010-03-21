@@ -29,9 +29,9 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
-private slots:
-    void handleCommentList(ProtocolBuffer::CommentList*);
-    void frameChange(int);
+    void UIAnimation_ShowComments(bool show);
+    void UIAnimation_ShowAdd(bool show);
+
 private:
     void commentsResponse(ProtocolBuffer::CommentList*);
 
@@ -40,8 +40,12 @@ private:
     QTimeLine *timeline;
     QMovie *loading;
     Session *s;
+    bool commentsShown, addShown;
 
 private slots:
+    void on_btnCommit_clicked();
+    void handleCommentList(ProtocolBuffer::CommentList*);
+    void frameChange(int);
     void on_btnAdd_clicked();
     void on_btnShow_clicked();
     void on_btnClose_clicked();
