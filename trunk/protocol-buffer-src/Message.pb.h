@@ -60,11 +60,12 @@ enum FunctionID {
   GetRelatedUsers = 8,
   AddCommentForRestaurant = 9,
   AddRestaurant = 10,
-  UpdateUserInfo = 11
+  UpdateUserInfo = 11,
+  SetUserRelation = 12
 };
 bool FunctionID_IsValid(int value);
 const FunctionID FunctionID_MIN = GetRestaurants;
-const FunctionID FunctionID_MAX = UpdateUserInfo;
+const FunctionID FunctionID_MAX = SetUserRelation;
 const int FunctionID_ARRAYSIZE = FunctionID_MAX + 1;
 
 // ===================================================================
