@@ -28,10 +28,9 @@ MapViewBase::MapViewBase(QWidget *parent)
     last_xcenter = xCenter;
     last_ycenter = yCenter;
     scene = new QGraphicsScene;
-    panMapTimelineX = new QTimeLine();
-    panMapTimelineY = new QTimeLine();
-    connect(panMapTimelineX, SIGNAL(frameChanged(int)), SLOT(panMapX(int)));
-    connect(panMapTimelineY, SIGNAL(frameChanged(int)), SLOT(panMapY(int)));
+    panMapTimeline.setDuration(300);
+    connect(&panMapTimeline, SIGNAL(valueChanged(qreal)), SLOT(panMapXhandler(qreal)));
+    connect(&panMapTimeline, SIGNAL(stateChanged(QTimeLine::State)), SLOT(panMapStateChange(QTimeLine::State)));
     setScene(scene);
     centerOn(xCenter, yCenter);
     //setCacheMode(QGraphicsView::CacheBackground);
@@ -42,8 +41,6 @@ MapViewBase::MapViewBase(QWidget *parent)
 
 MapViewBase::~MapViewBase()
 {
-    delete panMapTimelineX;
-    delete panMapTimelineY;
     if (self)
         scene->removeItem(self);
     delete self;
@@ -299,16 +296,18 @@ void MapViewBase::downloadMissingImages(){
     }
 }
 
-void MapViewBase::panMapX(int x)
+void MapViewBase::panMapXhandler(qreal v)
 {
-    xCenter = x;
+    QPoint currentPos = _panOldCenter + _panDelta * v;
+    xCenter = currentPos.x();
+    yCenter = currentPos.y();
     centerOn(xCenter, yCenter);
 }
 
-void MapViewBase::panMapY(int y)
+void MapViewBase::panMapStateChange(QTimeLine::State newState)
 {
-    yCenter = y;
-    centerOn(xCenter, yCenter);
+    if (newState == QTimeLine::NotRunning)
+        updateBound();
 }
 
 void MapViewBase::scheduleRepaint(){
@@ -524,7 +523,7 @@ RestaurantMarkerItem* MapViewBase::getRestaurantMarker(int rid)
 
 void MapViewBase::panBy(QPoint p)
 {
-    if (p.manhattanLength() < 5)
+    if (p.manhattanLength() < 10)
     {
         xCenter += p.x();
         yCenter += p.y();
@@ -532,18 +531,12 @@ void MapViewBase::panBy(QPoint p)
     }
     else
     {
-        if (panMapTimelineX->state() == QTimeLine::Running)
-            panMapTimelineX->stop();
-        if (panMapTimelineY->state() == QTimeLine::Running)
-            panMapTimelineY->stop();
-        panMapTimelineX->setDuration(300);
-        panMapTimelineY->setDuration(300);
-        panMapTimelineX->setDirection(QTimeLine::Forward);
-        panMapTimelineY->setDirection(QTimeLine::Forward);
-        panMapTimelineX->setFrameRange(xCenter, xCenter + p.x());
-        panMapTimelineY->setFrameRange(yCenter, yCenter + p.y());
-        panMapTimelineX->start();
-        panMapTimelineY->start();
+        _panDelta = p;
+        _panOldCenter = QPoint(xCenter, yCenter);
+        if (panMapTimeline.state() == QTimeLine::Running)
+            panMapTimeline.stop();
+        panMapTimeline.setDirection(QTimeLine::Forward);
+        panMapTimeline.start();
     }
 }
 

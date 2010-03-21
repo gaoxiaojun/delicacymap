@@ -179,12 +179,25 @@ void MapDataSource::GetRelatedUsers( ProtocolBuffer::Query *query, ProtocolBuffe
     channel->CallMethod( protorpc::GetRelatedUsers, query, users, done);
 }
 
-void MapDataSource::GetRelatedUsers( int uid, int relation, ProtocolBuffer::UserList *users, google::protobuf::Closure *done )
+void MapDataSource::GetRelatedUsers( int uid, UserRelation relation, ProtocolBuffer::UserList *users, google::protobuf::Closure *done )
 {
     // User relation is specified in DBManager/RelationConstants.cs, as follows:
-    // UserRelationship { Friend = 0, BlackList, Unspecified = -1 };
     query.Clear();
     query.set_uid(uid);
-    query.set_relation(relation);
+    query.set_relation((int)relation);
     GetRelatedUsers(&query, users, done);
+}
+
+void MapDataSource::SetUserRelation( int uid, int target_uid, UserRelation relation, ProtocolBuffer::User * usr, google::protobuf::Closure *done )
+{
+    query.Clear();
+    query.set_uid(uid);
+    query.set_uid_target(target_uid);
+    query.set_relation((int)relation);
+    SetUserRelation(&query, usr, done);
+}
+
+void MapDataSource::SetUserRelation( ProtocolBuffer::Query *query, ProtocolBuffer::User *usr, google::protobuf::Closure *done )
+{
+    channel->CallMethod( protorpc::SetUserRelation, query, usr, done );
 }

@@ -3,8 +3,15 @@
 
 #include <QtCore/qobject>
 #include <string>
-#include "../protocol-buffer-src/MapProtocol.pb.h"
+#include "MapProtocol.pb.h"
 #undef abort
+
+enum UserRelation
+{
+    Friend = 0,
+    BlackList,
+    Unspecified = -1
+};
 
 class QTProtobufChannel;
 
@@ -32,8 +39,9 @@ public:
     void AddCommentForRestaurant(int rid,int uid,const std::string & content,ProtocolBuffer::Comment* comment,google::protobuf::Closure *done);   
     void UserLogin(const std::string& useremailaddr, const std::string& password, ProtocolBuffer::User *, google::protobuf::Closure *);
     void GetUser(int uid, ProtocolBuffer::User *, google::protobuf::Closure *);
-    void GetRelatedUsers(int uid, int relation, ProtocolBuffer::UserList *, google::protobuf::Closure *);
+    void GetRelatedUsers(int uid, UserRelation relation, ProtocolBuffer::UserList *, google::protobuf::Closure *);
     void UpdateUserInfo(int uid, const std::string& password, ProtocolBuffer::User* info, google::protobuf::Closure *);
+    void SetUserRelation(int uid, int target_uid, UserRelation relation, ProtocolBuffer::User*, google::protobuf::Closure *);
 
     void GetRestaurants(ProtocolBuffer::Query *, ProtocolBuffer::RestaurantList *, google::protobuf::Closure *);
     void GetLastestCommentsOfRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
@@ -45,6 +53,7 @@ public:
     void GetUser(ProtocolBuffer::Query *, ProtocolBuffer::User *, google::protobuf::Closure *);
     void GetRelatedUsers(ProtocolBuffer::Query *, ProtocolBuffer::UserList *, google::protobuf::Closure *);
     void UpdateUserInfo(ProtocolBuffer::Query *, ProtocolBuffer::User *, google::protobuf::Closure *);
+    void SetUserRelation(ProtocolBuffer::Query *, ProtocolBuffer::User*, google::protobuf::Closure*);
     void SendMessage(ProtocolBuffer::DMessage*);
 
 

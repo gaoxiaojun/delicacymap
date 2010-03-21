@@ -5,6 +5,8 @@
 #include <QMovie>
 #include <QTimeLine>
 
+static const int WidgetMargin = 3;
+
 RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::RestaurantInfoForm)
@@ -13,10 +15,12 @@ RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     loading = NULL;
     s = NULL;
     res = NULL;
-    timeline = new QTimeLine(300, this);
-    timeline->setFrameRange( this->height(), ui->listComment->geometry().bottom() );
+    timeline = new QTimeLine(200, this);
     connect(timeline, SIGNAL(frameChanged(int)), SLOT(frameChange(int)));
     qRegisterMetaType<ProtocolBuffer::CommentList*>("ProtocolBuffer::CommentList*");
+    commentsShown = false;
+    addShown = false;
+    ui->label_spin->hide();
 }
 
 RestaurantInfoForm::~RestaurantInfoForm()
@@ -49,6 +53,84 @@ void RestaurantInfoForm::frameChange(int p)
     this->resize(this->width(), p);
 }
 
+void RestaurantInfoForm::UIAnimation_ShowComments(bool show)
+{
+    if (show == commentsShown)
+        return;
+    ui->listComment->setVisible( show );
+    if (!commentsShown)
+    {
+        if (!addShown)
+        {
+            timeline->setFrameRange(this->height(), ui->listComment->geometry().bottom() + WidgetMargin);
+            ui->label_spin->show();
+            loading = new QMovie(":/Icons/loading.gif");
+            ui->label_spin->setMovie(loading);
+            ui->label_spin->setGeometry(
+                    ui->listComment->geometry().center().x() - 16,
+                    ui->listComment->geometry().center().y() - 16,
+                    32, 32);
+            loading->start();
+
+        }
+        else
+        {
+            ui->btnCommit->move(ui->btnCommit->x(), ui->listComment->geometry().bottom() + WidgetMargin);
+            ui->txtComment->move(ui->txtComment->x(), ui->listComment->geometry().bottom() + WidgetMargin);
+            timeline->setFrameRange(this->height(), ui->txtComment->geometry().bottom() + WidgetMargin);
+        }
+    }
+    else
+    {
+        if (!addShown)
+        {
+            timeline->setFrameRange(this->height(), ui->btnAdd->geometry().bottom() + WidgetMargin);
+        }
+        else
+        {
+            ui->btnCommit->move(ui->btnCommit->x(), ui->listComment->geometry().bottom() + WidgetMargin);
+            ui->txtComment->move(ui->txtComment->x(), ui->listComment->geometry().bottom() + WidgetMargin);
+            timeline->setFrameRange(this->height(), ui->btnCommit->geometry().bottom() + WidgetMargin);
+        }
+    }
+    timeline->start();
+}
+
+void RestaurantInfoForm::UIAnimation_ShowAdd(bool show)
+{
+    if (show == addShown)
+        return;
+    ui->btnCommit->setVisible( show );
+    ui->txtComment->setVisible( show );
+    if (!commentsShown)
+    {
+        if (!addShown)
+        {
+            ui->btnCommit->move(ui->btnCommit->x(), ui->btnAdd->geometry().bottom() + WidgetMargin);
+            ui->txtComment->move(ui->txtComment->x(), ui->btnAdd->geometry().bottom() + WidgetMargin);
+            timeline->setFrameRange(this->height(), ui->txtComment->geometry().bottom() + WidgetMargin);
+        }
+        else
+        {
+            timeline->setFrameRange(this->height(), ui->btnAdd->geometry().bottom() + WidgetMargin);
+        }
+    }
+    else
+    {
+        if (!addShown)
+        {
+            ui->btnCommit->move(ui->btnCommit->x(), ui->listComment->geometry().bottom() + WidgetMargin);
+            ui->txtComment->move(ui->txtComment->x(), ui->listComment->geometry().bottom() + WidgetMargin);
+            timeline->setFrameRange(this->height(), ui->txtComment->geometry().bottom() + WidgetMargin);
+        }
+        else
+        {
+            timeline->setFrameRange(this->height(), ui->listComment->geometry().bottom() + WidgetMargin);
+        }
+    }
+    timeline->start();
+}
+
 void RestaurantInfoForm::on_btnClose_clicked()
 {
     this->close();
@@ -56,17 +138,9 @@ void RestaurantInfoForm::on_btnClose_clicked()
 
 void RestaurantInfoForm::on_btnShow_clicked()
 {
-    timeline->setDirection(QTimeLine::Forward);
-    timeline->start();
-    loading = new QMovie(":/Icons/loading.gif");
-    ui->label_spin->setMovie(loading);
-    ui->label_spin->setGeometry(
-            ui->listComment->geometry().center().x() - 16,
-            ui->listComment->geometry().center().y() - 16,
-            32, 32);
-    loading->start();
-
-    if (getSession() && res)
+    UIAnimation_ShowComments(!commentsShown);
+    commentsShown = !commentsShown;
+    if (commentsShown && getSession() && res)
     {
         ProtocolBuffer::CommentList* commentlist=new ProtocolBuffer::CommentList();
         google::protobuf::Closure* commentDataArrive = google::protobuf::NewCallback(this, &RestaurantInfoForm::commentsResponse, commentlist);
@@ -76,8 +150,13 @@ void RestaurantInfoForm::on_btnShow_clicked()
 
 void RestaurantInfoForm::on_btnAdd_clicked()
 {
-    timeline->setDirection(QTimeLine::Backward);
-    timeline->start();
+    UIAnimation_ShowAdd(!addShown);
+    addShown = !addShown;
+}
+
+void RestaurantInfoForm::on_btnCommit_clicked()
+{
+
 }
 
 void RestaurantInfoForm::commentsResponse(ProtocolBuffer::CommentList *list)
@@ -89,7 +168,7 @@ void RestaurantInfoForm::handleCommentList( ProtocolBuffer::CommentList* list )
 {
     delete loading;
     loading = NULL;
-    ui->label_spin->hide();
+    //ui->label_spin->hide();
 
     // This may crash, because we might have closed the form before the closure is ran
     // To fix this problem, we have to implement cancelation mechanism in rpc.
