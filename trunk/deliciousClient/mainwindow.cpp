@@ -66,6 +66,8 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     btn_zoomOut->setGeometry(80, 8, 64, 64);
     btn_zoomOut->setIconSize(QSize(64, 64));
     btn_zoomOut->setFlat(true);
+    connect(m_ui->btn_quit, SIGNAL(clicked()), SLOT(close()));
+    connect(m_ui->btn_addMarker, SIGNAL(clicked()), SLOT(AddMarkerClicked()));
     connect(navi, SIGNAL(canZoomIn(bool)), btn_zoomIn, SLOT(setEnabled(bool)));
     connect(navi, SIGNAL(canZoomOut(bool)), btn_zoomOut, SLOT(setEnabled(bool)));
     connect(btn_zoomIn, SIGNAL(clicked()), navi, SLOT(zoomIn()));
@@ -85,13 +87,14 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
 
     svc = new MapServices;
+    pan_Btn_timeline = new QTimeLine(300, this);
+    pan_Btn_timeline->setCurveShape(QTimeLine::EaseOutCurve);
+    pan_Btn_timeline->setDirection(QTimeLine::Forward);
 
     int index = this->m_ui->stackedWidget->insertWidget(0,navi);
     qDebug()<<index<<endl;
     this->m_ui->stackedWidget->setCurrentWidget(navi);
     changeSession(s);
-
-    interfaceTransit_map();
 }
 
 MainWindow::~MainWindow()
@@ -150,109 +153,9 @@ Session* MainWindow::getSession()
     return session;
 }
 
-void MainWindow::clearConnections()
+void MainWindow::AddMarkerClicked()
 {
-	this->m_ui->actionA->disconnect();
-	this->m_ui->actionB->disconnect();
-	this->m_ui->actionC->disconnect();
-	this->m_ui->actionD->disconnect();
-	this->m_ui->actionE->disconnect();
-	this->m_ui->actionL->disconnect();
-	this->m_ui->actionR->disconnect();
-	this->m_ui->actionPL->disconnect();
-	this->m_ui->actionPR->disconnect();
 
-}
-
-void MainWindow::interfaceTransit_map()
-{
-    clearConnections();
-
-    m_ui->pushButton_L->setText("Exit");
-    m_ui->pushButton_R->setText("Lock map");
-
-    m_ui->stackedWidget->setCurrentIndex(0);
-    m_ui->lineEdit->setVisible(true);
-    m_ui->toolButton_A->setVisible(true);
-    m_ui->toolButton_B->setVisible(true);
-    m_ui->toolButton_C->setVisible(true);
-    m_ui->toolButton_D->setVisible(true);
-    
-    connect(m_ui->actionR,SIGNAL(triggered()),this->navi,SLOT(zoomIn()));
-    connect(m_ui->actionL,SIGNAL(triggered()),this->navi,SLOT(zoomOut()));
-    connect(m_ui->actionA,SIGNAL(triggered()),this,SLOT(interfaceTransit_comment()));
-    connect(m_ui->actionB,SIGNAL(triggered()),this,SLOT(interfaceTransit_favourite()));
-    connect(m_ui->actionPL, SIGNAL(triggered()), this, SLOT(close()));
-    connect(m_ui->actionCommit,SIGNAL(triggered()),this,SLOT(commentCommited()));
-}
-
-
-void MainWindow::interfaceTransit_comment()
-{
-    clearConnections();
-
-    m_ui->stackedWidget->setCurrentIndex(1);
-    m_ui->tabWidget->setCurrentIndex(1);
-    m_ui->lineEdit->setVisible(false);
-    m_ui->toolButton_C->setVisible(false);
-    m_ui->toolButton_D->setVisible(false);
-
-    connect(m_ui->actionPL,SIGNAL(triggered()),this,SLOT(interfaceTransit_map()));
-}
-
-
-void MainWindow::interfaceTransit_favourite()
-{
-	qDebug()<<"click"<<endl;
-	//navi->page()->mainFrame()->evaluateJavaScript(QString("alert('aa');"));
-// 	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(1);"));
-// 	navi->page()->mainFrame()->evaluateJavaScript(QString("removeRestaurant(2);"));
-
-
-
-	//clearConnections();
-
-	//m_ui->toolButton_L->setText("Archive");
-	//m_ui->toolButton_R->setText("share");
-	//m_ui->pushButton_L->setText("Back");
-	//m_ui->pushButton_R->setText("Detail");
-
-	//m_ui->stackedWidget->setCurrentIndex(2);
-	//m_ui->lineEdit->setVisible(false);
-	//m_ui->toolButton_A->setVisible(false);
-	//m_ui->toolButton_B->setVisible(false);
-	//m_ui->toolButton_C->setVisible(false);
-	//m_ui->toolButton_D->setVisible(false);
-	//m_ui->toolButton_E->setVisible(false);
-
-
-	//connect(m_ui->actionPL,SIGNAL(triggered()),this,SLOT(interfaceTransit_map()));
-}
-
-void MainWindow::showLatestComments( ProtocolBuffer::CommentList* list )
-{
-    QString str;
-      
-    str= QString("餐厅名称:     %1").arg(showrestaurant->restaurant.name().c_str());
-    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(str.toStdString().c_str())));
-    
-    str=QString("平均价格:     %1 RMB").arg(showrestaurant->restaurant.averageexpense().amount());
-    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(str.toStdString().c_str())));
-    
-    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8("网友评价:   ")));
-  
-    ProtocolBuffer::User* usr;
-    google::protobuf::Closure * closure;
-
-    showrestaurant->n=list->comments_size();
-    for (int i=0;i<showrestaurant->n;++i)
-    {
-        usr=new ProtocolBuffer::User();
-        closure=google::protobuf::NewCallback(this,&MainWindow::showUser,i,usr);
-        showrestaurant->commentanduser[i].comment.CopyFrom(list->comments(i));
-        session->getDataSource().GetUser(list->comments(i).uid(), usr,closure);
-    }
-    delete list;
 }
 
 void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
@@ -295,32 +198,10 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
 
 void MainWindow::RestaurantMarkerResponse(const ProtocolBuffer::Restaurant* res)
 {
-//    showrestaurant=new showRestaurant;
-//    showrestaurant->restaurant.CopyFrom(*res);
-//    ProtocolBuffer::CommentList* commentlist=new ProtocolBuffer::CommentList();
-//  	google::protobuf::Closure* commentDataArrive;
-//    commentDataArrive=google::protobuf::NewCallback(this,&MainWindow::showLatestComments,commentlist);
-//    session->getDataSource().GetLastestCommentsOfRestaurant(res->rid(), 20, commentlist, commentDataArrive);
-//
-//    m_ui->list_latestcomment->clear();
-//    m_ui->stackedWidget->setCurrentIndex(1);
     RestaurantInfoForm* form = new RestaurantInfoForm();
     form->setRestaurant(res);
     form->setSession(getSession());
     navi->addBlockingPanel(form, navi->getRestaurantMarker(res->rid()));
-//    interfaceTransit_comment();
-}
-
-void MainWindow::showUser(const int num,ProtocolBuffer::User* usr)
-{
-    QString str;
-    
-	showrestaurant->commentanduser->user.CopyFrom(*usr);
-    str=QString("%1:   %2").arg(
-        usr->nickname().c_str()).arg(
-        showrestaurant->commentanduser[num].comment.content().c_str());
-    m_ui->list_latestcomment->addItem(new QListWidgetItem(QString::fromUtf8(str.toStdString().c_str())));
-    delete usr;
 }
 
 void MainWindow::commentSuccessed(void)

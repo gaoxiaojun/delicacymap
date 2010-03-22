@@ -382,12 +382,9 @@ background-color: rgba(255, 255, 255, 200);
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="pushButton_L">
-        <property name="styleSheet">
-         <string notr="true">QPushButton { color: red }</string>
-        </property>
+       <widget class="QPushButton" name="btn_quit">
         <property name="text">
-         <string>PushButton</string>
+         <string>Quit</string>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -395,12 +392,22 @@ background-color: rgba(255, 255, 255, 200);
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_R">
-        <property name="styleSheet">
-         <string notr="true">QPushButton { color: red }</string>
+       <widget class="QPushButton" name="btn_addMarker">
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Add marker</string>
+        </property>
+        <property name="icon">
+         <iconset resource="mainwindow.qrc">
+          <normaloff>:/Icons/arrow_right.png</normaloff>:/Icons/arrow_right.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -411,51 +418,6 @@ background-color: rgba(255, 255, 255, 200);
     </item>
    </layout>
   </widget>
-  <action name="actionA">
-   <property name="text">
-    <string>A</string>
-   </property>
-  </action>
-  <action name="actionB">
-   <property name="text">
-    <string>B</string>
-   </property>
-  </action>
-  <action name="actionC">
-   <property name="text">
-    <string>C</string>
-   </property>
-  </action>
-  <action name="actionD">
-   <property name="text">
-    <string>D</string>
-   </property>
-  </action>
-  <action name="actionE">
-   <property name="text">
-    <string>E</string>
-   </property>
-  </action>
-  <action name="actionL">
-   <property name="text">
-    <string>L</string>
-   </property>
-  </action>
-  <action name="actionR">
-   <property name="text">
-    <string>R</string>
-   </property>
-  </action>
-  <action name="actionPL">
-   <property name="text">
-    <string>PL</string>
-   </property>
-  </action>
-  <action name="actionPR">
-   <property name="text">
-    <string>PR</string>
-   </property>
-  </action>
   <action name="actionCommit">
    <property name="text">
     <string>Commit</string>
@@ -473,102 +435,6 @@ background-color: rgba(255, 255, 255, 200);
  </resources>
  <connections>
   <connection>
-   <sender>toolButton_A</sender>
-   <signal>clicked()</signal>
-   <receiver>actionA</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>10</x>
-     <y>32</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>toolButton_B</sender>
-   <signal>clicked()</signal>
-   <receiver>actionB</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>30</x>
-     <y>32</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>toolButton_C</sender>
-   <signal>clicked()</signal>
-   <receiver>actionC</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>49</x>
-     <y>32</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>toolButton_D</sender>
-   <signal>clicked()</signal>
-   <receiver>actionD</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>69</x>
-     <y>32</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_L</sender>
-   <signal>clicked()</signal>
-   <receiver>actionPL</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>144</x>
-     <y>365</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_R</sender>
-   <signal>clicked()</signal>
-   <receiver>actionPR</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>432</x>
-     <y>365</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>commitcomment</sender>
    <signal>clicked()</signal>
    <receiver>actionCommit</receiver>
@@ -577,22 +443,6 @@ background-color: rgba(255, 255, 255, 200);
     <hint type="sourcelabel">
      <x>367</x>
      <y>418</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>toolButton_Search</sender>
-   <signal>clicked()</signal>
-   <receiver>actionE</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>551</x>
-     <y>32</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
