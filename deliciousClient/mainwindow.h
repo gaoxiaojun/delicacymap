@@ -16,6 +16,7 @@ class MapServices;
 class MapViewBase;
 class MapController;
 class QPushButton;
+class QTimeLine;
 
 namespace ProtocolBuffer{
     class DMessage;
@@ -44,24 +45,20 @@ public:
     Session* getSession();
 protected:
     virtual void changeEvent(QEvent *e);
-    void clearConnections();
 
 public slots:
     void BTHFind();
-    void interfaceTransit_map();
-    void interfaceTransit_comment();
-    void interfaceTransit_favourite();
     //设置成私有成员也可以
     void RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*);
-    void showLatestComments( ProtocolBuffer::CommentList* );
-    void showUser(const int, ProtocolBuffer::User*);
     void commentCommited(void);
     void commentSuccessed(void);
 private slots:
     void printMessage(const ProtocolBuffer::DMessage*);
     void handleRequestRouting(int, const QString&, const QString&);
+    void AddMarkerClicked();
     
 private:
+    QTimeLine *pan_Btn_timeline;
     Ui::MainWindow *m_ui;
     MapViewBase *navi;
     MapServices *svc;
