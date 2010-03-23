@@ -39,6 +39,8 @@ public:
     void setWidget(QWidget *widget, ZoomSensitiveItem* balloonOn=NULL);
     void paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     ZoomSensitiveItem* tiedTo() const { return balloonTarget; }
+signals:
+    void closing(PanelWidget*);
 private slots:
     void handleWidgetDestroyed(QObject*);
     void handleCloseButtonClick();

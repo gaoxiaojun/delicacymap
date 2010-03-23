@@ -1439,6 +1439,23 @@ class Query : public ::google::protobuf::MessageLite {
   inline const ::ProtocolBuffer::User& userinfo() const;
   inline ::ProtocolBuffer::User* mutable_userinfo();
   
+  // optional .ProtocolBuffer.Location location = 14;
+  inline bool has_location() const;
+  inline void clear_location();
+  static const int kLocationFieldNumber = 14;
+  inline const ::ProtocolBuffer::Location& location() const;
+  inline ::ProtocolBuffer::Location* mutable_location();
+  
+  // optional string name = 15;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 15;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Query)
  private:
   mutable int _cached_size_;
@@ -1460,11 +1477,14 @@ class Query : public ::google::protobuf::MessageLite {
   ::std::string* password_;
   static const ::std::string _default_password_;
   ::ProtocolBuffer::User* userinfo_;
+  ::ProtocolBuffer::Location* location_;
+  ::std::string* name_;
+  static const ::std::string _default_name_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(13 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(15 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -2800,6 +2820,65 @@ inline ::ProtocolBuffer::User* Query::mutable_userinfo() {
   _set_bit(12);
   if (userinfo_ == NULL) userinfo_ = new ::ProtocolBuffer::User;
   return userinfo_;
+}
+
+// optional .ProtocolBuffer.Location location = 14;
+inline bool Query::has_location() const {
+  return _has_bit(13);
+}
+inline void Query::clear_location() {
+  if (location_ != NULL) location_->::ProtocolBuffer::Location::Clear();
+  _clear_bit(13);
+}
+inline const ::ProtocolBuffer::Location& Query::location() const {
+  return location_ != NULL ? *location_ : *default_instance_->location_;
+}
+inline ::ProtocolBuffer::Location* Query::mutable_location() {
+  _set_bit(13);
+  if (location_ == NULL) location_ = new ::ProtocolBuffer::Location;
+  return location_;
+}
+
+// optional string name = 15;
+inline bool Query::has_name() const {
+  return _has_bit(14);
+}
+inline void Query::clear_name() {
+  if (name_ != &_default_name_) {
+    name_->clear();
+  }
+  _clear_bit(14);
+}
+inline const ::std::string& Query::name() const {
+  return *name_;
+}
+inline void Query::set_name(const ::std::string& value) {
+  _set_bit(14);
+  if (name_ == &_default_name_) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void Query::set_name(const char* value) {
+  _set_bit(14);
+  if (name_ == &_default_name_) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void Query::set_name(const char* value, size_t size) {
+  _set_bit(14);
+  if (name_ == &_default_name_) {
+    name_ = new ::std::string;
+  }
+  name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Query::mutable_name() {
+  _set_bit(14);
+  if (name_ == &_default_name_) {
+    name_ = new ::std::string;
+  }
+  return name_;
 }
 
 // -------------------------------------------------------------------
