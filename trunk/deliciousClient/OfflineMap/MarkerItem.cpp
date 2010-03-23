@@ -23,7 +23,8 @@ void ZoomSensitiveItem::setPos( const GeoPoint& center )
 
 void RestaurantMarkerItem::paint( QPainter *p, const QStyleOptionGraphicsItem *, QWidget * )
 {
-    p->drawPixmap(-markerImage().width()/2, -markerImage().height(), markerImage());
+    QPixmap& image = isFakeMarker() ? fakeMarkerImage() : markerImage();
+    p->drawPixmap(-image.width()/2, -image.height, image);
     p->drawText(-10, 10, QString::fromUtf8(restaurantInfo()->name().c_str()));
 }
 
@@ -35,6 +36,12 @@ QRectF RestaurantMarkerItem::boundingRect() const
 QPixmap& RestaurantMarkerItem::markerImage()
 {
     static QPixmap image(":/Icons/marker.png");
+    return image;
+}
+
+QPixmap& RestaurantMarkerItem::fakeMarkerImage()
+{
+    static QPixmap image(":/Icons/.png");
     return image;
 }
 

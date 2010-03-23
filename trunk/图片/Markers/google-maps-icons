@@ -1,0 +1,593 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+ <link rel="icon" type="image/vnd.microsoft.icon" href="http://www.gstatic.com/codesite/ph/images/phosting.ico">
+ 
+ <script type="text/javascript">
+ 
+ 
+ 
+ var codesite_token = "5967816deee0cae1097cfd800f2c82ea";
+ 
+ 
+ var logged_in_user_email = "colprog@gmail.com";
+ 
+ 
+ var relative_base_url = "";
+ 
+ </script>
+ 
+ 
+ <title>
+ google-maps-icons -
+ 
+ Project Hosting on Google Code</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+ 
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/17891623693695439908/css/ph_core.css">
+ 
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/17891623693695439908/css/ph_detail.css" >
+ 
+ 
+ 
+ 
+<!--[if IE]>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/17891623693695439908/css/d_ie.css" >
+<![endif]-->
+ <style type="text/css">
+ .menuIcon.off { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -42px }
+ .menuIcon.on { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -28px }
+ .menuIcon.down { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 0; }
+ </style>
+</head>
+<body class="t1">
+ <script type="text/javascript">
+ var _gaq = _gaq || [];
+ _gaq.push(
+ ['siteTracker._setAccount', 'UA-18071-1'],
+ ['siteTracker._trackPageview']);
+ 
+ _gaq.push(
+ ['projectTracker._setAccount', 'UA-5478945-1'],
+ ['projectTracker._trackPageview']);
+ 
+ (function() {
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+ })();
+ </script>
+ <div id="gaia">
+ 
+ <span>
+ 
+ 
+ <b>colprog@gmail.com</b>
+ 
+ 
+ 
+ | <a href="/u/colprog/" id="projects-dropdown" onclick="return false;"
+ ><u>My favorites</u> <small>&#9660;</small></a>
+ 
+ | <a href="/u/colprog/" onclick="_CS_click('/gb/ph/profile');" 
+ title="Profile, Updates, and Settings"
+ ><u>Profile</u></a>
+ | <a href="https://www.google.com/accounts/Logout?continue=http%3A%2F%2Fcode.google.com%2Fp%2Fgoogle-maps-icons%2F" 
+ onclick="_CS_click('/gb/ph/signout');"
+ ><u>Sign out</u></a>
+ 
+ </span>
+
+ </div>
+ <div class="gbh" style="left: 0pt;"></div>
+ <div class="gbh" style="right: 0pt;"></div>
+ 
+ 
+ <div style="height: 1px"></div>
+<!--[if IE 6]>
+<div style="text-align:center;">
+Support browsers that contribute to open source, try <a href="http://www.firefox.com">Firefox</a> or <a href="http://www.google.com/chrome">Google Chrome</a>.
+</div>
+<![endif]-->
+ <table style="padding:0px; margin: 20px 0px 0px 0px; width:100%" cellpadding="0" cellspacing="0">
+ <tr style="height: 58px;">
+ 
+ <td style="width: 55px; text-align:center;">
+ <a href="/p/google-maps-icons/">
+ 
+ 
+ 
+ <img src="/p/google-maps-icons/logo?logo_id=1255352358" alt="Logo">
+ 
+ 
+ </a>
+ </td>
+ 
+ <td style="padding-left: 0.5em">
+ 
+ <div id="pname" style="margin: 0px 0px -3px 0px">
+ <a href="/p/google-maps-icons/" style="text-decoration:none; color:#000">google-maps-icons</a>
+ 
+ </div>
+ <div id="psum">
+ <i><a id="project_summary_link" href="/p/google-maps-icons/" style="text-decoration:none; color:#000">More than 900 free and descriptive map POI markers, icons, for your maps</a></i>
+ </div>
+ 
+ </td>
+ <td style="white-space:nowrap; text-align:right">
+ 
+ <form action="/hosting/search">
+ <input size="30" name="q" value="">
+ <input type="submit" name="projectsearch" value="Search projects" >
+ </form>
+ 
+ </tr>
+ </table>
+
+
+
+ 
+<table id="mt" cellspacing="0" cellpadding="0" width="100%" border="0">
+ <tr>
+ <th onclick="if (!cancelBubble) _go('/p/google-maps-icons/');">
+ <div class="tab active">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ <div class="box-inner">
+ <a onclick="cancelBubble=true;" href="/p/google-maps-icons/">Project&nbsp;Home</a>
+ </div>
+ </div>
+ </th><td>&nbsp;&nbsp;</td>
+ 
+ 
+ 
+ 
+ <th onclick="if (!cancelBubble) _go('/p/google-maps-icons/downloads/list');">
+ <div class="tab inactive">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ <div class="box-inner">
+ <a onclick="cancelBubble=true;" href="/p/google-maps-icons/downloads/list">Downloads</a>
+ </div>
+ </div>
+ </th><td>&nbsp;&nbsp;</td>
+ 
+ 
+ 
+ 
+ 
+ <th onclick="if (!cancelBubble) _go('/p/google-maps-icons/w/list');">
+ <div class="tab inactive">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ <div class="box-inner">
+ <a onclick="cancelBubble=true;" href="/p/google-maps-icons/w/list">Wiki</a>
+ </div>
+ </div>
+ </th><td>&nbsp;&nbsp;</td>
+ 
+ 
+ 
+ 
+ 
+ <th onclick="if (!cancelBubble) _go('/p/google-maps-icons/issues/list');">
+ <div class="tab inactive">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ <div class="box-inner">
+ <a onclick="cancelBubble=true;" href="/p/google-maps-icons/issues/list">Issues</a>
+ </div>
+ </div>
+ </th><td>&nbsp;&nbsp;</td>
+ 
+ 
+ 
+ 
+ <td width="100%">&nbsp;</td>
+ </tr>
+</table>
+<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" class="st">
+ <tr>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <td>
+ <div class="st1">
+ <div class="isf">
+ <span class="inst1">
+ <a href="/p/google-maps-icons/">Summary</a>
+ </span>
+ 
+ 
+ |
+ <span class="inst2">
+ <a href="/p/google-maps-icons/updates/list">Updates</a>
+ </span>
+ 
+ 
+ |
+ <span class="inst3">
+ <a href="/p/google-maps-icons/people/list">People</a>
+ </span>
+ 
+ 
+ </div>
+</div>
+
+ </td>
+ 
+ 
+ <td height="4" align="right" valign="top" class="bevel-right">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ </td>
+ </tr>
+</table>
+<script type="text/javascript">
+ var cancelBubble = false;
+ function _go(url) { document.location = url; }
+</script>
+
+
+<div id="maincol"
+ 
+>
+
+ 
+<!-- IE -->
+
+
+
+
+
+
+<style type="text/css">
+ #downloadbox {
+ padding: 6px;
+ overflow: hidden;
+ white-space: nowrap;
+ text-overflow: ellipsis;
+ }
+ #downloadbox a {
+ margin: 6px 0 0 3em;
+ display: block;
+ padding-left: 18px;
+ background: url(http://www.gstatic.com/codesite/ph/images/dl_arrow.gif) no-repeat bottom left;
+ }
+ #owners a, #members a { white-space: nowrap; }
+ 
+</style>
+<div style="float:right; width:25em; margin:0 0 1em 2em">
+ 
+ <div class="pmeta_bubble_bg">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ <div class="box-inner">
+ <table class="pmeta" cellpadding="5">
+ 
+ 
+ 
+ <tr>
+ <td colspan="4">
+ <img width="15" height="15" id="star_img"
+ src="http://www.gstatic.com/codesite/ph/images/star_off.gif"
+ style="cursor:pointer"
+ 
+ onclick="_CS_toggleStar(this,
+ '',
+ {'scope': 'projects',
+ 'user': '_CURRENT_USER',
+ 'item': 'google-maps-icons',
+ 'token': codesite_token
+ },
+ 'star_msg',
+ 'Starred (\x3ca href\x3d\x22/u/colprog/\x22\x3eview starred projects\x3c/a\x3e)',
+ 'Star this project');"/>
+ &nbsp;
+ <span id="star_msg">
+ 
+ Star this project
+ 
+ </span>
+ </td>
+ </tr>
+ 
+ 
+ </table>
+ </div>
+ <div class="round1"></div>
+ <div class="round2"></div>
+ <div class="round4"></div>
+ </div>
+ 
+ <div class="pmeta_bubble_bg">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ <div class="box-inner">
+ <table class="pmeta" cellpadding="5">
+ 
+ <tr>
+ <th><span style="white-space:nowrap">Code license:</span></th>
+ <td>
+ <a href="http://www.gnu.org/licenses/gpl.html" rel="nofollow">GNU General Public License v3</a>
+ </td>
+ </tr>
+ 
+ 
+ <tr>
+ <th><span style="white-space:nowrap">Content license:</span></th>
+ <td>
+ <a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="nofollow">
+ Creative Commons 3.0 BY-SA
+ </a>
+ </td>
+ </tr>
+ 
+ 
+ 
+ <tr><th>Labels:</th>
+ <td id="project_labels">
+ 
+ <a href="/hosting/search?q=label:icons">icons</a>, 
+ 
+ <a href="/hosting/search?q=label:map">map</a>, 
+ 
+ <a href="/hosting/search?q=label:placemarks">placemarks</a>, 
+ 
+ <a href="/hosting/search?q=label:free">free</a>, 
+ 
+ <a href="/hosting/search?q=label:markers">markers</a>, 
+ 
+ <a href="/hosting/search?q=label:POI">POI</a>, 
+ 
+ <a href="/hosting/search?q=label:mapping">mapping</a>, 
+ 
+ <a href="/hosting/search?q=label:GPS">GPS</a>, 
+ 
+ <a href="/hosting/search?q=label:maps">maps</a>, 
+ 
+ <a href="/hosting/search?q=label:pins">pins</a>, 
+ 
+ <a href="/hosting/search?q=label:GIS">GIS</a>, 
+ 
+ <a href="/hosting/search?q=label:symbols">symbols</a>, 
+ 
+ <a href="/hosting/search?q=label:opensource">opensource</a>, 
+ 
+ <a href="/hosting/search?q=label:icon">icon</a>, 
+ 
+ <a href="/hosting/search?q=label:collection">collection</a>
+ 
+ </td>
+ </tr>
+ 
+ 
+ </table>
+ </div>
+ <div class="round1"></div>
+ <div class="round2"></div>
+ <div class="round4"></div>
+ </div>
+ 
+ 
+ <div style="background:#ddf8cc; margin-bottom: 5px;table-layout:fixed">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ <div class="box-inner">
+ <div id="downloadbox">
+ <a href="downloads/list"
+ style="float: right; padding:0; background: none;"
+ >Show all</a>
+ <b>Featured downloads:</b><br>
+ 
+ <a href="http://google-maps-icons.googlecode.com/files/map-icons-collection-2.0.zip"
+ >map-icons-collection-2.0.zip</a>
+ 
+ <a href="http://google-maps-icons.googlecode.com/files/paint-net-template.pdn"
+ >paint-net-template.pdn</a>
+ 
+ <a href="http://google-maps-icons.googlecode.com/files/template-empty.psd"
+ >template-empty.psd</a>
+ 
+ <a href="http://google-maps-icons.googlecode.com/files/template.psd"
+ >template.psd</a>
+ 
+ </div>
+ </div>
+ <div class="round1"></div>
+ <div class="round2"></div>
+ <div class="round4"></div>
+ </div>
+ 
+ 
+ <div style="background:#ddf8cc; margin-bottom: 5px;table-layout:fixed">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ <div class="box-inner">
+ <div id="wikibox" style="padding: 6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+ <a href="w/list"
+ style="float: right; padding:0; background: none;"
+ >Show all</a>
+ <b>Featured wiki pages:</b><br>
+ 
+ <a href="wiki/Contact"
+ style="margin: 6px 0 0 3em; display: block;" 
+ >Contact</a>
+ 
+ <a href="wiki/Contribute"
+ style="margin: 6px 0 0 3em; display: block;" 
+ >Contribute</a>
+ 
+ <a href="wiki/Donate"
+ style="margin: 6px 0 0 3em; display: block;" 
+ >Donate</a>
+ 
+ <a href="wiki/HowToAddNewIcons"
+ style="margin: 6px 0 0 3em; display: block;" 
+ >HowToAddNewIcons</a>
+ 
+ <a href="wiki/IconDescriptions"
+ style="margin: 6px 0 0 3em; display: block;" 
+ >IconDescriptions</a>
+ 
+ <a href="wiki/License"
+ style="margin: 6px 0 0 3em; display: block;" 
+ >License</a>
+ 
+ <a href="wiki/NumericIcons"
+ style="margin: 6px 0 0 3em; display: block;" 
+ >NumericIcons</a>
+ 
+ <a href="wiki/Promote"
+ style="margin: 6px 0 0 3em; display: block;" 
+ >Promote</a>
+ 
+ <a href="wiki/SitesUsing"
+ style="margin: 6px 0 0 3em; display: block;" 
+ >SitesUsing</a>
+ 
+ </div>
+ </div>
+ <div class="round1"></div>
+ <div class="round2"></div>
+ <div class="round4"></div>
+ </div>
+ 
+ 
+ 
+ <div class="pmeta_bubble_bg">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ <div class="box-inner">
+ <table class="pmeta" cellpadding="5">
+ 
+ 
+ <tr><th>Feeds:</th>
+ <td><ul>
+ <li><a href="/p/google-maps-icons/feeds">Project feeds</a></li>
+ </ul></td>
+ </tr>
+ 
+ </table>
+ </div>
+ <div class="round1"></div>
+ <div class="round2"></div>
+ <div class="round4"></div>
+ </div>
+ 
+ 
+ <div class="pmeta_bubble_bg">
+ <div class="round4"></div>
+ <div class="round2"></div>
+ <div class="round1"></div>
+ <div class="box-inner">
+ <a style="float:right;padding:6px" href="people/list">People details</a>
+ <table class="pmeta" cellpadding="3" style="padding:3px">
+ 
+ <tr><th colspan="2">Project owners:</th></tr>
+ <tr><td style="width:4em">&nbsp;</td>
+ <td id="owners">
+ 
+ <a style="white-space: nowrap" href="/u/nico.mollet/">nico.mollet</a>, 
+ 
+ <a style="white-space: nowrap" href="/u/myBCN.es/">myBCN.es</a>
+ 
+ </td>
+ </tr>
+ 
+ 
+ 
+ <tr><th colspan="2" style="padding-top:6px">Project committers:</th></tr>
+ <tr><td></td>
+ <td id="members">
+ 
+ <a style="white-space: nowrap" href="/u/andrei.taraschuk/">andrei.taraschuk</a>
+ 
+ </td>
+ </tr>
+ 
+ 
+ 
+ 
+ 
+ <tr><th colspan="2" style="padding-top:6px">Project contributors:</th></tr>
+ <tr><td></td>
+ <td id="contributors">
+ 
+ <a style="white-space: nowrap" href="/u/milherou.thierry/">milherou.thierry</a>
+ 
+ </td>
+ </tr>
+ 
+ 
+ 
+ </table>
+ </div>
+ <div class="round1"></div>
+ <div class="round2"></div>
+ <div class="round4"></div>
+ </div>
+ 
+</div>
+ <div id="wikicontent" style="padding:0 3em 1.2em 0">
+ <p>Map Markers, POI Icons, Placemarks, Free Icons, Map Pins, Points of Interest, Map Symbols </p><p><!-- old summary 23 october :
+ Make your map stick out in the crowd by using our more than 600, and counting, beautiful, descriptive and completely free Map Icons
+ --> <img src="http://google-maps-icons.googlecode.com/files/presentation2.jpg" /> <br> </p><h1><a name="About"/>About</h1><p>Map Icons Collection is a set of more than 900 free icons to use as placemarks for your POI (Point of Interests) locations on your maps. You can use them on Google Maps with the &quot;My maps&quot; feature, or automatically by using the Google Maps API. </p><p>Organized in logical color coded categories for better and quicker overview., you get a complete and diverse collection of unique markers for point of interests like cinemas, bus stops, banks, Italian restaurants and shoestores. </p><ul><li><a href="/p/google-maps-icons/wiki/HowToAddNewIcons">Add our custom made icons to your own Maps</a> or to <a href="/p/google-maps-icons/wiki/GoogleEarthTutorial">Google Earth</a>. </li><li><a href="http://code.google.com/p/google-maps-icons/issues/entry" rel="nofollow">Make a suggestion</a> if you are missing an icon or <a href="/p/google-maps-icons/wiki/Contribute">want to contribute</a>. </li><li>Follow this project on <a href="http://www.twitter.com/nicomollet" rel="nofollow">Twitter</a> and <a href="http://friendfeed.com/nicomollet" rel="nofollow">Friendfeed</a> or <a href="/p/google-maps-icons/wiki/Contact">contact us</a>. </li><li><a href="/p/google-maps-icons/wiki/Donate">Donate to show your appriciation</a> and to support future development or just <a href="/p/google-maps-icons/wiki/Promote">promote the project</a>. </li><li><a href="#All_the_markers">See all the map symbols on one page</a>. </li><li><a href="/p/google-maps-icons/wiki/IconDescriptions">Icons described, tagged and separated in categories</a>. </li></ul><p><table> <tr><td colspan="2">Switch language :</td> <td width="30" align="right"><img src="http://google-maps-icons.googlecode.com/files/fr.gif" /></td> <td align="left"><font size="1" color="#727272"><a href="/p/google-maps-icons/wiki/IconesPlans">français</a></font></td> <td width="30" align="right"><img src="http://google-maps-icons.googlecode.com/files/br.gif" /></td> <td align="left"><font size="1" color="#727272"><a href="/p/google-maps-icons/wiki/IconesMapas">português</a></font></td> <td width="30" align="right"><img src="http://google-maps-icons.googlecode.com/files/es.gif" /></td> <td align="left"><font size="1" color="#727272"><a href="/p/google-maps-icons/wiki/IconosMapas">español</a></font></td> <td width="30" align="right"><img src="http://google-maps-icons.googlecode.com/files/de.gif" /></td> <td align="left"><font size="1" color="#727272"><a href="/p/google-maps-icons/wiki/Kartensymbole">deutsch</a></font></td> <td width="30" align="right"><img src="http://google-maps-icons.googlecode.com/files/it.gif" /></td><td align="left"><font size="1" color="#727272"><a href="/p/google-maps-icons/wiki/IconeMappa">italiano</a></font></td> <td width="30" align="right"><img src="http://google-maps-icons.googlecode.com/files/nl.gif" /></td><td align="left"><font size="1" color="#727272"><a href="/p/google-maps-icons/wiki/Kaarticonen">nederlands</a></font></td></tr> </table> </p><p><br> </p><h1><a name="Latest_Updates"/>Latest Updates</h1><p><!-- </p><p>baskteball2.png
+ tennis2.png
+ handball.png
+ soccer2.png 
+ pool-indoor.png
+ </p><p>NEW
+ ferriswheel.png
+ drinkingfountain.png
+ </p><p>--> </p><p><table><tr><td style="border: 1px solid #aaa; padding: 5px;"><font color="#666666" size="1">6th of February, 2010</font><br><font size="2"><b>Restaurants icon pack</b></font><br>This is part of a massive contribution by Matthias Stasiak. Don&#x27;t forget to thank him, and <a href="/p/google-maps-icons/wiki/Donate">consider donating to Matthias</a>.<br>fish, barbecue, buffet, romantic, terrace, food truck restaurants.<br> <img src="http://google-maps-icons.googlecode.com/files/restaurant-fish.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurant-barbecue.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurant-buffet.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurant-romantic.png" /> <img src="http://google-maps-icons.googlecode.com/files/terrace.png" /> <img src="http://google-maps-icons.googlecode.com/files/foodtruck.png" /> </td></tr> <tr><td style="border: 1px solid #aaa; padding: 5px;"><font color="#666666" size="1">21th of January, 2010</font><br><font size="2"><b>Transportation icon pack</b></font><br>This is part of a massive contribution by Matthias Stasiak.<br>airport-apron, traffic enforcement camera, motorcycle, aircraft-small, airport runway, speedhump, airport terminal, tram<br><img src="http://google-maps-icons.googlecode.com/files/airport-apron.png" /> <img src="http://google-maps-icons.googlecode.com/files/trafficenforcementcamera.png" /> <img src="http://google-maps-icons.googlecode.com/files/motorcycle.png" /> <img src="http://google-maps-icons.googlecode.com/files/aircraft-small.png" /> <img src="http://google-maps-icons.googlecode.com/files/airport-runway.png" /> <img src="http://google-maps-icons.googlecode.com/files/speedhump.png" /> <img src="http://google-maps-icons.googlecode.com/files/airport-terminal.png" /> <img src="http://google-maps-icons.googlecode.com/files/tram.png" /> </td></tr> <tr><td style="border: 1px solid #aaa; padding: 5px;"><font color="#666666" size="1">19th of January, 2010</font><br><font size="2"><b>Tourism and nature icon pack</b></font><br>This is part of a massive contribution by Matthias Stasiak. Don&#x27;t forget to thank him, and <a href="/p/google-maps-icons/wiki/Donate">consider donating to Matthias</a>.<br>water, templehindu, pagoda, garden, sight, park urban, shelter sleeping, shelter picnic, waterwell, place unvisited, place visited, waterwell pump, city square, shore, petroglyphs, lake, gondola, glacier, fjord, cross, amphitheater, geyser, pyramid egypt, pyramid south america<br><img src="http://google-maps-icons.googlecode.com/files/water.png" /> <img src="http://google-maps-icons.googlecode.com/files/templehindu.png" /> <img src="http://google-maps-icons.googlecode.com/files/pagoda.png" /> <img src="http://google-maps-icons.googlecode.com/files/garden.png" /> <img src="http://google-maps-icons.googlecode.com/files/sight.png" /> <img src="http://google-maps-icons.googlecode.com/files/park-urban.png" /> <img src="http://google-maps-icons.googlecode.com/files/shelter-sleeping.png" /> <img src="http://google-maps-icons.googlecode.com/files/shelter-picnic.png" /> <img src="http://google-maps-icons.googlecode.com/files/waterwell.png" /> <img src="http://google-maps-icons.googlecode.com/files/places-unvisited.png" /> <img src="http://google-maps-icons.googlecode.com/files/places-visited.png" /> <img src="http://google-maps-icons.googlecode.com/files/waterwellpump.png" /> <img src="http://google-maps-icons.googlecode.com/files/citysquare.png" /> <img src="http://google-maps-icons.googlecode.com/files/shore.png" /> <img src="http://google-maps-icons.googlecode.com/files/petroglyphs.png" /> <img src="http://google-maps-icons.googlecode.com/files/lake.png" /> <img src="http://google-maps-icons.googlecode.com/files/gondola.png" /> <img src="http://google-maps-icons.googlecode.com/files/glacier.png" /> <img src="http://google-maps-icons.googlecode.com/files/fjord.png" /> <img src="http://google-maps-icons.googlecode.com/files/cross.png" /> <img src="http://google-maps-icons.googlecode.com/files/amphitheater-tourism.png" /> <img src="http://google-maps-icons.googlecode.com/files/geyser.png" /> <img src="http://google-maps-icons.googlecode.com/files/pyramid-egypt.png" /> <img src="http://google-maps-icons.googlecode.com/files/pyramid-southam.png" /> </td></tr> <tr><td style="border: 1px solid #aaa; padding: 5px;"><font color="#666666" size="1">17th of January, 2010</font><br><font size="2"><b>Industry and Offices pack</b></font><br>This is part of a massive contribution by Matthias Stasiak.<br>power substation, power line pole, embassy, police2, observatory, spaceport, mobile phone tower, oil pump jack, community centre<br><img src="http://google-maps-icons.googlecode.com/files/powersubstation.png" /> <img src="http://google-maps-icons.googlecode.com/files/powerlinepole.png" /> <img src="http://google-maps-icons.googlecode.com/files/embassy.png" /> <img src="http://google-maps-icons.googlecode.com/files/police2.png" /> <img src="http://google-maps-icons.googlecode.com/files/observatory.png" /> <img src="http://google-maps-icons.googlecode.com/files/spaceport.png" /> <img src="http://google-maps-icons.googlecode.com/files/mobilephonetower.png" /> <img src="http://google-maps-icons.googlecode.com/files/oilpumpjack.png" /> <img src="http://google-maps-icons.googlecode.com/files/communitycentre.png" /></td></tr> <tr><td style="border: 1px solid #aaa; padding: 5px;"><font color="#666666" size="1">13th of January, 2010</font><br><font size="2"><b>Stores pack</b></font><br>This is part of a massive contribution by Matthias Stasiak. Don&#x27;t forget to thank him, and <a href="/p/google-maps-icons/wiki/Donate">consider donating to Matthias</a>.<br>tailor, sneakers, perfumery, photography, paint, pens, bookstore, clothes-female, clothes-male, bags, hats, patisserie, artgallery<br><img src="http://google-maps-icons.googlecode.com/files/tailor.png" /> <img src="http://google-maps-icons.googlecode.com/files/sneakers.png" /> <img src="http://google-maps-icons.googlecode.com/files/perfumery.png" /> <img src="http://google-maps-icons.googlecode.com/files/photography.png" /> <img src="http://google-maps-icons.googlecode.com/files/paint.png" /> <img src="http://google-maps-icons.googlecode.com/files/pens.png" /> <img src="http://google-maps-icons.googlecode.com/files/bookstore.png" /> <img src="http://google-maps-icons.googlecode.com/files/clothes-female.png" /> <img src="http://google-maps-icons.googlecode.com/files/clothes-male.png" /> <img src="http://google-maps-icons.googlecode.com/files/bags.png" /> <img src="http://google-maps-icons.googlecode.com/files/hats.png" /> <img src="http://google-maps-icons.googlecode.com/files/patisserie.png" /> <img src="http://google-maps-icons.googlecode.com/files/artgallery.png" /> </td></tr> <tr><td style="border: 1px solid #aaa; padding: 5px;"><font color="#666666" size="1">11th of January, 2010</font><br><font size="2"><b>Happy New Year with a Culture &amp; Entertainment pack</b></font><br>Contribution by Matthias Stasiak.<br>festival, art museum, craft museum, music hiphop, music rock, music classical, ropes course, waterpark<br><img src="http://google-maps-icons.googlecode.com/files/festival.png" /> <img src="http://google-maps-icons.googlecode.com/files/museum-crafts.png" /> <img src="http://google-maps-icons.googlecode.com/files/museum-art.png" /> <img src="http://google-maps-icons.googlecode.com/files/music-hiphop.png" /> <img src="http://google-maps-icons.googlecode.com/files/music-rock.png" /> <img src="http://google-maps-icons.googlecode.com/files/music-classical.png" /> <img src="http://google-maps-icons.googlecode.com/files/ropescourse.png" /> <img src="http://google-maps-icons.googlecode.com/files/waterpark.png" /> </td></tr> <tr><td style="border: 1px solid #aaa; padding: 5px;"> <img src="http://google-maps-icons.googlecode.com/files/feed-icon-12x12.gif" /> <a href="http://feed43.com/google-maps-icons.xml" rel="nofollow">RSS feed updates</a>  -  <img src="http://google-maps-icons.googlecode.com/files/allupdates.png" /> <a href="/p/google-maps-icons/wiki/AllUpdates">Read about all updates</a> -  <img src="http://google-maps-icons.googlecode.com/files/twitter.png" /> <a href="http://twitter.com/nicomollet" rel="nofollow">Twitter</a> </td></tr> </table></p><h1><a name="All_the_markers"/><br>All the markers</h1><p>Here are all the projects icons color coded by Category. </p><p><table cellspacing="0" cellpadding="12"> <tr> <td valign="top" align="left" width="25%"> </p><h3><a name="Administration,_Office_&amp;_Industry"/><font color="#5781fc">Administration, Office &amp; Industry</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/police.png" /> <img src="http://google-maps-icons.googlecode.com/files/firemen.png" /> <img src="http://google-maps-icons.googlecode.com/files/postal.png" /> <img src="http://google-maps-icons.googlecode.com/files/military.png" /> <img src="http://google-maps-icons.googlecode.com/files/administration.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/bank.png" /> <img src="http://google-maps-icons.googlecode.com/files/bankeuro.png" /> <img src="http://google-maps-icons.googlecode.com/files/bankpound.png" /> <img src="http://google-maps-icons.googlecode.com/files/findajob.png" /> <img src="http://google-maps-icons.googlecode.com/files/company.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/factory.png" /> <img src="http://google-maps-icons.googlecode.com/files/laboratory.png" /> <img src="http://google-maps-icons.googlecode.com/files/conference.png" /> <img src="http://google-maps-icons.googlecode.com/files/prison.png" /> <img src="http://google-maps-icons.googlecode.com/files/seniorsite.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/workoffice.png" /> <img src="http://google-maps-icons.googlecode.com/files/powerplant.png" /> <img src="http://google-maps-icons.googlecode.com/files/dam.png" /> <img src="http://google-maps-icons.googlecode.com/files/windturbine.png" /> <img src="http://google-maps-icons.googlecode.com/files/laundromat.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/lockerrental.png" /> <img src="http://google-maps-icons.googlecode.com/files/amphitheater.png" /> <img src="http://google-maps-icons.googlecode.com/files/currencyexchange.png" /> <img src="http://google-maps-icons.googlecode.com/files/mine.png" /> <img src="http://google-maps-icons.googlecode.com/files/watertower.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/court.png" /> <img src="http://google-maps-icons.googlecode.com/files/customs.png" /> <img src="http://google-maps-icons.googlecode.com/files/expert.png" /> <img src="http://google-maps-icons.googlecode.com/files/atm.png" /> <img src="http://google-maps-icons.googlecode.com/files/sciencecenter.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/powersubstation.png" />  <img src="http://google-maps-icons.googlecode.com/files/powerlinepole.png" />  <img src="http://google-maps-icons.googlecode.com/files/embassy.png" />  <img src="http://google-maps-icons.googlecode.com/files/police2.png" />  <img src="http://google-maps-icons.googlecode.com/files/observatory.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/spaceport.png" />  <img src="http://google-maps-icons.googlecode.com/files/mobilephonetower.png" />  <img src="http://google-maps-icons.googlecode.com/files/oilpumpjack.png" />  <img src="http://google-maps-icons.googlecode.com/files/communitycentre.png" /> </p><p><font color="#777777" size="1">All the icons in this Icon Category  <a href="/p/google-maps-icons/wiki/OfficesIcons">described and tagged</a>.</font> </p><p></td> <td valign="top" align="left" width="25%"> </p><h3><a name="Culture_&amp;_Entertainment"/><font color="#e14f9e">Culture &amp; Entertainment</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/cinema.png" /> <img src="http://google-maps-icons.googlecode.com/files/club.png" /> <img src="http://google-maps-icons.googlecode.com/files/theater.png" /> <img src="http://google-maps-icons.googlecode.com/files/casino.png" /> <img src="http://google-maps-icons.googlecode.com/files/poker.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/museum.png" /> <img src="http://google-maps-icons.googlecode.com/files/bowling.png" /> <img src="http://google-maps-icons.googlecode.com/files/party.png" /> <img src="http://google-maps-icons.googlecode.com/files/billiard.png" /> <img src="http://google-maps-icons.googlecode.com/files/themepark.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/aquarium.png" /> <img src="http://google-maps-icons.googlecode.com/files/bullfight.png" /> <img src="http://google-maps-icons.googlecode.com/files/zoo.png" /> <img src="http://google-maps-icons.googlecode.com/files/music-live.png" /> <img src="http://google-maps-icons.googlecode.com/files/dancinghall.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/publicart.png" /> <img src="http://google-maps-icons.googlecode.com/files/museum-archeological.png" /> <img src="http://google-maps-icons.googlecode.com/files/museum-historical.png" /> <img src="http://google-maps-icons.googlecode.com/files/museum-naval.png" /> <img src="http://google-maps-icons.googlecode.com/files/museum-war.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/anniversary.png" />  <img src="http://google-maps-icons.googlecode.com/files/magicshow.png" />  <img src="http://google-maps-icons.googlecode.com/files/circus.png" /> <img src="http://google-maps-icons.googlecode.com/files/fireworks.png" /> <img src="http://google-maps-icons.googlecode.com/files/museum-science.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/festival.png" />  <img src="http://google-maps-icons.googlecode.com/files/museum-crafts.png" />  <img src="http://google-maps-icons.googlecode.com/files/museum-art.png" />  <img src="http://google-maps-icons.googlecode.com/files/music-hiphop.png" />  <img src="http://google-maps-icons.googlecode.com/files/music-rock.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/music-classical.png" />  <img src="http://google-maps-icons.googlecode.com/files/ropescourse.png" />  <img src="http://google-maps-icons.googlecode.com/files/waterpark.png" /> </p><p><font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/CultureIcons">described and tagged</a>.</font> </p><p></td> <td valign="top" align="left" width="25%"> </p><h3><a name="Education_&amp;_Kids"/><font color="#ef9e40">Education &amp; Kids</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/school.png" /> <img src="http://google-maps-icons.googlecode.com/files/university.png" /> <img src="http://google-maps-icons.googlecode.com/files/library.png" /> <img src="http://google-maps-icons.googlecode.com/files/playground.png" /> <img src="http://google-maps-icons.googlecode.com/files/daycare.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/nanny.png" /> <img src="http://google-maps-icons.googlecode.com/files/nursery.png" /> </p><p><font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/EducationIcons">described and tagged</a>.</font> </p><p></td> <td valign="top" align="left" width="25%"> </p><h3><a name="Events_&amp;_Weather"/><font color="#999999">Events &amp; Weather</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/sun.png" /> <img src="http://google-maps-icons.googlecode.com/files/clouds.png" /> <img src="http://google-maps-icons.googlecode.com/files/cloudsun.png" /> <img src="http://google-maps-icons.googlecode.com/files/rain.png" /> <img src="http://google-maps-icons.googlecode.com/files/thunder.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/snow.png" /> <img src="http://google-maps-icons.googlecode.com/files/monday.png" /> <img src="http://google-maps-icons.googlecode.com/files/tuesday.png" /> <img src="http://google-maps-icons.googlecode.com/files/wednesday.png" /> <img src="http://google-maps-icons.googlecode.com/files/thursday.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/friday.png" /> <img src="http://google-maps-icons.googlecode.com/files/satursday.png" /> <img src="http://google-maps-icons.googlecode.com/files/sunday.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-lun.png" />  <img src="http://google-maps-icons.googlecode.com/files/days-mar.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/days-mer.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-jeu.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-ven.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-sam.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-dim.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/days-mie.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-jue.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-vie.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-sab.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-dom.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/days-seg.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-ter.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-qua.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-qui.png" /> <img src="http://google-maps-icons.googlecode.com/files/days-sex.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/fire.png" /> <img src="http://google-maps-icons.googlecode.com/files/gun.png" /> <img src="http://google-maps-icons.googlecode.com/files/planecrash.png" /> <img src="http://google-maps-icons.googlecode.com/files/explosion.png" /> <img src="http://google-maps-icons.googlecode.com/files/radiation.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/revolution.png" /> <img src="http://google-maps-icons.googlecode.com/files/bomb.png" /> <img src="http://google-maps-icons.googlecode.com/files/strike.png" /> <img src="http://google-maps-icons.googlecode.com/files/flood.png" /> <img src="http://google-maps-icons.googlecode.com/files/wedding.png" /> </p><p><font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/EventsIcons">described and tagged</a>.</font> </p><p></td> </tr> <tr> <td valign="top" align="left" width="25%"> </p><h3><a name="Friends,_Family_&amp;_Real_Estate"/><font color="#fcf357">Friends, Family &amp; Real Estate</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/friends.png" /> <img src="http://google-maps-icons.googlecode.com/files/home.png" /> <img src="http://google-maps-icons.googlecode.com/files/girlfriend.png" /> <img src="http://google-maps-icons.googlecode.com/files/dates.png" /> <img src="http://google-maps-icons.googlecode.com/files/realestate.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/apartment.png" /> <img src="http://google-maps-icons.googlecode.com/files/family.png" /> </p><p><font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/FriendsIcons">described and tagged</a>.</font> </p><p></td> <td valign="top" align="left" width="25%"> </p><h3><a name="Media"/><font color="#0337D1">Media</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/video.png" /> <img src="http://google-maps-icons.googlecode.com/files/audio.png" /> <img src="http://google-maps-icons.googlecode.com/files/text.png" /> <img src="http://google-maps-icons.googlecode.com/files/photo.png" /> <img src="http://google-maps-icons.googlecode.com/files/photoup.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/photoupright.png" /> <img src="http://google-maps-icons.googlecode.com/files/photoright.png" /> <img src="http://google-maps-icons.googlecode.com/files/photodownright.png" /> <img src="http://google-maps-icons.googlecode.com/files/photodown.png" /> <img src="http://google-maps-icons.googlecode.com/files/photodownleft.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/photoleft.png" /> <img src="http://google-maps-icons.googlecode.com/files/photoupleft.png" /> </p><p><font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/MediaIcons">described and tagged</a>.</font> </p><p></td> <td valign="top" align="left" width="25%"> </p><h3><a name="Miscellaneous"/><font color="#9e7151">Miscellaneous</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/toilets.png" /> <img src="http://google-maps-icons.googlecode.com/files/wifi.png" /> <img src="http://google-maps-icons.googlecode.com/files/info.png" /> <img src="http://google-maps-icons.googlecode.com/files/regroup.png" /> <img src="http://google-maps-icons.googlecode.com/files/recycle.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/disability.png" /> <img src="http://google-maps-icons.googlecode.com/files/construction.png" /> <img src="http://google-maps-icons.googlecode.com/files/smokingarea.png" />  <img src="http://google-maps-icons.googlecode.com/files/cluster.png" />  <img src="http://google-maps-icons.googlecode.com/files/elevator.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/escalator-down.png" />  <img src="http://google-maps-icons.googlecode.com/files/escalator-up.png" />  <img src="http://google-maps-icons.googlecode.com/files/shower.png" /> <img src="http://google-maps-icons.googlecode.com/files/telephone.png" /> <img src="http://google-maps-icons.googlecode.com/files/trash.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/lock.png" />  <img src="http://google-maps-icons.googlecode.com/files/bench.png" />  <img src="http://google-maps-icons.googlecode.com/files/door.png" />  <img src="http://google-maps-icons.googlecode.com/files/entrance.png" />  <img src="http://google-maps-icons.googlecode.com/files/exit.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/fire-extinguisher.png" /> <img src="http://google-maps-icons.googlecode.com/files/waitingroom.png" /> </p><p><font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/MiscellaneousIcons">described and tagged</a>.</font> </p><p></td> <td valign="top" align="left" width="25%"> </p><h3><a name="Restaurants_&amp;_Hotels"/><font color="#7e55fc">Restaurants &amp; Hotels</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/bar.png" /> <img src="http://google-maps-icons.googlecode.com/files/winery.png" /> <img src="http://google-maps-icons.googlecode.com/files/cocktail.png" /> <img src="http://google-maps-icons.googlecode.com/files/coffee.png" /> <img src="http://google-maps-icons.googlecode.com/files/teahouse.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/winetasting.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurant.png" /> <img src="http://google-maps-icons.googlecode.com/files/pizza.png" /> <img src="http://google-maps-icons.googlecode.com/files/fastfood.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantchinese.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/restaurantjapanese.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantafrican.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantfishchips.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantgourmet.png" /> <img src="http://google-maps-icons.googlecode.com/files/gourmet.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/restaurantgreek.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantindian.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantitalian.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantkebab.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantkorean.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/restaurantmediterranean.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantmexican.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantthai.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurantturkish.png" /> <img src="http://google-maps-icons.googlecode.com/files/tapas.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/terrace.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurant-romantic.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurant-buffet.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurant-barbecue.png" /> <img src="http://google-maps-icons.googlecode.com/files/restaurant-fish.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/steakhouse.png" /> <img src="http://google-maps-icons.googlecode.com/files/hotel.png" /> <img src="http://google-maps-icons.googlecode.com/files/hostel.png" /> <img src="http://google-maps-icons.googlecode.com/files/resort.png" /> <img src="http://google-maps-icons.googlecode.com/files/youthhostel.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/villa.png" /> <img src="http://google-maps-icons.googlecode.com/files/icecream.png" /> <img src="http://google-maps-icons.googlecode.com/files/foodtruck.png" /> <img src="http://google-maps-icons.googlecode.com/files/fooddeliveryservice.png" /> <img src="http://google-maps-icons.googlecode.com/files/takeaway.png" /> </p><p><font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/RestaurantsIcons">described and tagged</a>.</font> </p><p></td> </tr> <tr> <td valign="top" align="left" width="25%"> </p><h3><a name="Sports,_Health_&amp;_Beauty"/><font color="#fc6355">Sports, Health &amp; Beauty</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/drugs.png" /> <img src="http://google-maps-icons.googlecode.com/files/hospital.png" /> <img src="http://google-maps-icons.googlecode.com/files/schrink.png" /> <img src="http://google-maps-icons.googlecode.com/files/vet.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/hairsalon.png" /> <img src="http://google-maps-icons.googlecode.com/files/kayak.png" /> <img src="http://google-maps-icons.googlecode.com/files/pool.png" /> <img src="http://google-maps-icons.googlecode.com/files/golf.png" /> <img src="http://google-maps-icons.googlecode.com/files/tennis.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/soccer.png" /> <img src="http://google-maps-icons.googlecode.com/files/skiing.png" /> <img src="http://google-maps-icons.googlecode.com/files/basketball.png" /> <img src="http://google-maps-icons.googlecode.com/files/rugby.png" /> <img src="http://google-maps-icons.googlecode.com/files/cyclingsport.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/cyclingfeedarea.png" /> <img src="http://google-maps-icons.googlecode.com/files/cyclingsprint.png" /> <img src="http://google-maps-icons.googlecode.com/files/cyclingmountain1.png" /> <img src="http://google-maps-icons.googlecode.com/files/cyclingmountain2.png" /> <img src="http://google-maps-icons.googlecode.com/files/cyclingmountain3.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/cyclingmountain4.png" /> <img src="http://google-maps-icons.googlecode.com/files/cyclinguncategorized.png" /> <img src="http://google-maps-icons.googlecode.com/files/fishing.png" /> <img src="http://google-maps-icons.googlecode.com/files/horseriding.png" /> <img src="http://google-maps-icons.googlecode.com/files/hiking.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/racing.png" /> <img src="http://google-maps-icons.googlecode.com/files/karting.png" /> <img src="http://google-maps-icons.googlecode.com/files/yoga.png" /> <img src="http://google-maps-icons.googlecode.com/files/scubadiving.png" /> <img src="http://google-maps-icons.googlecode.com/files/massage.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/jogging.png" /> <img src="http://google-maps-icons.googlecode.com/files/gym.png" /> <img src="http://google-maps-icons.googlecode.com/files/fitnesscenter.png" /> <img src="http://google-maps-icons.googlecode.com/files/bobsleigh.png" /> <img src="http://google-maps-icons.googlecode.com/files/usfootball.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/australianfootball.png" /> <img src="http://google-maps-icons.googlecode.com/files/crosscountryskiing.png" />  <img src="http://google-maps-icons.googlecode.com/files/icehockey.png" />  <img src="http://google-maps-icons.googlecode.com/files/snowmobiling.png" />  <img src="http://google-maps-icons.googlecode.com/files/skijump.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/iceskating.png" />  <img src="http://google-maps-icons.googlecode.com/files/atv.png" />  <img src="http://google-maps-icons.googlecode.com/files/snowshoeing.png" /> <img src="http://google-maps-icons.googlecode.com/files/cyclingmountainnotrated.png" />  <img src="http://google-maps-icons.googlecode.com/files/climbing.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/archery.png" />  <img src="http://google-maps-icons.googlecode.com/files/baseball.png" />  <img src="http://google-maps-icons.googlecode.com/files/hanggliding.png" />  <img src="http://google-maps-icons.googlecode.com/files/diving.png" />  <img src="http://google-maps-icons.googlecode.com/files/personalwatercraft.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/rowboat.png" />  <img src="http://google-maps-icons.googlecode.com/files/surfing.png" />  <img src="http://google-maps-icons.googlecode.com/files/waterskiing.png" />  <img src="http://google-maps-icons.googlecode.com/files/skilift.png" />  <img src="http://google-maps-icons.googlecode.com/files/snowboarding.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/spelunking.png" />  <img src="http://google-maps-icons.googlecode.com/files/skateboarding.png" />  <img src="http://google-maps-icons.googlecode.com/files/skilift.png" />  <img src="http://google-maps-icons.googlecode.com/files/windsurfing.png" /> <img src="http://google-maps-icons.googlecode.com/files/motorbike.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/horseriding.png" /> <img src="http://google-maps-icons.googlecode.com/files/ophthalmologist.png" /> <img src="http://google-maps-icons.googlecode.com/files/dentist.png" /> <img src="http://google-maps-icons.googlecode.com/files/doctor.png" /> <img src="http://google-maps-icons.googlecode.com/files/hunting.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/firstaid.png" /> <img src="http://google-maps-icons.googlecode.com/files/suv.png" /> <img src="http://google-maps-icons.googlecode.com/files/sauna.png" /> <img src="http://google-maps-icons.googlecode.com/files/aestheticscenter.png" /> <img src="http://google-maps-icons.googlecode.com/files/judo.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/karate.png" /> <img src="http://google-maps-icons.googlecode.com/files/boxing.png" /> <img src="http://google-maps-icons.googlecode.com/files/stadium.png" /> <img src="http://google-maps-icons.googlecode.com/files/zipline.png" /> <img src="http://google-maps-icons.googlecode.com/files/cricket.png" /> </p><p><font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/SportsIcons">described and tagged</a>.</font> </p><p></td> <td valign="top" align="left" width="25%"> </p><h3><a name="Stores"/><font color="#55d7d7">Stores</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/supermarket.png" /> <img src="http://google-maps-icons.googlecode.com/files/music.png" /> <img src="http://google-maps-icons.googlecode.com/files/videogames.png" /> <img src="http://google-maps-icons.googlecode.com/files/computer.png" /> <img src="http://google-maps-icons.googlecode.com/files/clothes.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/shoes.png" /> <img src="http://google-maps-icons.googlecode.com/files/flowers.png" /> <img src="http://google-maps-icons.googlecode.com/files/toys.png" /> <img src="http://google-maps-icons.googlecode.com/files/gifts.png" /> <img src="http://google-maps-icons.googlecode.com/files/tools.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/pets.png" /> <img src="http://google-maps-icons.googlecode.com/files/fishingshop.png" /> <img src="http://google-maps-icons.googlecode.com/files/shoppingmall.png" /> <img src="http://google-maps-icons.googlecode.com/files/bookstore.png" /> <img src="http://google-maps-icons.googlecode.com/files/phones.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/textiles.png" /> <img src="http://google-maps-icons.googlecode.com/files/jewelry.png" /> <img src="http://google-maps-icons.googlecode.com/files/bread.png" /> <img src="http://google-maps-icons.googlecode.com/files/grocery.png" /> <img src="http://google-maps-icons.googlecode.com/files/butcher.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/convenience.png" /> <img src="http://google-maps-icons.googlecode.com/files/movierental.png" /> <img src="http://google-maps-icons.googlecode.com/files/liquor.png" /> <img src="http://google-maps-icons.googlecode.com/files/newsagent.png" /> <img src="http://google-maps-icons.googlecode.com/files/deptstore.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/homecenter.png" /> <img src="http://google-maps-icons.googlecode.com/files/tailor.png" />  <img src="http://google-maps-icons.googlecode.com/files/sneakers.png" />  <img src="http://google-maps-icons.googlecode.com/files/perfumery.png" />  <img src="http://google-maps-icons.googlecode.com/files/photography.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/paint.png" />  <img src="http://google-maps-icons.googlecode.com/files/pens.png" />  <img src="http://google-maps-icons.googlecode.com/files/bookstore.png" />  <img src="http://google-maps-icons.googlecode.com/files/clothes-female.png" />  <img src="http://google-maps-icons.googlecode.com/files/clothes-male.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/bags.png" />  <img src="http://google-maps-icons.googlecode.com/files/hats.png" />  <img src="http://google-maps-icons.googlecode.com/files/patisserie.png" />  <img src="http://google-maps-icons.googlecode.com/files/artgallery.png" /> </p><p>  <font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/StoresIcons">described and tagged</a>.</font> </p><p></td> <td valign="top" align="left" width="25%"> </p><h3><a name="Tourism_&amp;_Nature"/><font color="#00e13c">Tourism &amp; Nature</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/park.png" /> <img src="http://google-maps-icons.googlecode.com/files/beautiful.png" /> <img src="http://google-maps-icons.googlecode.com/files/camping.png" /> <img src="http://google-maps-icons.googlecode.com/files/animals.png" /> <img src="http://google-maps-icons.googlecode.com/files/beach.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/church2.png" /> <img src="http://google-maps-icons.googlecode.com/files/farm.png" /> <img src="http://google-maps-icons.googlecode.com/files/cemetary.png" /> <img src="http://google-maps-icons.googlecode.com/files/agriculture.png" /> <img src="http://google-maps-icons.googlecode.com/files/picnic.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/castle.png" /> <img src="http://google-maps-icons.googlecode.com/files/windmill.png" /> <img src="http://google-maps-icons.googlecode.com/files/bridge.png" /> <img src="http://google-maps-icons.googlecode.com/files/fountain.png" /> <img src="http://google-maps-icons.googlecode.com/files/cathedral2.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/monument.png" /> <img src="http://google-maps-icons.googlecode.com/files/panoramic180.png" /> <img src="http://google-maps-icons.googlecode.com/files/worldheritagesite.png" /> <img src="http://google-maps-icons.googlecode.com/files/statue.png" /> <img src="http://google-maps-icons.googlecode.com/files/mosque.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/lighthouse.png" /> <img src="http://google-maps-icons.googlecode.com/files/modernmonument.png" /> <img src="http://google-maps-icons.googlecode.com/files/synagogue.png" /> <img src="http://google-maps-icons.googlecode.com/files/wineyard.png" /> <img src="http://google-maps-icons.googlecode.com/files/olympicsite.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/gateswalls.png" /> <img src="http://google-maps-icons.googlecode.com/files/ancienttemple.png" /> <img src="http://google-maps-icons.googlecode.com/files/fortress.png" /> <img src="http://google-maps-icons.googlecode.com/files/palace.png" /> <img src="http://google-maps-icons.googlecode.com/files/chapel.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/ruins.png" /> <img src="http://google-maps-icons.googlecode.com/files/monastery.png" /> <img src="http://google-maps-icons.googlecode.com/files/tower.png" /> <img src="http://google-maps-icons.googlecode.com/files/arch.png" /> <img src="http://google-maps-icons.googlecode.com/files/bigcity.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/smallcity.png" /> <img src="http://google-maps-icons.googlecode.com/files/cave.png" /> <img src="http://google-maps-icons.googlecode.com/files/bridgemodern.png" /> <img src="http://google-maps-icons.googlecode.com/files/historicalquarter.png" /> <img src="http://google-maps-icons.googlecode.com/files/jewishquarter.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/ancienttempleruin.png" /> <img src="http://google-maps-icons.googlecode.com/files/campingsite.png" /> <img src="http://google-maps-icons.googlecode.com/files/tent.png" /> <img src="http://google-maps-icons.googlecode.com/files/headstone.png" /> <img src="http://google-maps-icons.googlecode.com/files/headstonejewish.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/rattlesnake.png" /> <img src="http://google-maps-icons.googlecode.com/files/watermill.png" /> <img src="http://google-maps-icons.googlecode.com/files/corral.png" /> <img src="http://google-maps-icons.googlecode.com/files/fossils.png" /> <img src="http://google-maps-icons.googlecode.com/files/cruise.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/wetland.png" /> <img src="http://google-maps-icons.googlecode.com/files/riparian.png" /> <img src="http://google-maps-icons.googlecode.com/files/world.png" /> <img src="http://google-maps-icons.googlecode.com/files/country.png" /> <img src="http://google-maps-icons.googlecode.com/files/seals.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/drinkingwater.png" /> <img src="http://google-maps-icons.googlecode.com/files/forest.png" /> <img src="http://google-maps-icons.googlecode.com/files/moderntower.png" /> <img src="http://google-maps-icons.googlecode.com/files/water-well.png" /> <img src="http://google-maps-icons.googlecode.com/files/villa-tourism.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/dog-leash.png" /> <img src="http://google-maps-icons.googlecode.com/files/dog-offleash.png" /> <img src="http://google-maps-icons.googlecode.com/files/waterfall.png" /> <img src="http://google-maps-icons.googlecode.com/files/cabin.png" /> <img src="http://google-maps-icons.googlecode.com/files/water.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/templehindu.png" /> <img src="http://google-maps-icons.googlecode.com/files/pagoda.png" /> <img src="http://google-maps-icons.googlecode.com/files/garden.png" /> <img src="http://google-maps-icons.googlecode.com/files/sight.png" /> <img src="http://google-maps-icons.googlecode.com/files/park-urban.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/shelter-sleeping.png" /> <img src="http://google-maps-icons.googlecode.com/files/shelter-picnic.png" /> <img src="http://google-maps-icons.googlecode.com/files/waterwell.png" /> <img src="http://google-maps-icons.googlecode.com/files/places-unvisited.png" /> <img src="http://google-maps-icons.googlecode.com/files/places-visited.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/waterwellpump.png" /> <img src="http://google-maps-icons.googlecode.com/files/citysquare.png" /> <img src="http://google-maps-icons.googlecode.com/files/shore.png" /> <img src="http://google-maps-icons.googlecode.com/files/petroglyphs.png" /> <img src="http://google-maps-icons.googlecode.com/files/lake.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/gondola.png" /> <img src="http://google-maps-icons.googlecode.com/files/glacier.png" /> <img src="http://google-maps-icons.googlecode.com/files/fjord.png" /> <img src="http://google-maps-icons.googlecode.com/files/cross.png" /> <img src="http://google-maps-icons.googlecode.com/files/amphitheater-tourism.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/geyser.png" /> <img src="http://google-maps-icons.googlecode.com/files/pyramid-egypt.png" /> <img src="http://google-maps-icons.googlecode.com/files/pyramid-southam.png" /> </p><p><font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/TourismIcons">described and tagged</a>.</font> </p><p></td> <td valign="top" align="left" width="25%"> </p><h3><a name="Transportation"/><font color="#000">Transportation</font></h3><p><img src="http://google-maps-icons.googlecode.com/files/bus.png" /> <img src="http://google-maps-icons.googlecode.com/files/airport.png" /> <img src="http://google-maps-icons.googlecode.com/files/port.png" /> <img src="http://google-maps-icons.googlecode.com/files/train.png" /> <img src="http://google-maps-icons.googlecode.com/files/cablecar.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/subway.png" /> <img src="http://google-maps-icons.googlecode.com/files/taxi.png" /> <img src="http://google-maps-icons.googlecode.com/files/truck.png" /> <img src="http://google-maps-icons.googlecode.com/files/cycling.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/vespa.png" /> <img src="http://google-maps-icons.googlecode.com/files/sailboat.png" /> <img src="http://google-maps-icons.googlecode.com/files/hotairballoon.png" /> <img src="http://google-maps-icons.googlecode.com/files/helicopter.png" /> <img src="http://google-maps-icons.googlecode.com/files/steamtrain.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/car.png" /> <img src="http://google-maps-icons.googlecode.com/files/highway.png" /> <img src="http://google-maps-icons.googlecode.com/files/parking.png" /> <img src="http://google-maps-icons.googlecode.com/files/gazstation.png" /> <img src="http://google-maps-icons.googlecode.com/files/stoplight.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/bicycleparking.png" />  <img src="http://google-maps-icons.googlecode.com/files/pedestriancrossing.png" />  <img src="http://google-maps-icons.googlecode.com/files/crossingguard.png" />  <img src="http://google-maps-icons.googlecode.com/files/carwash.png" />  <img src="http://google-maps-icons.googlecode.com/files/parkandride.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/carrental.png" /> <img src="http://google-maps-icons.googlecode.com/files/tollstation.png" /> <img src="http://google-maps-icons.googlecode.com/files/carrepair.png" /> <img src="http://google-maps-icons.googlecode.com/files/accident.png" /> <img src="http://google-maps-icons.googlecode.com/files/mainroad.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/stop.png" /> <img src="http://google-maps-icons.googlecode.com/files/speed50.png" /> <img src="http://google-maps-icons.googlecode.com/files/speed60.png" /> <img src="http://google-maps-icons.googlecode.com/files/speed80.png" /> <img src="http://google-maps-icons.googlecode.com/files/speed90.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/speed100.png" /> <img src="http://google-maps-icons.googlecode.com/files/speed110.png" /> <img src="http://google-maps-icons.googlecode.com/files/speed130.png" /> <img src="http://google-maps-icons.googlecode.com/files/left.png" /> <img src="http://google-maps-icons.googlecode.com/files/upthenleft.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/upleft.png" /> <img src="http://google-maps-icons.googlecode.com/files/leftthenup.png" /> <img src="http://google-maps-icons.googlecode.com/files/up.png" /> <img src="http://google-maps-icons.googlecode.com/files/rightthenup.png" /> <img src="http://google-maps-icons.googlecode.com/files/upright.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/upthenright.png" /> <img src="http://google-maps-icons.googlecode.com/files/right.png" /> <img src="http://google-maps-icons.googlecode.com/files/downthenright.png" /> <img src="http://google-maps-icons.googlecode.com/files/downright.png" /> <img src="http://google-maps-icons.googlecode.com/files/rightthendown.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/down.png" /> <img src="http://google-maps-icons.googlecode.com/files/leftthendown.png" /> <img src="http://google-maps-icons.googlecode.com/files/downleft.png" /> <img src="http://google-maps-icons.googlecode.com/files/downthenleft.png" /> <img src="http://google-maps-icons.googlecode.com/files/fallingrocks.png" />  </p><p><img src="http://google-maps-icons.googlecode.com/files/tunnel.png" />  <img src="http://google-maps-icons.googlecode.com/files/levelcrossing.png" />  <img src="http://google-maps-icons.googlecode.com/files/taxiway.png" /> <img src="http://google-maps-icons.googlecode.com/files/airport-apron.png" /> <img src="http://google-maps-icons.googlecode.com/files/trafficenforcementcamera.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/motorcycle.png" /> <img src="http://google-maps-icons.googlecode.com/files/aircraft-small.png" /> <img src="http://google-maps-icons.googlecode.com/files/airport-runway.png" /> <img src="http://google-maps-icons.googlecode.com/files/speedhump.png" /> <img src="http://google-maps-icons.googlecode.com/files/airport-terminal.png" /> </p><p><img src="http://google-maps-icons.googlecode.com/files/tram.png" /> </p><p><font color="#777777" size="1">All the icons <a href="/p/google-maps-icons/wiki/TransportationIcons">described and tagged</a>.</font> </p><p></td> </tr> </table> </p><h1><a name="Donations"/>Donations</h1><p>This project is created by Nicolas Mollet and is by no means affiliated with Google. Free time is used by all contributors to create and share icons for the Maps community. If you feel this project is useful to you and want to support it and it&#x27;s future development please consider donating money.  We only ask for a small donation, but of course we appreciate any amount.  </p><p><table cellspacing="0" cellpadding="12"> <tr> <td valign="top" align="left"> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=Nico%2eMollet%40gmail%2ecom&amp;lc=US&amp;item_name=Nicolas%20Mollet%20%28Map%20icon%20collection%29&amp;item_number=Map%20icon%20collection&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" rel="nofollow"><img src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" /></a> </p><p>to <strong>Nico Mollet</strong> (Project Creator &amp; Contributor) </td> <td valign="top" align="left"> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=Matthias%2eStasiak%40gmail%2ecom&amp;lc=US&amp;item_name=Matthias%20Stasiak%20%28Map%20icon%20collection%29&amp;item_number=Map%20icon%20collection&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" rel="nofollow"><img src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" /></a> </p><p>to <strong>Matthias Stasiak</strong> <i>&quot;myBCN.es&quot;</i> (Project Contributor) </td> </tr> </table> </p><h1><a name="Contributions"/>Contributions</h1><p>Suggestions are always very welcome. First look at the Project Home tab, then the Requests part of all categories, then <a href="http://code.google.com/p/google-maps-icons/issues/list" rel="nofollow">look at the Issues list</a> to see if someone else already has suggested the icon and that we are already working on it. If you have done all this and still cannot find what you are looking for you are very welcome to <a href="http://code.google.com/p/google-maps-icons/issues/entry" rel="nofollow">make a new suggestion in the Issues tab</a>. </p>
+ </div>
+
+<br><br><br><br><br><br><br><br>
+<script src="http://www.gstatic.com/codesite/ph/17891623693695439908/js/prettify/prettify.js"></script>
+<script type="text/javascript">
+ prettyPrint();
+</script>
+ 
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/17891623693695439908/js/core_scripts_20081103.js"></script>
+ <script type="text/javascript" src="/js/codesite_product_dictionary_ph.pack.04102009.js"></script>
+ </div>
+<div id="footer" dir="ltr">
+ 
+ <div class="text">
+ 
+ &copy;2010 Google -
+ <a href="/projecthosting/terms.html">Terms</a> -
+ <a href="http://www.google.com/privacy.html">Privacy</a> -
+ <a href="/p/support/">Project Hosting Help</a>
+ 
+ </div>
+</div>
+
+ <div class="hostedBy" style="margin-top: -20px;">
+ <span style="vertical-align: top;">Powered by <a href="http://code.google.com/projecthosting/">Google Project Hosting</a></span>
+ </div>
+ 
+ 
+
+
+ 
+ </body>
+</html>
+

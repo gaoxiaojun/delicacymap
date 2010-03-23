@@ -17,6 +17,7 @@ void Configurations::ReloadConfigs()
     port = 24000;
     address = "127.0.0.1";
     autologin = false;
+    mappath = "tiles.map";
 
     try{
         doc.LoadFile("configs.xml");

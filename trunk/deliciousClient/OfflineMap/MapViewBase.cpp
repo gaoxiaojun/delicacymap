@@ -490,7 +490,25 @@ void MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* balloonOn)
 
 void MapViewBase::removeItem( ZoomSensitiveItem* item )
 {
+    localItems.removeOne(item);
     scene->removeItem(item);
+}
+
+bool MapViewBase::hasLocalMarker() const
+{
+    return !localItems.empty();
+}
+
+QList<ZoomSensitiveItem*> MapViewBase::localMarkers() const
+{
+    return localItems;
+}
+
+void MapViewBase::addLocalMarker(ZoomSensitiveItem * e)
+{
+    e->setFlag( QGraphicsItem::ItemIsMovable, true );
+    localItems.push_back(e);
+    scene->addItem(e);
 }
 
 QRect MapViewBase::exposedView() const

@@ -14,13 +14,14 @@ public:
     bool EnableAutoLogin() const { return autologin; }
     const std::string& AutoLogin_Username() const { return login_usr; }
     const std::string& AutoLogin_Password() const { return login_pwd; }
+    const std::string& MapPath() const { return mappath; };
 
 private:
     Configurations(void);
 
     void ReloadConfigs();
 
-    std::string address, login_usr, login_pwd;
+    std::string address, login_usr, login_pwd, mappath;
     int port;
     bool autologin;
 

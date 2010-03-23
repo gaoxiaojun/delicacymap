@@ -19,6 +19,7 @@ class ZoomSensitiveItem : public QGraphicsItem
 {
 public:
     ZoomSensitiveItem() : location(0., 0.), currentZoom(-1){}
+    virtual ~ZoomSensitiveItem() {}
     void setPos(const GeoPoint& center);
     using QGraphicsItem::setPos;
     const GeoPoint& getPos() {return location;};
@@ -53,6 +54,8 @@ class RestaurantMarkerItem : public ZoomSensitiveItem
 public:
     enum { Type = UserType + 1000 };
     RestaurantMarkerItem(const ProtocolBuffer::Restaurant* restaurant) : r(restaurant){}
+    RestaurantMarkerItem() {};// construct a fake marker that is not from server
+    bool isFakeMarker() const { return !r; }
     const ProtocolBuffer::Restaurant* restaurantInfo() const { return r; }
     QRectF boundingRect() const;
 protected:
@@ -60,6 +63,7 @@ protected:
     int type() const { return Type; }
 
     static QPixmap& markerImage();
+    static QPixmap& fakeMarkerImage();
 
 private:
     const ProtocolBuffer::Restaurant* r;

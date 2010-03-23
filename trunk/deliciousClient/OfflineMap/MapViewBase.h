@@ -39,6 +39,9 @@ public:
     // if balloonOn is NULL, the panel is placed in the center
     void addBlockingPanel(QWidget*, ZoomSensitiveItem* balloonOn = NULL);
     void removeItem(ZoomSensitiveItem*);
+    void addLocalMarker(ZoomSensitiveItem*);
+    bool hasLocalMarker() const;
+    QList<ZoomSensitiveItem*> localMarkers() const;
 
     void setCache(ImageCache* cache);
     int getZoomLevel();
@@ -107,6 +110,7 @@ private:
     QPoint _panOldCenter, _panDelta;
     Decorator decorator;
     GeoBound currentBound;
+    QList<ZoomSensitiveItem*> localItems;
     bool handleReleaseEvent, handlePressEvent, handleDblClickEvent, handleMoveEvent;
     bool mapIsLocked;
 };
