@@ -22,7 +22,6 @@ MapViewBase::MapViewBase(QWidget *parent)
 :QGraphicsView(parent), xCenter(128), yCenter(128), zoomLevel(0), images(0), self(NULL)
 {
     this->setBackgroundBrush(QBrush(QColor(50, 50, 50, 150)));
-    handleDblClickEvent = handleMoveEvent = handlePressEvent = handleReleaseEvent = true;
     mapIsLocked = false;
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     last_xcenter = xCenter;
@@ -188,87 +187,71 @@ void MapViewBase::insertDecorator(Decorator *newDecorator){
 
 void MapViewBase::mouseMoveEvent(QMouseEvent *event)
 {
-    //handleReleaseEvent = false;
-    if (handleMoveEvent)
-    {
-        QGraphicsItem *item = itemAt(event->pos());
-        RouteItem *r;
-        if (item && (r = qgraphicsitem_cast<RouteItem*>(item)))
-        {
-            QGraphicsView::mouseMoveEvent(event);
-            return;
-        }
+    if (isLocked())
+        return QGraphicsView::mouseMoveEvent(event);
+    QGraphicsItem *item = itemAt(event->pos());
+    if (!item)
         decorator.mouseMoveEvent(event);
-    }
     QGraphicsView::mouseMoveEvent(event);
 }
 
 void MapViewBase::mousePressEvent(QMouseEvent *event)
 {
-    handleReleaseEvent = true;
-    if (!isLocked() && handlePressEvent)
+    if (isLocked())
+        return QGraphicsView::mousePressEvent(event);
+    QGraphicsItem *item = itemAt(event->pos());
+    if (!item)
         decorator.mousePressEvent(event);
     QGraphicsView::mousePressEvent(event);
 }
 
 void MapViewBase::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (!isLocked() && handleReleaseEvent)
-    {
-        if (event->button() == Qt::LeftButton)
-        {
-            QGraphicsItem *item = itemAt(event->pos());
-            RestaurantMarkerItem *r;
-            if (item && (r = qgraphicsitem_cast<RestaurantMarkerItem*>(item)))
-            {
-                emit restaurantMarkerClicked(r);
-            }
-        }
+    if (isLocked())
+        return QGraphicsView::mouseReleaseEvent(event);
+    QGraphicsItem *item = itemAt(event->pos());
+    if (!item)
         decorator.mouseReleaseEvent(event);
+    else if (event->button() == Qt::LeftButton && item->type() == RestaurantMarkerItem::Type)
+    {
+        emit restaurantMarkerClicked(static_cast<RestaurantMarkerItem*>(item));
     }
     QGraphicsView::mouseReleaseEvent(event);
-    handleMoveEvent = true;
 }
 
 void MapViewBase::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    if (!isLocked() && handleDblClickEvent)
-    {
-        if (event->button() == Qt::LeftButton)
-        {
-            // specify here which marks we want to make interactive
-            QGraphicsItem *item = itemAt(event->pos());
-            RouteItem *r;
-            if (item && (r = qgraphicsitem_cast<RouteItem*>(item)))
-            {
-                QGraphicsView::mouseDoubleClickEvent(event);
-                return;
-            }
-        }
+    if (isLocked())
+        return QGraphicsView::mouseDoubleClickEvent(event);
+    QGraphicsItem *item = itemAt(event->pos());
+    if (!item)
         decorator.mouseDoubleClickEvent(event);
-    }
     QGraphicsView::mouseDoubleClickEvent(event);
 }
 
 #ifndef QT_NO_WHEELEVENT
 void MapViewBase::wheelEvent(QWheelEvent *event)
 {
-    if (!isLocked())
-        QGraphicsView::wheelEvent(event);
+    if (isLocked())
+        return;
+    QGraphicsView::wheelEvent(event);
 }
 
 #endif
 
 void MapViewBase::keyPressEvent(QKeyEvent *event){
     decorator.keyPressEvent(event);
+    QGraphicsView::keyPressEvent(event);
 }
 
 void MapViewBase::keyReleaseEvent(QKeyEvent *event){
     decorator.keyReleaseEvent(event);
+    QGraphicsView::keyReleaseEvent(event);
 }
 
 void MapViewBase::leaveEvent(QEvent *event){
     decorator.leaveEvent(event);
+    QGraphicsView::leaveEvent(event);
 }
 
 void MapViewBase::downloadMissingImages(){
@@ -346,9 +329,11 @@ void MapViewBase::setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitu
     setCoords(CoordsHelper::InternalGeoCoordToCoord(latitude, longitude));
 }
 
-void MapViewBase::getGeoCoords(GeoCoord& latitude, GeoCoord& longitude) const
+GeoPoint MapViewBase::getGeoCenter() const
 {
-    CoordsHelper::InternalCoordToGeoCoord(QPoint(xCenter, yCenter), zoomLevel, latitude, longitude);
+    GeoPoint ret;
+    CoordsHelper::InternalCoordToGeoCoord(QPoint(xCenter, yCenter), zoomLevel, ret.lat, ret.lng);
+    return ret;
 }
 
 void MapViewBase::updateBound()
@@ -508,6 +493,8 @@ void MapViewBase::addLocalMarker(ZoomSensitiveItem * e)
 {
     e->setFlag( QGraphicsItem::ItemIsMovable, true );
     localItems.push_back(e);
+    e->setPos(this->getGeoCenter());
+    e->setZoom(zoomLevel);
     scene->addItem(e);
 }
 

@@ -34,31 +34,39 @@ class PanelWidget : public QGraphicsProxyWidget
 {
     Q_OBJECT
 public:
-    //enum { Type = UserType + 2000 };
+    enum { Type = UserType + 2000 };
     PanelWidget(MapViewBase*, QGraphicsItem* parent=NULL, Qt::WindowFlags wFlags=0);
     void setWidget(QWidget *widget, ZoomSensitiveItem* balloonOn=NULL);
     void paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    ZoomSensitiveItem* tiedTo() const { return balloonTarget; }
 private slots:
     void handleWidgetDestroyed(QObject*);
+    void handleCloseButtonClick();
 protected:
-    //int type() const { return Type; }
+    int type() const { return Type; }
     void resizeEvent(QGraphicsSceneResizeEvent *event);
     void retieToTarget();
+    QGraphicsProxyWidget* setupCloseButton();
 private:
     MapViewBase* target;
     ZoomSensitiveItem *balloonTarget;
+    QGraphicsProxyWidget *closeButton;
 };
 
 class RestaurantMarkerItem : public ZoomSensitiveItem
 {
 public:
     enum { Type = UserType + 1000 };
-    RestaurantMarkerItem(const ProtocolBuffer::Restaurant* restaurant) : r(restaurant){}
-    RestaurantMarkerItem() {};// construct a fake marker that is not from server
-    bool isFakeMarker() const { return !r; }
+    // when a NULL pointer is passed for restaurant, the marker is a local marker that can be edited
+    RestaurantMarkerItem(const ProtocolBuffer::Restaurant* restaurant = NULL) : r(restaurant), isLocalMarker(!r){}
+    ~RestaurantMarkerItem();
+    bool isFakeMarker() const { return isLocalMarker; }
     const ProtocolBuffer::Restaurant* restaurantInfo() const { return r; }
+    ProtocolBuffer::Restaurant* mutableRestaurantInfo(); // if the item is a local marker, this will return a correctly initailized internal object, otherwise, always return NULL
     QRectF boundingRect() const;
+    void PromoteToRealMarker(const ProtocolBuffer::Restaurant* restaurant);
 protected:
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidget *);
     int type() const { return Type; }
 
@@ -67,6 +75,7 @@ protected:
 
 private:
     const ProtocolBuffer::Restaurant* r;
+    bool isLocalMarker;
 };
 
 class RouteItem : public QObject, public ZoomSensitiveItem

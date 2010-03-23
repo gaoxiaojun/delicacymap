@@ -48,7 +48,7 @@ public:
     QPoint getCoords();
     void setCoords(const QPoint& coords);
     void setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitude);
-    void getGeoCoords(GeoCoord& latitude, GeoCoord& longitude) const;
+    GeoPoint getGeoCenter() const;
 
     RestaurantMarkerItem* getRestaurantMarker(int rid);
 public slots:
@@ -111,7 +111,6 @@ private:
     Decorator decorator;
     GeoBound currentBound;
     QList<ZoomSensitiveItem*> localItems;
-    bool handleReleaseEvent, handlePressEvent, handleDblClickEvent, handleMoveEvent;
     bool mapIsLocked;
 };
 
