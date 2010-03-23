@@ -77,7 +77,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     controller.setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
     connect(navi, SIGNAL(boundsChange(const GeoBound&)), &controller, SLOT(MapViewBoundsChange(const GeoBound&)));
     //ZZQ edited,编辑一个slot,专门用来显示餐厅信息
-    connect(navi,SIGNAL(restaurantMarkerClicked(const ProtocolBuffer::Restaurant*)),SLOT(RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*)));
+    connect(navi,SIGNAL(restaurantMarkerClicked(RestaurantMarkerItem*)),SLOT(RestaurantMarkerResponse(RestaurantMarkerItem*)));
 
     connect(&controller, SIGNAL(currentLocationUpdate(GeoPoint)), navi, SLOT(setSelfLocation(const GeoPoint&)));
     connect(&controller, SIGNAL(SysMsgRequestRouting(int, QString, QString)), this, SLOT(handleRequestRouting(int, const QString&, const QString&)));
@@ -201,12 +201,12 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
     }
 }
 
-void MainWindow::RestaurantMarkerResponse(const ProtocolBuffer::Restaurant* res)
+void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
 {
     RestaurantInfoForm* form = new RestaurantInfoForm();
-    form->setRestaurant(res);
+    form->setRestaurant(res->restaurantInfo());
     form->setSession(getSession());
-    navi->addBlockingPanel(form, navi->getRestaurantMarker(res->rid()));
+    navi->addBlockingPanel(form, res);
 }
 
 void MainWindow::commentSuccessed(void)

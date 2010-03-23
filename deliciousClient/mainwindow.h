@@ -33,6 +33,7 @@ namespace Ui {
     class MainWindow;
 }
 
+class RestaurantMarkerItem;
 
 class MainWindow : public QMainWindow 
 {
@@ -46,13 +47,11 @@ public:
 protected:
     virtual void changeEvent(QEvent *e);
 
-public slots:
+private slots:
     void BTHFind();
-    //设置成私有成员也可以
-    void RestaurantMarkerResponse(const ProtocolBuffer::Restaurant*);
+    void RestaurantMarkerResponse(RestaurantMarkerItem*);
     void commentCommited(void);
     void commentSuccessed(void);
-private slots:
     void printMessage(const ProtocolBuffer::DMessage*);
     void handleRequestRouting(int, const QString&, const QString&);
     void AddMarkerClicked();
