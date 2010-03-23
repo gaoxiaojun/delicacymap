@@ -5,7 +5,10 @@
 #include <QGraphicsSceneResizeEvent>
 #include <QPainter>
 #include <QPixmap>
+#include <QStyle>
+#include <QStyleOptionButton>
 #include <QWidget>
+#include <QPushButton>
 #include <boost/foreach.hpp>
 
 void ZoomSensitiveItem::setZoom( int zoom )
@@ -21,16 +24,59 @@ void ZoomSensitiveItem::setPos( const GeoPoint& center )
         setPos(CoordsHelper::InternalGeoCoordToCoord(location.lat, location.lng, getZoom()));
 }
 
+RestaurantMarkerItem::~RestaurantMarkerItem()
+{
+    if (isFakeMarker())
+        delete r;
+}
+
+ProtocolBuffer::Restaurant* RestaurantMarkerItem::mutableRestaurantInfo()
+{
+    ProtocolBuffer::Restaurant* ret = NULL;
+    if (isFakeMarker())
+    {
+        if (r == NULL)
+        {
+            ret = new ProtocolBuffer::Restaurant;
+            ret->set_rid(-1);
+            ret->set_rating(0);
+            ret->set_name("");
+            ret->set_commentcount(0);
+            ret->mutable_averageexpense()->set_amount(0.);
+            ret->mutable_type()->set_name("");
+            ret->mutable_type()->set_tid(0);
+            ret->mutable_location()->set_latitude(0.);
+            ret->mutable_location()->set_longitude(0.);
+            Q_ASSERT( ret->IsInitialized() );
+            r = ret;
+        }
+        ret = const_cast<ProtocolBuffer::Restaurant*>(r);
+    }
+    return ret;
+}
+
 void RestaurantMarkerItem::paint( QPainter *p, const QStyleOptionGraphicsItem *, QWidget * )
 {
     QPixmap& image = isFakeMarker() ? fakeMarkerImage() : markerImage();
     p->drawPixmap(-image.width()/2, -image.height(), image);
-    p->drawText(-10, 10, QString::fromUtf8(restaurantInfo()->name().c_str()));
+}
+
+void RestaurantMarkerItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    ZoomSensitiveItem::mouseReleaseEvent(event);
+    if (this->isFakeMarker())
+    {
+        GeoPoint point;
+        CoordsHelper::InternalCoordToGeoCoord(this->pos().toPoint(), this->getZoom(), point.lat, point.lng);
+        this->mutableRestaurantInfo()->mutable_location()->set_latitude(point.lat.getDouble());
+        this->mutableRestaurantInfo()->mutable_location()->set_longitude(point.lng.getDouble());
+        this->setPos(point);
+    }
 }
 
 QRectF RestaurantMarkerItem::boundingRect() const
 {
-    return QRectF(-markerImage().width()/2, -markerImage().height(), markerImage().width(), markerImage().height() + 5);
+    return QRectF(-markerImage().width()/2, -markerImage().height(), markerImage().width(), markerImage().height());
 }
 
 QPixmap& RestaurantMarkerItem::markerImage()
@@ -43,6 +89,15 @@ QPixmap& RestaurantMarkerItem::fakeMarkerImage()
 {
     static QPixmap image(":/Icons/black.png");
     return image;
+}
+
+void RestaurantMarkerItem::PromoteToRealMarker(const ProtocolBuffer::Restaurant* restaurant)
+{
+    Q_ASSERT( restaurant );
+    isLocalMarker = false;
+    if (r)
+        delete r;
+    r = restaurant;
 }
 
 void UserMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * /* = 0 */ )
@@ -92,6 +147,7 @@ void PanelWidget::setWidget(QWidget *widget, ZoomSensitiveItem *balloonOn)
 //        QRectF rect = balloonTarget->boundingRect();
     }
     QGraphicsProxyWidget::setWidget(widget);
+    setupCloseButton();
 }
 
 void PanelWidget::handleWidgetDestroyed(QObject*)
@@ -126,6 +182,27 @@ void PanelWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
     }
     QGraphicsProxyWidget::resizeEvent(event);
     target->ensureVisible(this);
+}
+
+QGraphicsProxyWidget* PanelWidget::setupCloseButton()
+{
+    closeButton = new QGraphicsProxyWidget(this);
+    QPushButton* btn = new QPushButton;
+    btn->setIcon(QPixmap(":/Icons/close.png"));
+    btn->setIconSize(QSize(32, 32));
+    btn->setGeometry(0, 0, 32, 32);
+    btn->setMaximumSize(32, 32);
+    btn->setFlat(true);
+    btn->setStyleSheet("background-color: rgba(0, 0, 0,0%);");
+    closeButton->setWidget(btn);
+    closeButton->setGeometry(QRectF(this->widget()->width()-18, -14., 32, 32));
+    connect(btn, SIGNAL(clicked()), SLOT(handleCloseButtonClick()));
+    return closeButton;
+}
+
+void PanelWidget::handleCloseButtonClick()
+{
+    widget()->close();
 }
 
 void PanelWidget::paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

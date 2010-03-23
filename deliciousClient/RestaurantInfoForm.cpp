@@ -21,6 +21,9 @@ RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     commentsShown = false;
     addShown = false;
     ui->label_spin->hide();
+    ui->listComment->hide();
+    ui->btnCommit->hide();
+    ui->txtComment->hide();
 }
 
 RestaurantInfoForm::~RestaurantInfoForm()
@@ -57,21 +60,20 @@ void RestaurantInfoForm::UIAnimation_ShowComments(bool show)
 {
     if (show == commentsShown)
         return;
-    ui->listComment->setVisible( show );
+    ui->listComment->setVisible(show);
     if (!commentsShown)
     {
         if (!addShown)
         {
             timeline->setFrameRange(this->height(), ui->listComment->geometry().bottom() + WidgetMargin);
-            ui->label_spin->show();
             loading = new QMovie(":/Icons/loading.gif");
+            ui->label_spin->show();
             ui->label_spin->setMovie(loading);
             ui->label_spin->setGeometry(
                     ui->listComment->geometry().center().x() - 16,
                     ui->listComment->geometry().center().y() - 16,
                     32, 32);
             loading->start();
-
         }
         else
         {
@@ -88,8 +90,8 @@ void RestaurantInfoForm::UIAnimation_ShowComments(bool show)
         }
         else
         {
-            ui->btnCommit->move(ui->btnCommit->x(), ui->listComment->geometry().bottom() + WidgetMargin);
-            ui->txtComment->move(ui->txtComment->x(), ui->listComment->geometry().bottom() + WidgetMargin);
+            ui->btnCommit->move(ui->btnCommit->x(), ui->btnAdd->geometry().bottom() + WidgetMargin);
+            ui->txtComment->move(ui->txtComment->x(), ui->btnAdd->geometry().bottom() + WidgetMargin);
             timeline->setFrameRange(this->height(), ui->btnCommit->geometry().bottom() + WidgetMargin);
         }
     }
@@ -100,8 +102,8 @@ void RestaurantInfoForm::UIAnimation_ShowAdd(bool show)
 {
     if (show == addShown)
         return;
-    ui->btnCommit->setVisible( show );
-    ui->txtComment->setVisible( show );
+    ui->btnCommit->setVisible(show);
+    ui->txtComment->setVisible(show);
     if (!commentsShown)
     {
         if (!addShown)
@@ -129,11 +131,6 @@ void RestaurantInfoForm::UIAnimation_ShowAdd(bool show)
         }
     }
     timeline->start();
-}
-
-void RestaurantInfoForm::on_btnClose_clicked()
-{
-    this->close();
 }
 
 void RestaurantInfoForm::on_btnShow_clicked()
@@ -168,7 +165,6 @@ void RestaurantInfoForm::handleCommentList( ProtocolBuffer::CommentList* list )
 {
     delete loading;
     loading = NULL;
-    //ui->label_spin->hide();
 
     // This may crash, because we might have closed the form before the closure is ran
     // To fix this problem, we have to implement cancelation mechanism in rpc.

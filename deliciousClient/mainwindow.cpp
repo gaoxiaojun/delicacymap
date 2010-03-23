@@ -161,6 +161,9 @@ void MainWindow::AddMarkerClicked()
     m_ui->btn_addMarker->hide();
     m_ui->btn_addMarker_cancel->show();
     m_ui->btn_addMarker_confirm->show();
+
+    RestaurantMarkerItem* localmarker = new RestaurantMarkerItem();
+    navi->addLocalMarker(localmarker);
 }
 
 void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
@@ -203,10 +206,18 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
 
 void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
 {
-    RestaurantInfoForm* form = new RestaurantInfoForm();
-    form->setRestaurant(res->restaurantInfo());
-    form->setSession(getSession());
-    navi->addBlockingPanel(form, res);
+    if (!res->isFakeMarker())
+    {
+        RestaurantInfoForm* form = new RestaurantInfoForm();
+        form->setRestaurant(res->restaurantInfo());
+        form->setSession(getSession());
+        navi->addBlockingPanel(form, res);
+    }
+    else
+    {
+        navi->addBlockingPanel(new QLineEdit, res);
+
+    }
 }
 
 void MainWindow::commentSuccessed(void)

@@ -48,7 +48,6 @@ private slots:
     void frameChange(int);
     void on_btnAdd_clicked();
     void on_btnShow_clicked();
-    void on_btnClose_clicked();
 };
 
 #endif // RESTAURANTINFOFORM_H

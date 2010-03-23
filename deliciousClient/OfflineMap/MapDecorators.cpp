@@ -152,13 +152,12 @@ void CoordsDecorator::paintEvent(QPainter &painter)
         painter.setPen(QColor(255, 0, 0));
         QString str;
         QPoint coords = target->getCoords();
-        GeoCoord lat, lng;
-        target->getGeoCoords(lat, lng);
+        GeoPoint center = target->getGeoCenter();
         str += QString("coordinates:\n    x: %1\n    y: %2\ngeo coordinates:\n   lat: %4\n   lng: %5\nzoom level: %3\n")
             .arg(coords.x()).arg(coords.y())
             .arg(target->getZoomLevel())
-            .arg(lat.getDouble())
-            .arg(lng.getDouble());
+            .arg(center.lat.getDouble())
+            .arg(center.lng.getDouble());
 
         QRect rect(
             window.left() + 10,

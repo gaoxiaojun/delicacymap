@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>260</width>
-    <height>95</height>
+    <height>90</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">
@@ -33,32 +33,6 @@
    </property>
    <property name="textInteractionFlags">
     <set>Qt::NoTextInteraction</set>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnClose">
-   <property name="geometry">
-    <rect>
-     <x>228</x>
-     <y>0</y>
-     <width>32</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string notr="true"/>
-   </property>
-   <property name="icon">
-    <iconset resource="mainwindow.qrc">
-     <normaloff>:/Icons/Resources/close.png</normaloff>:/Icons/Resources/close.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="_label_price">
@@ -165,9 +139,16 @@
     <string>Commit</string>
    </property>
   </widget>
+  <zorder>label_RestaurantName</zorder>
+  <zorder>_label_price</zorder>
+  <zorder>label_price</zorder>
+  <zorder>btnShow</zorder>
+  <zorder>btnAdd</zorder>
+  <zorder>listComment</zorder>
+  <zorder>txtComment</zorder>
+  <zorder>btnCommit</zorder>
+  <zorder>label_spin</zorder>
  </widget>
- <resources>
-  <include location="mainwindow.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
