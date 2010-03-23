@@ -87,9 +87,11 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
 
     svc = new MapServices;
-    pan_Btn_timeline = new QTimeLine(300, this);
-    pan_Btn_timeline->setCurveShape(QTimeLine::EaseOutCurve);
-    pan_Btn_timeline->setDirection(QTimeLine::Forward);
+//    pan_Btn_timeline = new QTimeLine(300, this);
+//    pan_Btn_timeline->setCurveShape(QTimeLine::EaseOutCurve);
+//    pan_Btn_timeline->setDirection(QTimeLine::Forward);
+    m_ui->btn_addMarker_cancel->hide();
+    m_ui->btn_addMarker_confirm->hide();
 
     int index = this->m_ui->stackedWidget->insertWidget(0,navi);
     qDebug()<<index<<endl;
@@ -155,7 +157,10 @@ Session* MainWindow::getSession()
 
 void MainWindow::AddMarkerClicked()
 {
-
+    m_ui->btn_quit->hide();
+    m_ui->btn_addMarker->hide();
+    m_ui->btn_addMarker_cancel->show();
+    m_ui->btn_addMarker_confirm->show();
 }
 
 void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
