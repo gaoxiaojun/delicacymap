@@ -460,7 +460,7 @@ void MapViewBase::updateUserLocation( int, const GeoPoint& coord )
 
 }
 
-void MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* balloonOn)
+PanelWidget* MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* balloonOn)
 {
     lockMap();
     panel->setAttribute(Qt::WA_DeleteOnClose, true);
@@ -471,12 +471,18 @@ void MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* balloonOn)
 //    proxy->setPanelModality(QGraphicsItem::SceneModal);
     this->ensureVisible(proxy);
     scene->addItem(proxy);
+    return proxy;
 }
 
 void MapViewBase::removeItem( ZoomSensitiveItem* item )
 {
-    localItems.removeOne(item);
+    removeFromLocal(item);
     scene->removeItem(item);
+}
+
+void MapViewBase::removeFromLocal(ZoomSensitiveItem *item)
+{
+    localItems.removeOne(item);
 }
 
 bool MapViewBase::hasLocalMarker() const

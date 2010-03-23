@@ -9,7 +9,6 @@
 #include "MapController.h"
 
 #define maxlisting 40
-class ProtobufDataEvent;
 class Session;
 class GeoBound;
 class MapServices;
@@ -34,6 +33,7 @@ namespace Ui {
 }
 
 class RestaurantMarkerItem;
+class PanelWidget;
 
 class MainWindow : public QMainWindow 
 {
@@ -50,6 +50,9 @@ protected:
 private slots:
     void BTHFind();
     void RestaurantMarkerResponse(RestaurantMarkerItem*);
+    void handlePanelClosing(PanelWidget*);
+    void handleBtnConfirmClicked();
+    void handleBtnCancelClicked();
     void commentCommited(void);
     void commentSuccessed(void);
     void printMessage(const ProtocolBuffer::DMessage*);

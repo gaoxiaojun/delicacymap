@@ -15,6 +15,7 @@ class SelfMarkerItem;
 class RouteItem;
 class ZoomSensitiveItem;
 class RestaurantMarkerItem;
+class PanelWidget;
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -37,9 +38,10 @@ public:
     void unlockMap();
     bool isLocked() { return mapIsLocked; }
     // if balloonOn is NULL, the panel is placed in the center
-    void addBlockingPanel(QWidget*, ZoomSensitiveItem* balloonOn = NULL);
+    PanelWidget* addBlockingPanel(QWidget*, ZoomSensitiveItem* balloonOn = NULL);
     void removeItem(ZoomSensitiveItem*);
     void addLocalMarker(ZoomSensitiveItem*);
+    void removeFromLocal(ZoomSensitiveItem*);
     bool hasLocalMarker() const;
     QList<ZoomSensitiveItem*> localMarkers() const;
 

@@ -17,6 +17,8 @@
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
 
+#include <boost/foreach.hpp>
+
 using namespace ProtocolBuffer;
 QTM_USE_NAMESPACE
 
@@ -68,6 +70,8 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     btn_zoomOut->setFlat(true);
     connect(m_ui->btn_quit, SIGNAL(clicked()), SLOT(close()));
     connect(m_ui->btn_addMarker, SIGNAL(clicked()), SLOT(AddMarkerClicked()));
+    connect(m_ui->btn_addMarker_confirm, SIGNAL(clicked()), SLOT(handleBtnConfirmClicked()));
+    connect(m_ui->btn_addMarker_cancel, SIGNAL(clicked()), SLOT(handleBtnCancelClicked()));
     connect(navi, SIGNAL(canZoomIn(bool)), btn_zoomIn, SLOT(setEnabled(bool)));
     connect(navi, SIGNAL(canZoomOut(bool)), btn_zoomOut, SLOT(setEnabled(bool)));
     connect(btn_zoomIn, SIGNAL(clicked()), navi, SLOT(zoomIn()));
@@ -215,9 +219,89 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
     }
     else
     {
-        navi->addBlockingPanel(new QLineEdit, res);
-
+        QLineEdit *edit = new QLineEdit;
+        if (res->restaurantInfo())
+            edit->setText(QString::fromUtf8( res->restaurantInfo()->name().c_str() ));
+        PanelWidget* panel = navi->addBlockingPanel(edit, res);
+        connect(panel, SIGNAL(closing(PanelWidget*)), SLOT(handlePanelClosing(PanelWidget*)), Qt::DirectConnection);
     }
+}
+
+void MainWindow::handlePanelClosing(PanelWidget *w)
+{
+    QLineEdit *edit = qobject_cast<QLineEdit*>(w->widget());
+    if (edit && edit->text().size() > 0 && w->tiedTo() && w->tiedTo()->type() == RestaurantMarkerItem::Type)
+    {
+        RestaurantMarkerItem* item = static_cast<RestaurantMarkerItem*>(w->tiedTo());
+        if (item->isFakeMarker())
+        {
+            std::string name(edit->text().toUtf8().constData());
+            item->mutableRestaurantInfo()->set_name(name);
+        }
+    }
+}
+
+void MainWindow::handleBtnConfirmClicked()
+{
+    QList<ZoomSensitiveItem*> locals = navi->localMarkers();
+    BOOST_FOREACH(ZoomSensitiveItem* it, locals)
+    {
+        switch (it->type())
+        {
+        case RestaurantMarkerItem::Type:
+            {
+                RestaurantMarkerItem* r = static_cast<RestaurantMarkerItem*>(it);
+                Q_ASSERT( r->isFakeMarker() );
+                ProtocolBuffer::Restaurant* rinfo = r->mutableRestaurantInfo(); // small optimization, save one allocation
+                google::protobuf::Closure* promote = google::protobuf::NewCallback(
+                        r,
+                        &RestaurantMarkerItem::PromoteToRealMarker,
+                        const_cast<const ProtocolBuffer::Restaurant*>(rinfo));
+                getSession()->getDataSource().AddRestaurant(rinfo->name(), rinfo->location().latitude(), rinfo->location().longitude(), rinfo, promote);
+            }
+            break;
+        default:
+            qDebug()<<"Unhandled local marker type:"<<it->type();
+        }
+        navi->removeFromLocal(it);
+    }
+
+    m_ui->btn_quit->show();
+    m_ui->btn_addMarker->show();
+    m_ui->btn_addMarker_confirm->hide();
+    m_ui->btn_addMarker_cancel->hide();
+}
+
+void MainWindow::handleBtnCancelClicked()
+{
+    if (navi->hasLocalMarker())
+    {
+        QMessageBox msgbox;
+        msgbox.setIcon(QMessageBox::Question);
+        msgbox.setText(tr("Do you want to discard all previous work?"));
+        msgbox.setWindowTitle("Unsaved local markers.");
+        msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgbox.setDefaultButton(QMessageBox::No);
+        int ret = msgbox.exec();
+        switch (ret)
+        {
+        case QMessageBox::Yes:
+            {
+                QList<ZoomSensitiveItem*> locals = navi->localMarkers();
+                BOOST_FOREACH(ZoomSensitiveItem* it, locals)
+                {
+                    navi->removeItem(it);
+                }
+            }
+            break;
+        case QMessageBox::No:
+            return;
+        }
+    }
+    m_ui->btn_quit->show();
+    m_ui->btn_addMarker->show();
+    m_ui->btn_addMarker_confirm->hide();
+    m_ui->btn_addMarker_cancel->hide();
 }
 
 void MainWindow::commentSuccessed(void)

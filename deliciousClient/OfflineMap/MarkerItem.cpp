@@ -95,7 +95,7 @@ void RestaurantMarkerItem::PromoteToRealMarker(const ProtocolBuffer::Restaurant*
 {
     Q_ASSERT( restaurant );
     isLocalMarker = false;
-    if (r)
+    if (r && r != restaurant)
         delete r;
     r = restaurant;
 }
@@ -202,6 +202,7 @@ QGraphicsProxyWidget* PanelWidget::setupCloseButton()
 
 void PanelWidget::handleCloseButtonClick()
 {
+    emit closing(this);
     widget()->close();
 }
 
