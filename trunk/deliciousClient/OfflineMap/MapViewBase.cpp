@@ -221,7 +221,7 @@ void MapViewBase::mouseReleaseEvent(QMouseEvent *event)
             RestaurantMarkerItem *r;
             if (item && (r = qgraphicsitem_cast<RestaurantMarkerItem*>(item)))
             {
-                emit restaurantMarkerClicked(r->restaurantInfo());
+                emit restaurantMarkerClicked(r);
             }
         }
         decorator.mouseReleaseEvent(event);

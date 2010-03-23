@@ -72,7 +72,7 @@ signals:
     void canZoomOut(bool status);
     void zoomLevelChanged(int level);
     void boundsChange(const GeoBound& newbound);
-    void restaurantMarkerClicked(const ProtocolBuffer::Restaurant*);
+    void restaurantMarkerClicked(RestaurantMarkerItem*);
 
 protected:
     int xCenter;
