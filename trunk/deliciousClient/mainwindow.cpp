@@ -253,6 +253,21 @@ void MainWindow::handleBtnConfirmClicked()
                 RestaurantMarkerItem* r = static_cast<RestaurantMarkerItem*>(it);
                 Q_ASSERT( r->isFakeMarker() );
                 ProtocolBuffer::Restaurant* rinfo = r->mutableRestaurantInfo(); // small optimization, save one allocation
+                int sendRequestToServer = false;
+                if (rinfo->name().empty())
+                {
+                    navi->ensureVisible(it);
+                    QMessageBox msgbox;
+                    msgbox.setIcon(QMessageBox::Question);
+                    msgbox.setText(tr("Do you want to continue? Coninueing will discard this marker."));
+                    msgbox.setWindowTitle(tr("Restautant without a name"));
+                    msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                    msgbox.setDefaultButton(QMessageBox::No);
+                    int ret = msgbox.exec();
+                    if (ret == QMessageBox::Yes)
+                        navi->removeItem(it);
+                    continue;
+                }
                 google::protobuf::Closure* promote = google::protobuf::NewCallback(
                         r,
                         &RestaurantMarkerItem::PromoteToRealMarker,
@@ -265,11 +280,13 @@ void MainWindow::handleBtnConfirmClicked()
         }
         navi->removeFromLocal(it);
     }
-
-    m_ui->btn_quit->show();
-    m_ui->btn_addMarker->show();
-    m_ui->btn_addMarker_confirm->hide();
-    m_ui->btn_addMarker_cancel->hide();
+    if (!navi->hasLocalMarker())
+    {
+        m_ui->btn_quit->show();
+        m_ui->btn_addMarker->show();
+        m_ui->btn_addMarker_confirm->hide();
+        m_ui->btn_addMarker_cancel->hide();
+    }
 }
 
 void MainWindow::handleBtnCancelClicked()
@@ -279,7 +296,7 @@ void MainWindow::handleBtnCancelClicked()
         QMessageBox msgbox;
         msgbox.setIcon(QMessageBox::Question);
         msgbox.setText(tr("Do you want to discard all previous work?"));
-        msgbox.setWindowTitle("Unsaved local markers.");
+        msgbox.setWindowTitle(tr("Unsaved local markers."));
         msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msgbox.setDefaultButton(QMessageBox::No);
         int ret = msgbox.exec();
