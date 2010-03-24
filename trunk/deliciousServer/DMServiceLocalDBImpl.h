@@ -62,6 +62,10 @@ public:
     void SetUserRelation(::google::protobuf::RpcController* controller,
         const ::ProtocolBuffer::Query* request,
         ::google::protobuf::Closure* done);
+    void AddRestaurant(::google::protobuf::RpcController* controller,
+        const ::ProtocolBuffer::Query* request,
+        ::ProtocolBuffer::Restaurant* response,
+        ::google::protobuf::Closure* done);
 
 private://callbacks
     void GetRestaurantsCallback( const DBRow& row, ProtocolBuffer::RestaurantList* result );

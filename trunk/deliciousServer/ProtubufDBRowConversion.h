@@ -11,4 +11,6 @@ class ProtubufDBRowConversion
 public:
     static bool Convert(const DBRow& from, ::ProtocolBuffer::User& to);
     static bool Convert(const ::ProtocolBuffer::User& from, DBRow& to);
+
+    static bool Convert(const DBRow&from, ::ProtocolBuffer::Restaurant& to);
 };
