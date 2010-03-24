@@ -58,6 +58,8 @@ public://DB methods
 
     size_t SetUserRelation( int uid, int uid_target, int relation);
 
+    const DBResultWrap AddRestaurant( const std::string& rname, double latitude, double longitude);
+
 	const DBResultWrap PostCommentForRestaurant( int rid, int uid, const std::string& msg, const std::string* const image );
 
 	const DBResultWrap UserLogin( const std::string& email, const std::string& password );
@@ -84,6 +86,6 @@ private://data
 
     // prepared statements
     DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage, *prepared_GetUserByUID, *prepared_GetCommentsOfRest_N;
-    DBPrepared* prepared_Login, *prepared_InsertComment;
+    DBPrepared* prepared_Login, *prepared_InsertComment, *prepared_AddRestaurant;
     DBContext *dbconn;
 };

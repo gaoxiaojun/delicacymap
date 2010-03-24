@@ -30,3 +30,20 @@ bool ProtubufDBRowConversion::Convert( const ::ProtocolBuffer::User& from, DBRow
 
     return true;
 }
+
+bool ProtubufDBRowConversion::Convert( const DBRow&from, ::ProtocolBuffer::Restaurant& to )
+{
+    to.set_name(from["Name"]);
+    to.set_commentcount( from["CommentCount"].empty() ? 0 : from.GetValueAs<int>("CommentCount") );
+    to.set_rating(from.GetValueAs<int>("Rating"));
+    to.set_rid(from.GetValueAs<int>("RID"));
+    to.mutable_type()->set_name( from["TID"].empty() ? "" : from["ReadableText"] );
+    to.mutable_type()->set_tid( from["TID"].empty() ? -1 : from.GetValueAs<int>("TID") );
+
+    to.mutable_location()->set_longitude(from.GetValueAs<double>("Longtitude"));
+    to.mutable_location()->set_latitude(from.GetValueAs<double>("Latitude"));
+
+    to.mutable_averageexpense()->set_amount(from.GetValueAs<float>("AverageExpense"));
+
+    return true;
+}

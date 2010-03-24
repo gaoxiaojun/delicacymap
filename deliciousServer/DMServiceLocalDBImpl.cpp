@@ -91,11 +91,11 @@ void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::p
             done);
         break;
     case protorpc::AddRestaurant:
-//         AddRestaurant(controller,
-//             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
-//             ::google::protobuf::down_cast< ::ProtocolBuffer::Restaurant*>(response),
-//             done);
-//         break;
+        AddRestaurant(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::Restaurant*>(response),
+            done);
+        break;
     default:
         pantheios::log_CRITICAL("Not handled method id!!!(CallMethod)");
     }
@@ -371,20 +371,33 @@ void DMServiceLocalDBImpl::SetUserRelation( ::google::protobuf::RpcController* c
     done->Run();
 }
 
+void DMServiceLocalDBImpl::AddRestaurant( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::Restaurant* response, ::google::protobuf::Closure* done )
+{
+    if (request->has_name() && request->has_location())
+    {
+        DBResultWrap ret = adapter->AddRestaurant(request->name(), request->location().latitude(), request->location().longitude());
+        if (ret.empty())
+        {
+            pantheios::log_ERROR("Add restaurant error, database failed?");
+            controller->SetFailed("Server failed to add the restaurant.");
+        }
+        else
+            ProtubufDBRowConversion::Convert(ret.getResult()->GetRow(0), *response);
+    }
+    else
+    {
+        pantheios::log_WARNING("calling AddRestaurant() with wrong request message.");
+        controller->SetFailed("calling AddRestaurant() with wrong request message.");
+    }
+
+    done->Run();
+}
+
 void DMServiceLocalDBImpl::GetRestaurantsCallback( const DBRow& row, RestaurantList* result )
 {
     Restaurant *newr = result->add_restaurants();
-    newr->set_name(row["Name"]);
-    newr->set_commentcount(row.GetValueAs<int>("CommentCount"));
-    newr->set_rating(row.GetValueAs<int>("Rating"));
-    newr->set_rid(row.GetValueAs<int>("RID"));
-    newr->mutable_type()->set_name(row["ReadableText"]);
-    newr->mutable_type()->set_tid(row.GetValueAs<int>("TID"));
 
-    newr->mutable_location()->set_longitude(row.GetValueAs<double>("Longtitude"));
-    newr->mutable_location()->set_latitude(row.GetValueAs<double>("Latitude"));
-
-    newr->mutable_averageexpense()->set_amount(row.GetValueAs<float>("AverageExpense"));
+    ProtubufDBRowConversion::Convert(row, *newr);
 }
 
 void DMServiceLocalDBImpl::GetCommentsCallback( const DBRow& row, ProtocolBuffer::CommentList* result )

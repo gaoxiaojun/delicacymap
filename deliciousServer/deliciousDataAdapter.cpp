@@ -26,6 +26,7 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_GetCommentsOfRest_N = NULL;
         prepared_Login = NULL;
         prepared_InsertComment = NULL;
+        prepared_AddRestaurant = NULL;
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
@@ -57,6 +58,8 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "WHERE EmailAddress=? AND Password=?;");
         prepared_InsertComment = dbconn->NewPreparedStatement(
             "INSERT INTO Comments (UID, RID, DID, Comment, PhotoPath, AddTime, TimeZone) VALUES(?, ?, ?, ?, ?, datetime('now'), 8);");
+        prepared_AddRestaurant = dbconn->NewPreparedStatement(
+            "INSERT INTO Restaurants (Name, Latitude, Longtitude, AverageExpense) VALUES(?, ?, ?, 0.0);");
     }
     catch (exception&)
     {
@@ -68,6 +71,7 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         delete prepared_RestaurantWithinBound;
         delete prepared_ConfirmMessage;
         delete prepared_InsertComment;
+        delete prepared_AddRestaurant;
         throw;
     }
 }
@@ -363,6 +367,21 @@ size_t deliciousDataAdapter::SetUserRelation( int uid, int uid_target, int relat
     {
     }
     return retval;
+}
+
+const DBResultWrap deliciousDataAdapter::AddRestaurant( const std::string& rname, double latitude, double longitude )
+{
+    pantheios::log_INFORMATIONAL("AddRestaurant(",
+        "latitude=", pantheios::real(latitude),
+        ",longitude=", pantheios::real(longitude),
+        ")");
+    prepared_AddRestaurant->reset();
+    prepared_AddRestaurant->bindParameter(1, rname);
+    prepared_AddRestaurant->bindParameter(2, latitude);
+    prepared_AddRestaurant->bindParameter(3, longitude);
+    dbconn->Execute(prepared_AddRestaurant);
+
+    return DBResultWrap(dbconn->Execute("SELECT Restaurants.* FROM Restaurants WHERE Restaurants.rowid = last_insert_rowid();"), dbconn);
 }
 
 // TODO: maybe database schema object to manage all primary keys and stuff?
