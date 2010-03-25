@@ -19,5 +19,6 @@
         <file alias="cancel.png">Resources/png-0652.png</file>
         <file alias="confirm.png">Resources/png-0644.png</file>
         <file alias="black.png">Resources/black.png</file>
+        <file alias="gps.png">Resources/image_480_800/png-0700.png</file>
     </qresource>
 </RCC>
