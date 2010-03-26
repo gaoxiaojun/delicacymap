@@ -215,3 +215,15 @@ void MapDataSource::AddRestaurant(ProtocolBuffer::Query *query, ProtocolBuffer::
 {
     channel->CallMethod( protorpc::AddRestaurant, query, r, done);
 }
+
+void MapDataSource::Search(const std::string &text, ProtocolBuffer::SearchResult *result, google::protobuf::Closure *done)
+{
+    query.Clear();
+    query.set_msg(text);
+    Search(&query, result, done);
+}
+
+void MapDataSource::Search(ProtocolBuffer::Query *query, ProtocolBuffer::SearchResult *result, google::protobuf::Closure *done)
+{
+    channel->CallMethod( protorpc::Search, query, result, done );
+}

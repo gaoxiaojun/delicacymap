@@ -43,6 +43,7 @@ public:
     void UpdateUserInfo(int uid, const std::string& password, ProtocolBuffer::User* info, google::protobuf::Closure *);
     void SetUserRelation(int uid, int target_uid, UserRelation relation, google::protobuf::Closure *);
     void AddRestaurant(const std::string& name, double lattitude, double longitude, ProtocolBuffer::Restaurant* r, google::protobuf::Closure* done);
+    void Search(const std::string& text, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done);
 
     void GetRestaurants(ProtocolBuffer::Query *, ProtocolBuffer::RestaurantList *, google::protobuf::Closure *);
     void GetLastestCommentsOfRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
@@ -55,7 +56,8 @@ public:
     void GetRelatedUsers(ProtocolBuffer::Query *, ProtocolBuffer::UserList *, google::protobuf::Closure *);
     void UpdateUserInfo(ProtocolBuffer::Query *, ProtocolBuffer::User *, google::protobuf::Closure *);
     void SetUserRelation(ProtocolBuffer::Query *, google::protobuf::Closure*);
-    void AddRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::Restaurant* r, google::protobuf::Closure* done);
+    void AddRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::Restaurant*, google::protobuf::Closure*);
+    void Search(ProtocolBuffer::Query *, ProtocolBuffer::SearchResult*, google::protobuf::Closure*);
     void SendMessage(ProtocolBuffer::DMessage*);
 
 

@@ -44,6 +44,7 @@ class RestaurantList;
 class CommentList;
 class UserList;
 class RestaurantType;
+class SearchResult;
 class Query;
 class DMessage;
 
@@ -1293,6 +1294,91 @@ class RestaurantType : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
+class SearchResult : public ::google::protobuf::MessageLite {
+ public:
+  SearchResult();
+  virtual ~SearchResult();
+  
+  SearchResult(const SearchResult& from);
+  
+  inline SearchResult& operator=(const SearchResult& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  static const SearchResult& default_instance();
+  
+  void Swap(SearchResult* other);
+  
+  // implements Message ----------------------------------------------
+  
+  SearchResult* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const SearchResult& from);
+  void MergeFrom(const SearchResult& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // optional .ProtocolBuffer.RestaurantList restaurants = 1;
+  inline bool has_restaurants() const;
+  inline void clear_restaurants();
+  static const int kRestaurantsFieldNumber = 1;
+  inline const ::ProtocolBuffer::RestaurantList& restaurants() const;
+  inline ::ProtocolBuffer::RestaurantList* mutable_restaurants();
+  
+  // optional .ProtocolBuffer.UserList users = 2;
+  inline bool has_users() const;
+  inline void clear_users();
+  static const int kUsersFieldNumber = 2;
+  inline const ::ProtocolBuffer::UserList& users() const;
+  inline ::ProtocolBuffer::UserList* mutable_users();
+  
+  // @@protoc_insertion_point(class_scope:ProtocolBuffer.SearchResult)
+ private:
+  mutable int _cached_size_;
+  
+  ::ProtocolBuffer::RestaurantList* restaurants_;
+  ::ProtocolBuffer::UserList* users_;
+  friend void  protobuf_AddDesc_MapProtocol_2eproto();
+  friend void protobuf_AssignDesc_MapProtocol_2eproto();
+  friend void protobuf_ShutdownFile_MapProtocol_2eproto();
+  
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  
+  // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
+  inline bool _has_bit(int index) const {
+    return (_has_bits_[index / 32] & (1u << (index % 32))) != 0;
+  }
+  inline void _set_bit(int index) {
+    _has_bits_[index / 32] |= (1u << (index % 32));
+  }
+  inline void _clear_bit(int index) {
+    _has_bits_[index / 32] &= ~(1u << (index % 32));
+  }
+  
+  void InitAsDefaultInstance();
+  static SearchResult* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class Query : public ::google::protobuf::MessageLite {
  public:
   Query();
@@ -2501,6 +2587,44 @@ inline ::std::string* RestaurantType::mutable_name() {
     name_ = new ::std::string;
   }
   return name_;
+}
+
+// -------------------------------------------------------------------
+
+// SearchResult
+
+// optional .ProtocolBuffer.RestaurantList restaurants = 1;
+inline bool SearchResult::has_restaurants() const {
+  return _has_bit(0);
+}
+inline void SearchResult::clear_restaurants() {
+  if (restaurants_ != NULL) restaurants_->::ProtocolBuffer::RestaurantList::Clear();
+  _clear_bit(0);
+}
+inline const ::ProtocolBuffer::RestaurantList& SearchResult::restaurants() const {
+  return restaurants_ != NULL ? *restaurants_ : *default_instance_->restaurants_;
+}
+inline ::ProtocolBuffer::RestaurantList* SearchResult::mutable_restaurants() {
+  _set_bit(0);
+  if (restaurants_ == NULL) restaurants_ = new ::ProtocolBuffer::RestaurantList;
+  return restaurants_;
+}
+
+// optional .ProtocolBuffer.UserList users = 2;
+inline bool SearchResult::has_users() const {
+  return _has_bit(1);
+}
+inline void SearchResult::clear_users() {
+  if (users_ != NULL) users_->::ProtocolBuffer::UserList::Clear();
+  _clear_bit(1);
+}
+inline const ::ProtocolBuffer::UserList& SearchResult::users() const {
+  return users_ != NULL ? *users_ : *default_instance_->users_;
+}
+inline ::ProtocolBuffer::UserList* SearchResult::mutable_users() {
+  _set_bit(1);
+  if (users_ == NULL) users_ = new ::ProtocolBuffer::UserList;
+  return users_;
 }
 
 // -------------------------------------------------------------------

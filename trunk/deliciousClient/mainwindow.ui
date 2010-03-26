@@ -200,7 +200,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="lineEdit_Search">
         <property name="minimumSize">
          <size>
           <width>80</width>
