@@ -184,6 +184,9 @@
           <height>32</height>
          </size>
         </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
