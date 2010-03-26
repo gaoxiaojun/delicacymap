@@ -38,7 +38,6 @@ public:
     QGeoPositionInfoSource* getPositionInfoSource() { return loc_svc; }
     void setSession(Session* s);
     Session* getSession() { return session; }
-    void setLocationSource(QGeoPositionInfoSource*);
 
 signals:
     void newRestaurantMarker(const ProtocolBuffer::Restaurant*);

@@ -44,6 +44,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 
     navi = new MapViewBase;
     navi->setDecorator(new MoveDecorator(navi, true));
+    navi->setCache(&imageCache);
     navi->insertDecorator(new ZoomDecorator(navi));
     navi->insertDecorator(new DownloadDecorator(navi));
 //     CrossDecorator *crossDecorator = new CrossDecorator(navi);
@@ -60,7 +61,6 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 #else
     imageCache.setCacheDBPath("tiles.map");
 #endif
-    navi->setCache(&imageCache);
     btn_zoomIn = new QPushButton(QIcon(":/Icons/zoomin.png"), "", navi);
     btn_zoomIn->setGeometry(8, 8, 64, 64);
     btn_zoomIn->setIconSize(QSize(64, 64));
@@ -69,11 +69,16 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     btn_zoomOut->setGeometry(80, 8, 64, 64);
     btn_zoomOut->setIconSize(QSize(64, 64));
     btn_zoomOut->setFlat(true);
+    controller.setMapView(navi);
+    QGeoSatelliteInfoSource* src = controller.getSatelliteInfoSource();
+    connect(src, SIGNAL(satellitesInViewUpdated(QList<QGeoSatelliteInfo>)), SLOT(updateGPSInfo_InView(QList<QGeoSatelliteInfo>)));
+    connect(src, SIGNAL(satellitesInUseUpdated(QList<QGeoSatelliteInfo>)), SLOT(updateGPSInfo_Used(QList<QGeoSatelliteInfo>)));
     connect(m_ui->btn_quit, SIGNAL(clicked()), SLOT(close()));
     connect(m_ui->btn_addMarker, SIGNAL(clicked()), SLOT(AddMarkerClicked()));
     connect(m_ui->btn_addMarker_confirm, SIGNAL(clicked()), SLOT(handleBtnConfirmClicked()));
     connect(m_ui->btn_addMarker_cancel, SIGNAL(clicked()), SLOT(handleBtnCancelClicked()));
-    connect(m_ui->btn_StartGPS, SIGNAL(clicked()), controller.getPositionInfoSource(), SLOT(startUpdates()));
+    if (controller.getPositionInfoSource())
+        connect(m_ui->btn_StartGPS, SIGNAL(clicked()), controller.getPositionInfoSource(), SLOT(startUpdates()));
     connect(m_ui->toolButton_GPS, SIGNAL(clicked()), SLOT(handleBtnGPSInfoClicked()));
     connect(m_ui->toolButton_Map, SIGNAL(clicked()), SLOT(handleBtnMapClicked()));
     connect(m_ui->toolButton_Search, SIGNAL(clicked()), SLOT(handleSearchClicked()));
@@ -81,9 +86,6 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(navi, SIGNAL(canZoomOut(bool)), btn_zoomOut, SLOT(setEnabled(bool)));
     connect(btn_zoomIn, SIGNAL(clicked()), navi, SLOT(zoomIn()));
     connect(btn_zoomOut, SIGNAL(clicked()), navi, SLOT(zoomOut()));
-
-    controller.setMapView(navi);
-    controller.setLocationSource(QGeoPositionInfoSource::createDefaultSource(this));
     connect(navi, SIGNAL(boundsChange(const GeoBound&)), &controller, SLOT(MapViewBoundsChange(const GeoBound&)));
     //ZZQ edited,编辑一个slot,专门用来显示餐厅信息
     connect(navi,SIGNAL(restaurantMarkerClicked(RestaurantMarkerItem*)),SLOT(RestaurantMarkerResponse(RestaurantMarkerItem*)));
@@ -197,10 +199,8 @@ void MainWindow::handleBtnMapClicked()
 void MainWindow::handleBtnGPSInfoClicked()
 {
     QGeoSatelliteInfoSource* src = controller.getSatelliteInfoSource();
-    disconnect(src, SIGNAL(satellitesInViewUpdated(QList<QGeoSatelliteInfo>)), this, SLOT(QList<QGeoSatelliteInfo>));
-    disconnect(src, SIGNAL(satellitesInUseUpdated(QList<QGeoSatelliteInfo>)), this, SLOT(QList<QGeoSatelliteInfo>));
-    connect(src, SIGNAL(satellitesInViewUpdated(QList<QGeoSatelliteInfo>)), SLOT(QList<QGeoSatelliteInfo>));
-    connect(src, SIGNAL(satellitesInUseUpdated(QList<QGeoSatelliteInfo>)), SLOT(QList<QGeoSatelliteInfo>));
+    connect(src, SIGNAL(satellitesInViewUpdated(QList<QGeoSatelliteInfo>)), SLOT(updateGPSInfo_InView(QList<QGeoSatelliteInfo>)));
+    connect(src, SIGNAL(satellitesInUseUpdated(QList<QGeoSatelliteInfo>)), SLOT(updateGPSInfo_Used(QList<QGeoSatelliteInfo>)));
     src->startUpdates();
     m_ui->stackedWidget->setCurrentWidget(m_ui->page_gps);
 }

@@ -14,6 +14,13 @@ MapController::MapController(void)
 : map(NULL), session(NULL)
 {
     sat_svc = NULL;
+    loc_svc = QGeoPositionInfoSource::createDefaultSource(this);
+    if (loc_svc)
+    {
+        loc_svc->setUpdateInterval(7000);
+        connect(loc_svc, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(translateLocationSignal(const QGeoPositionInfo&)));
+        loc_svc->startUpdates();
+    }
 }
 
 MapController::~MapController(void)
@@ -62,21 +69,6 @@ void MapController::setMapView( MapViewBase* m )
 {
     map = m;
     connect(this, SIGNAL(newRestaurantMarker(const ProtocolBuffer::Restaurant*)), map, SLOT(addRestaurantMarker(const ProtocolBuffer::Restaurant*)));
-}
-
-void MapController::setLocationSource( QGeoPositionInfoSource* loc )
-{
-    if (loc)
-    {
-        loc_svc = loc;
-        loc_svc->setUpdateInterval(7000);
-        connect(loc_svc, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(translateLocationSignal(const QGeoPositionInfo&)));
-        loc_svc->startUpdates();
-        if (getSession())
-        {
-            connect(this, SIGNAL(currentLocationUpdate(GeoPoint)), getSession(), SLOT(UserLocationUpdate(const GeoPoint&)));
-        }
-    }
 }
 
 void MapController::translateLocationSignal( const QGeoPositionInfo& info )
@@ -172,12 +164,9 @@ void MapController::finishedRouteEditing( RouteItem* item )
 
 void MapController::setSession( Session* s )
 {
-    if (loc_svc)
-    {
-        if (session)
-            disconnect(this, SIGNAL(currentLocationUpdate(GeoPoint)), session, SLOT(UserLocationUpdate(const GeoPoint&)));
-        if (s)
-            connect(this, SIGNAL(currentLocationUpdate(GeoPoint)), s, SLOT(UserLocationUpdate(const GeoPoint&)));
-    }
+    if (session)
+        disconnect(this, SIGNAL(currentLocationUpdate(GeoPoint)), session, SLOT(UserLocationUpdate(const GeoPoint&)));
+    if (s)
+        connect(this, SIGNAL(currentLocationUpdate(GeoPoint)), s, SLOT(UserLocationUpdate(const GeoPoint&)));
     session = s;
 }
