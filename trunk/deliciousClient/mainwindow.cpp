@@ -16,6 +16,7 @@
 #include <QDebug>
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
+#include <QGeoSatelliteInfoSource>
 
 #include <boost/foreach.hpp>
 
@@ -72,6 +73,10 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(m_ui->btn_addMarker, SIGNAL(clicked()), SLOT(AddMarkerClicked()));
     connect(m_ui->btn_addMarker_confirm, SIGNAL(clicked()), SLOT(handleBtnConfirmClicked()));
     connect(m_ui->btn_addMarker_cancel, SIGNAL(clicked()), SLOT(handleBtnCancelClicked()));
+    connect(m_ui->btn_StartGPS, SIGNAL(clicked()), controller.getPositionInfoSource(), SLOT(startUpdates()));
+    connect(m_ui->toolButton_GPS, SIGNAL(clicked()), SLOT(handleBtnGPSInfoClicked()));
+    connect(m_ui->toolButton_Map, SIGNAL(clicked()), SLOT(handleBtnMapClicked()));
+    connect(m_ui->toolButton_Search, SIGNAL(clicked()), SLOT(handleSearchClicked()));
     connect(navi, SIGNAL(canZoomIn(bool)), btn_zoomIn, SLOT(setEnabled(bool)));
     connect(navi, SIGNAL(canZoomOut(bool)), btn_zoomOut, SLOT(setEnabled(bool)));
     connect(btn_zoomIn, SIGNAL(clicked()), navi, SLOT(zoomIn()));
@@ -97,8 +102,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     m_ui->btn_addMarker_cancel->hide();
     m_ui->btn_addMarker_confirm->hide();
 
-    int index = this->m_ui->stackedWidget->insertWidget(0,navi);
-    qDebug()<<index<<endl;
+    this->m_ui->stackedWidget->insertWidget(0, navi);
     this->m_ui->stackedWidget->setCurrentWidget(navi);
     changeSession(s);
 }
@@ -176,6 +180,38 @@ void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
     qDebug()<<"From User: "<<msg->fromuser();
     qDebug()<<"To User: "<<msg->touser();
     qDebug()<<"============================ Msg End ===================================";
+}
+
+void MainWindow::handleSearchClicked()
+{
+
+}
+
+void MainWindow::handleBtnMapClicked()
+{
+    m_ui->stackedWidget->setCurrentWidget(navi);
+    controller.getSatelliteInfoSource()->stopUpdates();
+}
+
+void MainWindow::handleBtnGPSInfoClicked()
+{
+    QGeoSatelliteInfoSource* src = controller.getSatelliteInfoSource();
+    disconnect(src, SIGNAL(satellitesInViewUpdated(QList<QGeoSatelliteInfo>)), this, SLOT(QList<QGeoSatelliteInfo>));
+    disconnect(src, SIGNAL(satellitesInUseUpdated(QList<QGeoSatelliteInfo>)), this, SLOT(QList<QGeoSatelliteInfo>));
+    connect(src, SIGNAL(satellitesInViewUpdated(QList<QGeoSatelliteInfo>)), SLOT(QList<QGeoSatelliteInfo>));
+    connect(src, SIGNAL(satellitesInUseUpdated(QList<QGeoSatelliteInfo>)), SLOT(QList<QGeoSatelliteInfo>));
+    src->startUpdates();
+    m_ui->stackedWidget->setCurrentWidget(m_ui->page_gps);
+}
+
+void MainWindow::updateGPSInfo_InView(QList<QGeoSatelliteInfo> satellites)
+{
+    m_ui->label_Sat_In_View->setText( QString::number(satellites.size()) );
+}
+
+void MainWindow::updateGPSInfo_Used(QList<QGeoSatelliteInfo> satellites)
+{
+    m_ui->label_Sat_Used->setText( QString::number(satellites.size()) );
 }
 
 void MainWindow::handleRequestRouting(int uid, const QString& from, const QString& to)

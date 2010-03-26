@@ -4,6 +4,7 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QTextEdit>
 #include <QString>
+#include <QGeoSatelliteInfo>
 #include "OfflineMap/ImageCache.h"
 #include "OfflineMap/Downloader.h"
 #include "MapController.h"
@@ -53,6 +54,11 @@ private slots:
     void handlePanelClosing(PanelWidget*);
     void handleBtnConfirmClicked();
     void handleBtnCancelClicked();
+    void handleBtnGPSInfoClicked();
+    void handleBtnMapClicked();
+    void handleSearchClicked();
+    void updateGPSInfo_InView(QList<QGeoSatelliteInfo>);
+    void updateGPSInfo_Used(QList<QGeoSatelliteInfo>);
     void commentCommited(void);
     void commentSuccessed(void);
     void printMessage(const ProtocolBuffer::DMessage*);

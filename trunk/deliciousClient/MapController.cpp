@@ -5,6 +5,7 @@
 #include "OfflineMap/MarkerItem.h"
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
+#include <QGeoSatelliteInfoSource>
 #include <QMessageBox>
 #include <QDebug>
 #include <QList>
@@ -12,11 +13,20 @@
 MapController::MapController(void)
 : map(NULL), session(NULL)
 {
-    
+    sat_svc = NULL;
 }
 
 MapController::~MapController(void)
 {
+}
+
+QGeoSatelliteInfoSource* MapController::getSatelliteInfoSource()
+{
+    if (!sat_svc)
+    {
+        sat_svc = QGeoSatelliteInfoSource::createDefaultSource(this);
+    }
+    return sat_svc;
 }
 
 void MapController::MapViewBoundsChange( const GeoBound& bound )

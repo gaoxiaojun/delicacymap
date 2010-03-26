@@ -22,6 +22,7 @@ class RouteItem;
 QTM_BEGIN_NAMESPACE
 class QGeoPositionInfo;
 class QGeoPositionInfoSource;
+class QGeoSatelliteInfoSource;
 QTM_END_NAMESPACE
 
 class MapController : public QObject
@@ -33,6 +34,8 @@ public:
 
     void setMapView(MapViewBase* m);;
     MapViewBase* getMapView() { return map; }
+    QGeoSatelliteInfoSource* getSatelliteInfoSource();
+    QGeoPositionInfoSource* getPositionInfoSource() { return loc_svc; }
     void setSession(Session* s);
     Session* getSession() { return session; }
     void setLocationSource(QGeoPositionInfoSource*);
@@ -60,5 +63,6 @@ private:
     QSet<int> _restaurants;
     MapViewBase *map;
     Session *session;
+    QGeoSatelliteInfoSource* sat_svc;
     QGeoPositionInfoSource* loc_svc;
 };
