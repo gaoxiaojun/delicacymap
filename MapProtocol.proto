@@ -90,6 +90,12 @@ message RestaurantType
     required string                                          name                        = 2;    //description
 }
 
+message SearchResult
+{
+    optional RestaurantList                                 restaurants                  = 1;
+    optional UserList                                       users                        = 2;
+}
+
 message Query
 {
     optional ProtocolBuffer.Area                             area                        = 1;

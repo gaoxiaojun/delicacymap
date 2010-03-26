@@ -184,7 +184,8 @@ void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
 
 void MainWindow::handleSearchClicked()
 {
-
+    QString searchText = m_ui->lineEdit_Search->text();
+    std::string searchTextUtf8(searchText.toUtf8().constData());
 }
 
 void MainWindow::handleBtnMapClicked()

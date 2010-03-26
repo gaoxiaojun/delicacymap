@@ -23,6 +23,7 @@ void protobuf_ShutdownFile_MapProtocol_2eproto() {
   delete CommentList::default_instance_;
   delete UserList::default_instance_;
   delete RestaurantType::default_instance_;
+  delete SearchResult::default_instance_;
   delete Query::default_instance_;
   delete DMessage::default_instance_;
 }
@@ -46,6 +47,7 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   CommentList::default_instance_ = new CommentList();
   UserList::default_instance_ = new UserList();
   RestaurantType::default_instance_ = new RestaurantType();
+  SearchResult::default_instance_ = new SearchResult();
   Query::default_instance_ = new Query();
   DMessage::default_instance_ = new DMessage();
   Location::default_instance_->InitAsDefaultInstance();
@@ -61,6 +63,7 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   CommentList::default_instance_->InitAsDefaultInstance();
   UserList::default_instance_->InitAsDefaultInstance();
   RestaurantType::default_instance_->InitAsDefaultInstance();
+  SearchResult::default_instance_->InitAsDefaultInstance();
   Query::default_instance_->InitAsDefaultInstance();
   DMessage::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_MapProtocol_2eproto);
@@ -2979,6 +2982,211 @@ void RestaurantType::Swap(RestaurantType* other) {
 
 ::std::string RestaurantType::GetTypeName() const {
   return "ProtocolBuffer.RestaurantType";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int SearchResult::kRestaurantsFieldNumber;
+const int SearchResult::kUsersFieldNumber;
+#endif  // !_MSC_VER
+
+SearchResult::SearchResult()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void SearchResult::InitAsDefaultInstance() {
+  restaurants_ = const_cast< ::ProtocolBuffer::RestaurantList*>(&::ProtocolBuffer::RestaurantList::default_instance());
+  users_ = const_cast< ::ProtocolBuffer::UserList*>(&::ProtocolBuffer::UserList::default_instance());
+}
+
+SearchResult::SearchResult(const SearchResult& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void SearchResult::SharedCtor() {
+  _cached_size_ = 0;
+  restaurants_ = NULL;
+  users_ = NULL;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+SearchResult::~SearchResult() {
+  SharedDtor();
+}
+
+void SearchResult::SharedDtor() {
+  if (this != default_instance_) {
+    delete restaurants_;
+    delete users_;
+  }
+}
+
+void SearchResult::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const SearchResult& SearchResult::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
+}
+
+SearchResult* SearchResult::default_instance_ = NULL;
+
+SearchResult* SearchResult::New() const {
+  return new SearchResult;
+}
+
+void SearchResult::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (_has_bit(0)) {
+      if (restaurants_ != NULL) restaurants_->::ProtocolBuffer::RestaurantList::Clear();
+    }
+    if (_has_bit(1)) {
+      if (users_ != NULL) users_->::ProtocolBuffer::UserList::Clear();
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool SearchResult::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional .ProtocolBuffer.RestaurantList restaurants = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_restaurants()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_users;
+        break;
+      }
+      
+      // optional .ProtocolBuffer.UserList users = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_users:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_users()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void SearchResult::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // optional .ProtocolBuffer.RestaurantList restaurants = 1;
+  if (_has_bit(0)) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      1, this->restaurants(), output);
+  }
+  
+  // optional .ProtocolBuffer.UserList users = 2;
+  if (_has_bit(1)) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      2, this->users(), output);
+  }
+  
+}
+
+int SearchResult::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // optional .ProtocolBuffer.RestaurantList restaurants = 1;
+    if (has_restaurants()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->restaurants());
+    }
+    
+    // optional .ProtocolBuffer.UserList users = 2;
+    if (has_users()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->users());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void SearchResult::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const SearchResult*>(&from));
+}
+
+void SearchResult::MergeFrom(const SearchResult& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from._has_bit(0)) {
+      mutable_restaurants()->::ProtocolBuffer::RestaurantList::MergeFrom(from.restaurants());
+    }
+    if (from._has_bit(1)) {
+      mutable_users()->::ProtocolBuffer::UserList::MergeFrom(from.users());
+    }
+  }
+}
+
+void SearchResult::CopyFrom(const SearchResult& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SearchResult::IsInitialized() const {
+  
+  if (has_restaurants()) {
+    if (!this->restaurants().IsInitialized()) return false;
+  }
+  if (has_users()) {
+    if (!this->users().IsInitialized()) return false;
+  }
+  return true;
+}
+
+void SearchResult::Swap(SearchResult* other) {
+  if (other != this) {
+    std::swap(restaurants_, other->restaurants_);
+    std::swap(users_, other->users_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string SearchResult::GetTypeName() const {
+  return "ProtocolBuffer.SearchResult";
 }
 
 
