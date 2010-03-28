@@ -235,6 +235,9 @@ MessageLite* ResultTypeForMethod(protorpc::FunctionID method_id)
     case protorpc::SetUserRelation:
         msg = NULL;
         break;
+    case protorpc::Search:
+        msg = new ::ProtocolBuffer::SearchResult;
+        break;
     default:
         pantheios::log_CRITICAL("Not handled method id!!!(Return type)");
     }

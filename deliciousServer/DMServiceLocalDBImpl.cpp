@@ -96,6 +96,12 @@ void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::p
             ::google::protobuf::down_cast< ::ProtocolBuffer::Restaurant*>(response),
             done);
         break;
+    case protorpc::Search:
+        Search(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::SearchResult*>(response),
+            done);
+        break;
     default:
         pantheios::log_CRITICAL("Not handled method id!!!(CallMethod)");
     }
@@ -308,7 +314,7 @@ void DMServiceLocalDBImpl::UpdateUserInfo( ::google::protobuf::RpcController* co
 {
     if (request->has_uid() && request->has_password() && request->has_userinfo())
     {
-        DBResultWrap usrrow = adapter->GerUserAfterValidation(request->uid(), request->password());
+        DBResultWrap usrrow = adapter->GetUserAfterValidation(request->uid(), request->password());
         if (!usrrow.empty())
         {
             const ProtocolBuffer::User &toupdate = request->userinfo();
@@ -388,6 +394,29 @@ void DMServiceLocalDBImpl::AddRestaurant( ::google::protobuf::RpcController* con
     {
         pantheios::log_WARNING("calling AddRestaurant() with wrong request message.");
         controller->SetFailed("calling AddRestaurant() with wrong request message.");
+    }
+
+    done->Run();
+}
+
+void DMServiceLocalDBImpl::Search( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::SearchResult* response, ::google::protobuf::Closure* done )
+{
+    if (request->has_msg())
+    {
+        DBResultWrap ret = adapter->Search(request->msg());
+        if (!ret.empty())
+        {
+            for (size_t i=0;i<ret.getResult()->RowsCount();i++)
+            {
+                ProtocolBuffer::Restaurant* newr = response->mutable_restaurants()->add_restaurants();
+                ProtubufDBRowConversion::Convert(ret.getResult()->GetRow(i), *newr);
+            }
+        }
+    }
+    else
+    {
+        pantheios::log_WARNING("calling Search() with wrong request message.");
+        controller->SetFailed("calling Search() with wrong request message.");
     }
 
     done->Run();
