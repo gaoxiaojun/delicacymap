@@ -9,6 +9,7 @@ SearchResultForm::SearchResultForm(ProtocolBuffer::SearchResult* result, MapView
     ui(new Ui::SearchResultForm)
 {
     Q_ASSERT(result);
+    panel = NULL;
     ui->setupUi(this);
     this->result = result;
     this->target = t;
@@ -52,4 +53,9 @@ void SearchResultForm::itemClicked(QListWidgetItem *item)
         Q_ASSERT( marker );
     }
     target->centerOn(marker, true);
+    if (panel)
+    {
+        panel->tie(marker);
+        target->ensureVisible(panel);
+    }
 }
