@@ -66,7 +66,9 @@ public://DB methods
 
     const DBResultWrap GetUserInfo( int uid );
 
-    const DBResultWrap GerUserAfterValidation( int uid, const std::string& password );
+    const DBResultWrap GetUserAfterValidation( int uid, const std::string& password );
+
+    const DBResultWrap Search( const std::string& text );
 
     /************************************************************************/
     /*                    Methods Used by Messenger                         */
@@ -86,6 +88,6 @@ private://data
 
     // prepared statements
     DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage, *prepared_GetUserByUID, *prepared_GetCommentsOfRest_N;
-    DBPrepared* prepared_Login, *prepared_InsertComment, *prepared_AddRestaurant;
+    DBPrepared* prepared_Login, *prepared_InsertComment, *prepared_AddRestaurant, *prepared_Search;
     DBContext *dbconn;
 };

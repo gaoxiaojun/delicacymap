@@ -27,6 +27,7 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_Login = NULL;
         prepared_InsertComment = NULL;
         prepared_AddRestaurant = NULL;
+        prepared_Search = NULL;
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
@@ -60,6 +61,10 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "INSERT INTO Comments (UID, RID, DID, Comment, PhotoPath, AddTime, TimeZone) VALUES(?, ?, ?, ?, ?, datetime('now'), 8);");
         prepared_AddRestaurant = dbconn->NewPreparedStatement(
             "INSERT INTO Restaurants (Name, Latitude, Longtitude, AverageExpense) VALUES(?, ?, ?, 0.0);");
+        prepared_Search = dbconn->NewPreparedStatement(
+            "SELECT * "
+            "FROM Restaurants NATURAL INNER JOIN Relation_Restaurant_RestaurantType NATURAL INNER JOIN RestaurantTypes "
+            "WHERE Restaurants.Name LIKE ? OR RestaurantTypes.ReadableText LIKE ?");
     }
     catch (exception&)
     {
@@ -72,6 +77,7 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         delete prepared_ConfirmMessage;
         delete prepared_InsertComment;
         delete prepared_AddRestaurant;
+        delete prepared_Search;
         throw;
     }
 }
@@ -86,6 +92,8 @@ deliciousDataAdapter::~deliciousDataAdapter(void)
     delete prepared_RestaurantWithinBound;
     delete prepared_ConfirmMessage;
     delete prepared_InsertComment;
+    delete prepared_AddRestaurant;
+    delete prepared_Search;
 }
 
 deliciousDataAdapter* deliciousDataAdapter::GetInstance()
@@ -293,9 +301,9 @@ const DBResultWrap deliciousDataAdapter::UserLogin( const std::string& email, co
     return DBResultWrap(ret, dbconn);
 }
 
-const DBResultWrap deliciousDataAdapter::GerUserAfterValidation( int uid, const std::string& password )
+const DBResultWrap deliciousDataAdapter::GetUserAfterValidation( int uid, const std::string& password )
 {
-    pantheios::log_INFORMATIONAL("GerUserAfterValidation(uid = ", pantheios::integer(uid), ", password = ", password);
+    pantheios::log_INFORMATIONAL("GetUserAfterValidation(uid = ", pantheios::integer(uid), ", password = ", password);
 
     prepared_GetUserByUID->reset();
     prepared_GetUserByUID->bindParameter(1, uid);
@@ -382,6 +390,18 @@ const DBResultWrap deliciousDataAdapter::AddRestaurant( const std::string& rname
     dbconn->Execute(prepared_AddRestaurant);
 
     return DBResultWrap(dbconn->Execute("SELECT Restaurants.* FROM Restaurants WHERE Restaurants.rowid = last_insert_rowid();"), dbconn);
+}
+
+const DBResultWrap deliciousDataAdapter::Search( const std::string& text )
+{
+    pantheios::log_INFORMATIONAL("Search(",
+        "text=", text,
+        ")");
+    std::string clause = "%" + text + "%";
+    prepared_Search->reset();
+    prepared_Search->bindParameter(1, clause);
+    prepared_Search->bindParameter(2, clause);
+    return DBResultWrap(dbconn->Execute(prepared_Search), dbconn);
 }
 
 // TODO: maybe database schema object to manage all primary keys and stuff?
