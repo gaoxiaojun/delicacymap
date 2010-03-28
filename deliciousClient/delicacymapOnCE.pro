@@ -18,12 +18,14 @@ QT += network \
       sql
 FORMS += mainwindow.ui \
     loginWindow.ui \
+    SearchResultForm.ui \
     RestaurantInfoForm.ui
 HEADERS += md5.h \
     bluetoothmanager.h \
     Configurations.h \
     MapDataSource.h \
     MapController.h \
+    SearchResultForm.h \
     mainwindow.h \
     LoginWindow.h \
     QTProtobufChannel.h \
@@ -56,6 +58,7 @@ SOURCES += main.cpp \
     bluetoothmanager.cpp \
     MapDataSource.cpp \
     MapController.cpp \
+    SearchResultForm.cpp \
     mainwindow.cpp \
     LoginWindow.cpp \
     QTProtobufChannel.cpp \

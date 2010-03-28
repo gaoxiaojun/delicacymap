@@ -38,6 +38,7 @@ public:
     PanelWidget(MapViewBase*, QGraphicsItem* parent=NULL, Qt::WindowFlags wFlags=0);
     void setWidget(QWidget *widget, ZoomSensitiveItem* balloonOn=NULL);
     void paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void tie(ZoomSensitiveItem*);
     ZoomSensitiveItem* tiedTo() const { return balloonTarget; }
 signals:
     void closing(PanelWidget*);

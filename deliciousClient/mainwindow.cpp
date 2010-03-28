@@ -6,6 +6,7 @@
 #include "Session.h"
 #include "MapProtocol.pb.h"
 #include "RestaurantInfoForm.h"
+#include "SearchResultForm.h"
 #include "OfflineMap/MarkerItem.h"
 #include "OfflineMap/MapViewBase.h"
 #include "OfflineMap/MapDecorators.h"
@@ -70,15 +71,11 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     btn_zoomOut->setIconSize(QSize(64, 64));
     btn_zoomOut->setFlat(true);
     controller.setMapView(navi);
-    QGeoSatelliteInfoSource* src = controller.getSatelliteInfoSource();
-    connect(src, SIGNAL(satellitesInViewUpdated(QList<QGeoSatelliteInfo>)), SLOT(updateGPSInfo_InView(QList<QGeoSatelliteInfo>)));
-    connect(src, SIGNAL(satellitesInUseUpdated(QList<QGeoSatelliteInfo>)), SLOT(updateGPSInfo_Used(QList<QGeoSatelliteInfo>)));
+
     connect(m_ui->btn_quit, SIGNAL(clicked()), SLOT(close()));
     connect(m_ui->btn_addMarker, SIGNAL(clicked()), SLOT(AddMarkerClicked()));
     connect(m_ui->btn_addMarker_confirm, SIGNAL(clicked()), SLOT(handleBtnConfirmClicked()));
     connect(m_ui->btn_addMarker_cancel, SIGNAL(clicked()), SLOT(handleBtnCancelClicked()));
-    if (controller.getPositionInfoSource())
-        connect(m_ui->btn_StartGPS, SIGNAL(clicked()), controller.getPositionInfoSource(), SLOT(startUpdates()));
     connect(m_ui->toolButton_GPS, SIGNAL(clicked()), SLOT(handleBtnGPSInfoClicked()));
     connect(m_ui->toolButton_Map, SIGNAL(clicked()), SLOT(handleBtnMapClicked()));
     connect(m_ui->toolButton_Search, SIGNAL(clicked()), SLOT(handleSearchClicked()));
@@ -93,9 +90,19 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(&controller, SIGNAL(currentLocationUpdate(GeoPoint)), navi, SLOT(setSelfLocation(const GeoPoint&)));
     connect(&controller, SIGNAL(SysMsgRequestRouting(int, QString, QString)), this, SLOT(handleRequestRouting(int, const QString&, const QString&)));
     connect(&controller, SIGNAL(SysMsgUserLocationUpdate(int, GeoPoint)), navi, SLOT(updateUserLocation(int, const GeoPoint&)));
+    QGeoSatelliteInfoSource* src = controller.getSatelliteInfoSource();
+    if (src)
+    {
+        connect(src, SIGNAL(satellitesInViewUpdated(QList<QGeoSatelliteInfo>)), SLOT(updateGPSInfo_InView(QList<QGeoSatelliteInfo>)));
+        connect(src, SIGNAL(satellitesInUseUpdated(QList<QGeoSatelliteInfo>)), SLOT(updateGPSInfo_Used(QList<QGeoSatelliteInfo>)));
+    }
+    if (controller.getPositionInfoSource())
+        connect(m_ui->btn_StartGPS, SIGNAL(clicked()), controller.getPositionInfoSource(), SLOT(startUpdates()));
 
     navi->setZoomLevel(15);
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
+
+    qRegisterMetaType<ProtocolBuffer::SearchResult*>("ProtocolBuffer::SearchResult*");
 
     svc = new MapServices;
 //    pan_Btn_timeline = new QTimeLine(300, this);
@@ -148,13 +155,13 @@ void MainWindow::changeSession( Session *s )
 {
     if (session)
     {
-        disconnect(&session->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
+//        disconnect(&session->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
         disconnect(&session->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), &controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
     }
     session = s;
     if (s)
     {
-        connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
+//        connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
         connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), &controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
     }
     controller.setSession(s);
@@ -176,18 +183,30 @@ void MainWindow::AddMarkerClicked()
     navi->addLocalMarker(localmarker);
 }
 
-void MainWindow::printMessage( const ProtocolBuffer::DMessage* msg )
-{
-    qDebug()<<"============================ Msg Received ==============================";
-    qDebug()<<"From User: "<<msg->fromuser();
-    qDebug()<<"To User: "<<msg->touser();
-    qDebug()<<"============================ Msg End ===================================";
-}
-
 void MainWindow::handleSearchClicked()
 {
     QString searchText = m_ui->lineEdit_Search->text();
-    std::string searchTextUtf8(searchText.toUtf8().constData());
+    if (searchText.size() > 0)
+    {
+        std::string searchTextUtf8(searchText.toUtf8().constData());
+        ProtocolBuffer::SearchResult* result = new ProtocolBuffer::SearchResult;
+        google::protobuf::Closure* done = google::protobuf::NewCallback(this, &MainWindow::searchResponse, result);
+        getSession()->getDataSource().Search(searchTextUtf8, result, done);
+    }
+}
+
+void MainWindow::searchResponse(ProtocolBuffer::SearchResult *result)
+{
+    if (result->has_restaurants() || result->has_users())
+    {
+        QMetaObject::invokeMethod(this, "handleSearchResponse", Q_ARG(ProtocolBuffer::SearchResult*, result));
+    }
+}
+
+void MainWindow::handleSearchResponse(ProtocolBuffer::SearchResult *result)
+{
+    SearchResultForm *form = new SearchResultForm(result, navi);
+    navi->addBlockingPanel(form);
 }
 
 void MainWindow::handleBtnMapClicked()
