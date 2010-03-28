@@ -206,7 +206,7 @@ void MainWindow::searchResponse(ProtocolBuffer::SearchResult *result)
 void MainWindow::handleSearchResponse(ProtocolBuffer::SearchResult *result)
 {
     SearchResultForm *form = new SearchResultForm(result, navi);
-    navi->addBlockingPanel(form);
+    form->setPanel(navi->addBlockingPanel(form));
 }
 
 void MainWindow::handleBtnMapClicked()

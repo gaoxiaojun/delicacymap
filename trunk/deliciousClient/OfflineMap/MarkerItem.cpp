@@ -150,6 +150,7 @@ void PanelWidget::tie(ZoomSensitiveItem *balloon)
     if (balloon)
     {
         this->setWindowFrameMargins(0., 0., 0., 12.);
+        retieToTarget();
     }
     else
     {
