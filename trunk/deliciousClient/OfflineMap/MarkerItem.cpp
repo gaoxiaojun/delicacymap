@@ -139,15 +139,22 @@ PanelWidget::PanelWidget(MapViewBase *map, QGraphicsItem* parent, Qt::WindowFlag
 void PanelWidget::setWidget(QWidget *widget, ZoomSensitiveItem *balloonOn)
 {
     connect(widget, SIGNAL(destroyed(QObject*)), this, SLOT(handleWidgetDestroyed(QObject*)));
-    if (balloonOn)
-    {
-        balloonTarget = balloonOn;
-        this->setWindowFrameMargins(0., 0., 0., 12.);
-//        QPointF p = balloonTarget->pos();
-//        QRectF rect = balloonTarget->boundingRect();
-    }
+    tie(balloonOn);
     QGraphicsProxyWidget::setWidget(widget);
     setupCloseButton();
+}
+
+void PanelWidget::tie(ZoomSensitiveItem *balloon)
+{
+    balloonTarget = balloon;
+    if (balloon)
+    {
+        this->setWindowFrameMargins(0., 0., 0., 12.);
+    }
+    else
+    {
+        this->unsetWindowFrameMargins();
+    }
 }
 
 void PanelWidget::handleWidgetDestroyed(QObject*)

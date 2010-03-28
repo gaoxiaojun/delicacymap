@@ -48,6 +48,9 @@ public:
     void setCache(ImageCache* cache);
     int getZoomLevel();
     QPoint getCoords();
+    void centerOn(int x, int y);
+    void centerOn(QPoint p);
+    void centerOn(QGraphicsItem* item, bool ignoreLockState=false);
     void setCoords(const QPoint& coords);
     void setGeoCoords(const GeoCoord &latitude, const GeoCoord &longitude);
     GeoPoint getGeoCenter() const;

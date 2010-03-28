@@ -165,11 +165,8 @@ struct TileCoord{
 void MapViewBase::moveBy(int x, int y){
     if (!isLocked())
     {
-        xCenter -= x;
-        yCenter -= y;
-        adjustCenter();
+        centerOn(xCenter-x, yCenter-y);
         updateBound();
-        centerOn(xCenter, yCenter);
     }
 }
 
@@ -282,9 +279,7 @@ void MapViewBase::downloadMissingImages(){
 void MapViewBase::panMapXhandler(qreal v)
 {
     QPoint currentPos = _panOldCenter + _panDelta * v;
-    xCenter = currentPos.x();
-    yCenter = currentPos.y();
-    centerOn(xCenter, yCenter);
+    centerOn(currentPos);
 }
 
 void MapViewBase::panMapStateChange(QTimeLine::State newState)
@@ -301,6 +296,28 @@ int MapViewBase::getZoomLevel(){
     return zoomLevel;
 }
 
+void MapViewBase::centerOn(int x, int y)
+{
+    xCenter = x;
+    yCenter = y;
+    adjustCenter();
+    QGraphicsView::centerOn(xCenter, yCenter);
+}
+
+void MapViewBase::centerOn(QPoint p)
+{
+    centerOn(p.x(), p.y());
+}
+
+void MapViewBase::centerOn(QGraphicsItem *item, bool ignoreLockState)
+{
+    if (item && (ignoreLockState || !isLocked()))
+    {
+        QPoint p = item->pos().toPoint();
+        centerOn(p);
+    }
+}
+
 QPoint MapViewBase::getCoords(){
     return QPoint(
         CoordsHelper::remapToPow2(xCenter, zoomLevel, CoordsHelper::MaxZoomLevel),
@@ -313,8 +330,8 @@ void MapViewBase::setCoords(const QPoint& coords){
     {
         xCenter = CoordsHelper::remapToPow2(coords.x(), CoordsHelper::MaxZoomLevel, zoomLevel);
         yCenter = CoordsHelper::remapToPow2(coords.y(), CoordsHelper::MaxZoomLevel, zoomLevel);
-        updateBound();
         centerOn(xCenter, yCenter);
+        updateBound();
     }
 }
 
@@ -373,8 +390,8 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
     int firstTileX = (~0xFF) & (int)rect.x();
     int firstTileY = (~0xFF) & (int)rect.y();
 
-    int dirtywidth = rect.x() + rect.width();
-    int dirtyheight = rect.y() + rect.height();
+    int dirtywidth = rect.right();
+    int dirtyheight = rect.bottom();
 
     if (images)
     {
@@ -466,6 +483,7 @@ PanelWidget* MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* ba
     panel->setAttribute(Qt::WA_DeleteOnClose, true);
     PanelWidget *proxy = new PanelWidget(this, NULL, Qt::Window);
     proxy->setWidget(panel, balloonOn);
+    proxy->setZValue(1000);
     if (!balloonOn)
         proxy->setPos(xCenter - panel->width()/2, qMax(yCenter - panel->height(), yCenter - this->height()/2));
 //    proxy->setPanelModality(QGraphicsItem::SceneModal);
@@ -534,7 +552,7 @@ RestaurantMarkerItem* MapViewBase::getRestaurantMarker(int rid)
 
 void MapViewBase::panBy(QPoint p)
 {
-    if (p.manhattanLength() < 10)
+    if (p.manhattanLength() < 8)
     {
         xCenter += p.x();
         yCenter += p.y();

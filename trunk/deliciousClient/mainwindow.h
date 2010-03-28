@@ -25,6 +25,7 @@ namespace ProtocolBuffer{
     class RestaurantList;
     class CommentList;
     class User;
+    class SearchResult;
 }
 struct showRestaurant;
 struct commentAnduser;
@@ -57,13 +58,16 @@ private slots:
     void handleBtnGPSInfoClicked();
     void handleBtnMapClicked();
     void handleSearchClicked();
+    void handleSearchResponse(ProtocolBuffer::SearchResult*);
     void updateGPSInfo_InView(QList<QGeoSatelliteInfo>);
     void updateGPSInfo_Used(QList<QGeoSatelliteInfo>);
     void commentCommited(void);
     void commentSuccessed(void);
-    void printMessage(const ProtocolBuffer::DMessage*);
     void handleRequestRouting(int, const QString&, const QString&);
     void AddMarkerClicked();
+
+private:
+    void searchResponse(ProtocolBuffer::SearchResult*);
     
 private:
     QTimeLine *pan_Btn_timeline;

@@ -32,33 +32,33 @@ void QTProtobufChannelDriver::readMessage()
             _buffer_index = -1;
             switch (response.type())
             {
-				case protorpc::RESPONSE:
-					if (_currentCalls->contains(response.id()))
-					{
-						CallEntry entry = _currentCalls->value(response.id());
+                case protorpc::RESPONSE:
+                    if (_currentCalls->contains(response.id()))
+                    {
+                        CallEntry entry = _currentCalls->value(response.id());
                         if (response.has_buffer())
-						    entry.response->ParseFromString(response.buffer());
-						parent->returnQueryBuffer(entry.request);
-						_currentCalls->remove(response.id());
-						entry.done->Run();
-					}
-					break;
-				case protorpc::RESPONSE_FAILED:
-					if (_currentCalls->contains(response.id()))
-					{
-						CallEntry entry = _currentCalls->value(response.id());
-						entry.response->Clear();
-						parent->returnQueryBuffer(entry.request);
-						_currentCalls->remove(response.id());
-						entry.done->Run();
-					}
-					break;
+                            entry.response->ParseFromString(response.buffer());
+                        parent->returnQueryBuffer(entry.request);
+                        _currentCalls->remove(response.id());
+                        entry.done->Run();
+                    }
+                    break;
+                case protorpc::RESPONSE_FAILED:
+                    if (_currentCalls->contains(response.id()))
+                    {
+                        CallEntry entry = _currentCalls->value(response.id());
+                        entry.response->Clear();
+                        parent->returnQueryBuffer(entry.request);
+                        _currentCalls->remove(response.id());
+                        entry.done->Run();
+                    }
+                    break;
                 case protorpc::MESSAGE:
                     dmessage.ParseFromString(response.buffer());
                     emit MessageReceived(&dmessage);
                     break;
-				default:
-					qDebug()<<"Unexpected RPC Response type: "<<response.type();
+                default:
+                    qDebug()<<"Unexpected RPC Response type: "<<response.type();
             }
         }
     }
