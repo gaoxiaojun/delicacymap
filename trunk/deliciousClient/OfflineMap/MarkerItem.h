@@ -19,6 +19,8 @@ class MapViewBase;
 class ZoomSensitiveItem : public QGraphicsItem
 {
 public:
+    enum { Type = UserType + 1000 };
+    int type() const { return Type; }
     ZoomSensitiveItem() : location(0., 0.), currentZoom(-1){}
     virtual ~ZoomSensitiveItem() {}
     void setPos(const GeoPoint& center);
@@ -35,11 +37,13 @@ class PanelWidget : public QGraphicsProxyWidget
 {
     Q_OBJECT
 public:
-    enum { Type = UserType + 2000 };
+    enum { Type = UserType + 500 };
+    int type() const { return Type; }
     PanelWidget(MapViewBase*, QGraphicsItem* parent=NULL, Qt::WindowFlags wFlags=0);
     void setWidget(QWidget *widget, ZoomSensitiveItem* balloonOn=NULL);
     void paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void tie(ZoomSensitiveItem*);
+    void retieToTarget();
     ZoomSensitiveItem* tiedTo() const { return balloonTarget; }
 signals:
     void closing(PanelWidget*);
@@ -47,9 +51,7 @@ private slots:
     void handleWidgetDestroyed(QObject*);
     void handleCloseButtonClick();
 protected:
-    int type() const { return Type; }
     void resizeEvent(QGraphicsSceneResizeEvent *event);
-    void retieToTarget();
     QGraphicsProxyWidget* setupCloseButton();
 private:
     MapViewBase* target;
@@ -60,7 +62,8 @@ private:
 class RestaurantMarkerItem : public ZoomSensitiveItem
 {
 public:
-    enum { Type = UserType + 1000 };
+    enum { Type = ZoomSensitiveItem::Type + 1 };
+    int type() const { return Type; }
     // when a NULL pointer is passed for restaurant, the marker is a local marker that can be edited
     RestaurantMarkerItem(const ProtocolBuffer::Restaurant* restaurant = NULL) : r(restaurant), isLocalMarker(!r){}
     ~RestaurantMarkerItem();
@@ -72,7 +75,6 @@ public:
 protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidget *);
-    int type() const { return Type; }
 
     static QPixmap& markerImage();
     static QPixmap& fakeMarkerImage();
@@ -86,7 +88,8 @@ class RouteItem : public QObject, public ZoomSensitiveItem
 {
     Q_OBJECT
 public:
-    enum { Type = UserType + 1001 };
+    enum { Type = ZoomSensitiveItem::Type + 2 };
+    int type() const { return Type; }
     RouteItem(const QList<GeoPoint>& r, bool editable = false);
     void setZoom(int zoom);
     QList<GeoPoint> getRoute() const {return points;}
@@ -98,7 +101,6 @@ signals:
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */);
     QRectF boundingRect() const;
-    int type() const { return Type; }
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -115,13 +117,13 @@ protected:
 class UserMarkerItem : public ZoomSensitiveItem
 {
 public:
-    enum { Type = UserType + 1002 };
+    enum { Type = ZoomSensitiveItem::Type + 3 };
+    int type() const { return Type; }
     ProtocolBuffer::User* userInfo() const { return usr; }
     void setUserInfo(ProtocolBuffer::User* usr) { this->usr = usr; }
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */);
     QRectF boundingRect() const;
-    int type() const { return Type; }
     virtual const QPixmap& UserIcon() const;
     static const QPixmap& defaultUserIcon();
 private:
@@ -131,8 +133,8 @@ private:
 class SelfMarkerItem : public UserMarkerItem
 {
 public:
-    enum { Type = UserType + 1003 };
+    enum { Type = ZoomSensitiveItem::Type + 4 };
+    int type() const { return Type; }
 protected:
     const QPixmap& UserIcon() const;
-    int type() const { return Type; }
 };

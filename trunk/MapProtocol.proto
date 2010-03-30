@@ -126,6 +126,9 @@ enum SystemMessageType
     ShareLocationWith               = 4;
     StopShareLocationWith           = 5;
     UserLocationUpdate              = 6;
+
+    RequestSubscriptionUpdate       = 7;
+    SubscriptionData				= 8;
 }
 
 message DMessage

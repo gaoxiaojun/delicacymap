@@ -42,6 +42,7 @@ public:
 signals:
     void newRestaurantMarker(const ProtocolBuffer::Restaurant*);
     void currentLocationUpdate(GeoPoint);
+    void subscriptionArrived(ProtocolBuffer::CommentList*);
     void SysMsgRequestRouting(int, QString, QString);
     void SysMsgRoutingReply(int, QList<GeoPoint>);
     void SysMsgUserLocationUpdate(int, GeoPoint);
