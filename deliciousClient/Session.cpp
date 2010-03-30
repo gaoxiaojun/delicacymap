@@ -17,6 +17,7 @@ Session::Session()
     info_isdirty = false;
     infotoupdate = NULL;
     updatedone = NULL;
+    subscriptionTimer.start(60000, this);
 }
 
 Session::~Session()
@@ -71,6 +72,16 @@ void Session::timerEvent( QTimerEvent *ev )
             info_isdirty = false;
             timer.stop();
         }
+    }
+    else if(subscriptionTimer.timerId() == ev->timerId())
+    {
+        ProtocolBuffer::DMessage msg;
+        msg.set_fromuser(getUser()->uid());
+        msg.set_touser(0);
+        msg.set_msgid(-1);
+        msg.set_issystemmessage(true);
+        msg.set_systemmessagetype(ProtocolBuffer::RequestSubscriptionUpdate);
+        getDataSource().SendMessage(&msg);
     }
     else
     {

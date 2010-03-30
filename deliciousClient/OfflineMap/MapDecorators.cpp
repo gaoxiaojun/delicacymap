@@ -49,7 +49,7 @@ void MoveDecorator::mouseMoveEvent(QMouseEvent *event)
 {
     if (dragging)
     {
-        QPoint delta = event->pos() - m_mouse_pos;
+        QPoint delta = m_mouse_pos - event->pos();
         m_mouse_pos = event->pos();
         target->moveBy(delta.x(), delta.y());
         m_speed = delta;

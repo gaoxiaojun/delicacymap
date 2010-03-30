@@ -117,6 +117,14 @@ void MapController::HandleSystemMessages( const ProtocolBuffer::DMessage* msg )
                 emit SysMsgUserLocationUpdate(msg->fromuser(), p);
             }
             break;
+        case ProtocolBuffer::SubscriptionData:
+            {
+                ProtocolBuffer::CommentList *clist = new ProtocolBuffer::CommentList;
+                clist->ParseFromString(msg->buffer());
+                emit subscriptionArrived(clist);
+                // there is no safe way to release clist, we need to be careful.
+            }
+            break;
         default:
             qDebug()<<"Unhandled message type: "<< msg->systemmessagetype();
         }

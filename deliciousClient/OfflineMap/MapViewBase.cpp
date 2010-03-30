@@ -168,7 +168,7 @@ struct TileCoord{
 void MapViewBase::moveBy(int x, int y){
     if (!isLocked())
     {
-        centerOn(xCenter-x, yCenter-y);
+        centerOn(xCenter + x, yCenter + y);
         updateBound();
     }
 }
@@ -442,8 +442,17 @@ void MapViewBase::remapMarkers( int /*oldzoomlevel*/, int newzoomlevel )
     QList<QGraphicsItem*> items = scene->items();
     BOOST_FOREACH(QGraphicsItem* item, items)
     {
-        ZoomSensitiveItem* zoomitem = (ZoomSensitiveItem*)item;  // !!! Not Safe!!!!
-        zoomitem->setZoom(newzoomlevel);
+        if (item->type() > ZoomSensitiveItem::Type)
+        {
+            ZoomSensitiveItem* el = static_cast<ZoomSensitiveItem*>(item);
+            el->setZoom(newzoomlevel);
+        }
+//        else
+//        {
+//            qDebug()<<dynamic_cast<PanelWidget*>(item)->type();
+//            PanelWidget *el = dynamic_cast<PanelWidget*>(item);
+//            el->retieToTarget();
+//        }
     }
 }
 
@@ -493,6 +502,7 @@ PanelWidget* MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* ba
     lockMap();
     panel->setAttribute(Qt::WA_DeleteOnClose, true);
     PanelWidget *proxy = new PanelWidget(this, NULL, Qt::Window);
+    qDebug()<<proxy;
     proxy->setWidget(panel, balloonOn);
     proxy->setZValue(1000);
     if (!balloonOn)

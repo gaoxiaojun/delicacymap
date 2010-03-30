@@ -54,7 +54,7 @@ private:
     void UpdatedUserInfo();
     void FriendsResponse(ProtocolBuffer::UserList*);
 
-    QBasicTimer timer;
+    QBasicTimer timer, subscriptionTimer;
     MapDataSource datasource;
     QMap<int, ProtocolBuffer::User*> myfriends;
     ProtocolBuffer::User *user, *infotoupdate;

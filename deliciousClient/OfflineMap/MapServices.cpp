@@ -213,7 +213,7 @@ void MapServices::ProcessJSONResult( QNetworkReply* reply )
     if (reply->isFinished())
     {
         const QVariant &header = reply->header(QNetworkRequest::ContentTypeHeader);
-        if (header.isValid() && (header.toString().contains("javascript/text", Qt::CaseInsensitive) || header.toString().contains("application/json", Qt::CaseInsensitive)))
+        if (header.isValid() && (header.toString().contains("text/javascript", Qt::CaseInsensitive) || header.toString().contains("application/json", Qt::CaseInsensitive)))
         {
             QByteArray buf = reply->read(1024 * 1024); // shouldn't be more than 1 MB, if it does, probably something went wrong
             QString jsonret = QString::fromUtf8(buf.constData(), buf.size());
