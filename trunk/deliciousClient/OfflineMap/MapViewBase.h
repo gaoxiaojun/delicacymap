@@ -4,6 +4,7 @@
 #include <QPoint>
 #include <QGraphicsView>
 #include <QPixmap>
+#include <QMap>
 #include <QTimeLine>
 #include "Decorator.h"
 #include "GeoCoord.h"
@@ -15,6 +16,7 @@ class SelfMarkerItem;
 class RouteItem;
 class ZoomSensitiveItem;
 class RestaurantMarkerItem;
+class UserMarkerItem;
 class PanelWidget;
 
 namespace ProtocolBuffer{
@@ -111,11 +113,12 @@ private:
     ImageCache *images;
     QGraphicsScene *scene;
     SelfMarkerItem *self;
-    QTimeLine panMapTimeline;
+    QTimeLine panMapTimeline/*, bounceItemTimeline*/;
     QPoint _panOldCenter, _panDelta;
     Decorator decorator;
     GeoBound currentBound;
     QList<ZoomSensitiveItem*> localItems;
+    QMap<int, UserMarkerItem*> users;
     bool mapIsLocked;
 };
 
