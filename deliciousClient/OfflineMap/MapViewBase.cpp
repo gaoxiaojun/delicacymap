@@ -4,6 +4,7 @@
 #include <QTimeLine>
 #include <QDebug>
 #include <QMouseEvent>
+#include <QEasingCurve>
 #include <math.h>
 #include "CoordsHelper.h"
 #include "MapViewBase.h"
@@ -30,6 +31,8 @@ MapViewBase::MapViewBase(QWidget *parent)
     panMapTimeline.setDuration(300);
     connect(&panMapTimeline, SIGNAL(valueChanged(qreal)), SLOT(panMapXhandler(qreal)));
     connect(&panMapTimeline, SIGNAL(stateChanged(QTimeLine::State)), SLOT(panMapStateChange(QTimeLine::State)));
+//    bounceItemTimeline.setDuration(500);
+//    bounceItemTimeline.setEasingCurve(QEasingCurve(QEasingCurve::OutBounce));
     setScene(scene);
     centerOn(xCenter, yCenter);
     //setCacheMode(QGraphicsView::CacheBackground);
@@ -472,9 +475,17 @@ void MapViewBase::setSelfLocation( const GeoPoint& coord )
     self->setPos(coord);
 }
 
-void MapViewBase::updateUserLocation( int, const GeoPoint& coord )
+void MapViewBase::updateUserLocation( int uid, const GeoPoint& coord )
 {
-
+    Q_ASSERT( !self || self->userInfo()->uid() != uid);
+    if (users[uid] == NULL)
+    {
+        UserMarkerItem* newusr = new UserMarkerItem;
+        newusr->setZoom(zoomLevel);
+        scene->addItem(newusr);
+        users[uid] = newusr;
+    }
+    users[uid]->setPos(coord);
 }
 
 PanelWidget* MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* balloonOn)
@@ -520,6 +531,7 @@ void MapViewBase::addLocalMarker(ZoomSensitiveItem * e)
     e->setPos(this->getGeoCenter());
     e->setZoom(zoomLevel);
     scene->addItem(e);
+    // start the bounce effect
 }
 
 QRect MapViewBase::exposedView() const

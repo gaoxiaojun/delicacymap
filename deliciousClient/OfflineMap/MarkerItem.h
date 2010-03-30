@@ -10,6 +10,7 @@
 
 namespace ProtocolBuffer{
     class Restaurant;
+    class User;
 }
 
 class QPixmap;
@@ -115,12 +116,16 @@ class UserMarkerItem : public ZoomSensitiveItem
 {
 public:
     enum { Type = UserType + 1002 };
+    ProtocolBuffer::User* userInfo() const { return usr; }
+    void setUserInfo(ProtocolBuffer::User* usr) { this->usr = usr; }
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */);
     QRectF boundingRect() const;
     int type() const { return Type; }
     virtual const QPixmap& UserIcon() const;
     static const QPixmap& defaultUserIcon();
+private:
+    ProtocolBuffer::User* usr;
 };
 
 class SelfMarkerItem : public UserMarkerItem

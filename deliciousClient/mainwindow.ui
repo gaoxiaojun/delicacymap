@@ -50,7 +50,7 @@
          <string>A</string>
         </property>
         <property name="icon">
-         <iconset resource="mainwindow.qrc">
+         <iconset>
           <normaloff>:/Icons/submit_comments.png</normaloff>:/Icons/submit_comments.png</iconset>
         </property>
         <property name="iconSize">
@@ -82,7 +82,7 @@
          <string>B</string>
         </property>
         <property name="icon">
-         <iconset resource="mainwindow.qrc">
+         <iconset>
           <normaloff>:/Icons/favourite.png</normaloff>:/Icons/favourite.png</iconset>
         </property>
         <property name="iconSize">
@@ -114,7 +114,7 @@
          <string>C</string>
         </property>
         <property name="icon">
-         <iconset resource="mainwindow.qrc">
+         <iconset>
           <normaloff>:/Icons/add_friends.png</normaloff>:/Icons/add_friends.png</iconset>
         </property>
         <property name="iconSize">
@@ -149,7 +149,7 @@
          <string>D</string>
         </property>
         <property name="icon">
-         <iconset resource="mainwindow.qrc">
+         <iconset>
           <normaloff>:/Icons/view_friends.png</normaloff>:/Icons/view_friends.png</iconset>
         </property>
         <property name="iconSize">
@@ -175,7 +175,7 @@
          <string notr="true"/>
         </property>
         <property name="icon">
-         <iconset resource="mainwindow.qrc">
+         <iconset>
           <normaloff>:/Icons/gps.png</normaloff>:/Icons/gps.png</iconset>
         </property>
         <property name="iconSize">
@@ -236,7 +236,7 @@
          <string notr="true"/>
         </property>
         <property name="icon">
-         <iconset resource="mainwindow.qrc">
+         <iconset>
           <normaloff>:/Icons/search.png</normaloff>:/Icons/search.png</iconset>
         </property>
         <property name="iconSize">
@@ -277,7 +277,7 @@ background-color: rgba(255, 255, 255, 200);
 }</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_2">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -493,7 +493,7 @@ background-color: rgba(255, 255, 255, 200);
          <string>Add marker</string>
         </property>
         <property name="icon">
-         <iconset resource="mainwindow.qrc">
+         <iconset>
           <normaloff>:/Icons/arrow_right.png</normaloff>:/Icons/arrow_right.png</iconset>
         </property>
         <property name="iconSize">
@@ -513,7 +513,7 @@ background-color: rgba(255, 255, 255, 200);
          <string notr="true"/>
         </property>
         <property name="icon">
-         <iconset resource="mainwindow.qrc">
+         <iconset>
           <normaloff>:/Icons/confirm.png</normaloff>:/Icons/confirm.png</iconset>
         </property>
         <property name="iconSize">
@@ -533,7 +533,7 @@ background-color: rgba(255, 255, 255, 200);
          <string notr="true"/>
         </property>
         <property name="icon">
-         <iconset resource="mainwindow.qrc">
+         <iconset>
           <normaloff>:/Icons/cancel.png</normaloff>:/Icons/cancel.png</iconset>
         </property>
         <property name="iconSize">
@@ -563,9 +563,7 @@ background-color: rgba(255, 255, 255, 200);
    </property>
   </action>
  </widget>
- <resources>
-  <include location="mainwindow.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>commitcomment</sender>
