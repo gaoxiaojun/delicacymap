@@ -80,6 +80,8 @@ public://DB methods
 
     void ChangeSubsciptionStatusWithUser(int me, int target, bool subscribe);
 
+    void ChangeSubsciptionStatusWithRestaurant(int me, int target, bool subscribe);
+
     size_t RetrieveAllNonDeliveredMessages( CallbackFunc callback );
 
     void ConfirmMessageDelivered( unsigned int msgid );
@@ -93,6 +95,6 @@ private://data
     // prepared statements
     DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage, *prepared_GetUserByUID, *prepared_GetCommentsOfRest_N;
     DBPrepared* prepared_Login, *prepared_InsertComment, *prepared_AddRestaurant, *prepared_SearchRestaurants, *prepared_Subscription;
-    DBPrepared* prepared_SearchUsers;
+    DBPrepared* prepared_SearchUsers, *prepared_UpdateUserSubscription, *prepared_UpdateRestaurantSubscription;
     DBContext *dbconn;
 };

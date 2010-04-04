@@ -40,7 +40,9 @@ public:
     void SendRoutingRequest( const QString&, const QString&, int user);
     void ShareMyLocationWith( int otherUser );
     void SubscribeToUser( int otherUser );
-    void UnSubscribeFrom( int otherUser );
+    void UnSubscribeFromUser( int otherUser );
+    void SubscribeToRestaurant( int RID );
+    void UnSubscribeFromRestaurant( int RID );
 
 public slots:
     void UserLocationUpdate(const GeoPoint&);
