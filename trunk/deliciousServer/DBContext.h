@@ -11,6 +11,10 @@ public:
 
     DBContext(const std::string &connstr);
 
+    void BeginTransaction();
+
+    void EndTransaction();
+
     DBResult* Execute(const std::string &sql);
 
     DBResult* Execute(DBPrepared*);

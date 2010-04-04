@@ -271,7 +271,7 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
         RestaurantInfoForm* form = new RestaurantInfoForm();
         form->setRestaurant(res->restaurantInfo());
         form->setSession(getSession());
-        navi->addBlockingPanel(form, res);
+        PanelWidget* panel = navi->addBlockingPanel(form, res);
     }
     else
     {
@@ -309,7 +309,6 @@ void MainWindow::handleBtnConfirmClicked()
                 RestaurantMarkerItem* r = static_cast<RestaurantMarkerItem*>(it);
                 Q_ASSERT( r->isFakeMarker() );
                 ProtocolBuffer::Restaurant* rinfo = r->mutableRestaurantInfo(); // small optimization, save one allocation
-                int sendRequestToServer = false;
                 if (rinfo->name().empty())
                 {
                     navi->ensureVisible(it);

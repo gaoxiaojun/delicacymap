@@ -56,11 +56,13 @@ enum SystemMessageType {
   StopShareLocationWith = 5,
   UserLocationUpdate = 6,
   RequestSubscriptionUpdate = 7,
-  SubscriptionData = 8
+  SubscriptionData = 8,
+  SubscribTo = 9,
+  UnSubscribeFrom = 10
 };
 bool SystemMessageType_IsValid(int value);
 const SystemMessageType SystemMessageType_MIN = RequestRouting;
-const SystemMessageType SystemMessageType_MAX = SubscriptionData;
+const SystemMessageType SystemMessageType_MAX = UnSubscribeFrom;
 const int SystemMessageType_ARRAYSIZE = SystemMessageType_MAX + 1;
 
 // ===================================================================

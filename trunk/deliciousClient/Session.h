@@ -39,6 +39,8 @@ public:
     void SendRoutingReply( const QList<GeoPoint>& route, int user );
     void SendRoutingRequest( const QString&, const QString&, int user);
     void ShareMyLocationWith( int otherUser );
+    void SubscribeToUser( int otherUser );
+    void UnSubscribeFrom( int otherUser );
 
 public slots:
     void UserLocationUpdate(const GeoPoint&);

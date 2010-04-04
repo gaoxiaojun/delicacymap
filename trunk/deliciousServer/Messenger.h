@@ -107,14 +107,14 @@ namespace rclib
 
             void start();
 
-            void SendMessageToUser(ProtocolBuffer::DMessage* msg);
+            void ProcessMessage(ProtocolBuffer::DMessage* msg);
 
             MessageRange MessageForUser(unsigned int, boost::posix_time::ptime);
             void MessageConfirmedRecieved(::google::protobuf::uint32);
 
         protected:
             Messenger(boost::asio::io_service &);
-            bool ShouldForwardSystemMessage( ProtocolBuffer::DMessage*);
+            bool ProcessSystemMessage( ProtocolBuffer::DMessage*);
 
         private: //call back
             void GetMessageCallback( const DBRow& row );
@@ -124,6 +124,7 @@ namespace rclib
         private:
             MutexType mutex;
             std::map<int, std::set<int> > usersSharingLocation;
+            std::set<int> liveUsers;
             boost::asio::deadline_timer msgExpireTimer;
             boost::asio::io_service &ios;
             ::deliciousDataAdapter *dataadapter;

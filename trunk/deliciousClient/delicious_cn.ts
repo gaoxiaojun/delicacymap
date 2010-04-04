@@ -58,71 +58,101 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="204"/>
+        <location filename="mainwindow.ui" line="230"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="288"/>
+        <location filename="mainwindow.ui" line="314"/>
         <source>菜式收藏</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="293"/>
+        <location filename="mainwindow.ui" line="319"/>
         <source>餐厅信息</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="321"/>
+        <location filename="mainwindow.ui" line="347"/>
         <source>我要评论</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="360"/>
+        <location filename="mainwindow.ui" line="386"/>
         <source>餐厅推荐</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="365"/>
+        <location filename="mainwindow.ui" line="391"/>
         <source>近期优惠</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="370"/>
+        <location filename="mainwindow.ui" line="396"/>
         <source>我的收藏</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="387"/>
+        <location filename="mainwindow.ui" line="427"/>
+        <source>Satellite In View:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="440"/>
+        <source>Satellite Used:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="480"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="400"/>
+        <location filename="mainwindow.ui" line="493"/>
         <source>Add marker</source>
         <translation>添加位置</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="423"/>
-        <location filename="mainwindow.ui" line="426"/>
+        <location filename="mainwindow.ui" line="556"/>
+        <location filename="mainwindow.ui" line="559"/>
         <source>Commit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">提交</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="429"/>
+        <location filename="mainwindow.ui" line="562"/>
         <source>Ctrl+Return</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="166"/>
+        <location filename="mainwindow.cpp" line="240"/>
         <source>%1 is asking your help to guide him.</source>
         <translation>%1希望请你帮助他指引一条路径.</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="318"/>
+        <source>Do you want to continue? Coninueing will discard this marker.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="319"/>
+        <source>Restautant without a name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="354"/>
+        <source>Do you want to discard all previous work?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="355"/>
+        <source>Unsaved local markers.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MapController</name>
     <message>
-        <location filename="MapController.cpp" line="140"/>
+        <location filename="MapController.cpp" line="142"/>
         <source>Do you want to send this route back to %1?</source>
         <oldsource>Do you want to send this route back to %1?.</oldsource>
         <translation>你希望把导航的结果返回给%1吗?</translation>
@@ -131,24 +161,32 @@
 <context>
     <name>RestaurantInfoForm</name>
     <message>
-        <location filename="RestaurantInfoForm.ui" line="74"/>
+        <location filename="RestaurantInfoForm.ui" line="48"/>
         <source>Price:</source>
         <translation>价格:</translation>
     </message>
     <message>
-        <location filename="RestaurantInfoForm.ui" line="119"/>
+        <location filename="RestaurantInfoForm.ui" line="93"/>
         <source>Comments</source>
         <translation>显示评论</translation>
     </message>
     <message>
-        <location filename="RestaurantInfoForm.ui" line="132"/>
+        <location filename="RestaurantInfoForm.ui" line="106"/>
         <source>Add</source>
         <translation>添加评论</translation>
     </message>
     <message>
-        <location filename="RestaurantInfoForm.ui" line="165"/>
+        <location filename="RestaurantInfoForm.ui" line="139"/>
         <source>Commit</source>
         <translation>提交</translation>
+    </message>
+</context>
+<context>
+    <name>SearchResultForm</name>
+    <message>
+        <location filename="SearchResultForm.ui" line="20"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

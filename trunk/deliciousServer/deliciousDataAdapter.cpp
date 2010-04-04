@@ -27,7 +27,9 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_Login = NULL;
         prepared_InsertComment = NULL;
         prepared_AddRestaurant = NULL;
-        prepared_Search = NULL;
+        prepared_SearchRestaurants = NULL;
+        prepared_SearchUsers = NULL;
+        prepared_Subscription = NULL;
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
@@ -61,10 +63,18 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "INSERT INTO Comments (UID, RID, DID, Comment, PhotoPath, AddTime, TimeZone) VALUES(?, ?, ?, ?, ?, datetime('now'), 8);");
         prepared_AddRestaurant = dbconn->NewPreparedStatement(
             "INSERT INTO Restaurants (Name, Latitude, Longtitude, AverageExpense) VALUES(?, ?, ?, 0.0);");
-        prepared_Search = dbconn->NewPreparedStatement(
+        prepared_SearchRestaurants = dbconn->NewPreparedStatement(
             "SELECT * "
             "FROM Restaurants NATURAL INNER JOIN Relation_Restaurant_RestaurantType NATURAL INNER JOIN RestaurantTypes "
-            "WHERE Restaurants.Name LIKE ? OR RestaurantTypes.ReadableText LIKE ?");
+            "WHERE Restaurants.Name LIKE :1 OR RestaurantTypes.ReadableText LIKE :1;");
+        prepared_Subscription = dbconn->NewPreparedStatement(
+            "SELECT C.* FROM Comments AS C "
+            "INNER JOIN Users AS U ON U.UID = C.UID "
+            "LEFT OUTER JOIN Relation_User_User AS RU ON C.uid = RU.uid_target "
+            "LEFT OUTER JOIN Relation_User_Restaurant AS RR ON C.rid = RR.rid "
+            "WHERE C.addtime > (SELECT SubscriptionCheckTime FROM Users WHERE Users.uid = :1) "
+            "AND ((RU.uid_host = :1 AND RU.relation & 1024) "
+            "OR (RR.uid = :1 AND RR.Relation & 1024))");
     }
     catch (exception&)
     {
@@ -77,7 +87,9 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         delete prepared_ConfirmMessage;
         delete prepared_InsertComment;
         delete prepared_AddRestaurant;
-        delete prepared_Search;
+        delete prepared_SearchRestaurants;
+        delete prepared_SearchUsers;
+        delete prepared_Subscription;
         throw;
     }
 }
@@ -93,7 +105,9 @@ deliciousDataAdapter::~deliciousDataAdapter(void)
     delete prepared_ConfirmMessage;
     delete prepared_InsertComment;
     delete prepared_AddRestaurant;
-    delete prepared_Search;
+    delete prepared_SearchRestaurants;
+    delete prepared_SearchUsers;
+    delete prepared_Subscription;
 }
 
 deliciousDataAdapter* deliciousDataAdapter::GetInstance()
@@ -267,7 +281,6 @@ const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int 
         "')");
     // Validate user Input!!!!!
     // user input, query might be very long.
-    char querystr[500];
     prepared_InsertComment->reset();
     prepared_InsertComment->bindParameter(1, uid);
     prepared_InsertComment->bindParameter(2, rid);
@@ -277,10 +290,11 @@ const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int 
         prepared_InsertComment->bindParameter(5);
     else
         prepared_InsertComment->bindParameter(5, *image);
+    dbconn->BeginTransaction();
     dbconn->Execute(prepared_InsertComment);
-    sprintf_s(querystr, sizeof(querystr),
-        "SELECT * FROM Comments WHERE Comments.rowid = last_insert_rowid();");
-    return DBResultWrap(dbconn->Execute(querystr), dbconn);
+    DBResultWrap result( dbconn->Execute("SELECT * FROM Comments WHERE Comments.rowid = last_insert_rowid();"), dbconn );
+    dbconn->EndTransaction();
+    return result;
 }
 
 const DBResultWrap deliciousDataAdapter::UserLogin( const std::string& email, const std::string& password )
@@ -331,7 +345,6 @@ const DBResultWrap deliciousDataAdapter::GetUserInfo( int uid )
     return DBResultWrap(dbconn->Execute(prepared_GetUserByUID), dbconn);
 }
 
-
 size_t deliciousDataAdapter::GetRelatedUsersWith( int uid, int relation, CallbackFunc callback )
 {
     pantheios::log_INFORMATIONAL("GetRelatedUsersWith(",
@@ -342,7 +355,7 @@ size_t deliciousDataAdapter::GetRelatedUsersWith( int uid, int relation, Callbac
     sprintf_s(querystr, sizeof(querystr),
         "SELECT Users.* "
         "FROM Relation_User_User INNER JOIN Users ON UID_Target = UID "
-        "WHERE UID_Host=%d AND Relation=%d"
+        "WHERE UID_Host = %d AND Relation & 1023 = %d"
         , uid
         , relation);
 
@@ -387,9 +400,13 @@ const DBResultWrap deliciousDataAdapter::AddRestaurant( const std::string& rname
     prepared_AddRestaurant->bindParameter(1, rname);
     prepared_AddRestaurant->bindParameter(2, latitude);
     prepared_AddRestaurant->bindParameter(3, longitude);
-    dbconn->Execute(prepared_AddRestaurant);
 
-    return DBResultWrap(dbconn->Execute("SELECT Restaurants.* FROM Restaurants WHERE Restaurants.rowid = last_insert_rowid();"), dbconn);
+    dbconn->BeginTransaction();
+    dbconn->Execute(prepared_AddRestaurant);
+    DBResultWrap result(dbconn->Execute("SELECT Restaurants.* FROM Restaurants WHERE Restaurants.rowid = last_insert_rowid();"), dbconn);
+    dbconn->EndTransaction();
+
+    return result;
 }
 
 const DBResultWrap deliciousDataAdapter::Search( const std::string& text )
@@ -398,10 +415,9 @@ const DBResultWrap deliciousDataAdapter::Search( const std::string& text )
         "text=", text,
         ")");
     std::string clause = "%" + text + "%";
-    prepared_Search->reset();
-    prepared_Search->bindParameter(1, clause);
-    prepared_Search->bindParameter(2, clause);
-    return DBResultWrap(dbconn->Execute(prepared_Search), dbconn);
+    prepared_SearchRestaurants->reset();
+    prepared_SearchRestaurants->bindParameter(1, clause);
+    return DBResultWrap(dbconn->Execute(prepared_SearchRestaurants), dbconn);
 }
 
 // TODO: maybe database schema object to manage all primary keys and stuff?
@@ -461,12 +477,9 @@ size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, int mess
         /*", text=",text,*/
         /*", tm=", validTimePeriod,*/
         ")");
-    char querystr[500], modifierbuf[200];
+    char modifierbuf[200];
     prepared_Message->reset();
-    if (from_uid)
-        prepared_Message->bindParameter(1, from_uid);
-    else
-        prepared_Message->bindParameter(1);
+    prepared_Message->bindParameter(1, from_uid);
     prepared_Message->bindParameter(2, to_uid);
     // FIXME: cannot bind "datetime('now' '5 minutes') " to prepared statements, it is hardcoded in the query for now.
 //     sprintf_s(modifierbuf, sizeof(modifierbuf), "datetime('now'%s)", tmToSqliteTimeModifiers(querystr, sizeof(modifierbuf)/sizeof(modifierbuf[0]), validTimePeriod));
@@ -474,29 +487,58 @@ size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, int mess
     prepared_Message->bindParameter(3, messageType);
     prepared_Message->bindParameter(4, text);
 
-    sprintf_s(querystr, sizeof(querystr),
-        "SELECT msgid FROM Messages WHERE Messages.rowid = last_insert_rowid();"
-        );
+    dbconn->BeginTransaction();
+    dbconn->Execute(prepared_Message);
+    DBResultWrap result(dbconn->Execute("SELECT msgid FROM Messages WHERE Messages.rowid = last_insert_rowid();"), dbconn);
+    dbconn->EndTransaction();
 
-    DBResult *result = dbconn->Execute(prepared_Message);
-    dbconn->Free(&result);
-    result = dbconn->Execute(querystr);
-    unsigned int msgid = result->GetRow(0).GetValueAs<unsigned int>("MSGID");
-    dbconn->Free(&result);
-    return msgid;
+    return result.getResult()->GetRow(0).GetValueAs<unsigned int>("MSGID");
+}
+
+const DBResultWrap deliciousDataAdapter::GetSubscriptionForUserSinceLastUpdate( int uid )
+{
+    pantheios::log_INFORMATIONAL("GetSubscriptionForUserSinceLastUpdate(uid=", pantheios::integer(uid), ")");
+
+    prepared_Subscription->reset();
+    prepared_Subscription->bindParameter(1, uid);
+
+    DBResultWrap result(dbconn->Execute(prepared_Subscription), dbconn);
+
+    pantheios::log_INFORMATIONAL("Leave GetSubscriptionForUserSinceLastUpdate()");
+
+    return result;
+}
+
+void deliciousDataAdapter::ChangeSubsciptionStatusWithUser( int me, int target, bool subscribe )
+{
+    pantheios::log_INFORMATIONAL("ChangeSubsciptionStatusWithUser(",
+        "me=", pantheios::integer(me),
+        ",target=", pantheios::integer(target),
+        ",subscribe=", pantheios::integer(subscribe),
+        ")");
+    char sqlquery[500];
+    sprintf_s(sqlquery, sizeof(sqlquery), 
+        "UPDATE Relation_User_User "
+        "SET relation = %s "
+        "WHERE UID_Host=%d AND UID_Target=%d;"
+        , subscribe ? "relation | 1024" : "relation & ~1024"
+        , me
+        , target);
+
+    dbconn->Execute(sqlquery);
+
+    pantheios::log_INFORMATIONAL("Leave ChangeSubsciptionStatusWithUser()");
 }
 
 size_t deliciousDataAdapter::RetrieveAllNonDeliveredMessages( CallbackFunc callback )
 {
     pantheios::log_INFORMATIONAL("RetrieveAllNonDeliveredMessages()");
 
-    char querystr[500];
-    sprintf_s(querystr, sizeof(querystr),
+    return ExecuteNormal(
         "SELECT * "
         "FROM Messages "
-        "WHERE ExpireTime > datetime('now') AND Delivered == 0");
-
-    return ExecuteNormal(querystr, callback);
+        "WHERE ExpireTime > datetime('now') AND Delivered == 0;"
+        , callback);
 }
 
 void deliciousDataAdapter::ConfirmMessageDelivered( unsigned int msgid )
