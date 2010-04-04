@@ -206,7 +206,7 @@ void Session::SubscribeToUser( int otherUser )
     getDataSource().SendMessage(&msg);
 }
 
-void Session::UnSubscribeFrom( int otherUser )
+void Session::UnSubscribeFromUser( int otherUser )
 {
     ProtocolBuffer::DMessage msg;
     msg.set_fromuser(getUser()->uid());
@@ -214,5 +214,33 @@ void Session::UnSubscribeFrom( int otherUser )
     msg.set_issystemmessage(true);
     msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
     msg.set_systemmessagetype(ProtocolBuffer::UnSubscribeFrom);
+    getDataSource().SendMessage(&msg);
+}
+
+void Session::SubscribeToRestaurant( int RID )
+{
+    ProtocolBuffer::Query queryRID;
+    queryRID.set_rid(RID);
+    ProtocolBuffer::DMessage msg;
+    msg.set_fromuser(getUser()->uid());
+    msg.set_touser(0);
+    msg.set_issystemmessage(true);
+    msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
+    msg.set_systemmessagetype(ProtocolBuffer::SubscribTo);
+    msg.set_buffer(queryRID.SerializeAsString());
+    getDataSource().SendMessage(&msg);
+}
+
+void Session::UnSubscribeFromRestaurant( int RID )
+{
+    ProtocolBuffer::Query queryRID;
+    queryRID.set_rid(RID);
+    ProtocolBuffer::DMessage msg;
+    msg.set_fromuser(getUser()->uid());
+    msg.set_touser(0);
+    msg.set_issystemmessage(true);
+    msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
+    msg.set_systemmessagetype(ProtocolBuffer::UnSubscribeFrom);
+    msg.set_buffer(queryRID.SerializeAsString());
     getDataSource().SendMessage(&msg);
 }

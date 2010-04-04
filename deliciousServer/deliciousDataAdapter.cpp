@@ -30,6 +30,8 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_SearchRestaurants = NULL;
         prepared_SearchUsers = NULL;
         prepared_Subscription = NULL;
+        prepared_UpdateUserSubscription = NULL;
+        prepared_UpdateRestaurantSubscription = NULL;
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
@@ -73,8 +75,16 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "LEFT OUTER JOIN Relation_User_User AS RU ON C.uid = RU.uid_target "
             "LEFT OUTER JOIN Relation_User_Restaurant AS RR ON C.rid = RR.rid "
             "WHERE C.addtime > (SELECT SubscriptionCheckTime FROM Users WHERE Users.uid = :1) "
-            "AND ((RU.uid_host = :1 AND RU.relation & 1024) "
-            "OR (RR.uid = :1 AND RR.Relation & 1024))");
+            "AND ((RU.uid_host = :1 AND RU.Subscription) "
+            "OR (RR.uid = :1 AND RR.Subscription))");
+        prepared_UpdateUserSubscription = dbconn->NewPreparedStatement(
+            "UPDATE Relation_User_User "
+            "SET Subscription = ? "
+            "WHERE UID_Host=? AND UID_Target=?;");
+        prepared_UpdateRestaurantSubscription = dbconn->NewPreparedStatement(
+            "UPDATE Relation_User_Restaurant "
+            "SET Subscription = ? "
+            "WHERE UID=? AND RID=?;");
     }
     catch (exception&)
     {
@@ -90,6 +100,8 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         delete prepared_SearchRestaurants;
         delete prepared_SearchUsers;
         delete prepared_Subscription;
+        delete prepared_UpdateUserSubscription;
+        delete prepared_UpdateRestaurantSubscription;
         throw;
     }
 }
@@ -108,6 +120,8 @@ deliciousDataAdapter::~deliciousDataAdapter(void)
     delete prepared_SearchRestaurants;
     delete prepared_SearchUsers;
     delete prepared_Subscription;
+    delete prepared_UpdateUserSubscription;
+    delete prepared_UpdateRestaurantSubscription;
 }
 
 deliciousDataAdapter* deliciousDataAdapter::GetInstance()
@@ -355,7 +369,7 @@ size_t deliciousDataAdapter::GetRelatedUsersWith( int uid, int relation, Callbac
     sprintf_s(querystr, sizeof(querystr),
         "SELECT Users.* "
         "FROM Relation_User_User INNER JOIN Users ON UID_Target = UID "
-        "WHERE UID_Host = %d AND Relation & 1023 = %d"
+        "WHERE UID_Host = %d AND Relation = %d"
         , uid
         , relation);
 
@@ -516,18 +530,33 @@ void deliciousDataAdapter::ChangeSubsciptionStatusWithUser( int me, int target, 
         ",target=", pantheios::integer(target),
         ",subscribe=", pantheios::integer(subscribe),
         ")");
-    char sqlquery[500];
-    sprintf_s(sqlquery, sizeof(sqlquery), 
-        "UPDATE Relation_User_User "
-        "SET relation = %s "
-        "WHERE UID_Host=%d AND UID_Target=%d;"
-        , subscribe ? "relation | 1024" : "relation & ~1024"
-        , me
-        , target);
+    
+    prepared_UpdateUserSubscription->reset();
+    prepared_UpdateUserSubscription->bindParameter(1, subscribe);
+    prepared_UpdateUserSubscription->bindParameter(2, me);
+    prepared_UpdateUserSubscription->bindParameter(3, target);
 
-    dbconn->Execute(sqlquery);
+    dbconn->Execute(prepared_UpdateUserSubscription);
 
     pantheios::log_INFORMATIONAL("Leave ChangeSubsciptionStatusWithUser()");
+}
+
+void deliciousDataAdapter::ChangeSubsciptionStatusWithRestaurant( int me, int target, bool subscribe )
+{
+    pantheios::log_INFORMATIONAL("ChangeSubsciptionStatusWithRestaurant(",
+        "me=", pantheios::integer(me),
+        ",target=", pantheios::integer(target),
+        ",subscribe=", pantheios::integer(subscribe),
+        ")");
+
+    prepared_UpdateRestaurantSubscription->reset();
+    prepared_UpdateRestaurantSubscription->bindParameter(1, subscribe);
+    prepared_UpdateRestaurantSubscription->bindParameter(2, me);
+    prepared_UpdateRestaurantSubscription->bindParameter(3, target);
+
+    dbconn->Execute(prepared_UpdateRestaurantSubscription);
+
+    pantheios::log_INFORMATIONAL("Leave ChangeSubsciptionStatusWithRestaurant()");
 }
 
 size_t deliciousDataAdapter::RetrieveAllNonDeliveredMessages( CallbackFunc callback )

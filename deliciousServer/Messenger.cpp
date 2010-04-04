@@ -155,12 +155,27 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
     case ProtocolBuffer::SubscribTo:
     case ProtocolBuffer::UnSubscribeFrom:
         {
-            if (msg->touser() != 0) // other wise this is a corrupted msg
+            if (msg->touser() != 0) // other wise this is (un)subscribing to a restaurant
             {
                 dataadapter->ChangeSubsciptionStatusWithUser(
                     msg->fromuser(), 
                     msg->touser(), 
                     msg->systemmessagetype() == ProtocolBuffer::SubscribTo ? true : false);
+            }
+            else
+            {
+                ProtocolBuffer::Query query;
+                if (msg->has_buffer())
+                {
+                    query.ParseFromString(msg->buffer());
+                    if (query.has_rid())
+                    {
+                        dataadapter->ChangeSubsciptionStatusWithRestaurant(
+                            msg->fromuser(), 
+                            query.rid(),
+                            msg->systemmessagetype() == ProtocolBuffer::SubscribTo ? true : false);
+                    }
+                }
             }
             handled = true;
             break;
