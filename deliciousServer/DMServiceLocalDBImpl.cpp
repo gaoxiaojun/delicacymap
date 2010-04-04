@@ -432,14 +432,7 @@ void DMServiceLocalDBImpl::GetRestaurantsCallback( const DBRow& row, RestaurantL
 void DMServiceLocalDBImpl::GetCommentsCallback( const DBRow& row, ProtocolBuffer::CommentList* result )
 {
     Comment *newc = result->add_comments();
-    newc->set_content(row["Comment"]);
-    newc->set_uid(row.GetValueAs<int>("UID"));
-    newc->set_rid(row.GetValueAs<int>("RID"));
-    if (!row["DID"].empty())
-        newc->set_did(row.GetValueAs<int>("DID"));
-    newc->mutable_timestamp()->set_timestamp(row["AddTime"]);
-//     if (!row["PhotoPath"].empty())
-//         newc->set_image(row["PhotoPath"]);
+    ProtubufDBRowConversion::Convert(row, *newc);
     ProtubufDBRowConversion::Convert(row, *newc->mutable_userinfo());
 }
 

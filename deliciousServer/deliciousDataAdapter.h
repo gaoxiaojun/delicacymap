@@ -76,6 +76,10 @@ public://DB methods
 
     size_t AddMessagesToDB( int from_uid, int to_uid, int messageType, const std::string& text, tm validTimePeriod );
 
+    const DBResultWrap GetSubscriptionForUserSinceLastUpdate( int uid );
+
+    void ChangeSubsciptionStatusWithUser(int me, int target, bool subscribe);
+
     size_t RetrieveAllNonDeliveredMessages( CallbackFunc callback );
 
     void ConfirmMessageDelivered( unsigned int msgid );
@@ -88,6 +92,7 @@ private://data
 
     // prepared statements
     DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage, *prepared_GetUserByUID, *prepared_GetCommentsOfRest_N;
-    DBPrepared* prepared_Login, *prepared_InsertComment, *prepared_AddRestaurant, *prepared_Search;
+    DBPrepared* prepared_Login, *prepared_InsertComment, *prepared_AddRestaurant, *prepared_SearchRestaurants, *prepared_Subscription;
+    DBPrepared* prepared_SearchUsers;
     DBContext *dbconn;
 };

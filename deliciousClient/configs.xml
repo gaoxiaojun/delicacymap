@@ -5,11 +5,12 @@
         <username></username>
         <password></password>
     </autologin>
-    <locations>
-        <followselfmarker>true</followselfmarker>
-    </locations>
     <server>
         <address>192.168.0.199</address>
         <port>24000</port>
     </server>
+    <mapview>
+        <smoothscroll>true</smoothscroll>
+        <followselfmarker>true</followselfmarker>
+    </mapview>
 </deliciousClient>

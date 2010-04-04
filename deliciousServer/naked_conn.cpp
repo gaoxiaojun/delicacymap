@@ -288,7 +288,7 @@ void naked_conn::handle_messaging()
         message.ParseFromString(income.buffer());
         if (message.IsInitialized() && message.fromuser() == linked_user)  // Don't you mess with me. may need more validation here.
         {
-            Messenger::GetInstance()->SendMessageToUser(&message);
+            Messenger::GetInstance()->ProcessMessage(&message);
         }
         else
             pantheios::log_WARNING("Message content not valid. discarding.");

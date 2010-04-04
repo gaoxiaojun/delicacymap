@@ -115,3 +115,15 @@ DBPrepared* DBContext::NewPreparedStatement( const std::string& sql )
     }
     return new DBPrepared(stmt);
 }
+
+void DBContext::BeginTransaction()
+{
+    static std::string beginTransaction("BEGIN TRANSACTION;");
+    Execute(beginTransaction);
+}
+
+void DBContext::EndTransaction()
+{
+    static std::string endTransaction("END TRANSACTION;");
+    Execute(endTransaction);
+}

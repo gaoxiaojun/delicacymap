@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Messenger.h"
 #include "deliciousDataAdapter.h"
+#include "ProtubufDBRowConversion.h"
 #include "DBResult.h"
 
 #include <algorithm>
@@ -92,34 +93,83 @@ void Messenger::start()
     msgExpireTimer.async_wait(bind(&Messenger::ExpireTimerHandler, this, placeholders::error));
 }
 
-bool Messenger::ShouldForwardSystemMessage( ProtocolBuffer::DMessage* msg )
+bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
 {
-    bool shouldforward = false;
-    if (msg->systemmessagetype() == ProtocolBuffer::ShareLocationWith)
+    assert ( msg->issystemmessage() );
+    bool handled = false;
+    switch (msg->systemmessagetype())
     {
-        // send the user updated location to the appointed user
-        usersSharingLocation[msg->fromuser()].insert(msg->touser());
-    }
-    else if (msg->systemmessagetype() == ProtocolBuffer::StopShareLocationWith)
-    {
-        usersSharingLocation[msg->fromuser()].erase(msg->touser());
-    }
-    else if (msg->systemmessagetype() == ProtocolBuffer::UserLocationUpdate && msg->touser() == 0)
-    {
-        msg->clear_buffer();
-        msg->clear_text();
-        BOOST_FOREACH(int usr, usersSharingLocation[msg->fromuser()])
+    case ProtocolBuffer::ShareLocationWith:
         {
-            msg->set_touser(usr);
-            SendMessageToUser(msg);
+            // send the user updated location to the appointed user
+            usersSharingLocation[msg->fromuser()].insert(msg->touser());
+            handled = true;
+            break;
+        }
+    case ProtocolBuffer::StopShareLocationWith:
+        {
+            usersSharingLocation[msg->fromuser()].erase(msg->touser());
+            handled = true;
+            break;
+        }
+    case ProtocolBuffer::UserLocationUpdate:
+        if (msg->touser() == 0)
+        {
+            msg->clear_buffer();
+            msg->clear_text();
+            BOOST_FOREACH(int usr, usersSharingLocation[msg->fromuser()])
+            {
+                msg->set_touser(usr);
+                ProcessMessage(msg);
+            }
+            handled = true;
+        }
+        break;
+    case ProtocolBuffer::RequestSubscriptionUpdate:
+        {
+            // retrieve new comments since last update
+            DBResultWrap result = dataadapter->GetSubscriptionForUserSinceLastUpdate( msg->fromuser() );
+            ProtocolBuffer::DMessage data;
+            ProtocolBuffer::CommentList comments;
+            if (!result.empty())
+            {
+                for (size_t i=0;i<result.getResult()->RowsCount();i++)
+                {
+                    ProtocolBuffer::Comment* c = comments.add_comments();
+                    ProtubufDBRowConversion::Convert(result.getResult()->GetRow(i), *c);
+                }
+            }
+
+            data.set_fromuser(0);
+            data.set_touser(msg->fromuser());
+            data.set_issystemmessage(true);
+            data.set_msgid(-1); // this will be set in the call to ProcessMessage
+            data.set_systemmessagetype(ProtocolBuffer::SubscriptionData);
+            data.set_buffer(comments.SerializeAsString());
+            assert( data.IsInitialized() );
+            ProcessMessage(&data);
+
+            handled = true;
+            break;
+        }
+    case ProtocolBuffer::SubscribTo:
+    case ProtocolBuffer::UnSubscribeFrom:
+        {
+            if (msg->touser() != 0) // other wise this is a corrupted msg
+            {
+                dataadapter->ChangeSubsciptionStatusWithUser(
+                    msg->fromuser(), 
+                    msg->touser(), 
+                    msg->systemmessagetype() == ProtocolBuffer::SubscribTo ? true : false);
+            }
+            handled = true;
+            break;
         }
     }
-    else if (msg->touser() != 0)
-        shouldforward = true;
-    return shouldforward;
+    return handled;
 }
 
-void Messenger::SendMessageToUser( ProtocolBuffer::DMessage* msg )
+void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
 {
     // FIXME: Validate msg first!
 
@@ -136,7 +186,7 @@ void Messenger::SendMessageToUser( ProtocolBuffer::DMessage* msg )
             expiretime);
         msg->set_msgid(msgid);
 
-        if (!msg->issystemmessage() || ShouldForwardSystemMessage(msg))
+        if (!msg->issystemmessage() || !ProcessSystemMessage(msg))
         {
             DMessageWrap *newmsg = new DMessageWrap;
             newmsg->CopyFrom(*msg);

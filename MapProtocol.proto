@@ -129,6 +129,8 @@ enum SystemMessageType
 
     RequestSubscriptionUpdate       = 7;
     SubscriptionData				= 8;
+    SubscribTo                      = 9;
+    UnSubscribeFrom                 = 10;
 }
 
 message DMessage

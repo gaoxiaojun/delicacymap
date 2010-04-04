@@ -47,3 +47,16 @@ bool ProtubufDBRowConversion::Convert( const DBRow&from, ::ProtocolBuffer::Resta
 
     return true;
 }
+
+bool ProtubufDBRowConversion::Convert( const DBRow&from, ::ProtocolBuffer::Comment& to )
+{
+    to.set_content(from["Comment"]);
+    to.set_uid(from.GetValueAs<int>("UID"));
+    to.set_rid(from.GetValueAs<int>("RID"));
+    if (!from["DID"].empty())
+        to.set_did(from.GetValueAs<int>("DID"));
+    to.mutable_timestamp()->set_timestamp(from["AddTime"]);
+//     if (!from["PhotoPath"].empty())
+//         to.set_image(from["PhotoPath"]);
+    return true;
+}
