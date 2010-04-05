@@ -35,7 +35,7 @@ public:
 
     QList<ProtocolBuffer::User*> friends();
     ProtocolBuffer::User* getUser(int uid);
-
+    
     void SendRoutingReply( const QList<GeoPoint>& route, int user );
     void SendRoutingRequest( const QString&, const QString&, int user);
     void ShareMyLocationWith( int otherUser );
@@ -44,6 +44,9 @@ public:
     void SubscribeToRestaurant( int RID );
     void UnSubscribeFromRestaurant( int RID );
 
+    void setRelationWith(int uid,UserRelation relation);
+    void RelationChangeResponse(int uid,UserRelation relation);
+    int findByName(string & nickName);
 public slots:
     void UserLocationUpdate(const GeoPoint&);
     void loginMessenger();
@@ -57,7 +60,7 @@ protected:
 private:
     void UpdatedUserInfo();
     void FriendsResponse(ProtocolBuffer::UserList*);
-
+    void GetUserResponse();
     QBasicTimer timer, subscriptionTimer;
     MapDataSource datasource;
     QMap<int, ProtocolBuffer::User*> myfriends;

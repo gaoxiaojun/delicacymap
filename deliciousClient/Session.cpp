@@ -244,3 +244,42 @@ void Session::UnSubscribeFromRestaurant( int RID )
     msg.set_buffer(queryRID.SerializeAsString());
     getDataSource().SendMessage(&msg);
 }
+}
+//通过姓名查找uid.......................未完成
+int Session::findByName(string & nickName)
+{
+    QMap<int, ProtocolBuffer::User*>::iterator iter;
+    for(iter = myfriends.begin();iter!=myfriends.end();iter++)
+    {
+    }
+    return 0;
+}
+void Session::setRelationWith(int uid,UserRelation relation)
+{
+    google::protobuf::Closure* closure = google::protobuf::NewCallback(this, &Session::RelationChangeResponse, uid,relation);
+    getDataSource().SetUserRelation(getUser()->uid(),uid,relation,closure);
+}
+void Session::RelationChangeResponse(int uid,UserRelation relation)
+{
+    QMap<int, ProtocolBuffer::User*>::iterator iter;
+    iter=myfriends.find(uid);
+    google::protobuf::Closure* closure = google::protobuf::NewCallback(this, &Session::GetUserResponse); 
+    ProtocolBuffer::User* u=new ProtocolBuffer::User;
+    getDataSource().GetUser(uid,u,closure);
+    switch(relation)
+    {
+    case Friend:
+        if(iter==myfriends.end())
+            myfriends.insert(uid, u); //加为好友
+        //否则，已经是好友，什么都不做
+        break;
+    case BlackList:
+        break;
+    case Unspecified:
+        break;
+    }
+}
+void Session::GetUserResponse()
+{
+
+}
