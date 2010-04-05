@@ -5,6 +5,7 @@
 #include <string>
 #include "MapProtocol.pb.h"
 #undef abort
+using namespace std;
 
 enum UserRelation
 {
@@ -59,7 +60,7 @@ public:
     void AddRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::Restaurant*, google::protobuf::Closure*);
     void Search(ProtocolBuffer::Query *, ProtocolBuffer::SearchResult*, google::protobuf::Closure*);
     void SendMessage(ProtocolBuffer::DMessage*);
-
+    void SendMessage(int fromuid,int touid,string message);
 
 protected:
     ProtocolBuffer::Query query;

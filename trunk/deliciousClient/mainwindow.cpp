@@ -84,9 +84,11 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(btn_zoomIn, SIGNAL(clicked()), navi, SLOT(zoomIn()));
     connect(btn_zoomOut, SIGNAL(clicked()), navi, SLOT(zoomOut()));
     connect(navi, SIGNAL(boundsChange(const GeoBound&)), &controller, SLOT(MapViewBoundsChange(const GeoBound&)));
+   
     //ZZQ edited,编辑一个slot,专门用来显示餐厅信息
     connect(navi,SIGNAL(restaurantMarkerClicked(RestaurantMarkerItem*)),SLOT(RestaurantMarkerResponse(RestaurantMarkerItem*)));
-
+    connect(m_ui->sendButton,SIGNAL(clicked()),this,SLOT(sendDialog()));
+    connect(m_ui->FriendlistWidget,SIGNAL(currentRowChanged(int)),this,SLOT(dialogwith(int)));
     connect(&controller, SIGNAL(currentLocationUpdate(GeoPoint)), navi, SLOT(setSelfLocation(const GeoPoint&)));
     connect(&controller, SIGNAL(SysMsgRequestRouting(int, QString, QString)), this, SLOT(handleRequestRouting(int, const QString&, const QString&)));
     connect(&controller, SIGNAL(SysMsgUserLocationUpdate(int, GeoPoint)), navi, SLOT(updateUserLocation(int, const GeoPoint&)));
@@ -110,10 +112,20 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 //    pan_Btn_timeline->setDirection(QTimeLine::Forward);
     m_ui->btn_addMarker_cancel->hide();
     m_ui->btn_addMarker_confirm->hide();
-
+    changeSession(s);
+    //新修改
     this->m_ui->stackedWidget->insertWidget(0, navi);
     this->m_ui->stackedWidget->setCurrentWidget(navi);
-    changeSession(s);
+    this->m_ui->DialogtextEdit->setDisabled(true);
+    int uid;
+    QList<ProtocolBuffer::User*> friendlist=this->getSession()->friends();
+    for(int i=0;i<friendlist.count();i++)
+    {
+        uid=friendlist.value(i)->uid();
+        m_ui->FriendlistWidget->addItem(friendlist.value(i)->nickname().c_str());
+        m_ui->FriendlistWidget->setCurrentRow(i);
+        m_ui->FriendlistWidget->currentItem()->setData(Qt::WhatsThisRole,uid);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -163,6 +175,7 @@ void MainWindow::changeSession( Session *s )
     {
 //        connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
         connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), &controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
+        connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)),this,SLOT(HandleUserMessage(const ProtocolBuffer::DMessage* )));   
     }
     controller.setSession(s);
 }
@@ -174,13 +187,13 @@ Session* MainWindow::getSession()
 
 void MainWindow::AddMarkerClicked()
 {
-    m_ui->btn_quit->hide();
-    m_ui->btn_addMarker->hide();
-    m_ui->btn_addMarker_cancel->show();
-    m_ui->btn_addMarker_confirm->show();
-
-    RestaurantMarkerItem* localmarker = new RestaurantMarkerItem();
-    navi->addLocalMarker(localmarker);
+//     m_ui->btn_quit->hide();
+//     m_ui->btn_addMarker->hide();
+//     m_ui->btn_addMarker_cancel->show();
+//     m_ui->btn_addMarker_confirm->show();
+// 
+//     RestaurantMarkerItem* localmarker = new RestaurantMarkerItem();
+//     navi->addLocalMarker(localmarker);
 }
 
 void MainWindow::handleSearchClicked()
@@ -212,7 +225,8 @@ void MainWindow::handleSearchResponse(ProtocolBuffer::SearchResult *result)
 void MainWindow::handleBtnMapClicked()
 {
     m_ui->stackedWidget->setCurrentWidget(navi);
-    controller.getSatelliteInfoSource()->stopUpdates();
+    if(controller.getSatelliteInfoSource())
+        controller.getSatelliteInfoSource()->stopUpdates();
 }
 
 void MainWindow::handleBtnGPSInfoClicked()
@@ -220,8 +234,11 @@ void MainWindow::handleBtnGPSInfoClicked()
     QGeoSatelliteInfoSource* src = controller.getSatelliteInfoSource();
     connect(src, SIGNAL(satellitesInViewUpdated(QList<QGeoSatelliteInfo>)), SLOT(updateGPSInfo_InView(QList<QGeoSatelliteInfo>)));
     connect(src, SIGNAL(satellitesInUseUpdated(QList<QGeoSatelliteInfo>)), SLOT(updateGPSInfo_Used(QList<QGeoSatelliteInfo>)));
-    src->startUpdates();
-    m_ui->stackedWidget->setCurrentWidget(m_ui->page_gps);
+    if(src)
+    {
+        src->startUpdates();
+        m_ui->stackedWidget->setCurrentWidget(m_ui->page_gps);
+    }
 }
 
 void MainWindow::updateGPSInfo_InView(QList<QGeoSatelliteInfo> satellites)
@@ -376,10 +393,8 @@ void MainWindow::handleBtnCancelClicked()
     m_ui->btn_addMarker_cancel->hide();
 }
 
-void MainWindow::commentSuccessed(void)
+void MainWindow::commentSuccessed()
 {
-    qDebug()<<"Successed!!!";
-
 //     QMessageBox msgbox;
 //     msgbox.setIcon(QMessageBox::Information);
 //     msgbox.setText("Comment has been added!");
@@ -390,38 +405,98 @@ void MainWindow::commentSuccessed(void)
     
 }
 
-void MainWindow::commentCommited(void)
+void MainWindow::commentCommited(QList<GeoPoint>* route)
 {
+    qDebug()<<"Successed!!!";
         //先取得当前的用户名,然后再提交
-    QString content=this->m_ui->textComment->toPlainText();
-    std::string usrname=this->getSession()->getUser()->nickname();
-    if (!content.isEmpty())
-    {   
-        QString str=QString("%1:   %2").arg(usrname.c_str()).arg(content);
-        m_ui->list_latestcomment->addItem(new QListWidgetItem(str));
-        m_ui->textComment->setText("");
-        //提交给服务器
-        ProtocolBuffer::Comment *newComment=new ProtocolBuffer::Comment();
-
-        google::protobuf::Closure* commentadded;
-        QByteArray utf8Content = content.toUtf8();
-        std::string contentStr(utf8Content.constData(), utf8Content.size());
-        commentadded=google::protobuf::NewCallback(this,&MainWindow::commentSuccessed);
-        this->getSession()->getDataSource().AddCommentForRestaurant(
-            this->showrestaurant->restaurant.rid(),
-            this->getSession()->getUser()->uid(),
-            contentStr,newComment,commentadded);
-    }
-    else
-    {
-        QMessageBox msgbox;
-        msgbox.setIcon(QMessageBox::Warning);
-        msgbox.setText("Comment Cannot Be Empty!");
-        msgbox.setWindowTitle("ERROR");
-        msgbox.setStandardButtons(QMessageBox::Yes);
-        msgbox.setDefaultButton(QMessageBox::Yes);
-        msgbox.exec();
-    }
+//     QString content=this->m_ui->textComment->toPlainText();
+//     std::string usrname=this->getSession()->getUser()->nickname();
+//     if (!content.isEmpty())
+//     {   
+//         QString str=QString("%1:   %2").arg(usrname.c_str()).arg(content);
+//         m_ui->list_latestcomment->addItem(new QListWidgetItem(str));
+//         m_ui->textComment->setText("");
+//         //提交给服务器
+//         ProtocolBuffer::Comment *newComment=new ProtocolBuffer::Comment();
+// 
+//         google::protobuf::Closure* commentadded;
+//         QByteArray utf8Content = content.toUtf8();
+//         std::string contentStr(utf8Content.constData(), utf8Content.size());
+//         commentadded=google::protobuf::NewCallback(this,&MainWindow::commentSuccessed);
+//         this->getSession()->getDataSource().AddCommentForRestaurant(
+//             this->showrestaurant->restaurant.rid(),
+//             this->getSession()->getUser()->uid(),
+//             contentStr,newComment,commentadded);
+//     }
+//     else
+//     {
+//         QMessageBox msgbox;
+//         msgbox.setIcon(QMessageBox::Warning);
+//         msgbox.setText("Comment Cannot Be Empty!");
+//         msgbox.setWindowTitle("ERROR");
+//         msgbox.setStandardButtons(QMessageBox::Yes);
+//         msgbox.setDefaultButton(QMessageBox::Yes);
+//         msgbox.exec();
+//     }
 
 }
-  
+
+void MainWindow::sendDialog()
+{
+    //得到消息框   
+    QString message=QString(m_ui->messageLineEdit->text());
+    //得到当前聊天的用户
+    QString tousrName=m_ui->FriendlistWidget->currentItem()->text();
+    QString fromusrName=QString(this->getSession()->getUser()->nickname().c_str());
+    int touid=m_ui->FriendlistWidget->currentItem()->data(Qt::WhatsThisRole).toInt();
+    int fromuid=this->getSession()->getUser()->uid();
+    //发送消息
+    this->getSession()->getDataSource().SendMessage(fromuid,touid,string(message.toUtf8().constData()));
+    //消息框处理,
+    QString old=m_ui->DialogtextEdit->toPlainText();
+    old=old+fromusrName+" says:  "+message+"\n";
+    this->m_ui->FriendlistWidget->currentItem()->setData(Qt::AccessibleTextRole,old);
+    this->m_ui->DialogtextEdit->setText(old);
+    this->m_ui->messageLineEdit->clear();
+}
+
+void MainWindow::dialogwith(const int current)
+{
+    m_ui->chatLabel->setText(QString("chatting with %1").arg(m_ui->FriendlistWidget->currentItem()->text()));
+    //改变聊天对象时，应该保存当前的聊天记录，并显示其他人的聊天记录...
+    m_ui->DialogtextEdit->clear();
+    m_ui->DialogtextEdit->setText(m_ui->FriendlistWidget->currentItem()->data(Qt::AccessibleTextRole).toString());
+    
+}
+
+void MainWindow::HandleUserMessage(const ProtocolBuffer::DMessage* m)
+{
+    //是用户信息
+    if(!m->issystemmessage())
+    {
+        this->m_ui->stackedWidget->setCurrentIndex(1);
+        int fromuid=m->fromuser();
+        int touid=m->touser();
+        if(touid!=this->getSession()->getUser()->uid())
+        {
+            qDebug()<<"Why I can receive the message which not belong to me?";
+            exit(0);//压根不是发往该用户的，则直接结束
+        }
+        for(int i=0;i<m_ui->FriendlistWidget->count();i++)
+        {
+            //如果当前的Item就是发送人
+            if(m_ui->FriendlistWidget->item(i)->data(Qt::WhatsThisRole).toInt()==fromuid)
+            {
+                QString fromname=this->m_ui->FriendlistWidget->item(i)->text();
+                m_ui->FriendlistWidget->setCurrentRow(i);
+                QString old=m_ui->FriendlistWidget->currentItem()->data(Qt::AccessibleTextRole).toString();
+                old=old+fromname+" say : "+QString::fromUtf8(m->text().c_str())+'\n';
+                this->m_ui->DialogtextEdit->setText(old);
+                this->m_ui->FriendlistWidget->currentItem()->setData(Qt::AccessibleTextRole,old);
+            
+            }
+
+        }
+        
+    }
+}
