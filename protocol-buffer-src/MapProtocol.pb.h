@@ -32,8 +32,10 @@ void protobuf_AssignDesc_MapProtocol_2eproto();
 void protobuf_ShutdownFile_MapProtocol_2eproto();
 
 class Location;
+class LocationEx;
 class Route;
 class Area;
+class AreaEx;
 class Time;
 class Comment;
 class Currency;
@@ -149,6 +151,95 @@ class Location : public ::google::protobuf::MessageLite {
   
   void InitAsDefaultInstance();
   static Location* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class LocationEx : public ::google::protobuf::MessageLite {
+ public:
+  LocationEx();
+  virtual ~LocationEx();
+  
+  LocationEx(const LocationEx& from);
+  
+  inline LocationEx& operator=(const LocationEx& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  static const LocationEx& default_instance();
+  
+  void Swap(LocationEx* other);
+  
+  // implements Message ----------------------------------------------
+  
+  LocationEx* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const LocationEx& from);
+  void MergeFrom(const LocationEx& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // optional .ProtocolBuffer.Location Location_Geo = 1;
+  inline bool has_location_geo() const;
+  inline void clear_location_geo();
+  static const int kLocationGeoFieldNumber = 1;
+  inline const ::ProtocolBuffer::Location& location_geo() const;
+  inline ::ProtocolBuffer::Location* mutable_location_geo();
+  
+  // optional string Location_St = 2;
+  inline bool has_location_st() const;
+  inline void clear_location_st();
+  static const int kLocationStFieldNumber = 2;
+  inline const ::std::string& location_st() const;
+  inline void set_location_st(const ::std::string& value);
+  inline void set_location_st(const char* value);
+  inline void set_location_st(const char* value, size_t size);
+  inline ::std::string* mutable_location_st();
+  
+  // @@protoc_insertion_point(class_scope:ProtocolBuffer.LocationEx)
+ private:
+  mutable int _cached_size_;
+  
+  ::ProtocolBuffer::Location* location_geo_;
+  ::std::string* location_st_;
+  static const ::std::string _default_location_st_;
+  friend void  protobuf_AddDesc_MapProtocol_2eproto();
+  friend void protobuf_AssignDesc_MapProtocol_2eproto();
+  friend void protobuf_ShutdownFile_MapProtocol_2eproto();
+  
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  
+  // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
+  inline bool _has_bit(int index) const {
+    return (_has_bits_[index / 32] & (1u << (index % 32))) != 0;
+  }
+  inline void _set_bit(int index) {
+    _has_bits_[index / 32] |= (1u << (index % 32));
+  }
+  inline void _clear_bit(int index) {
+    _has_bits_[index / 32] &= ~(1u << (index % 32));
+  }
+  
+  void InitAsDefaultInstance();
+  static LocationEx* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -316,6 +407,91 @@ class Area : public ::google::protobuf::MessageLite {
   
   void InitAsDefaultInstance();
   static Area* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class AreaEx : public ::google::protobuf::MessageLite {
+ public:
+  AreaEx();
+  virtual ~AreaEx();
+  
+  AreaEx(const AreaEx& from);
+  
+  inline AreaEx& operator=(const AreaEx& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  static const AreaEx& default_instance();
+  
+  void Swap(AreaEx* other);
+  
+  // implements Message ----------------------------------------------
+  
+  AreaEx* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const AreaEx& from);
+  void MergeFrom(const AreaEx& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required .ProtocolBuffer.LocationEx northeast = 1;
+  inline bool has_northeast() const;
+  inline void clear_northeast();
+  static const int kNortheastFieldNumber = 1;
+  inline const ::ProtocolBuffer::LocationEx& northeast() const;
+  inline ::ProtocolBuffer::LocationEx* mutable_northeast();
+  
+  // required .ProtocolBuffer.LocationEx southwest = 2;
+  inline bool has_southwest() const;
+  inline void clear_southwest();
+  static const int kSouthwestFieldNumber = 2;
+  inline const ::ProtocolBuffer::LocationEx& southwest() const;
+  inline ::ProtocolBuffer::LocationEx* mutable_southwest();
+  
+  // @@protoc_insertion_point(class_scope:ProtocolBuffer.AreaEx)
+ private:
+  mutable int _cached_size_;
+  
+  ::ProtocolBuffer::LocationEx* northeast_;
+  ::ProtocolBuffer::LocationEx* southwest_;
+  friend void  protobuf_AddDesc_MapProtocol_2eproto();
+  friend void protobuf_AssignDesc_MapProtocol_2eproto();
+  friend void protobuf_ShutdownFile_MapProtocol_2eproto();
+  
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  
+  // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
+  inline bool _has_bit(int index) const {
+    return (_has_bits_[index / 32] & (1u << (index % 32))) != 0;
+  }
+  inline void _set_bit(int index) {
+    _has_bits_[index / 32] |= (1u << (index % 32));
+  }
+  inline void _clear_bit(int index) {
+    _has_bits_[index / 32] &= ~(1u << (index % 32));
+  }
+  
+  void InitAsDefaultInstance();
+  static AreaEx* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -1764,6 +1940,69 @@ inline void Location::set_longitude(double value) {
 
 // -------------------------------------------------------------------
 
+// LocationEx
+
+// optional .ProtocolBuffer.Location Location_Geo = 1;
+inline bool LocationEx::has_location_geo() const {
+  return _has_bit(0);
+}
+inline void LocationEx::clear_location_geo() {
+  if (location_geo_ != NULL) location_geo_->::ProtocolBuffer::Location::Clear();
+  _clear_bit(0);
+}
+inline const ::ProtocolBuffer::Location& LocationEx::location_geo() const {
+  return location_geo_ != NULL ? *location_geo_ : *default_instance_->location_geo_;
+}
+inline ::ProtocolBuffer::Location* LocationEx::mutable_location_geo() {
+  _set_bit(0);
+  if (location_geo_ == NULL) location_geo_ = new ::ProtocolBuffer::Location;
+  return location_geo_;
+}
+
+// optional string Location_St = 2;
+inline bool LocationEx::has_location_st() const {
+  return _has_bit(1);
+}
+inline void LocationEx::clear_location_st() {
+  if (location_st_ != &_default_location_st_) {
+    location_st_->clear();
+  }
+  _clear_bit(1);
+}
+inline const ::std::string& LocationEx::location_st() const {
+  return *location_st_;
+}
+inline void LocationEx::set_location_st(const ::std::string& value) {
+  _set_bit(1);
+  if (location_st_ == &_default_location_st_) {
+    location_st_ = new ::std::string;
+  }
+  location_st_->assign(value);
+}
+inline void LocationEx::set_location_st(const char* value) {
+  _set_bit(1);
+  if (location_st_ == &_default_location_st_) {
+    location_st_ = new ::std::string;
+  }
+  location_st_->assign(value);
+}
+inline void LocationEx::set_location_st(const char* value, size_t size) {
+  _set_bit(1);
+  if (location_st_ == &_default_location_st_) {
+    location_st_ = new ::std::string;
+  }
+  location_st_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* LocationEx::mutable_location_st() {
+  _set_bit(1);
+  if (location_st_ == &_default_location_st_) {
+    location_st_ = new ::std::string;
+  }
+  return location_st_;
+}
+
+// -------------------------------------------------------------------
+
 // Route
 
 // repeated .ProtocolBuffer.Location WayPoints = 1;
@@ -1826,6 +2065,44 @@ inline const ::ProtocolBuffer::Location& Area::southwest() const {
 inline ::ProtocolBuffer::Location* Area::mutable_southwest() {
   _set_bit(1);
   if (southwest_ == NULL) southwest_ = new ::ProtocolBuffer::Location;
+  return southwest_;
+}
+
+// -------------------------------------------------------------------
+
+// AreaEx
+
+// required .ProtocolBuffer.LocationEx northeast = 1;
+inline bool AreaEx::has_northeast() const {
+  return _has_bit(0);
+}
+inline void AreaEx::clear_northeast() {
+  if (northeast_ != NULL) northeast_->::ProtocolBuffer::LocationEx::Clear();
+  _clear_bit(0);
+}
+inline const ::ProtocolBuffer::LocationEx& AreaEx::northeast() const {
+  return northeast_ != NULL ? *northeast_ : *default_instance_->northeast_;
+}
+inline ::ProtocolBuffer::LocationEx* AreaEx::mutable_northeast() {
+  _set_bit(0);
+  if (northeast_ == NULL) northeast_ = new ::ProtocolBuffer::LocationEx;
+  return northeast_;
+}
+
+// required .ProtocolBuffer.LocationEx southwest = 2;
+inline bool AreaEx::has_southwest() const {
+  return _has_bit(1);
+}
+inline void AreaEx::clear_southwest() {
+  if (southwest_ != NULL) southwest_->::ProtocolBuffer::LocationEx::Clear();
+  _clear_bit(1);
+}
+inline const ::ProtocolBuffer::LocationEx& AreaEx::southwest() const {
+  return southwest_ != NULL ? *southwest_ : *default_instance_->southwest_;
+}
+inline ::ProtocolBuffer::LocationEx* AreaEx::mutable_southwest() {
+  _set_bit(1);
+  if (southwest_ == NULL) southwest_ = new ::ProtocolBuffer::LocationEx;
   return southwest_;
 }
 

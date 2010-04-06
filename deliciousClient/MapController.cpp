@@ -86,10 +86,11 @@ void MapController::HandleSystemMessages( const ProtocolBuffer::DMessage* msg )
         {
         case ProtocolBuffer::RequestRouting:
             {
-                int pos = msg->buffer().find('|');
-                QString from = QString::fromUtf8(msg->buffer().c_str(), pos);
-                QString to = QString::fromUtf8(msg->buffer().c_str() + pos + 1);
-                emit SysMsgRequestRouting(msg->fromuser(), from, to);
+                ProtocolBuffer::AreaEx routing;
+                routing.ParseFromString(msg->buffer());
+                Q_ASSERT( (routing.northeast().has_location_geo() && routing.southwest().has_location_geo()) ||
+                          (routing.northeast().has_location_st() && routing.southwest().has_location_st()) );
+                emit SysMsgRequestRouting(msg->fromuser(), &routing.northeast(), &routing.southwest());
             }
             break;
         case ProtocolBuffer::RoutingReply:

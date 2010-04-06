@@ -27,6 +27,8 @@ public:
     Session* getSession() const { return s; }
     void setRestaurant(const ProtocolBuffer::Restaurant*);
 
+    QWidget* getInputWidget();
+
 protected:
     void changeEvent(QEvent *e);
     void UIAnimation_ShowComments(bool show);

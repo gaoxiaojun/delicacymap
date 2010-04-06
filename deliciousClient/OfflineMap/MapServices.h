@@ -34,6 +34,7 @@ public:
     void GeoCode(const QString& where, GeoPoint& point, google::protobuf::Closure* callback);
     void ReverseGeoCode(double latitude, double longitude, QString& address, google::protobuf::Closure* callback);
     void QueryRoute(const QString& from, const QString& to, QList<GeoPoint>& route, google::protobuf::Closure* callback);
+    void QueryRoute(const GeoPoint& from, const GeoPoint& to, QList<GeoPoint>& route, google::protobuf::Closure* callback);
     // in the case where we can't locate by cellid, returns false, callback never runs.
     bool LocationByCellID(InaccurateGeoPoint& coord, google::protobuf::Closure* callback);
 

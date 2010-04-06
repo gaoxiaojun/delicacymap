@@ -300,6 +300,15 @@ void MapServices::QueryRoute( const QString& from, const QString& to, QList<GeoP
     results.insert(reply, ret);
 }
 
+void MapServices::QueryRoute(const GeoPoint &from, const GeoPoint &to, QList<GeoPoint> &route, google::protobuf::Closure *callback)
+{
+    QueryRoute(
+            QString("%1,%2").arg(from.lat.getDouble()).arg(from.lng.getDouble()),
+            QString("%1,%2").arg(to.lat.getDouble()).arg(to.lng.getDouble()),
+            route,
+            callback);
+}
+
 bool MapServices::LocationByCellID(InaccurateGeoPoint& coord, google::protobuf::Closure* callback)
 {
     QSystemNetworkInfo ninfo;

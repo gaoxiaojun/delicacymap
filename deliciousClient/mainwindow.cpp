@@ -187,13 +187,13 @@ Session* MainWindow::getSession()
 
 void MainWindow::AddMarkerClicked()
 {
-//     m_ui->btn_quit->hide();
-//     m_ui->btn_addMarker->hide();
-//     m_ui->btn_addMarker_cancel->show();
-//     m_ui->btn_addMarker_confirm->show();
-// 
-//     RestaurantMarkerItem* localmarker = new RestaurantMarkerItem();
-//     navi->addLocalMarker(localmarker);
+     m_ui->btn_quit->hide();
+     m_ui->btn_addMarker->hide();
+     m_ui->btn_addMarker_cancel->show();
+     m_ui->btn_addMarker_confirm->show();
+
+     RestaurantMarkerItem* localmarker = new RestaurantMarkerItem();
+     navi->addLocalMarker(localmarker);
 }
 
 void MainWindow::handleSearchClicked()
@@ -251,7 +251,7 @@ void MainWindow::updateGPSInfo_Used(QList<QGeoSatelliteInfo> satellites)
     m_ui->label_Sat_Used->setText( QString::number(satellites.size()) );
 }
 
-void MainWindow::handleRequestRouting(int uid, const QString& from, const QString& to)
+void MainWindow::handleRequestRouting(int uid, const ProtocolBuffer::LocationEx* from, const ProtocolBuffer::LocationEx* to)
 {
     QMessageBox msgbox;
     QString text = tr("%1 is asking your help to guide him.").arg(QString::fromUtf8(getSession()->getUser(uid)->nickname().c_str()));
@@ -269,7 +269,22 @@ void MainWindow::handleRequestRouting(int uid, const QString& from, const QStrin
         {
             QList<GeoPoint> *result = new QList<GeoPoint>;
             google::protobuf::Closure* closure = google::protobuf::NewCallback(&controller, &MapController::AddEditingRouteInFavorOf, (const QList<GeoPoint>*)result, uid);
-            svc->QueryRoute(from, to, *result, closure);
+            if (from->has_location_st())
+            {
+                svc->QueryRoute(
+                        QString::fromUtf8(from->location_st().c_str(), from->location_st().length()),
+                        QString::fromUtf8(to->location_st().c_str(), to->location_st().length()),
+                        *result,
+                        closure);
+            }
+            else
+            {
+                svc->QueryRoute(
+                        GeoPoint(from->location_geo().latitude(), from->location_geo().longitude()),
+                        GeoPoint(to->location_geo().latitude(), to->location_geo().longitude()),
+                        *result,
+                        closure);
+            }
         }
         break;
     case QMessageBox::Yes:
@@ -288,7 +303,7 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
         RestaurantInfoForm* form = new RestaurantInfoForm();
         form->setRestaurant(res->restaurantInfo());
         form->setSession(getSession());
-        PanelWidget* panel = navi->addBlockingPanel(form, res);
+        navi->addBlockingPanel(form, res);
     }
     else
     {

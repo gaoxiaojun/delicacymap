@@ -178,9 +178,27 @@ void Session::SendRoutingRequest( const QString& from, const QString& to, int us
     msg.set_issystemmessage(true);
     msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
     msg.set_systemmessagetype(ProtocolBuffer::RequestRouting);
-    QString text = from + "|" + to;
-    QByteArray utf8encoded = text.toUtf8();
-    msg.set_buffer( utf8encoded.constData(), utf8encoded.length() );
+    ProtocolBuffer::AreaEx twoLocations;
+    twoLocations.mutable_northeast()->set_location_st(from.toUtf8().constData());
+    twoLocations.mutable_southwest()->set_location_st(to.toUtf8().constData());
+    msg.set_buffer( twoLocations.SerializeAsString() );
+    getDataSource().SendMessage(&msg);
+}
+
+void Session::SendRoutingRequest(const GeoPoint &from, const GeoPoint &to, int user)
+{
+    ProtocolBuffer::DMessage msg;
+    msg.set_fromuser(getUser()->uid());
+    msg.set_touser(user);
+    msg.set_issystemmessage(true);
+    msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer
+    msg.set_systemmessagetype(ProtocolBuffer::RequestRouting);
+    ProtocolBuffer::AreaEx twoLocations;
+    twoLocations.mutable_northeast()->mutable_location_geo()->set_latitude( from.lat.getDouble() );
+    twoLocations.mutable_northeast()->mutable_location_geo()->set_longitude( from.lng.getDouble() );
+    twoLocations.mutable_southwest()->mutable_location_geo()->set_latitude( to.lat.getDouble() );
+    twoLocations.mutable_southwest()->mutable_location_geo()->set_longitude( to.lng.getDouble() );
+    msg.set_buffer( twoLocations.SerializeAsString() );
     getDataSource().SendMessage(&msg);
 }
 
@@ -244,8 +262,8 @@ void Session::UnSubscribeFromRestaurant( int RID )
     msg.set_buffer(queryRID.SerializeAsString());
     getDataSource().SendMessage(&msg);
 }
-}
-//Í¨¹ıĞÕÃû²éÕÒuid.......................Î´Íê³É
+
+//é€šè¿‡å§“åæŸ¥æ‰¾uid.......................æœªå®Œæˆ
 int Session::findByName(string & nickName)
 {
     QMap<int, ProtocolBuffer::User*>::iterator iter;
@@ -254,11 +272,13 @@ int Session::findByName(string & nickName)
     }
     return 0;
 }
+
 void Session::setRelationWith(int uid,UserRelation relation)
 {
     google::protobuf::Closure* closure = google::protobuf::NewCallback(this, &Session::RelationChangeResponse, uid,relation);
     getDataSource().SetUserRelation(getUser()->uid(),uid,relation,closure);
 }
+
 void Session::RelationChangeResponse(int uid,UserRelation relation)
 {
     QMap<int, ProtocolBuffer::User*>::iterator iter;
@@ -270,8 +290,8 @@ void Session::RelationChangeResponse(int uid,UserRelation relation)
     {
     case Friend:
         if(iter==myfriends.end())
-            myfriends.insert(uid, u); //¼ÓÎªºÃÓÑ
-        //·ñÔò£¬ÒÑ¾­ÊÇºÃÓÑ£¬Ê²Ã´¶¼²»×ö
+            myfriends.insert(uid, u); //åŠ ä¸ºå¥½å‹
+        //å¦åˆ™ï¼Œå·²ç»æ˜¯å¥½å‹ï¼Œä»€ä¹ˆéƒ½ä¸åš
         break;
     case BlackList:
         break;
@@ -279,6 +299,7 @@ void Session::RelationChangeResponse(int uid,UserRelation relation)
         break;
     }
 }
+
 void Session::GetUserResponse()
 {
 

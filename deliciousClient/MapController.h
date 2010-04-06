@@ -8,6 +8,7 @@
 QTM_USE_NAMESPACE
 
 namespace ProtocolBuffer{
+    class LocationEx;
     class Restaurant;
     class RestaurantList;
     class CommentList;
@@ -43,7 +44,7 @@ signals:
     void newRestaurantMarker(const ProtocolBuffer::Restaurant*);
     void currentLocationUpdate(GeoPoint);
     void subscriptionArrived(ProtocolBuffer::CommentList*);
-    void SysMsgRequestRouting(int, QString, QString);
+    void SysMsgRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*);
     void SysMsgRoutingReply(int, QList<GeoPoint>);
     void SysMsgUserLocationUpdate(int, GeoPoint);
 

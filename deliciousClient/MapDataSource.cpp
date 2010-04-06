@@ -175,15 +175,14 @@ void MapDataSource::SendMessage( ProtocolBuffer::DMessage* m )
 }
 void MapDataSource::SendMessage(int fromuid,int touid,string message)
 {
-    ProtocolBuffer::DMessage *m=new ProtocolBuffer::DMessage();
-    m->set_msgid(-1);
-    m->set_issystemmessage(false);
-    m->set_text(message);
-    m->set_fromuser(fromuid);
-    m->set_touser(touid);
+    ProtocolBuffer::DMessage m;
+    m.set_msgid(-1);
+    m.set_issystemmessage(false);
+    m.set_text(message);
+    m.set_fromuser(fromuid);
+    m.set_touser(touid);
     
-    this->SendMessage(m);
-    delete m;
+    this->SendMessage(&m);
 }
 void MapDataSource::GetRelatedUsers( ProtocolBuffer::Query *query, ProtocolBuffer::UserList *users, google::protobuf::Closure *done )
 {

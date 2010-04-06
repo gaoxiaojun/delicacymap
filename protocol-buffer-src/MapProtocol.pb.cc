@@ -11,8 +11,10 @@ namespace ProtocolBuffer {
 
 void protobuf_ShutdownFile_MapProtocol_2eproto() {
   delete Location::default_instance_;
+  delete LocationEx::default_instance_;
   delete Route::default_instance_;
   delete Area::default_instance_;
+  delete AreaEx::default_instance_;
   delete Time::default_instance_;
   delete Comment::default_instance_;
   delete Currency::default_instance_;
@@ -35,8 +37,10 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   Location::default_instance_ = new Location();
+  LocationEx::default_instance_ = new LocationEx();
   Route::default_instance_ = new Route();
   Area::default_instance_ = new Area();
+  AreaEx::default_instance_ = new AreaEx();
   Time::default_instance_ = new Time();
   Comment::default_instance_ = new Comment();
   Currency::default_instance_ = new Currency();
@@ -51,8 +55,10 @@ void protobuf_AddDesc_MapProtocol_2eproto() {
   Query::default_instance_ = new Query();
   DMessage::default_instance_ = new DMessage();
   Location::default_instance_->InitAsDefaultInstance();
+  LocationEx::default_instance_->InitAsDefaultInstance();
   Route::default_instance_->InitAsDefaultInstance();
   Area::default_instance_->InitAsDefaultInstance();
+  AreaEx::default_instance_->InitAsDefaultInstance();
   Time::default_instance_->InitAsDefaultInstance();
   Comment::default_instance_->InitAsDefaultInstance();
   Currency::default_instance_->InitAsDefaultInstance();
@@ -282,6 +288,212 @@ void Location::Swap(Location* other) {
 
 ::std::string Location::GetTypeName() const {
   return "ProtocolBuffer.Location";
+}
+
+
+// ===================================================================
+
+const ::std::string LocationEx::_default_location_st_;
+#ifndef _MSC_VER
+const int LocationEx::kLocationGeoFieldNumber;
+const int LocationEx::kLocationStFieldNumber;
+#endif  // !_MSC_VER
+
+LocationEx::LocationEx()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void LocationEx::InitAsDefaultInstance() {
+  location_geo_ = const_cast< ::ProtocolBuffer::Location*>(&::ProtocolBuffer::Location::default_instance());
+}
+
+LocationEx::LocationEx(const LocationEx& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void LocationEx::SharedCtor() {
+  _cached_size_ = 0;
+  location_geo_ = NULL;
+  location_st_ = const_cast< ::std::string*>(&_default_location_st_);
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+LocationEx::~LocationEx() {
+  SharedDtor();
+}
+
+void LocationEx::SharedDtor() {
+  if (location_st_ != &_default_location_st_) {
+    delete location_st_;
+  }
+  if (this != default_instance_) {
+    delete location_geo_;
+  }
+}
+
+void LocationEx::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const LocationEx& LocationEx::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
+}
+
+LocationEx* LocationEx::default_instance_ = NULL;
+
+LocationEx* LocationEx::New() const {
+  return new LocationEx;
+}
+
+void LocationEx::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (_has_bit(0)) {
+      if (location_geo_ != NULL) location_geo_->::ProtocolBuffer::Location::Clear();
+    }
+    if (_has_bit(1)) {
+      if (location_st_ != &_default_location_st_) {
+        location_st_->clear();
+      }
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool LocationEx::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional .ProtocolBuffer.Location Location_Geo = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_location_geo()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_Location_St;
+        break;
+      }
+      
+      // optional string Location_St = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_Location_St:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_location_st()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void LocationEx::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // optional .ProtocolBuffer.Location Location_Geo = 1;
+  if (_has_bit(0)) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      1, this->location_geo(), output);
+  }
+  
+  // optional string Location_St = 2;
+  if (_has_bit(1)) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      2, this->location_st(), output);
+  }
+  
+}
+
+int LocationEx::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // optional .ProtocolBuffer.Location Location_Geo = 1;
+    if (has_location_geo()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->location_geo());
+    }
+    
+    // optional string Location_St = 2;
+    if (has_location_st()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->location_st());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void LocationEx::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const LocationEx*>(&from));
+}
+
+void LocationEx::MergeFrom(const LocationEx& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from._has_bit(0)) {
+      mutable_location_geo()->::ProtocolBuffer::Location::MergeFrom(from.location_geo());
+    }
+    if (from._has_bit(1)) {
+      set_location_st(from.location_st());
+    }
+  }
+}
+
+void LocationEx::CopyFrom(const LocationEx& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool LocationEx::IsInitialized() const {
+  
+  if (has_location_geo()) {
+    if (!this->location_geo().IsInitialized()) return false;
+  }
+  return true;
+}
+
+void LocationEx::Swap(LocationEx* other) {
+  if (other != this) {
+    std::swap(location_geo_, other->location_geo_);
+    std::swap(location_st_, other->location_st_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string LocationEx::GetTypeName() const {
+  return "ProtocolBuffer.LocationEx";
 }
 
 
@@ -642,6 +854,212 @@ void Area::Swap(Area* other) {
 
 ::std::string Area::GetTypeName() const {
   return "ProtocolBuffer.Area";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int AreaEx::kNortheastFieldNumber;
+const int AreaEx::kSouthwestFieldNumber;
+#endif  // !_MSC_VER
+
+AreaEx::AreaEx()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void AreaEx::InitAsDefaultInstance() {
+  northeast_ = const_cast< ::ProtocolBuffer::LocationEx*>(&::ProtocolBuffer::LocationEx::default_instance());
+  southwest_ = const_cast< ::ProtocolBuffer::LocationEx*>(&::ProtocolBuffer::LocationEx::default_instance());
+}
+
+AreaEx::AreaEx(const AreaEx& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void AreaEx::SharedCtor() {
+  _cached_size_ = 0;
+  northeast_ = NULL;
+  southwest_ = NULL;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+AreaEx::~AreaEx() {
+  SharedDtor();
+}
+
+void AreaEx::SharedDtor() {
+  if (this != default_instance_) {
+    delete northeast_;
+    delete southwest_;
+  }
+}
+
+void AreaEx::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const AreaEx& AreaEx::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_MapProtocol_2eproto();  return *default_instance_;
+}
+
+AreaEx* AreaEx::default_instance_ = NULL;
+
+AreaEx* AreaEx::New() const {
+  return new AreaEx;
+}
+
+void AreaEx::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (_has_bit(0)) {
+      if (northeast_ != NULL) northeast_->::ProtocolBuffer::LocationEx::Clear();
+    }
+    if (_has_bit(1)) {
+      if (southwest_ != NULL) southwest_->::ProtocolBuffer::LocationEx::Clear();
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool AreaEx::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required .ProtocolBuffer.LocationEx northeast = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_northeast()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_southwest;
+        break;
+      }
+      
+      // required .ProtocolBuffer.LocationEx southwest = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_southwest:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_southwest()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void AreaEx::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required .ProtocolBuffer.LocationEx northeast = 1;
+  if (_has_bit(0)) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      1, this->northeast(), output);
+  }
+  
+  // required .ProtocolBuffer.LocationEx southwest = 2;
+  if (_has_bit(1)) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      2, this->southwest(), output);
+  }
+  
+}
+
+int AreaEx::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required .ProtocolBuffer.LocationEx northeast = 1;
+    if (has_northeast()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->northeast());
+    }
+    
+    // required .ProtocolBuffer.LocationEx southwest = 2;
+    if (has_southwest()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->southwest());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void AreaEx::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const AreaEx*>(&from));
+}
+
+void AreaEx::MergeFrom(const AreaEx& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from._has_bit(0)) {
+      mutable_northeast()->::ProtocolBuffer::LocationEx::MergeFrom(from.northeast());
+    }
+    if (from._has_bit(1)) {
+      mutable_southwest()->::ProtocolBuffer::LocationEx::MergeFrom(from.southwest());
+    }
+  }
+}
+
+void AreaEx::CopyFrom(const AreaEx& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AreaEx::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  
+  if (has_northeast()) {
+    if (!this->northeast().IsInitialized()) return false;
+  }
+  if (has_southwest()) {
+    if (!this->southwest().IsInitialized()) return false;
+  }
+  return true;
+}
+
+void AreaEx::Swap(AreaEx* other) {
+  if (other != this) {
+    std::swap(northeast_, other->northeast_);
+    std::swap(southwest_, other->southwest_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string AreaEx::GetTypeName() const {
+  return "ProtocolBuffer.AreaEx";
 }
 
 

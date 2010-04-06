@@ -7,6 +7,13 @@
 
 static const int WidgetMargin = 3;
 
+static inline
+void HideWidget(QWidget* widget, bool doHide = true)
+{
+    if (doHide)
+        widget->move(widget->x(), 1000);
+}
+
 RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::RestaurantInfoForm)
@@ -20,16 +27,21 @@ RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     qRegisterMetaType<ProtocolBuffer::CommentList*>("ProtocolBuffer::CommentList*");
     commentsShown = false;
     addShown = false;
-    ui->label_spin->hide();
-    ui->listComment->hide();
-    ui->btnCommit->hide();
-    ui->txtComment->hide();
+    HideWidget(ui->label_spin);
+    HideWidget(ui->listComment);
+    HideWidget(ui->btnCommit);
+    HideWidget(ui->txtComment);
 }
 
 RestaurantInfoForm::~RestaurantInfoForm()
 {
     delete loading;
     delete ui;
+}
+
+QWidget* RestaurantInfoForm::getInputWidget()
+{
+    return ui->txtComment;
 }
 
 void RestaurantInfoForm::setRestaurant(const ProtocolBuffer::Restaurant* info)
@@ -60,9 +72,10 @@ void RestaurantInfoForm::UIAnimation_ShowComments(bool show)
 {
     if (show == commentsShown)
         return;
-    ui->listComment->setVisible(show);
+    HideWidget(ui->listComment, show);
     if (!commentsShown)
     {
+        ui->listComment->move(0, ui->btnShow->geometry().bottom() + WidgetMargin);
         if (!addShown)
         {
             timeline->setFrameRange(this->height(), ui->listComment->geometry().bottom() + WidgetMargin);
@@ -84,6 +97,7 @@ void RestaurantInfoForm::UIAnimation_ShowComments(bool show)
     }
     else
     {
+        HideWidget(ui->listComment);
         if (!addShown)
         {
             timeline->setFrameRange(this->height(), ui->btnAdd->geometry().bottom() + WidgetMargin);
@@ -102,8 +116,8 @@ void RestaurantInfoForm::UIAnimation_ShowAdd(bool show)
 {
     if (show == addShown)
         return;
-    ui->btnCommit->setVisible(show);
-    ui->txtComment->setVisible(show);
+    HideWidget(ui->btnCommit, show);
+    HideWidget(ui->txtComment, show);
     if (!commentsShown)
     {
         if (!addShown)
