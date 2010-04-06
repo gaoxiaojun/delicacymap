@@ -19,6 +19,7 @@ class QPushButton;
 class QTimeLine;
 
 namespace ProtocolBuffer{
+    class LocationEx;
     class DMessage;
     class Restaurant;
     class Comment;
@@ -63,7 +64,7 @@ private slots:
     void updateGPSInfo_Used(QList<QGeoSatelliteInfo>);
     void commentCommited(QList<GeoPoint> *x);
     void commentSuccessed(void);
-    void handleRequestRouting(int, const QString&, const QString&);
+    void handleRequestRouting(int, const ProtocolBuffer::LocationEx* from, const ProtocolBuffer::LocationEx* to);
     void AddMarkerClicked();
 public slots:
     void sendDialog();

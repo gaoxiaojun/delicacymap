@@ -8,6 +8,12 @@ message Location
     required double                                          longitude                   = 2;
 }
 
+message LocationEx
+{
+    optional Location                                        Location_Geo                = 1;
+    optional string                                          Location_St                 = 2;
+}
+
 message Route
 {
     repeated Location                                        WayPoints                   = 1;
@@ -18,6 +24,12 @@ message Area
 {
     required Location                                        northeast                   = 1;
     required Location                                        southwest                   = 2;
+}
+
+message AreaEx
+{
+    required LocationEx                                      northeast                   = 1;
+    required LocationEx                                      southwest                   = 2;
 }
 
 message Time
