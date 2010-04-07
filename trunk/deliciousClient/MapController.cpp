@@ -1,6 +1,7 @@
 #include "MapController.h"
 #include "MapProtocol.pb.h"
 #include "Session.h"
+#include "Configurations.h"
 #include "OfflineMap/MapViewBase.h"
 #include "OfflineMap/MarkerItem.h"
 #include <QGeoPositionInfo>
@@ -74,7 +75,7 @@ void MapController::setMapView( MapViewBase* m )
 void MapController::translateLocationSignal( const QGeoPositionInfo& info )
 {
 //    qDebug()<<"New geo coordinate: lat="<<info.coordinate().latitude()<<"; lng="<<info.coordinate().longitude();
-    GeoPoint location(info.coordinate().latitude() + 0.0014, info.coordinate().longitude() + 0.0065);
+    GeoPoint location(info.coordinate().latitude() + Configurations::Instance().GPSCorrection_Latitude(), info.coordinate().longitude() + Configurations::Instance().GPSCorrection_Longitude());
     emit currentLocationUpdate(location);
 }
 

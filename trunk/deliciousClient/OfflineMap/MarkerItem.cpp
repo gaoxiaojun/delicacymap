@@ -103,7 +103,7 @@ void RestaurantMarkerItem::PromoteToRealMarker(const ProtocolBuffer::Restaurant*
 void UserMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * /* = 0 */ )
 {
     const QPixmap& image = UserIcon();
-    painter->drawPixmap(-image.width()/2, -image.height(), image);
+    painter->drawPixmap(-image.width()/2, -image.height()/2, image);
 }
 
 QRectF UserMarkerItem::boundingRect() const
@@ -114,7 +114,7 @@ QRectF UserMarkerItem::boundingRect() const
 
 const QPixmap& UserMarkerItem::defaultUserIcon()
 {
-    static QPixmap image(":/Icons/arrow.png");
+    static QPixmap image(":/Icons/anonymousUser.png");
     return image;
 }
 

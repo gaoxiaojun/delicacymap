@@ -62,89 +62,69 @@
         <source>Search</source>
         <translation>搜索</translation>
     </message>
-    <message utf8="true">
-        <location filename="mainwindow.ui" line="314"/>
-        <source>菜式收藏</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <location filename="mainwindow.ui" line="319"/>
-        <source>餐厅信息</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <location filename="mainwindow.ui" line="347"/>
-        <source>我要评论</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <location filename="mainwindow.ui" line="386"/>
-        <source>餐厅推荐</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <location filename="mainwindow.ui" line="391"/>
-        <source>近期优惠</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <location filename="mainwindow.ui" line="396"/>
-        <source>我的收藏</source>
+    <message>
+        <location filename="mainwindow.ui" line="357"/>
+        <source>       Chatting With RC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="427"/>
+        <location filename="mainwindow.ui" line="390"/>
+        <source>send</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="414"/>
+        <source>Option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="306"/>
         <source>Satellite In View:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="440"/>
+        <location filename="mainwindow.ui" line="319"/>
         <source>Satellite Used:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="480"/>
-        <source>Quit</source>
-        <translation>退出</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="493"/>
+        <location filename="mainwindow.ui" line="446"/>
         <source>Add marker</source>
         <translation>添加位置</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="556"/>
-        <location filename="mainwindow.ui" line="559"/>
+        <location filename="mainwindow.ui" line="509"/>
+        <location filename="mainwindow.ui" line="512"/>
         <source>Commit</source>
         <translation type="unfinished">提交</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="562"/>
+        <location filename="mainwindow.ui" line="515"/>
         <source>Ctrl+Return</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="240"/>
+        <location filename="mainwindow.cpp" line="257"/>
         <source>%1 is asking your help to guide him.</source>
         <translation>%1希望请你帮助他指引一条路径.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="318"/>
+        <location filename="mainwindow.cpp" line="349"/>
         <source>Do you want to continue? Coninueing will discard this marker.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="319"/>
+        <location filename="mainwindow.cpp" line="350"/>
         <source>Restautant without a name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="354"/>
+        <location filename="mainwindow.cpp" line="385"/>
         <source>Do you want to discard all previous work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="355"/>
+        <location filename="mainwindow.cpp" line="386"/>
         <source>Unsaved local markers.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -152,7 +132,7 @@
 <context>
     <name>MapController</name>
     <message>
-        <location filename="MapController.cpp" line="142"/>
+        <location filename="MapController.cpp" line="151"/>
         <source>Do you want to send this route back to %1?</source>
         <oldsource>Do you want to send this route back to %1?.</oldsource>
         <translation>你希望把导航的结果返回给%1吗?</translation>
@@ -176,7 +156,7 @@
         <translation>添加评论</translation>
     </message>
     <message>
-        <location filename="RestaurantInfoForm.ui" line="139"/>
+        <location filename="RestaurantInfoForm.ui" line="129"/>
         <source>Commit</source>
         <translation>提交</translation>
     </message>
