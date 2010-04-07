@@ -18,6 +18,8 @@ void Configurations::ReloadConfigs()
     address = "127.0.0.1";
     autologin = false;
     mappath = "tiles.map";
+    gps_lat = 0.;
+    gps_long = 0.;
 
     try{
         doc.LoadFile("configs.xml");
@@ -36,6 +38,16 @@ void Configurations::ReloadConfigs()
             this->login_usr = username->GetTextOrDefault(this->login_usr);
             ticpp::Element* password = autologin->FirstChildElement("password");
             this->login_pwd = password->GetTextOrDefault(this->login_pwd);
+        }
+
+        ticpp::Element* location = deliciousClient->FirstChildElement("location");
+        if (location)
+        {
+            ticpp::Element* gps = location->FirstChildElement("gps");
+            if (gps)
+            {
+                ticpp::Element* correction = gps->FirstChildElement("correction");
+            }
         }
 
     }catch (ticpp::Exception &e)

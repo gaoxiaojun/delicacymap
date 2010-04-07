@@ -7,6 +7,7 @@
 #include "MapProtocol.pb.h"
 #include "RestaurantInfoForm.h"
 #include "SearchResultForm.h"
+#include "Configurations.h"
 #include "OfflineMap/MarkerItem.h"
 #include "OfflineMap/MapViewBase.h"
 #include "OfflineMap/MapDecorators.h"
@@ -57,11 +58,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 //     navi->appendDecorator(coordsDecorator);
 
     imageCache.setDownloader(&downloader);
-#if _WIN32_WCE
-    imageCache.setCacheDBPath("/Storage Card/tiles.map");
-#else
-    imageCache.setCacheDBPath("tiles.map");
-#endif
+    imageCache.setCacheDBPath(QString::fromUtf8(Configurations::Instance().MapPath().c_str()));
     btn_zoomIn = new QPushButton(QIcon(":/Icons/zoomin.png"), "", navi);
     btn_zoomIn->setGeometry(8, 8, 64, 64);
     btn_zoomIn->setIconSize(QSize(64, 64));

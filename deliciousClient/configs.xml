@@ -9,6 +9,11 @@
         <address>192.168.0.199</address>
         <port>24000</port>
     </server>
+    <location>
+        <gps>
+            <correction latitude="0.001" longitude="0.005" />
+        </gps>
+    </location>
     <mapview>
         <smoothscroll>true</smoothscroll>
         <followselfmarker>true</followselfmarker>

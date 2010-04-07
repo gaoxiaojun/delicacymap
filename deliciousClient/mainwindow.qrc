@@ -20,5 +20,6 @@
         <file alias="confirm.png">Resources/png-0644.png</file>
         <file alias="black.png">Resources/black.png</file>
         <file alias="gps.png">Resources/image/png-0700.png</file>
+        <file alias="anonymousUser.png">Resources/icon57.4.png</file>
     </qresource>
 </RCC>

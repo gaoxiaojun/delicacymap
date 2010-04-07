@@ -16,11 +16,15 @@ public:
     const std::string& AutoLogin_Password() const { return login_pwd; }
     const std::string& MapPath() const { return mappath; };
 
+    double GPSCorrection_Latitude() const { return gps_lat; };
+    double GPSCorrection_Longitude() const { return gps_long; };
+
 private:
     Configurations(void);
 
     void ReloadConfigs();
 
+    double gps_lat, gps_long;
     std::string address, login_usr, login_pwd, mappath;
     int port;
     bool autologin;
