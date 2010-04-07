@@ -15,6 +15,7 @@
         </gps>
     </location>
     <mapview>
+        <datapath>tiles.map</datapath>
         <smoothscroll>true</smoothscroll>
         <followselfmarker>true</followselfmarker>
     </mapview>
