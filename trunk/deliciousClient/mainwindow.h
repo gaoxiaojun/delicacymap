@@ -9,7 +9,6 @@
 #include "OfflineMap/Downloader.h"
 #include "MapController.h"
 
-#define maxlisting 40
 class Session;
 class GeoBound;
 class MapServices;
@@ -17,6 +16,7 @@ class MapViewBase;
 class MapController;
 class QPushButton;
 class QTimeLine;
+class QMenu;
 
 namespace ProtocolBuffer{
     class LocationEx;
@@ -28,8 +28,6 @@ namespace ProtocolBuffer{
     class User;
     class SearchResult;
 }
-struct showRestaurant;
-struct commentAnduser;
 
 namespace Ui {
     class MainWindow;
@@ -66,16 +64,19 @@ private slots:
     void commentSuccessed(void);
     void handleRequestRouting(int, const ProtocolBuffer::LocationEx* from, const ProtocolBuffer::LocationEx* to);
     void AddMarkerClicked();
-public slots:
+    void showSystemMenu();
+
     void sendDialog();
     void dialogwith(int);
     void HandleUserMessage(const ProtocolBuffer::DMessage* );
 private:
     void searchResponse(ProtocolBuffer::SearchResult*);
+    void createMenu();
     
 private:
     QTimeLine *pan_Btn_timeline;
     Ui::MainWindow *m_ui;
+    QMenu* mainMenu;
     MapViewBase *navi;
     MapServices *svc;
     QPushButton *btn_zoomIn, *btn_zoomOut;
@@ -83,7 +84,6 @@ private:
     ImageCache imageCache;
     Downloader downloader;
     Session *session;
-    showRestaurant * showrestaurant;
 };
 
 #endif // MAINWINDOW_H

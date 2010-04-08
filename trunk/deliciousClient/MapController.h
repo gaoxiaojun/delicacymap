@@ -42,6 +42,7 @@ public:
 
 signals:
     void newRestaurantMarker(const ProtocolBuffer::Restaurant*);
+    void currentLocationUpdate(InaccurateGeoPoint);
     void currentLocationUpdate(GeoPoint);
     void subscriptionArrived(ProtocolBuffer::CommentList*);
     void SysMsgRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*);

@@ -123,10 +123,45 @@ const QPixmap& UserMarkerItem::UserIcon() const
     return defaultUserIcon();
 }
 
+SelfMarkerItem::SelfMarkerItem()
+{
+    radius = 0.;
+    accuracy = 0;
+}
+
 const QPixmap& SelfMarkerItem::UserIcon() const
 {
     static QPixmap image(":/Icons/selfMarker.png");
     return image;
+}
+
+void SelfMarkerItem::setInaccuratePosition( const InaccurateGeoPoint& p )
+{
+    setPos(p.p);
+    if (accuracy != p.accuracy)
+    {
+        this->accuracy = p.accuracy;
+        radius = p.accuracy * (1<<(CoordsHelper::TilePower2+getZoom())) / cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137;
+        //     double resolution = cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137 / 1<<(CoordsHelper::TilePower2+getZoom());
+        //     radius = p.accuracy / resolution;
+    }
+}
+
+void SelfMarkerItem::setZoom( int zoom )
+{
+    UserMarkerItem::setZoom(zoom);
+    radius = accuracy * (1<<(CoordsHelper::TilePower2+getZoom())) / cos(getPos().lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137;
+}
+
+void SelfMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )
+{
+    UserMarkerItem::paint(painter, option, widget);
+    if (radius)
+    {
+        painter->setPen(QColor(0, 0, 255, 160));
+        painter->setBrush(QBrush(QColor(0, 0, 255, 100)));
+        painter->drawEllipse(this->pos(), radius, radius);
+    }
 }
 
 PanelWidget::PanelWidget(MapViewBase *map, QGraphicsItem* parent, Qt::WindowFlags wFlags)

@@ -75,8 +75,15 @@ void MapController::setMapView( MapViewBase* m )
 void MapController::translateLocationSignal( const QGeoPositionInfo& info )
 {
 //    qDebug()<<"New geo coordinate: lat="<<info.coordinate().latitude()<<"; lng="<<info.coordinate().longitude();
-    GeoPoint location(info.coordinate().latitude() + Configurations::Instance().GPSCorrection_Latitude(), info.coordinate().longitude() + Configurations::Instance().GPSCorrection_Longitude());
-    emit currentLocationUpdate(location);
+    if (info.isValid())
+    {
+        GeoPoint location(info.coordinate().latitude() + Configurations::Instance().GPSCorrection_Latitude(), info.coordinate().longitude() + Configurations::Instance().GPSCorrection_Longitude());
+        InaccurateGeoPoint inaccurate;
+        inaccurate.p = location;
+        inaccurate.accuracy = info.hasAttribute( QGeoPositionInfo::HorizontalAccuracy) ? info.attribute(QGeoPositionInfo::HorizontalAccuracy) : 0;
+        emit currentLocationUpdate(location);
+        emit currentLocationUpdate(inaccurate);
+    }
 }
 
 void MapController::HandleSystemMessages( const ProtocolBuffer::DMessage* msg )

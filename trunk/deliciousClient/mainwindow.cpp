@@ -13,7 +13,7 @@
 #include "OfflineMap/MapDecorators.h"
 #include "OfflineMap/MapServices.h"
 #include "OfflineMap/GeoCoord.h"
-#include <QMenuBar>
+#include <QMenu>
 #include <QMessageBox>
 #include <QDebug>
 #include <QGeoPositionInfo>
@@ -25,24 +25,13 @@
 using namespace ProtocolBuffer;
 QTM_USE_NAMESPACE
 
-struct commentAnduser
-{
-    ProtocolBuffer::Comment comment;
-    ProtocolBuffer::User user;
-};
-struct showRestaurant
-{
-    ProtocolBuffer::Restaurant restaurant;
-    int n;
-    commentAnduser commentanduser[maxlisting];
-};
-
 MainWindow::MainWindow(Session *s, QWidget *parent) :
     QMainWindow(parent),
     m_ui(new Ui::MainWindow),
     session(NULL)
 {
     m_ui->setupUi(this);
+    createMenu();
 
     navi = new MapViewBase;
     navi->setDecorator(new MoveDecorator(navi, true));
@@ -69,7 +58,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     btn_zoomOut->setFlat(true);
     controller.setMapView(navi);
 
-    connect(m_ui->btn_quit, SIGNAL(clicked()), SLOT(close()));
+    connect(m_ui->btn_menu, SIGNAL(clicked()), SLOT(showSystemMenu()));
     connect(m_ui->btn_addMarker, SIGNAL(clicked()), SLOT(AddMarkerClicked()));
     connect(m_ui->btn_addMarker_confirm, SIGNAL(clicked()), SLOT(handleBtnConfirmClicked()));
     connect(m_ui->btn_addMarker_cancel, SIGNAL(clicked()), SLOT(handleBtnCancelClicked()));
@@ -86,8 +75,8 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(navi,SIGNAL(restaurantMarkerClicked(RestaurantMarkerItem*)),SLOT(RestaurantMarkerResponse(RestaurantMarkerItem*)));
     connect(m_ui->sendButton,SIGNAL(clicked()),this,SLOT(sendDialog()));
     connect(m_ui->FriendlistWidget,SIGNAL(currentRowChanged(int)),this,SLOT(dialogwith(int)));
-    connect(&controller, SIGNAL(currentLocationUpdate(GeoPoint)), navi, SLOT(setSelfLocation(const GeoPoint&)));
-    connect(&controller, SIGNAL(SysMsgRequestRouting(int, QString, QString)), this, SLOT(handleRequestRouting(int, const QString&, const QString&)));
+    connect(&controller, SIGNAL(currentLocationUpdate(InaccurateGeoPoint)), navi, SLOT(setSelfLocation(const InaccurateGeoPoint&)));
+    connect(&controller, SIGNAL(SysMsgRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*)), this, SLOT(handleRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*)));
     connect(&controller, SIGNAL(SysMsgUserLocationUpdate(int, GeoPoint)), navi, SLOT(updateUserLocation(int, const GeoPoint&)));
     QGeoSatelliteInfoSource* src = controller.getSatelliteInfoSource();
     if (src)
@@ -127,6 +116,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete mainMenu;
     delete navi;
     delete m_ui;
     delete svc;
@@ -142,6 +132,14 @@ void MainWindow::changeEvent(QEvent *e)
         QMainWindow::changeEvent(e);
         break;
     }
+}
+
+void MainWindow::createMenu()
+{
+    mainMenu = new QMenu();
+    mainMenu->setStyleSheet("");
+    mainMenu->addSeparator();
+    mainMenu->addAction(tr("Quit"), this, SLOT(close()));
 }
 
 void MainWindow::BTHFind()
@@ -184,7 +182,6 @@ Session* MainWindow::getSession()
 
 void MainWindow::AddMarkerClicked()
 {
-     m_ui->btn_quit->hide();
      m_ui->btn_addMarker->hide();
      m_ui->btn_addMarker_cancel->show();
      m_ui->btn_addMarker_confirm->show();
@@ -366,7 +363,6 @@ void MainWindow::handleBtnConfirmClicked()
     }
     if (!navi->hasLocalMarker())
     {
-        m_ui->btn_quit->show();
         m_ui->btn_addMarker->show();
         m_ui->btn_addMarker_confirm->hide();
         m_ui->btn_addMarker_cancel->hide();
@@ -399,7 +395,6 @@ void MainWindow::handleBtnCancelClicked()
             return;
         }
     }
-    m_ui->btn_quit->show();
     m_ui->btn_addMarker->show();
     m_ui->btn_addMarker_confirm->hide();
     m_ui->btn_addMarker_cancel->hide();
@@ -507,8 +502,11 @@ void MainWindow::HandleUserMessage(const ProtocolBuffer::DMessage* m)
                 this->m_ui->FriendlistWidget->currentItem()->setData(Qt::AccessibleTextRole,old);
             
             }
-
         }
-        
     }
+}
+
+void MainWindow::showSystemMenu()
+{
+    mainMenu->popup(this->mapToGlobal(m_ui->btn_menu->geometry().topLeft() - QPoint(0, mainMenu->sizeHint().height() + 3)));
 }
