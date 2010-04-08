@@ -99,6 +99,13 @@ void Session::UserLocationUpdate( const GeoPoint& p )
         infotoupdate->CopyFrom(*user);
         updatedone = google::protobuf::NewPermanentCallback(this, &Session::UpdatedUserInfo);
     }
+    //check if we actually need to update
+    if (infotoupdate->has_lastlocation() && 
+        abs(infotoupdate->lastlocation().latitude() - p.lat.getDouble()) < 0.0003 &&
+        abs(infotoupdate->lastlocation().longitude() - p.lng.getDouble()) < 0.0003)
+    {
+        return;
+    }
     if (!timer.isActive())
     {
         timer.start(30000, this);

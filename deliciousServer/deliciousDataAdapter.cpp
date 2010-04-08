@@ -450,12 +450,17 @@ const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows, const st
         {
             for (size_t j=0;j<row.ColumnModified().size();j++)
             {
-                query += "SET " + rows.getResult()->ColumnName(j) + "= '" + row.GetValueAs<string>(j) + "', ";
+                size_t modified_Col = row.ColumnModified()[j];
+                //hack: special case datetime("now")
+                if (row.GetValueAs<string>(modified_Col) == "datetime(\"now\")")
+                    query += rows.getResult()->ColumnName(modified_Col) + "=" + row.GetValueAs<string>(modified_Col) + ", ";
+                else
+                    query += rows.getResult()->ColumnName(modified_Col) + "= '" + row.GetValueAs<string>(modified_Col) + "', ";
             }
 
             query.erase(query.size()-2);
 
-            query = "UPDATE " + table + query + "WHERE " + primarykey + " = " + row.GetValueAs<string>(primarykey);
+            query = ("UPDATE " + table + " SET ") + query + (" WHERE " + primarykey + " = " + row.GetValueAs<string>(primarykey));
             dbconn->Execute(query);
         }
     }
