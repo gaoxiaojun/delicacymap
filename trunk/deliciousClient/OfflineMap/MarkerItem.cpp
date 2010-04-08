@@ -9,6 +9,7 @@
 #include <QStyleOptionButton>
 #include <QWidget>
 #include <QPushButton>
+#include <QDebug>
 #include <boost/foreach.hpp>
 
 void ZoomSensitiveItem::setZoom( int zoom )
@@ -142,6 +143,7 @@ void SelfMarkerItem::setInaccuratePosition( const InaccurateGeoPoint& p )
     {
         this->accuracy = p.accuracy;
         radius = p.accuracy * (1<<(CoordsHelper::TilePower2+getZoom())) / cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137;
+        qDebug()<<"Radius(setInaccuratePosition) = "<<radius;
         this->prepareGeometryChange();
         //     double resolution = cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137 / 1<<(CoordsHelper::TilePower2+getZoom());
         //     radius = p.accuracy / resolution;
@@ -159,14 +161,16 @@ void SelfMarkerItem::setZoom( int zoom )
 {
     UserMarkerItem::setZoom(zoom);
     radius = accuracy * (1<<(CoordsHelper::TilePower2+getZoom())) / cos(getPos().lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137;
+    qDebug()<<"Radius(setZoom) = "<<radius;
     this->prepareGeometryChange();
 }
 
 void SelfMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
     UserMarkerItem::paint(painter, option, widget);
-    if (radius)
+    if (radius > 0)
     {
+        qDebug()<<"Radius(paint) = "<<radius;
         painter->setPen(QColor(0, 0, 255, 160));
         painter->setBrush(QBrush(QColor(0, 0, 255, 100)));
         painter->drawEllipse(this->pos(), radius, radius);

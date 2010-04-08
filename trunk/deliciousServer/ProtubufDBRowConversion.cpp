@@ -25,7 +25,7 @@ bool ProtubufDBRowConversion::Convert( const ::ProtocolBuffer::User& from, DBRow
     {
         to["LastLatitude"] = from.lastlocation().latitude();
         to["LastLongitude"] = from.lastlocation().longitude();
-        to["LastUpdatePosition"] = "datetime('now')";  //cheat: let the db get the time
+        to["LastUpdatePosition"] = "datetime(\"now\")";  //cheat: let the db get the time
     }
 
     return true;
