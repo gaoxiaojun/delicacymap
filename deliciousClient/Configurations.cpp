@@ -20,6 +20,7 @@ void Configurations::ReloadConfigs()
     mappath = "tiles.map";
     gps_lat = 0.;
     gps_long = 0.;
+    smooth_pan = true;
 
     try{
         doc.LoadFile("configs.xml");
@@ -31,7 +32,7 @@ void Configurations::ReloadConfigs()
         this->address = address->GetTextOrDefault(this->address);
         port->FirstChild()->GetValue(&this->port);
         ticpp::Element* autologin = deliciousClient->FirstChildElement("autologin");
-        this->autologin = autologin->GetAttribute<bool>("enabled");
+        this->autologin = autologin->GetAttribute<bool>("enabled", false);
         if (this->autologin)
         {
             ticpp::Element* username = autologin->FirstChildElement("username");
@@ -47,6 +48,23 @@ void Configurations::ReloadConfigs()
             if (gps)
             {
                 ticpp::Element* correction = gps->FirstChildElement("correction");
+                correction->GetAttribute("latitude", &gps_lat, false);
+                correction->GetAttribute("longitude", &gps_long, false);
+            }
+        }
+
+        ticpp::Element* mapview = deliciousClient->FirstChildElement("mapview");
+        if (mapview)
+        {
+            ticpp::Element* smoothpan = mapview->FirstChildElement("smoothscroll");
+            if (smoothpan)
+            {
+                smoothpan->GetTextOrDefault(&smooth_pan, smooth_pan);
+            }
+            ticpp::Element* datapath = mapview->FirstChildElement("datapath");
+            if (datapath)
+            {
+                mappath = datapath->GetTextOrDefault(mappath);
             }
         }
 

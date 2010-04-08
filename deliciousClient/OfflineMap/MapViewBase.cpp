@@ -473,7 +473,7 @@ RouteItem* MapViewBase::addRoute( const QList<GeoPoint>& p, int user )
     return item;
 }
 
-void MapViewBase::setSelfLocation( const GeoPoint& coord )
+void MapViewBase::setSelfLocation( const InaccurateGeoPoint& coord )
 {
     if (!self)
     {
@@ -481,7 +481,7 @@ void MapViewBase::setSelfLocation( const GeoPoint& coord )
         self->setZoom(zoomLevel);
         scene->addItem(self);
     }
-    self->setPos(coord);
+    self->setInaccuratePosition(coord);
 }
 
 void MapViewBase::updateUserLocation( int uid, const GeoPoint& coord )

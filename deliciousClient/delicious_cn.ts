@@ -70,22 +70,22 @@
     <message>
         <location filename="mainwindow.ui" line="390"/>
         <source>send</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="414"/>
-        <source>Option</source>
-        <translation type="unfinished"></translation>
+        <translation>发送</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="306"/>
         <source>Satellite In View:</source>
-        <translation type="unfinished"></translation>
+        <translation>可见卫星：</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="319"/>
         <source>Satellite Used:</source>
-        <translation type="unfinished"></translation>
+        <translation>连接卫星数：</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="414"/>
+        <source>Menu</source>
+        <translation>菜单</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="446"/>
@@ -104,35 +104,40 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="257"/>
+        <location filename="mainwindow.cpp" line="142"/>
+        <source>Quit</source>
+        <translation>退出</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="251"/>
         <source>%1 is asking your help to guide him.</source>
         <translation>%1希望请你帮助他指引一条路径.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="349"/>
+        <location filename="mainwindow.cpp" line="343"/>
         <source>Do you want to continue? Coninueing will discard this marker.</source>
-        <translation type="unfinished"></translation>
+        <translation>确定要继续并吗？此餐厅的信息将丢失。</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="350"/>
+        <location filename="mainwindow.cpp" line="344"/>
         <source>Restautant without a name</source>
-        <translation type="unfinished"></translation>
+        <translation>未命名的餐厅</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="385"/>
+        <location filename="mainwindow.cpp" line="378"/>
         <source>Do you want to discard all previous work?</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要丢弃未保存的兴趣点信息？</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="386"/>
+        <location filename="mainwindow.cpp" line="379"/>
         <source>Unsaved local markers.</source>
-        <translation type="unfinished"></translation>
+        <translation>未提交的兴趣点！</translation>
     </message>
 </context>
 <context>
     <name>MapController</name>
     <message>
-        <location filename="MapController.cpp" line="151"/>
+        <location filename="MapController.cpp" line="158"/>
         <source>Do you want to send this route back to %1?</source>
         <oldsource>Do you want to send this route back to %1?.</oldsource>
         <translation>你希望把导航的结果返回给%1吗?</translation>

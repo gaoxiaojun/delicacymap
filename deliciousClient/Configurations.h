@@ -19,6 +19,8 @@ public:
     double GPSCorrection_Latitude() const { return gps_lat; };
     double GPSCorrection_Longitude() const { return gps_long; };
 
+    bool SmoothPan() const { return smooth_pan; }
+
 private:
     Configurations(void);
 
@@ -28,6 +30,7 @@ private:
     std::string address, login_usr, login_pwd, mappath;
     int port;
     bool autologin;
+    bool smooth_pan;
 
     static Configurations _config;
 };

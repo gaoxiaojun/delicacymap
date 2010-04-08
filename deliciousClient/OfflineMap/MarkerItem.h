@@ -134,7 +134,13 @@ class SelfMarkerItem : public UserMarkerItem
 {
 public:
     enum { Type = ZoomSensitiveItem::Type + 4 };
+    SelfMarkerItem();
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
+    void setZoom(int zoom);
     int type() const { return Type; }
+    void setInaccuratePosition(const InaccurateGeoPoint&);
 protected:
     const QPixmap& UserIcon() const;
+    int accuracy;
+    qreal radius;
 };
