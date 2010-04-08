@@ -142,15 +142,24 @@ void SelfMarkerItem::setInaccuratePosition( const InaccurateGeoPoint& p )
     {
         this->accuracy = p.accuracy;
         radius = p.accuracy * (1<<(CoordsHelper::TilePower2+getZoom())) / cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137;
+        this->prepareGeometryChange();
         //     double resolution = cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137 / 1<<(CoordsHelper::TilePower2+getZoom());
         //     radius = p.accuracy / resolution;
     }
+}
+
+QRectF SelfMarkerItem::boundingRect() const
+{
+    qreal actual_Rx = std::max((qreal)UserIcon().width()/2, radius);
+    qreal actual_Ry = std::max((qreal)UserIcon().height()/2, radius);
+    return QRectF(-actual_Rx, -actual_Ry, actual_Rx*2, actual_Ry*2);
 }
 
 void SelfMarkerItem::setZoom( int zoom )
 {
     UserMarkerItem::setZoom(zoom);
     radius = accuracy * (1<<(CoordsHelper::TilePower2+getZoom())) / cos(getPos().lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137;
+    this->prepareGeometryChange();
 }
 
 void SelfMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )
