@@ -136,6 +136,7 @@ public:
     enum { Type = ZoomSensitiveItem::Type + 4 };
     SelfMarkerItem();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
+    QRectF boundingRect() const;
     void setZoom(int zoom);
     int type() const { return Type; }
     void setInaccuratePosition(const InaccurateGeoPoint&);
