@@ -304,6 +304,11 @@ void MapViewBase::centerOn(int x, int y)
     xCenter = x;
     yCenter = y;
     adjustCenter();
+    if (!tipPanels.empty() && tipPanels.front()->isShown())
+    {
+        TipPanel *p = tipPanels.front();
+        p->setPos(this->exposedView().bottomRight() - QPoint(p->size().width(), p->size().height()) - QPoint(3, 3));
+    }
     QGraphicsView::centerOn(xCenter, yCenter);
 }
 
@@ -511,6 +516,31 @@ PanelWidget* MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* ba
     this->ensureVisible(proxy);
     scene->addItem(proxy);
     return proxy;
+}
+
+void MapViewBase::showTip(QWidget *w)
+{
+    TipPanel *newpanel = new TipPanel(this);
+    connect(newpanel, SIGNAL(destroyed()), SLOT(removeCurrentTip()));
+    newpanel->setWidget(w);
+    tipPanels.push_back(newpanel);
+    showNextTip();
+}
+
+void MapViewBase::removeCurrentTip()
+{
+    tipPanels.pop_front();
+    showNextTip();
+}
+
+void MapViewBase::showNextTip()
+{
+    if (!tipPanels.empty() && !tipPanels.front()->isShown())
+    {
+        tipPanels.front()->showTip();
+        tipPanels.front()->setZValue(1);
+        scene->addItem(tipPanels.front());
+    }
 }
 
 void MapViewBase::removeItem( ZoomSensitiveItem* item )

@@ -18,6 +18,7 @@ class ZoomSensitiveItem;
 class RestaurantMarkerItem;
 class UserMarkerItem;
 class PanelWidget;
+class TipPanel;
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -41,6 +42,7 @@ public:
     bool isLocked() { return mapIsLocked; }
     // if balloonOn is NULL, the panel is placed in the center
     PanelWidget* addBlockingPanel(QWidget*, ZoomSensitiveItem* balloonOn = NULL);
+    void showTip(QWidget*);
     void removeItem(ZoomSensitiveItem*);
     void addLocalMarker(ZoomSensitiveItem*);
     void removeFromLocal(ZoomSensitiveItem*);
@@ -106,6 +108,8 @@ protected:
     void remapMarkers(int oldzoomlevel, int newzoomlevel);
 
 private slots:
+    void removeCurrentTip();
+    void showNextTip();
     void panMapXhandler(qreal);
     void panMapStateChange(QTimeLine::State);
 
@@ -119,6 +123,7 @@ private:
     GeoBound currentBound;
     QList<ZoomSensitiveItem*> localItems;
     QMap<int, UserMarkerItem*> users;
+    QList<TipPanel*> tipPanels;
     bool mapIsLocked;
 };
 

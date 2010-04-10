@@ -4,6 +4,7 @@
 #include "QNetworkConfiguration"
 #include "QNetworkConfigurationManager"
 
+#include <math.h>
 #include <QTimerEvent>
 #include <boost/foreach.hpp>
 
@@ -101,8 +102,8 @@ void Session::UserLocationUpdate( const GeoPoint& p )
     }
     //check if we actually need to update
     if (infotoupdate->has_lastlocation() && 
-        abs(infotoupdate->lastlocation().latitude() - p.lat.getDouble()) < 0.0003 &&
-        abs(infotoupdate->lastlocation().longitude() - p.lng.getDouble()) < 0.0003)
+        fabs(infotoupdate->lastlocation().latitude() - p.lat.getDouble()) < 0.0003 &&
+        fabs(infotoupdate->lastlocation().longitude() - p.lng.getDouble()) < 0.0003)
     {
         return;
     }

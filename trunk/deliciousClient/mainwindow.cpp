@@ -33,7 +33,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     m_ui->setupUi(this);
     createMenu();
 
-    navi = new MapViewBase;
+    navi = new MapViewBase(this);
     navi->setDecorator(new MoveDecorator(navi, true));
     navi->setCache(&imageCache);
     navi->insertDecorator(new ZoomDecorator(navi));
@@ -76,6 +76,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(m_ui->sendButton,SIGNAL(clicked()),this,SLOT(sendDialog()));
     connect(m_ui->FriendlistWidget,SIGNAL(currentRowChanged(int)),this,SLOT(dialogwith(int)));
     connect(&controller, SIGNAL(currentLocationUpdate(InaccurateGeoPoint)), navi, SLOT(setSelfLocation(const InaccurateGeoPoint&)));
+    connect(&controller, SIGNAL(subscriptionArrived(const ProtocolBuffer::CommentList*)), this, SLOT(showSubscriptionTip(const ProtocolBuffer::CommentList*)));
     connect(&controller, SIGNAL(SysMsgRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*)), this, SLOT(handleRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*)));
     connect(&controller, SIGNAL(SysMsgUserLocationUpdate(int, GeoPoint)), navi, SLOT(updateUserLocation(int, const GeoPoint&)));
     QGeoSatelliteInfoSource* src = controller.getSatelliteInfoSource();
@@ -117,7 +118,6 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete mainMenu;
-    delete navi;
     delete m_ui;
     delete svc;
 }
@@ -182,12 +182,12 @@ Session* MainWindow::getSession()
 
 void MainWindow::AddMarkerClicked()
 {
-     m_ui->btn_addMarker->hide();
-     m_ui->btn_addMarker_cancel->show();
-     m_ui->btn_addMarker_confirm->show();
+    m_ui->btn_addMarker->hide();
+    m_ui->btn_addMarker_cancel->show();
+    m_ui->btn_addMarker_confirm->show();
 
-     RestaurantMarkerItem* localmarker = new RestaurantMarkerItem();
-     navi->addLocalMarker(localmarker);
+    RestaurantMarkerItem* localmarker = new RestaurantMarkerItem();
+    navi->addLocalMarker(localmarker);
 }
 
 void MainWindow::handleSearchClicked()
@@ -509,4 +509,50 @@ void MainWindow::HandleUserMessage(const ProtocolBuffer::DMessage* m)
 void MainWindow::showSystemMenu()
 {
     mainMenu->popup(this->mapToGlobal(m_ui->btn_menu->geometry().topLeft() - QPoint(0, mainMenu->sizeHint().height() + 3)));
+}
+
+void MainWindow::showSubscriptionTip(const ProtocolBuffer::CommentList *list)
+{
+    static const QString commentTemplate = tr("<a href='user_click#%3'>%1</a> has posted a new comment on <a href='restaurant_click#%4'>%2</a>.");
+    static const QString commentTemplateOnlyUser = tr("<a href='user_click#%2'>%1</a> has posted a new comment.");
+    static const QString commentTemplateOnlyRestaurant = tr("<a href='restaurant_click#%2'>%1</a> has a new comment.");
+
+    for (int i=0;i<list->comments_size();++i)
+    {
+        const ProtocolBuffer::Comment& c = list->comments(i);
+        if (c.has_restaurantinfo())
+        {
+            navi->addRestaurantMarker(&c.restaurantinfo());
+        }
+        QString text;
+        if (c.has_userinfo() && c.has_restaurantinfo())
+            text = commentTemplate.arg(QString::fromUtf8(c.userinfo().nickname().c_str()), QString::fromUtf8(c.restaurantinfo().name().c_str())).arg(c.uid()).arg(c.rid());
+        else if (c.has_userinfo())
+            text = commentTemplateOnlyUser.arg(QString::fromUtf8(c.userinfo().nickname().c_str())).arg(c.uid());
+        else if (c.has_restaurantinfo())
+            text = commentTemplateOnlyRestaurant.arg(QString::fromUtf8(c.restaurantinfo().name().c_str())).arg(c.rid());
+
+        if (text.length() > 0)
+        {
+           QLabel *label = new QLabel(text);
+           connect(label, SIGNAL(linkActivated(QString)), this, SLOT(findCommentByLink(QString)));
+           navi->showTip(label);
+        }
+    }
+    delete list;
+}
+
+void MainWindow::findCommentByLink(const QString &link)
+{
+    QLabel* source = static_cast<QLabel*>(sender());
+    Q_ASSERT(source);
+    if (link.startsWith("restaurant_click#"))
+    {
+        int rid = link.mid(link.indexOf('#') + 1).toInt();
+        navi->centerOn(navi->getRestaurantMarker(rid)); //guaranteed to exist.
+    }
+    else if (link.startsWith("user_click#"))
+    {
+        int uid = link.mid(link.indexOf('#') + 1).toInt();
+    }
 }

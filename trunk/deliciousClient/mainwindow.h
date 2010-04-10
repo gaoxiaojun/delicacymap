@@ -65,6 +65,8 @@ private slots:
     void handleRequestRouting(int, const ProtocolBuffer::LocationEx* from, const ProtocolBuffer::LocationEx* to);
     void AddMarkerClicked();
     void showSystemMenu();
+    void showSubscriptionTip(const ProtocolBuffer::CommentList*);
+    void findCommentByLink(const QString&);
 
     void sendDialog();
     void dialogwith(int);
