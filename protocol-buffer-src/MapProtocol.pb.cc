@@ -1237,6 +1237,7 @@ const int Comment::kContentFieldNumber;
 const int Comment::kTimeStampFieldNumber;
 const int Comment::kUIDFieldNumber;
 const int Comment::kRIDFieldNumber;
+const int Comment::kRestaurantInfoFieldNumber;
 const int Comment::kUserInfoFieldNumber;
 const int Comment::kDIDFieldNumber;
 #endif  // !_MSC_VER
@@ -1248,6 +1249,7 @@ Comment::Comment()
 
 void Comment::InitAsDefaultInstance() {
   timestamp_ = const_cast< ::ProtocolBuffer::Time*>(&::ProtocolBuffer::Time::default_instance());
+  restaurantinfo_ = const_cast< ::ProtocolBuffer::Restaurant*>(&::ProtocolBuffer::Restaurant::default_instance());
   userinfo_ = const_cast< ::ProtocolBuffer::User*>(&::ProtocolBuffer::User::default_instance());
 }
 
@@ -1263,6 +1265,7 @@ void Comment::SharedCtor() {
   timestamp_ = NULL;
   uid_ = 0u;
   rid_ = 0u;
+  restaurantinfo_ = NULL;
   userinfo_ = NULL;
   did_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -1278,6 +1281,7 @@ void Comment::SharedDtor() {
   }
   if (this != default_instance_) {
     delete timestamp_;
+    delete restaurantinfo_;
     delete userinfo_;
   }
 }
@@ -1310,6 +1314,9 @@ void Comment::Clear() {
     uid_ = 0u;
     rid_ = 0u;
     if (_has_bit(4)) {
+      if (restaurantinfo_ != NULL) restaurantinfo_->::ProtocolBuffer::Restaurant::Clear();
+    }
+    if (_has_bit(5)) {
       if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
     }
     did_ = 0u;
@@ -1390,7 +1397,7 @@ bool Comment::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &did_)));
-          _set_bit(5);
+          _set_bit(6);
         } else {
           goto handle_uninterpreted;
         }
@@ -1405,6 +1412,20 @@ bool Comment::MergePartialFromCodedStream(
          parse_UserInfo:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_userinfo()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(58)) goto parse_RestaurantInfo;
+        break;
+      }
+      
+      // optional .ProtocolBuffer.Restaurant RestaurantInfo = 7;
+      case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_RestaurantInfo:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_restaurantinfo()));
         } else {
           goto handle_uninterpreted;
         }
@@ -1452,14 +1473,20 @@ void Comment::SerializeWithCachedSizes(
   }
   
   // optional uint32 DID = 5;
-  if (_has_bit(5)) {
+  if (_has_bit(6)) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->did(), output);
   }
   
   // optional .ProtocolBuffer.User UserInfo = 6;
-  if (_has_bit(4)) {
+  if (_has_bit(5)) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
       6, this->userinfo(), output);
+  }
+  
+  // optional .ProtocolBuffer.Restaurant RestaurantInfo = 7;
+  if (_has_bit(4)) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      7, this->restaurantinfo(), output);
   }
   
 }
@@ -1494,6 +1521,13 @@ int Comment::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->rid());
+    }
+    
+    // optional .ProtocolBuffer.Restaurant RestaurantInfo = 7;
+    if (has_restaurantinfo()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->restaurantinfo());
     }
     
     // optional .ProtocolBuffer.User UserInfo = 6;
@@ -1538,9 +1572,12 @@ void Comment::MergeFrom(const Comment& from) {
       set_rid(from.rid());
     }
     if (from._has_bit(4)) {
-      mutable_userinfo()->::ProtocolBuffer::User::MergeFrom(from.userinfo());
+      mutable_restaurantinfo()->::ProtocolBuffer::Restaurant::MergeFrom(from.restaurantinfo());
     }
     if (from._has_bit(5)) {
+      mutable_userinfo()->::ProtocolBuffer::User::MergeFrom(from.userinfo());
+    }
+    if (from._has_bit(6)) {
       set_did(from.did());
     }
   }
@@ -1558,6 +1595,9 @@ bool Comment::IsInitialized() const {
   if (has_timestamp()) {
     if (!this->timestamp().IsInitialized()) return false;
   }
+  if (has_restaurantinfo()) {
+    if (!this->restaurantinfo().IsInitialized()) return false;
+  }
   if (has_userinfo()) {
     if (!this->userinfo().IsInitialized()) return false;
   }
@@ -1570,6 +1610,7 @@ void Comment::Swap(Comment* other) {
     std::swap(timestamp_, other->timestamp_);
     std::swap(uid_, other->uid_);
     std::swap(rid_, other->rid_);
+    std::swap(restaurantinfo_, other->restaurantinfo_);
     std::swap(userinfo_, other->userinfo_);
     std::swap(did_, other->did_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);

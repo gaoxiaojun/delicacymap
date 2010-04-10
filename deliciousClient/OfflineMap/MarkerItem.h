@@ -7,6 +7,7 @@
 #include <QList>
 #include <QPolygon>
 #include <QPoint>
+#include <QTimeLine>
 
 namespace ProtocolBuffer{
     class Restaurant;
@@ -14,6 +15,7 @@ namespace ProtocolBuffer{
 }
 
 class QPixmap;
+class QTimeLine;
 class MapViewBase;
 
 class ZoomSensitiveItem : public QGraphicsItem
@@ -57,6 +59,26 @@ private:
     MapViewBase* target;
     ZoomSensitiveItem *balloonTarget;
     QGraphicsProxyWidget *closeButton;
+};
+
+class TipPanel : public QGraphicsProxyWidget
+{
+    Q_OBJECT
+public:
+    enum { Type = UserType + 501 };
+    int type() const { return Type; }
+    TipPanel(MapViewBase*);
+    void showTip();
+    bool isShown() const { return _isShown; }
+protected:
+    void closeEvent(QCloseEvent *event);
+private slots:
+    void setOpacity(qreal opacity);
+    void stateChanged(QTimeLine::State);
+private:
+    QTimeLine fadeTimeline;
+    MapViewBase *target;
+    bool _isShown;
 };
 
 class RestaurantMarkerItem : public ZoomSensitiveItem

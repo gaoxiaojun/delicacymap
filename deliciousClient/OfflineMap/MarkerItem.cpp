@@ -10,6 +10,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QDebug>
+#include <QTimer>
 #include <boost/foreach.hpp>
 
 void ZoomSensitiveItem::setZoom( int zoom )
@@ -275,4 +276,47 @@ void PanelWidget::paintWindowFrame(QPainter *painter, const QStyleOptionGraphics
         };
         painter->drawConvexPolygon(triangle, 3);
     }
+}
+
+TipPanel::TipPanel(MapViewBase *target)
+{
+    _isShown = false;
+    this->target = target;
+    this->setOpacity(0.);
+    fadeTimeline.setDuration(500);
+    fadeTimeline.setCurveShape(QTimeLine::EaseInOutCurve);
+    fadeTimeline.setDirection(QTimeLine::Forward);
+    connect(&fadeTimeline, SIGNAL(valueChanged(qreal)), SLOT(setOpacity(qreal)));
+    connect(&fadeTimeline, SIGNAL(stateChanged(QTimeLine::State)), SLOT(stateChanged(QTimeLine::State)));
+}
+
+void TipPanel::closeEvent(QCloseEvent *event)
+{
+    _isShown = false;
+}
+
+void TipPanel::stateChanged(QTimeLine::State newState)
+{
+    if (newState == QTimeLine::NotRunning && fadeTimeline.direction() == QTimeLine::Forward)
+    {
+        fadeTimeline.setDirection(QTimeLine::Backward);
+        QTimer::singleShot(20000, &fadeTimeline, SLOT(start()));
+    }
+    else if (newState == QTimeLine::NotRunning && fadeTimeline.direction() == QTimeLine::Backward)
+    {
+        this->close();
+        this->deleteLater();
+    }
+}
+
+void TipPanel::setOpacity(qreal opacity)
+{
+    QGraphicsProxyWidget::setOpacity(opacity);
+}
+
+void TipPanel::showTip()
+{
+    this->setPos( target->exposedView().bottomRight() - QPoint(this->size().width(), this->size().height()) - QPoint(3, 3) );
+    fadeTimeline.start();
+    _isShown = true;
 }

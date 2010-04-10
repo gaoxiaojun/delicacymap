@@ -43,6 +43,7 @@ message Comment
     required ProtocolBuffer.Time                             timeStamp                   = 2;    //Submit time
     required uint32                                          UID                         = 3;    //Submitter ID (user ID)
     required uint32                                          RID                         = 4;    //Relevent Restaurant ID
+    optional ProtocolBuffer.Restaurant                       RestaurantInfo              = 7;
     optional ProtocolBuffer.User                             UserInfo                    = 6;    //The info about the user who post this comment
     optional uint32                                          DID                         = 5;    //Relevent Course ID
 }

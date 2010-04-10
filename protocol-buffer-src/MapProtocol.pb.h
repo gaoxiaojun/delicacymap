@@ -650,6 +650,13 @@ class Comment : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 rid() const;
   inline void set_rid(::google::protobuf::uint32 value);
   
+  // optional .ProtocolBuffer.Restaurant RestaurantInfo = 7;
+  inline bool has_restaurantinfo() const;
+  inline void clear_restaurantinfo();
+  static const int kRestaurantInfoFieldNumber = 7;
+  inline const ::ProtocolBuffer::Restaurant& restaurantinfo() const;
+  inline ::ProtocolBuffer::Restaurant* mutable_restaurantinfo();
+  
   // optional .ProtocolBuffer.User UserInfo = 6;
   inline bool has_userinfo() const;
   inline void clear_userinfo();
@@ -673,13 +680,14 @@ class Comment : public ::google::protobuf::MessageLite {
   ::ProtocolBuffer::Time* timestamp_;
   ::google::protobuf::uint32 uid_;
   ::google::protobuf::uint32 rid_;
+  ::ProtocolBuffer::Restaurant* restaurantinfo_;
   ::ProtocolBuffer::User* userinfo_;
   ::google::protobuf::uint32 did_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -2247,36 +2255,53 @@ inline void Comment::set_rid(::google::protobuf::uint32 value) {
   rid_ = value;
 }
 
+// optional .ProtocolBuffer.Restaurant RestaurantInfo = 7;
+inline bool Comment::has_restaurantinfo() const {
+  return _has_bit(4);
+}
+inline void Comment::clear_restaurantinfo() {
+  if (restaurantinfo_ != NULL) restaurantinfo_->::ProtocolBuffer::Restaurant::Clear();
+  _clear_bit(4);
+}
+inline const ::ProtocolBuffer::Restaurant& Comment::restaurantinfo() const {
+  return restaurantinfo_ != NULL ? *restaurantinfo_ : *default_instance_->restaurantinfo_;
+}
+inline ::ProtocolBuffer::Restaurant* Comment::mutable_restaurantinfo() {
+  _set_bit(4);
+  if (restaurantinfo_ == NULL) restaurantinfo_ = new ::ProtocolBuffer::Restaurant;
+  return restaurantinfo_;
+}
+
 // optional .ProtocolBuffer.User UserInfo = 6;
 inline bool Comment::has_userinfo() const {
-  return _has_bit(4);
+  return _has_bit(5);
 }
 inline void Comment::clear_userinfo() {
   if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
-  _clear_bit(4);
+  _clear_bit(5);
 }
 inline const ::ProtocolBuffer::User& Comment::userinfo() const {
   return userinfo_ != NULL ? *userinfo_ : *default_instance_->userinfo_;
 }
 inline ::ProtocolBuffer::User* Comment::mutable_userinfo() {
-  _set_bit(4);
+  _set_bit(5);
   if (userinfo_ == NULL) userinfo_ = new ::ProtocolBuffer::User;
   return userinfo_;
 }
 
 // optional uint32 DID = 5;
 inline bool Comment::has_did() const {
-  return _has_bit(5);
+  return _has_bit(6);
 }
 inline void Comment::clear_did() {
   did_ = 0u;
-  _clear_bit(5);
+  _clear_bit(6);
 }
 inline ::google::protobuf::uint32 Comment::did() const {
   return did_;
 }
 inline void Comment::set_did(::google::protobuf::uint32 value) {
-  _set_bit(5);
+  _set_bit(6);
   did_ = value;
 }
 
