@@ -10,6 +10,7 @@ namespace Ui {
 
 namespace ProtocolBuffer{
     class Restaurant;
+    class Comment;
     class CommentList;
 }
 
@@ -36,6 +37,7 @@ protected:
 
 private:
     void commentsResponse(ProtocolBuffer::CommentList*);
+    void addCommentToList(const ProtocolBuffer::Comment *, bool releaseComment=false);
 
     Ui::RestaurantInfoForm *ui;
     const ProtocolBuffer::Restaurant* res;

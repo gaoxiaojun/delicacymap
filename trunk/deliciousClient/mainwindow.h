@@ -60,8 +60,6 @@ private slots:
     void handleSearchResponse(ProtocolBuffer::SearchResult*);
     void updateGPSInfo_InView(QList<QGeoSatelliteInfo>);
     void updateGPSInfo_Used(QList<QGeoSatelliteInfo>);
-    void commentCommited(QList<GeoPoint> *x);
-    void commentSuccessed(void);
     void handleRequestRouting(int, const ProtocolBuffer::LocationEx* from, const ProtocolBuffer::LocationEx* to);
     void AddMarkerClicked();
     void showSystemMenu();

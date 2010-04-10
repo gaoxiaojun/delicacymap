@@ -400,54 +400,6 @@ void MainWindow::handleBtnCancelClicked()
     m_ui->btn_addMarker_cancel->hide();
 }
 
-void MainWindow::commentSuccessed()
-{
-//     QMessageBox msgbox;
-//     msgbox.setIcon(QMessageBox::Information);
-//     msgbox.setText("Comment has been added!");
-//     msgbox.setWindowTitle("OK");
-//     msgbox.setStandardButtons(QMessageBox::Yes);
-//     msgbox.setDefaultButton(QMessageBox::Yes);
-//     msgbox.exec();
-    
-}
-
-void MainWindow::commentCommited(QList<GeoPoint>* route)
-{
-    qDebug()<<"Successed!!!";
-        //先取得当前的用户名,然后再提交
-//     QString content=this->m_ui->textComment->toPlainText();
-//     std::string usrname=this->getSession()->getUser()->nickname();
-//     if (!content.isEmpty())
-//     {   
-//         QString str=QString("%1:   %2").arg(usrname.c_str()).arg(content);
-//         m_ui->list_latestcomment->addItem(new QListWidgetItem(str));
-//         m_ui->textComment->setText("");
-//         //提交给服务器
-//         ProtocolBuffer::Comment *newComment=new ProtocolBuffer::Comment();
-// 
-//         google::protobuf::Closure* commentadded;
-//         QByteArray utf8Content = content.toUtf8();
-//         std::string contentStr(utf8Content.constData(), utf8Content.size());
-//         commentadded=google::protobuf::NewCallback(this,&MainWindow::commentSuccessed);
-//         this->getSession()->getDataSource().AddCommentForRestaurant(
-//             this->showrestaurant->restaurant.rid(),
-//             this->getSession()->getUser()->uid(),
-//             contentStr,newComment,commentadded);
-//     }
-//     else
-//     {
-//         QMessageBox msgbox;
-//         msgbox.setIcon(QMessageBox::Warning);
-//         msgbox.setText("Comment Cannot Be Empty!");
-//         msgbox.setWindowTitle("ERROR");
-//         msgbox.setStandardButtons(QMessageBox::Yes);
-//         msgbox.setDefaultButton(QMessageBox::Yes);
-//         msgbox.exec();
-//     }
-
-}
-
 void MainWindow::sendDialog()
 {
     //得到消息框   
@@ -532,7 +484,7 @@ void MainWindow::showSubscriptionTip(const ProtocolBuffer::CommentList *list)
         else if (c.has_restaurantinfo())
             text = commentTemplateOnlyRestaurant.arg(QString::fromUtf8(c.restaurantinfo().name().c_str())).arg(c.rid());
 
-        if (text.length() > 0)
+        if (!text.isEmpty())
         {
            QLabel *label = new QLabel(text);
            connect(label, SIGNAL(linkActivated(QString)), this, SLOT(findCommentByLink(QString)));
