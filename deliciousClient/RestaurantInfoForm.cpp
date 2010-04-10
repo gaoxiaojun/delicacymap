@@ -167,12 +167,37 @@ void RestaurantInfoForm::on_btnAdd_clicked()
 
 void RestaurantInfoForm::on_btnCommit_clicked()
 {
+     QString content = ui->txtComment->text();
+     std::string usrname = getSession()->getUser()->nickname();
+     if (!content.isEmpty())
+     {
+         ui->listComment->addItem(QString("%1 : %2").arg(QString::fromUtf8(usrname.c_str()), content));
+         ui->txtComment->clear();
+         ProtocolBuffer::Comment *newComment=new ProtocolBuffer::Comment();
 
+         google::protobuf::Closure* commentadded = google::protobuf::NewCallback(this, &RestaurantInfoForm::addCommentToList, const_cast<const ProtocolBuffer::Comment*>(newComment), true);
+         QByteArray utf8Content = content.toUtf8();
+         std::string contentStr(utf8Content.constData(), utf8Content.size());
+         this->getSession()->getDataSource().AddCommentForRestaurant(
+             res->rid(),
+             this->getSession()->getUser()->uid(),
+             contentStr,
+             newComment,
+             commentadded);
+     }
 }
 
 void RestaurantInfoForm::commentsResponse(ProtocolBuffer::CommentList *list)
 {
     QMetaObject::invokeMethod(this, "handleCommentList", Q_ARG(ProtocolBuffer::CommentList*, list));
+}
+
+void RestaurantInfoForm::addCommentToList(const ProtocolBuffer::Comment *c, bool releaseComment)
+{
+    QString item = QString("%1 : %2").arg(QString::fromUtf8(c->userinfo().nickname().c_str()), QString::fromUtf8(c->content().c_str()));
+    ui->listComment->addItem(item);
+    if (releaseComment)
+        delete c;
 }
 
 void RestaurantInfoForm::handleCommentList( ProtocolBuffer::CommentList* list )
@@ -186,8 +211,7 @@ void RestaurantInfoForm::handleCommentList( ProtocolBuffer::CommentList* list )
     for (int i=0;i<list->comments_size();++i)
     {
         const ProtocolBuffer::Comment& c = list->comments(i);
-        QString item = QString("%1 : %2").arg(QString::fromUtf8(c.userinfo().nickname().c_str()), QString::fromUtf8(c.content().c_str()));
-        ui->listComment->addItem(item);
+        addCommentToList(&c);
     }
     delete list;
 }
