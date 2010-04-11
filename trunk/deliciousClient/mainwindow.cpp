@@ -15,6 +15,7 @@
 #include "OfflineMap/GeoCoord.h"
 #include <QMenu>
 #include <QMessageBox>
+#include <QStringList>
 #include <QDebug>
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
@@ -468,6 +469,7 @@ void MainWindow::showSubscriptionTip(const ProtocolBuffer::CommentList *list)
     static const QString commentTemplate = tr("<a href='user_click#%3'>%1</a> has posted a new comment on <a href='restaurant_click#%4'>%2</a>.");
     static const QString commentTemplateOnlyUser = tr("<a href='user_click#%2'>%1</a> has posted a new comment.");
     static const QString commentTemplateOnlyRestaurant = tr("<a href='restaurant_click#%2'>%1</a> has a new comment.");
+    QStringList labeltext;
 
     for (int i=0;i<list->comments_size();++i)
     {
@@ -486,10 +488,16 @@ void MainWindow::showSubscriptionTip(const ProtocolBuffer::CommentList *list)
 
         if (!text.isEmpty())
         {
-           QLabel *label = new QLabel(text);
-           connect(label, SIGNAL(linkActivated(QString)), this, SLOT(findCommentByLink(QString)));
-           navi->showTip(label);
+            labeltext<<text;
         }
+    }
+    if (!labeltext.empty())
+    {
+        QLabel *label = new QLabel(labeltext.join("\n"));
+        label->setWordWrap(true);
+        label->setMaximumWidth(navi->width()/3);
+        connect(label, SIGNAL(linkActivated(QString)), this, SLOT(findCommentByLink(QString)));
+        navi->showTip(label);
     }
     delete list;
 }
