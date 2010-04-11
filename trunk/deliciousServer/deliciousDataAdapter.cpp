@@ -70,7 +70,7 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "FROM Restaurants NATURAL INNER JOIN Relation_Restaurant_RestaurantType NATURAL INNER JOIN RestaurantTypes "
             "WHERE Restaurants.Name LIKE :1 OR RestaurantTypes.ReadableText LIKE :1;");
         prepared_Subscription = dbconn->NewPreparedStatement(
-            "SELECT C.* FROM Comments AS C "
+            "SELECT C.*,U.* FROM Comments AS C "
             "INNER JOIN Users AS U ON U.UID = C.UID "
             "LEFT OUTER JOIN Relation_User_User AS RU ON C.uid = RU.uid_target "
             "LEFT OUTER JOIN Relation_User_Restaurant AS RR ON C.rid = RR.rid "
@@ -78,13 +78,13 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "AND ((RU.uid_host = :1 AND RU.Subscription) "
             "OR (RR.uid = :1 AND RR.Subscription))");
         prepared_UpdateUserSubscription = dbconn->NewPreparedStatement(
-            "UPDATE Relation_User_User "
-            "SET Subscription = ? "
-            "WHERE UID_Host=? AND UID_Target=?;");
+            "INSERT OR REPLACE INTO Relation_User_User "
+            "(UID_Host, UID_Target, Subscription) "
+            "VALUES(?, ?, ?);");
         prepared_UpdateRestaurantSubscription = dbconn->NewPreparedStatement(
-            "UPDATE Relation_User_Restaurant "
-            "SET Subscription = ? "
-            "WHERE UID=? AND RID=?;");
+            "INSERT OR REPLACE INTO Relation_User_Restaurant "
+            "(UID, RID, Subscription) "
+            "VALUES(?, ?, ?);");
     }
     catch (exception&)
     {
@@ -523,6 +523,11 @@ const DBResultWrap deliciousDataAdapter::GetSubscriptionForUserSinceLastUpdate( 
 
     DBResultWrap result(dbconn->Execute(prepared_Subscription), dbconn);
 
+    char update[100];
+    sprintf_s(update, sizeof(update), "UPDATE Users SET SubscriptionCheckTime=datetime(\"now\") WHERE UID=%d;", uid);
+
+    dbconn->Execute(update);
+
     pantheios::log_INFORMATIONAL("Leave GetSubscriptionForUserSinceLastUpdate()");
 
     return result;
@@ -537,9 +542,9 @@ void deliciousDataAdapter::ChangeSubsciptionStatusWithUser( int me, int target, 
         ")");
     
     prepared_UpdateUserSubscription->reset();
-    prepared_UpdateUserSubscription->bindParameter(1, subscribe);
-    prepared_UpdateUserSubscription->bindParameter(2, me);
-    prepared_UpdateUserSubscription->bindParameter(3, target);
+    prepared_UpdateUserSubscription->bindParameter(1, me);
+    prepared_UpdateUserSubscription->bindParameter(2, target);
+    prepared_UpdateUserSubscription->bindParameter(3, subscribe);
 
     dbconn->Execute(prepared_UpdateUserSubscription);
 
@@ -555,9 +560,9 @@ void deliciousDataAdapter::ChangeSubsciptionStatusWithRestaurant( int me, int ta
         ")");
 
     prepared_UpdateRestaurantSubscription->reset();
-    prepared_UpdateRestaurantSubscription->bindParameter(1, subscribe);
-    prepared_UpdateRestaurantSubscription->bindParameter(2, me);
-    prepared_UpdateRestaurantSubscription->bindParameter(3, target);
+    prepared_UpdateRestaurantSubscription->bindParameter(1, me);
+    prepared_UpdateRestaurantSubscription->bindParameter(2, target);
+    prepared_UpdateRestaurantSubscription->bindParameter(3, subscribe);
 
     dbconn->Execute(prepared_UpdateRestaurantSubscription);
 

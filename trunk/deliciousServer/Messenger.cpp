@@ -137,6 +137,7 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
                 {
                     ProtocolBuffer::Comment* c = comments.add_comments();
                     ProtubufDBRowConversion::Convert(result.getResult()->GetRow(i), *c);
+                    ProtubufDBRowConversion::Convert(result.getResult()->GetRow(i), *c->mutable_userinfo());
                 }
             }
 
