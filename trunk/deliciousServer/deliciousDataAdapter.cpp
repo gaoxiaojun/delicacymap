@@ -70,10 +70,11 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "FROM Restaurants NATURAL INNER JOIN Relation_Restaurant_RestaurantType NATURAL INNER JOIN RestaurantTypes "
             "WHERE Restaurants.Name LIKE :1 OR RestaurantTypes.ReadableText LIKE :1;");
         prepared_Subscription = dbconn->NewPreparedStatement(
-            "SELECT C.*,U.* FROM Comments AS C "
+            "SELECT C.*,U.*,R.* FROM Comments AS C "
             "INNER JOIN Users AS U ON U.UID = C.UID "
             "LEFT OUTER JOIN Relation_User_User AS RU ON C.uid = RU.uid_target "
             "LEFT OUTER JOIN Relation_User_Restaurant AS RR ON C.rid = RR.rid "
+            "NATURAL INNER JOIN Restaurants as R "
             "WHERE C.addtime > (SELECT SubscriptionCheckTime FROM Users WHERE Users.uid = :1) "
             "AND ((RU.uid_host = :1 AND RU.Subscription) "
             "OR (RR.uid = :1 AND RR.Subscription))");
@@ -468,6 +469,11 @@ const DBResultWrap deliciousDataAdapter::UpdateRows( DBResultWrap rows, const st
 }
 
 // ============================================== Message part ===================================================
+
+const DBResultWrap deliciousDataAdapter::GetUserLocations()
+{
+    return DBResultWrap(NULL, NULL);
+}
 
 static inline
 char* tmToSqliteTimeModifiers(char* buf, size_t size, tm& time)

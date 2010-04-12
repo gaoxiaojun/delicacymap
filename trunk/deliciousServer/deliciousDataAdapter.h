@@ -74,6 +74,8 @@ public://DB methods
     /*                    Methods Used by Messenger                         */
     /************************************************************************/
 
+    const DBResultWrap GetUserLocations();
+
     size_t AddMessagesToDB( int from_uid, int to_uid, int messageType, const std::string& text, tm validTimePeriod );
 
     const DBResultWrap GetSubscriptionForUserSinceLastUpdate( int uid );

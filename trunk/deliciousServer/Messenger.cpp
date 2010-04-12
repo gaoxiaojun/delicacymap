@@ -115,8 +115,9 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
     case ProtocolBuffer::UserLocationUpdate:
         if (msg->touser() == 0)
         {
-            msg->clear_buffer();
             msg->clear_text();
+            userLocations[msg->fromuser()].ParseFromString(msg->buffer());
+            typedef std::pair<int, SenderFunction> ConnType;
             BOOST_FOREACH(int usr, usersSharingLocation[msg->fromuser()])
             {
                 msg->set_touser(usr);
@@ -138,6 +139,7 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
                     ProtocolBuffer::Comment* c = comments.add_comments();
                     ProtubufDBRowConversion::Convert(result.getResult()->GetRow(i), *c);
                     ProtubufDBRowConversion::Convert(result.getResult()->GetRow(i), *c->mutable_userinfo());
+                    ProtubufDBRowConversion::Convert(result.getResult()->GetRow(i), *c->mutable_restaurantinfo());
                 }
             }
 
@@ -182,6 +184,10 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
             break;
         }
     }
+    if (handled)
+    {
+        dataadapter->ConfirmMessageDelivered( msg->msgid() );
+    }
     return handled;
 }
 
@@ -217,6 +223,17 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
     {
         pantheios::log_WARNING("Error adding the msg to internal storage. message discarded. Error Msg:", e.what());
     }
+}
+
+void Messenger::RegisterUserOnConnection( int uid, SenderFunction f )
+{
+    liveUsers[uid] = f;
+}
+
+void Messenger::SignOffUser( int uid )
+{
+    liveUsers.erase(uid);
+    userLocations.erase(uid);
 }
 
 void Messenger::ExpireTimerHandler(const boost::system::error_code& err)
