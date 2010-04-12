@@ -35,109 +35,99 @@
     <message>
         <location filename="mainwindow.ui" line="14"/>
         <source>delicacymap</source>
-        <translation type="unfinished"></translation>
+        <translation>美食地图社区</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="50"/>
-        <source>A</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="82"/>
-        <source>B</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="114"/>
-        <source>C</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="149"/>
-        <source>D</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="230"/>
+        <location filename="mainwindow.ui" line="227"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="357"/>
-        <source>       Chatting With RC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="390"/>
+        <location filename="mainwindow.ui" line="387"/>
         <source>send</source>
         <translation>发送</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="306"/>
+        <location filename="mainwindow.ui" line="303"/>
         <source>Satellite In View:</source>
         <translation>可见卫星：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="319"/>
+        <location filename="mainwindow.ui" line="316"/>
         <source>Satellite Used:</source>
         <translation>连接卫星数：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="414"/>
+        <location filename="mainwindow.ui" line="411"/>
         <source>Menu</source>
         <translation>菜单</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="446"/>
+        <location filename="mainwindow.ui" line="443"/>
         <source>Add marker</source>
         <translation>添加位置</translation>
     </message>
     <message>
+        <location filename="mainwindow.ui" line="506"/>
         <location filename="mainwindow.ui" line="509"/>
-        <location filename="mainwindow.ui" line="512"/>
         <source>Commit</source>
-        <translation type="unfinished">提交</translation>
+        <translation>提交</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="515"/>
+        <location filename="mainwindow.ui" line="512"/>
         <source>Ctrl+Return</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="142"/>
+        <location filename="mainwindow.cpp" line="143"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="251"/>
+        <location filename="mainwindow.cpp" line="252"/>
         <source>%1 is asking your help to guide him.</source>
         <translation>%1希望请你帮助他指引一条路径.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="343"/>
+        <location filename="mainwindow.cpp" line="344"/>
         <source>Do you want to continue? Coninueing will discard this marker.</source>
         <translation>确定要继续并吗？此餐厅的信息将丢失。</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="344"/>
+        <location filename="mainwindow.cpp" line="345"/>
         <source>Restautant without a name</source>
         <translation>未命名的餐厅</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="378"/>
+        <location filename="mainwindow.cpp" line="379"/>
         <source>Do you want to discard all previous work?</source>
         <translation>您确定要丢弃未保存的兴趣点信息？</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="379"/>
+        <location filename="mainwindow.cpp" line="380"/>
         <source>Unsaved local markers.</source>
         <translation>未提交的兴趣点！</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="469"/>
+        <source>&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt; has posted a new comment on &lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;.</source>
+        <translation>&lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;有一条&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt;发布的新评论.</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="470"/>
+        <source>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt; has posted a new comment.</source>
+        <translation>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt;提交了一条新评论.</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="471"/>
+        <source>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt; has a new comment.</source>
+        <translation>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt;有一条新评论.</translation>
     </message>
 </context>
 <context>
     <name>MapController</name>
     <message>
-        <location filename="MapController.cpp" line="158"/>
+        <location filename="MapController.cpp" line="159"/>
         <source>Do you want to send this route back to %1?</source>
         <oldsource>Do you want to send this route back to %1?.</oldsource>
         <translation>你希望把导航的结果返回给%1吗?</translation>
@@ -164,14 +154,6 @@
         <location filename="RestaurantInfoForm.ui" line="129"/>
         <source>Commit</source>
         <translation>提交</translation>
-    </message>
-</context>
-<context>
-    <name>SearchResultForm</name>
-    <message>
-        <location filename="SearchResultForm.ui" line="20"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

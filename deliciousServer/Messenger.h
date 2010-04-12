@@ -8,14 +8,17 @@
 #include <boost/multi_index/mem_fun.hpp>
 #include <boost/multi_index/member.hpp>
 #include <boost/date_time/posix_time/ptime.hpp>
+#include <boost/function.hpp>
 #include <boost/interprocess/sync/interprocess_upgradable_mutex.hpp>
 #include <boost/interprocess/sync/sharable_lock.hpp>
 
 #include <set>
 #include <map>
+#include <unordered_map>
 
 #include <time.h>
 
+#include "naked_conn.h"
 #include "MapProtocol.pb.h"
 
 class deliciousDataAdapter;
@@ -80,6 +83,7 @@ namespace rclib
                 >
             > MessagesContainer;
             typedef boost::interprocess::interprocess_upgradable_mutex MutexType;
+            typedef boost::function<void (const DMessageWrap*)> SenderFunction;
         public:
             typedef MessagesContainer::index<message_ordered_touid_tag>::type::iterator MSGIterator;
             typedef MessagesContainer::index<message_ordered_touid_tag>::type::const_iterator const_MSGIterator;
@@ -107,6 +111,10 @@ namespace rclib
 
             void start();
 
+            void RegisterUserOnConnection( int uid, SenderFunction func);
+
+            void SignOffUser( int uid );
+
             void ProcessMessage(ProtocolBuffer::DMessage* msg);
 
             MessageRange MessageForUser(unsigned int, boost::posix_time::ptime);
@@ -124,7 +132,8 @@ namespace rclib
         private:
             MutexType mutex;
             std::map<int, std::set<int> > usersSharingLocation;
-            std::set<int> liveUsers;
+            std::tr1::unordered_map<int, ProtocolBuffer::Location> userLocations;
+            std::map<int, SenderFunction> liveUsers;
             boost::asio::deadline_timer msgExpireTimer;
             boost::asio::io_service &ios;
             ::deliciousDataAdapter *dataadapter;
