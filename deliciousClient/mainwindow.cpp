@@ -35,7 +35,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     createMenu();
 
     navi = new MapViewBase(this);
-    navi->setDecorator(new MoveDecorator(navi, true));
+    navi->setDecorator(new MoveDecorator(navi, Configurations::Instance().SmoothPan()));
     navi->setCache(&imageCache);
     navi->insertDecorator(new ZoomDecorator(navi));
     navi->insertDecorator(new DownloadDecorator(navi));
