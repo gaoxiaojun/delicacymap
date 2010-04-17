@@ -2,6 +2,7 @@
 #include "ui_RestaurantInfoForm.h"
 #include "MapProtocol.pb.h"
 #include "Session.h"
+#include "RoutingForm.h"
 #include <QMovie>
 #include <QTimeLine>
 
@@ -165,6 +166,10 @@ void RestaurantInfoForm::on_btnAdd_clicked()
     addShown = !addShown;
 }
 
+void RestaurantInfoForm::on_btnRouting_clicked()
+{
+    emit RequestByRestaurant(res);
+}
 void RestaurantInfoForm::on_btnCommit_clicked()
 {
      QString content = ui->txtComment->text();

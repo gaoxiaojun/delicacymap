@@ -98,6 +98,16 @@
     <string>Confirm</string>
    </property>
   </widget>
+  <widget class="QComboBox" name="direct_comboBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>161</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="mainwindow.qrc"/>

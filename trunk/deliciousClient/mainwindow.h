@@ -17,7 +17,7 @@ class MapController;
 class QPushButton;
 class QTimeLine;
 class QMenu;
-
+class RoutingForm;
 namespace ProtocolBuffer{
     class LocationEx;
     class DMessage;
@@ -65,9 +65,13 @@ private slots:
     void showSystemMenu();
     void showSubscriptionTip(const ProtocolBuffer::CommentList*);
     void findCommentByLink(const QString&);
-
+   
+    void drawRoute(QList<GeoPoint>* route);
+    void doRoutingRequest(const QString &,const QString &,int);
+    void startRouting(const ProtocolBuffer::Restaurant *);
     void sendDialog();
     void dialogwith(int);
+    void transToFriend();
     void HandleUserMessage(const ProtocolBuffer::DMessage* );
 private:
     void searchResponse(ProtocolBuffer::SearchResult*);

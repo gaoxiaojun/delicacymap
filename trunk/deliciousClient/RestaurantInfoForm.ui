@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>260</width>
-    <height>90</height>
+    <width>262</width>
+    <height>95</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">
@@ -45,7 +45,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Price:</string>
+    <string>价格:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_price">
@@ -90,20 +90,20 @@
     </rect>
    </property>
    <property name="text">
-    <string>Comments</string>
+    <string>评论</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnAdd">
    <property name="geometry">
     <rect>
-     <x>155</x>
+     <x>160</x>
      <y>60</y>
      <width>100</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>Add</string>
+    <string>添加</string>
    </property>
   </widget>
   <widget class="QListWidget" name="listComment">
@@ -137,6 +137,19 @@
      <width>181</width>
      <height>22</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnRouting">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>0</y>
+     <width>100</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>导航</string>
    </property>
   </widget>
  </widget>

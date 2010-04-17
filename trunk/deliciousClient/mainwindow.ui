@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>429</width>
-    <height>526</height>
+    <width>349</width>
+    <height>468</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,7 +129,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_D">
+       <widget class="QToolButton" name="toolButton_Friends">
         <property name="minimumSize">
          <size>
           <width>32</width>
@@ -383,8 +383,27 @@ background-color: rgba(255, 255, 255, 200);
           </item>
           <item>
            <widget class="QPushButton" name="sendButton">
+            <property name="maximumSize">
+             <size>
+              <width>30</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>send</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="QueryRoutingButton">
+            <property name="maximumSize">
+             <size>
+              <width>64</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>向好友问路</string>
             </property>
            </widget>
           </item>
