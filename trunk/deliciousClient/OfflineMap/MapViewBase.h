@@ -90,6 +90,7 @@ protected:
     int last_xcenter, last_ycenter;
 
     void drawBackground(QPainter *painter, const QRectF &rect);
+    void invalidateBackground();
     int getSide() const;
     int getSideMask() const;
     int getSidePow() const;
@@ -103,6 +104,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void leaveEvent(QEvent *event);
+    void resizeEvent(QResizeEvent *event);
     void adjustCenter();
     void updateBound();
     void remapMarkers(int oldzoomlevel, int newzoomlevel);
@@ -114,6 +116,8 @@ private slots:
     void panMapStateChange(QTimeLine::State);
 
 private:
+    QPixmap backgroundCache;
+    QRect backgroundRect;
     ImageCache *images;
     QGraphicsScene *scene;
     SelfMarkerItem *self;

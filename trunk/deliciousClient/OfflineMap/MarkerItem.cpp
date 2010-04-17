@@ -231,14 +231,14 @@ void PanelWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
     }
     else
     {
-        QPointF p = target->mapToScene(target->width(), target->height());
-        if (this->y() + event->newSize().height() > p.y())
-        {
-            this->setPos(this->pos().x(), this->pos().y() - (this->y() + event->newSize().height() - p.y()) - 10);
-        }
+//        QPointF p = target->mapToScene(target->width(), target->height());
+//        if (this->y() + event->newSize().height() > p.y())
+//        {
+//            this->setPos(this->pos().x(), this->pos().y() - (this->y() + event->newSize().height() - p.y()) - 10);
+//        }
     }
     QGraphicsProxyWidget::resizeEvent(event);
-    target->ensureVisible(this);
+//    target->ensureVisible(this);
 }
 
 QGraphicsProxyWidget* PanelWidget::setupCloseButton()

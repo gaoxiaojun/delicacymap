@@ -4,6 +4,7 @@
 #include <QTimeLine>
 #include <QDebug>
 #include <QMouseEvent>
+#include <QResizeEvent>
 #include <QEasingCurve>
 #include <math.h>
 #include "CoordsHelper.h"
@@ -49,11 +50,25 @@ MapViewBase::~MapViewBase()
     delete scene;
 }
 
+void MapViewBase::resizeEvent(QResizeEvent *event)
+{
+    //calculate the new size of the backgroundcache
+    int expandWidth = ((event->size().width() + CoordsHelper::TileSize - 1) & ~(CoordsHelper::TileSize - 1)) + CoordsHelper::TileSize;
+    int expandHeight = ((event->size().height() + CoordsHelper::TileSize - 1) & ~(CoordsHelper::TileSize - 1)) + CoordsHelper::TileSize;
+
+    if (backgroundCache.size() != QSize(expandWidth, expandHeight))
+    {
+        backgroundCache = QPixmap(expandWidth, expandHeight);
+        invalidateBackground();
+    }
+}
+
 void MapViewBase::lockMap()
 {
     if (!isLocked())
     {
         mapIsLocked = true;
+        this->invalidateBackground();
         this->update();
         emit canZoomIn(false);
         emit canZoomOut(false);
@@ -65,6 +80,7 @@ void MapViewBase::unlockMap()
     if (isLocked())
     {
         mapIsLocked = false;
+        this->invalidateBackground();
         this->update();
         emit canZoomIn(zoomLevel < CoordsHelper::MaxZoomLevel);
         emit canZoomOut(zoomLevel > 0);
@@ -391,47 +407,84 @@ QRect ImageRect(0, 0, 256, 256);
 
 void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
 {
-    painter->setBrush(backgroundColor);
-
-    int mask= (1 << zoomLevel) - 1;
-
-    int firstTileX = (~0xFF) & (int)rect.x();
-    int firstTileY = (~0xFF) & (int)rect.y();
-
-    int dirtywidth = rect.right();
-    int dirtyheight = rect.bottom();
-
-    if (images)
+    QRect intrect = rect.toRect();
+    if (!backgroundRect.contains(intrect))
     {
+        int mask= (1 << zoomLevel) - 1;
+
+        int firstTileX = (~0xFF) & (int)rect.x();
+        int firstTileY = (~0xFF) & (int)rect.y();
+
+        int tileRight = (~0xFF) & ((int)rect.right() + CoordsHelper::TileSize - 1);
+        int tileBottom = (~0xFF) & ((int)rect.bottom() + CoordsHelper::TileSize - 1);
+        if (backgroundRect.isNull())
+        {
+            tileRight = firstTileX + backgroundCache.size().width();
+            tileBottom = firstTileY + backgroundCache.size().height();
+            backgroundRect.setCoords(firstTileX, firstTileY, tileRight, tileBottom);
+        }
+        else
+        {
+            int dx = 0, dy = 0;
+            if (intrect.left() < backgroundRect.left())
+                dx = intrect.left() - backgroundRect.left();
+            else if (intrect.right() > backgroundRect.right())
+                dx = intrect.right() - backgroundRect.right();
+            if (intrect.top() < backgroundRect.top())
+                dy = intrect.top() - backgroundRect.top();
+            else if (intrect.bottom() > backgroundRect.bottom())
+                dy = intrect.bottom() - backgroundRect.bottom();
+            backgroundCache.scroll(dx, dy, backgroundCache.rect());
+            int translateX = (abs(dx) + CoordsHelper::TileSize -1) & ~(CoordsHelper::TileSize - 1),
+                translateY = (abs(dy) + CoordsHelper::TileSize -1) & ~(CoordsHelper::TileSize - 1);
+            translateX = dx < 0 ? -translateX : translateX;
+            translateY = dy < 0 ? -translateY : translateY;
+            backgroundRect.translate(translateX, translateY);
+        }
+
+        QPainter cachePainter(&backgroundCache);
+        cachePainter.setBrush(backgroundColor);
+        cachePainter.translate(-backgroundRect.topLeft());
+
+        if (images)
+        {
 #if 0
-        qDebug()<<"Dirty Region: x: "<<(int)rect.x()<<" y: "<<(int)rect.y()
-            <<"              w: "<<(int)rect.width()<<" h: "<<(int)rect.height();
+            qDebug()<<"Dirty Region: x: "<<(int)rect.x()<<" y: "<<(int)rect.y()
+                <<"              w: "<<(int)rect.width()<<" h: "<<(int)rect.height();
 #endif
-        for (int y = firstTileY; y < dirtyheight; y+= 256){
-            int row = (y >> CoordsHelper::TilePower2) & mask;
-            for (int x = firstTileX; x < dirtywidth; x += 256){
-                int col = (x >> CoordsHelper::TilePower2) & mask;
-                QPixmap* img = images->getImage(col, row, zoomLevel);
-                if (img){
-                    painter->drawPixmap(QPoint(x, y), *img, ImageRect);
+            for (int y = firstTileY; y < tileBottom; y+= 256){
+                int row = (y >> CoordsHelper::TilePower2) & mask;
+                for (int x = firstTileX; x < tileRight; x += 256){
+                    int col = (x >> CoordsHelper::TilePower2) & mask;
+                    QPixmap* img = images->getImage(col, row, zoomLevel);
+                    if (img){
+                        cachePainter.drawPixmap(QPoint(x, y), *img, ImageRect);
+                    }
+                    else{
+                        cachePainter.setPen(white);
+                        cachePainter.setBrush(black);
+                        cachePainter.drawRect(x, y, CoordsHelper::TileSize, CoordsHelper::TileSize);
+                        cachePainter.drawText(x, y, CoordsHelper::TileSize, CoordsHelper::TileSize, Qt::AlignHCenter|Qt::AlignVCenter,
+                            QString(
+                            "col:%1, row:%2, zoom:%3\nNo image\n"
+                            "click left+right mouse buttons\nto download missing images."
+                            ).arg(col).arg(row).arg(zoomLevel)
+                            );
+                    }
                 }
-                else{
-                    painter->setPen(white);
-                    painter->setBrush(black);
-                    painter->drawRect(x, y, CoordsHelper::TileSize, CoordsHelper::TileSize);
-                    painter->drawText(x, y, CoordsHelper::TileSize, CoordsHelper::TileSize, Qt::AlignHCenter|Qt::AlignVCenter, 
-                        QString(
-                        "col:%1, row:%2, zoom:%3\nNo image\n" 
-                        "click left+right mouse buttons\nto download missing images."
-                        ).arg(col).arg(row).arg(zoomLevel)
-                        );
-                }		
             }
-        }		
-        images->tick();
+            images->tick();
+        }
+
+        if (this->isLocked())
+            cachePainter.fillRect(rect, this->backgroundBrush());
     }
-    if (this->isLocked())
-        painter->fillRect(rect, this->backgroundBrush());
+    painter->drawPixmap(intrect, backgroundCache, QRect(intrect.topLeft() - backgroundRect.topLeft(), intrect.size()));
+}
+
+void MapViewBase::invalidateBackground()
+{
+    backgroundRect.setCoords(0, 0, -1, -1);
 }
 
 void MapViewBase::addRestaurantMarker(const ProtocolBuffer::Restaurant* r)
@@ -513,8 +566,8 @@ PanelWidget* MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* ba
     if (!balloonOn)
         proxy->setPos(xCenter - panel->width()/2, qMax(yCenter - panel->height(), yCenter - this->height()/2));
 //    proxy->setPanelModality(QGraphicsItem::SceneModal);
-    this->ensureVisible(proxy);
     scene->addItem(proxy);
+    this->ensureVisible(proxy);
     return proxy;
 }
 

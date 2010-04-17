@@ -7,6 +7,7 @@
 #include "MapProtocol.pb.h"
 #include "RestaurantInfoForm.h"
 #include "SearchResultForm.h"
+#include "RoutingForm.h"
 #include "Configurations.h"
 #include "OfflineMap/MarkerItem.h"
 #include "OfflineMap/MapViewBase.h"
