@@ -231,14 +231,8 @@ void DMServiceLocalDBImpl::AddCommentForRestaurant( ::google::protobuf::RpcContr
         if (!ret.empty())
         {
             const DBRow& newcomment = ret.getResult()->GetRow(0);
-            response->set_rid( newcomment.GetValueAs<int>("RID") );
-            response->set_uid( newcomment.GetValueAs<int>("UID") );
-            if (!newcomment["DID"].empty())
-                response->set_did( newcomment.GetValueAs<int>("DID") );
-            response->set_content( newcomment["Comment"] );
-            response->mutable_timestamp()->set_timestamp( newcomment["AddTime"] );
-//             if (!newcomment["PhotoPath"].empty())
-//                 response->set_image(newcomment["PhotoPath"]);
+            ProtubufDBRowConversion::Convert(newcomment, *response);
+            ProtubufDBRowConversion::Convert(newcomment, *response->mutable_userinfo());
         }
         else
         {
