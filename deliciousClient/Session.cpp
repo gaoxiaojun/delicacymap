@@ -310,5 +310,5 @@ void Session::RelationChangeResponse(int uid,UserRelation relation)
 
 void Session::GetUserResponse()
 {
-
+    
 }

@@ -17,6 +17,7 @@ namespace ProtocolBuffer{
 class QMovie;
 class QTimeLine;
 class Session;
+class RoutingForm;
 
 class RestaurantInfoForm : public QWidget {
     Q_OBJECT
@@ -29,7 +30,8 @@ public:
     void setRestaurant(const ProtocolBuffer::Restaurant*);
 
     QWidget* getInputWidget();
-
+signals:
+    void RequestByRestaurant(const ProtocolBuffer::Restaurant *);
 protected:
     void changeEvent(QEvent *e);
     void UIAnimation_ShowComments(bool show);
@@ -52,6 +54,7 @@ private slots:
     void frameChange(int);
     void on_btnAdd_clicked();
     void on_btnShow_clicked();
+    void on_btnRouting_clicked();
 };
 
 #endif // RESTAURANTINFOFORM_H

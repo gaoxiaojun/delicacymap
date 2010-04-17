@@ -77,6 +77,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(navi,SIGNAL(restaurantMarkerClicked(RestaurantMarkerItem*)),SLOT(RestaurantMarkerResponse(RestaurantMarkerItem*)));
     connect(m_ui->sendButton,SIGNAL(clicked()),this,SLOT(sendDialog()));
     connect(m_ui->FriendlistWidget,SIGNAL(currentRowChanged(int)),this,SLOT(dialogwith(int)));
+    connect(m_ui->toolButton_Friends,SIGNAL(clicked()),this,SLOT(transToFriend()));
     connect(&controller, SIGNAL(currentLocationUpdate(InaccurateGeoPoint)), navi, SLOT(setSelfLocation(const InaccurateGeoPoint&)));
     connect(&controller, SIGNAL(subscriptionArrived(const ProtocolBuffer::CommentList*)), this, SLOT(showSubscriptionTip(const ProtocolBuffer::CommentList*)));
     connect(&controller, SIGNAL(SysMsgRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*)), this, SLOT(handleRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*)));
@@ -299,7 +300,9 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
         RestaurantInfoForm* form = new RestaurantInfoForm();
         form->setRestaurant(res->restaurantInfo());
         form->setSession(getSession());
-        navi->addBlockingPanel(form, res);
+        navi->addBlockingPanel(form, res);      
+        connect(form,SIGNAL(RequestByRestaurant(const ProtocolBuffer::Restaurant*)),
+            this,SLOT(startRouting(const ProtocolBuffer::Restaurant *)));
     }
     else
     {
@@ -516,4 +519,37 @@ void MainWindow::findCommentByLink(const QString &link)
     {
         int uid = link.mid(link.indexOf('#') + 1).toInt();
     }
+}
+
+void MainWindow::transToFriend()
+{
+    m_ui->stackedWidget->setCurrentIndex(2);
+    m_ui->FriendlistWidget->setCurrentRow(0);
+}
+
+void MainWindow::startRouting(const ProtocolBuffer::Restaurant *res)
+{
+    RoutingForm * r_ui=new RoutingForm;
+    navi->addBlockingPanel(r_ui);  
+    r_ui->setSession(this->getSession());
+    r_ui->setFriends();
+    r_ui->show();
+    connect(r_ui,SIGNAL(doRoutingRequest(QString, QString,int)),this,SLOT(doRoutingRequest(const QString &,const QString &,int)));
+}
+void MainWindow::doRoutingRequest(const QString &from,const QString &to,int uid)
+{
+    if(uid==-1)
+    {
+        QList<GeoPoint> *route=new QList<GeoPoint>;
+        google::protobuf::Closure * done=google::protobuf::NewCallback(this,&MainWindow::drawRoute,route);
+        this->svc->QueryRoute(from,to,*route,done);//google direction
+    }
+    else
+    {
+        this->getSession()->SendRoutingRequest(from,to,uid);
+    }
+}
+void MainWindow::drawRoute(QList<GeoPoint>* route)
+{
+    this->navi->addRoute(*route);
 }
