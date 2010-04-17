@@ -19,6 +19,7 @@ QT += network \
 FORMS += mainwindow.ui \
     loginWindow.ui \
     SearchResultForm.ui \
+    RoutingForm.ui \
     RestaurantInfoForm.ui
 HEADERS += md5.h \
     bluetoothmanager.h \
@@ -32,6 +33,7 @@ HEADERS += md5.h \
     QTProtobufChannelDriver.h \
     QTProtobufWaitResponse.h \
     Session.h \
+    RoutingForm.h \
     RestaurantInfoForm.h \
     ../rclib/include/TinyXMLPP/ticpp.h \
     ../rclib/include/TinyXMLPP/tinyxml.h \
@@ -65,6 +67,7 @@ SOURCES += main.cpp \
     QTProtobufChannelDriver.cpp \
     QTProtobufWaitResponse.cpp \
     Session.cpp \
+    RoutingForm.cpp \
     RestaurantInfoForm.cpp \
     ../rclib/include/TinyXMLPP/ticpp.cpp \
     ../rclib/include/TinyXMLPP/tinyxml.cpp \

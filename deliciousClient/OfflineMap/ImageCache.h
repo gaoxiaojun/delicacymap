@@ -24,7 +24,7 @@ public:
 
     class Tile{
     public:
-        enum {DefaultLife=8};
+        enum {DefaultLife=5};
         inline int getLife(){return life;};
         inline void revive(){life = DefaultLife;};
         inline int countdown(){life--; return life;};

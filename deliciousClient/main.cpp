@@ -11,6 +11,7 @@ Session* TryLogin();
 
 int main(int argc, char *argv[])
 {
+    QApplication::setGraphicsSystem("raster");
     QApplication a(argc, argv);
 
     QTranslator trans;
