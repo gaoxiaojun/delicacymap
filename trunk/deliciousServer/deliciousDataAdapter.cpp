@@ -295,7 +295,6 @@ const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int 
         ",msg='", msg,
         "')");
     // Validate user Input!!!!!
-    // user input, query might be very long.
     prepared_InsertComment->reset();
     prepared_InsertComment->bindParameter(1, uid);
     prepared_InsertComment->bindParameter(2, rid);
@@ -307,7 +306,7 @@ const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int 
         prepared_InsertComment->bindParameter(5, *image);
     dbconn->BeginTransaction();
     dbconn->Execute(prepared_InsertComment);
-    DBResultWrap result( dbconn->Execute("SELECT * FROM Comments WHERE Comments.rowid = last_insert_rowid();"), dbconn );
+    DBResultWrap result( dbconn->Execute("SELECT * FROM Comments NATURAL INNER JOIN Users WHERE Comments.rowid = last_insert_rowid();"), dbconn );
     dbconn->EndTransaction();
     return result;
 }
