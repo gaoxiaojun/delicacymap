@@ -89,6 +89,7 @@ protected:
     int zoomLevel;
     int last_xcenter, last_ycenter;
 
+    void addRoute(RouteItem*);
     void drawBackground(QPainter *painter, const QRectF &rect);
     void invalidateBackground();
     int getSide() const;
@@ -121,6 +122,7 @@ private:
     ImageCache *images;
     QGraphicsScene *scene;
     SelfMarkerItem *self;
+    RouteItem *singleRouteItem;
     QTimeLine panMapTimeline/*, bounceItemTimeline*/;
     QPoint _panOldCenter, _panDelta;
     Decorator decorator;
