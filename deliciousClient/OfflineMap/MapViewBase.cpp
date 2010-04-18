@@ -28,6 +28,7 @@ MapViewBase::MapViewBase(QWidget *parent)
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     last_xcenter = xCenter;
     last_ycenter = yCenter;
+    singleRouteItem = NULL;
     scene = new QGraphicsScene;
     panMapTimeline.setDuration(300);
     connect(&panMapTimeline, SIGNAL(valueChanged(qreal)), SLOT(panMapXhandler(qreal)));
@@ -53,6 +54,7 @@ MapViewBase::~MapViewBase()
 void MapViewBase::resizeEvent(QResizeEvent *event)
 {
     //calculate the new size of the backgroundcache
+    QGraphicsView::resizeEvent(event);
     int expandWidth = ((event->size().width() + CoordsHelper::TileSize - 1) & ~(CoordsHelper::TileSize - 1)) + CoordsHelper::TileSize;
     int expandHeight = ((event->size().height() + CoordsHelper::TileSize - 1) & ~(CoordsHelper::TileSize - 1)) + CoordsHelper::TileSize;
 
@@ -423,11 +425,11 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
     {
         int mask= (1 << zoomLevel) - 1;
 
-        int firstTileX = (~0xFF) & (int)rect.x();
-        int firstTileY = (~0xFF) & (int)rect.y();
+        int firstTileX = (~0xFF) & intrect.x();
+        int firstTileY = (~0xFF) & intrect.y();
 
-        int tileRight = (~0xFF) & ((int)rect.right() + CoordsHelper::TileSize - 1);
-        int tileBottom = (~0xFF) & ((int)rect.bottom() + CoordsHelper::TileSize - 1);
+        int tileRight = (~0xFF) & (intrect.right() + CoordsHelper::TileSize - 1);
+        int tileBottom = (~0xFF) & (intrect.bottom() + CoordsHelper::TileSize - 1);
         if (backgroundRect.isNull())
         {
             tileRight = firstTileX + backgroundCache.size().width();
@@ -445,11 +447,16 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
                 dy = intrect.top() - backgroundRect.top();
             else if (intrect.bottom() > backgroundRect.bottom())
                 dy = intrect.bottom() - backgroundRect.bottom();
-            backgroundCache.scroll(dx, dy, backgroundCache.rect());
             int translateX = (abs(dx) + CoordsHelper::TileSize -1) & ~(CoordsHelper::TileSize - 1),
                 translateY = (abs(dy) + CoordsHelper::TileSize -1) & ~(CoordsHelper::TileSize - 1);
             translateX = dx < 0 ? -translateX : translateX;
             translateY = dy < 0 ? -translateY : translateY;
+            backgroundCache.scroll(translateX, translateY, backgroundCache.rect().adjusted(
+                    translateX < 0 ? -translateX : 0,
+                    translateY < 0 ? -translateY : 0,
+                    translateX > 0 ? -translateX : 0,
+                    translateY > 0 ? -translateY : 0));
+
             backgroundRect.translate(translateX, translateY);
         }
 
@@ -459,9 +466,9 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
 
         if (images)
         {
-#if 0
-            qDebug()<<"Dirty Region: x: "<<(int)rect.x()<<" y: "<<(int)rect.y()
-                <<"              w: "<<(int)rect.width()<<" h: "<<(int)rect.height();
+#if 1
+            qDebug()<<"Dirty Region: x: "<<firstTileX<<" y: "<<firstTileY
+                <<"              w: "<<tileRight-firstTileX<<" h: "<<tileBottom-firstTileY;
 #endif
             for (int y = firstTileY; y < tileBottom; y+= 256){
                 int row = (y >> CoordsHelper::TilePower2) & mask;
@@ -528,18 +535,29 @@ void MapViewBase::remapMarkers( int /*oldzoomlevel*/, int newzoomlevel )
 RouteItem* MapViewBase::addRoute( const QList<GeoPoint>& p )
 {
     RouteItem * item = new RouteItem(p);
-    item->setZoom(zoomLevel);
-    scene->addItem(item);
+    addRoute(item);
     return item;
 }
 
 RouteItem* MapViewBase::addRoute( const QList<GeoPoint>& p, int user )
 {
     RouteItem * item = new RouteItem(p, true);
-    item->setZoom(zoomLevel);
     item->setRouteReceiverWhenDoneEditing(user);
-    scene->addItem(item);
+    addRoute(item);
     return item;
+}
+
+void MapViewBase::addRoute(RouteItem *item)
+{
+    item->setZoom(zoomLevel);
+    if (singleRouteItem)
+    {
+        scene->removeItem(singleRouteItem);
+        delete singleRouteItem;
+    }
+
+    singleRouteItem = item;
+    scene->addItem(item);
 }
 
 void MapViewBase::setSelfLocation( const InaccurateGeoPoint& coord )

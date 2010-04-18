@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 {
     QApplication::setGraphicsSystem("raster");
     QApplication a(argc, argv);
+    a.setAutoSipEnabled(true);
 
     QTranslator trans;
     trans.load("delicious_cn");
