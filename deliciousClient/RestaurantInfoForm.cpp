@@ -176,7 +176,6 @@ void RestaurantInfoForm::on_btnCommit_clicked()
      std::string usrname = getSession()->getUser()->nickname();
      if (!content.isEmpty())
      {
-         ui->listComment->addItem(QString("%1 : %2").arg(QString::fromUtf8(usrname.c_str()), content));
          ui->txtComment->clear();
          ProtocolBuffer::Comment *newComment=new ProtocolBuffer::Comment();
 

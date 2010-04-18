@@ -67,7 +67,7 @@ private slots:
     void findCommentByLink(const QString&);
    
     void drawRoute(QList<GeoPoint>* route);
-    void doRoutingRequest(const QString &,const QString &,int);
+    void doRoutingRequest(GeoPoint, GeoPoint, int);
     void startRouting(const ProtocolBuffer::Restaurant *);
     void sendDialog();
     void dialogwith(int);

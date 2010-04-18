@@ -385,25 +385,12 @@ background-color: rgba(255, 255, 255, 200);
            <widget class="QPushButton" name="sendButton">
             <property name="maximumSize">
              <size>
-              <width>30</width>
+              <width>50</width>
               <height>16777215</height>
              </size>
             </property>
             <property name="text">
              <string>send</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="QueryRoutingButton">
-            <property name="maximumSize">
-             <size>
-              <width>64</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>向好友问路</string>
             </property>
            </widget>
           </item>
