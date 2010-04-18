@@ -238,7 +238,8 @@ void PanelWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
        }
     }
     QGraphicsProxyWidget::resizeEvent(event);
-//    target->ensureVisible(this);
+    if (this->balloonTarget)
+        target->ensureVisible(this);
 }
 
 QGraphicsProxyWidget* PanelWidget::setupCloseButton()

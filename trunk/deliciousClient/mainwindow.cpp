@@ -530,26 +530,42 @@ void MainWindow::transToFriend()
 void MainWindow::startRouting(const ProtocolBuffer::Restaurant *res)
 {
     RoutingForm * r_ui=new RoutingForm;
-    navi->addBlockingPanel(r_ui);  
+    //navi->addBlockingPanel(r_ui);
+    r_ui->setService(svc);
     r_ui->setSession(this->getSession());
     r_ui->setFriends();
+    r_ui->setToLocation(QString::fromUtf8(res->name().c_str()));
     r_ui->show();
-    connect(r_ui,SIGNAL(doRoutingRequest(QString, QString,int)),this,SLOT(doRoutingRequest(const QString &,const QString &,int)));
+    connect(r_ui,SIGNAL(doRoutingRequest(GeoPoint,GeoPoint,int)),this,SLOT(doRoutingRequest(GeoPoint,GeoPoint,int)));
 }
-void MainWindow::doRoutingRequest(const QString &from,const QString &to,int uid)
+void MainWindow::doRoutingRequest(GeoPoint from, GeoPoint to, int uid)
 {
-    if(uid==-1)
+    if (!from.isValid() && controller.getPositionInfoSource() && controller.getPositionInfoSource()->lastKnownPosition(false).isValid())
     {
-        QList<GeoPoint> *route=new QList<GeoPoint>;
-        google::protobuf::Closure * done=google::protobuf::NewCallback(this,&MainWindow::drawRoute,route);
-        this->svc->QueryRoute(from,to,*route,done);//google direction
+        from.lat.setDouble(controller.getPositionInfoSource()->lastKnownPosition(false).coordinate().latitude());
+        from.lng.setDouble(controller.getPositionInfoSource()->lastKnownPosition(false).coordinate().longitude());
     }
-    else
+    if (!to.isValid() && controller.getPositionInfoSource() && controller.getPositionInfoSource()->lastKnownPosition(false).isValid())
     {
-        this->getSession()->SendRoutingRequest(from,to,uid);
+        to.lat.setDouble(controller.getPositionInfoSource()->lastKnownPosition(false).coordinate().latitude());
+        to.lng.setDouble(controller.getPositionInfoSource()->lastKnownPosition(false).coordinate().longitude());
+    }
+    if (from.isValid() && to.isValid() && from != to)
+    {
+        if(uid==-1)
+        {
+            QList<GeoPoint> *route=new QList<GeoPoint>;
+            google::protobuf::Closure * done=google::protobuf::NewCallback(this,&MainWindow::drawRoute,route);
+            this->svc->QueryRoute(from,to,*route,done);//google direction
+        }
+        else
+        {
+            this->getSession()->SendRoutingRequest(from,to,uid);
+        }
     }
 }
 void MainWindow::drawRoute(QList<GeoPoint>* route)
 {
     this->navi->addRoute(*route);
+    delete route;
 }

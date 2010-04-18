@@ -73,6 +73,17 @@ void MapViewBase::lockMap()
         emit canZoomIn(false);
         emit canZoomOut(false);
     }
+    else
+    {
+        BOOST_FOREACH(QGraphicsItem* itm, scene->items())
+        {
+            PanelWidget* w = qgraphicsitem_cast<PanelWidget*>(itm);
+            if (w)
+            {
+                w->close();
+            }
+        }
+    }
 }
 
 void MapViewBase::unlockMap()
@@ -477,7 +488,7 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
         }
 
         if (this->isLocked())
-            cachePainter.fillRect(rect, this->backgroundBrush());
+            cachePainter.fillRect(QRect(firstTileX, firstTileY, tileRight, tileBottom), this->backgroundBrush());
     }
     painter->drawPixmap(intrect, backgroundCache, QRect(intrect.topLeft() - backgroundRect.topLeft(), intrect.size()));
 }
