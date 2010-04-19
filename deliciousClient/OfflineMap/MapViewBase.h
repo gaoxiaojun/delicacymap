@@ -91,6 +91,8 @@ protected:
 
     void addRoute(RouteItem*);
     void drawBackground(QPainter *painter, const QRectF &rect);
+
+    void DrawMapInRect( int left, int top, int right, int bottom, QPainter &cachePainter );
     void invalidateBackground();
     int getSide() const;
     int getSideMask() const;
