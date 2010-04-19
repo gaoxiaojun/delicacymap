@@ -54,8 +54,11 @@ void QTProtobufChannelDriver::readMessage()
                     }
                     break;
                 case protorpc::MESSAGE:
-                    dmessage.ParseFromString(response.buffer());
-                    emit MessageReceived(&dmessage);
+                    {
+                        ProtocolBuffer::DMessage* msg = this->getEmptyMessage();
+                        msg->ParseFromString(response.buffer());
+                        emit MessageReceived(msg);
+                    }
                     break;
                 default:
                     qDebug()<<"Unexpected RPC Response type: "<<response.type();
@@ -79,6 +82,25 @@ QTProtobufChannelDriver::~QTProtobufChannelDriver()
     //_tcps->abort();
     _tcps->close();
     delete _tcps;
+}
+
+void QTProtobufChannelDriver::freeMessage(const ProtocolBuffer::DMessage *cel)
+{
+    ProtocolBuffer::DMessage* el = const_cast<ProtocolBuffer::DMessage*>(cel);
+    if (!messagePool.contains(el))
+    {
+        messagePool.enqueue(el);
+    }
+    while (messagePool.size() > 7)
+        delete messagePool.dequeue();
+}
+
+ProtocolBuffer::DMessage* QTProtobufChannelDriver::getEmptyMessage()
+{
+    if (messagePool.empty())
+        return new ProtocolBuffer::DMessage;
+    else
+        return messagePool.dequeue();
 }
 
 void QTProtobufChannelDriver::writeMessage( protorpc::Message* m )

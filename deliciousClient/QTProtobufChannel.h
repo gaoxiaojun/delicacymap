@@ -44,7 +44,9 @@ public:
 
     void SendMessage( ProtocolBuffer::DMessage* );
 
-	void returnQueryBuffer(protorpc::Message*);
+    void returnQueryBuffer(protorpc::Message*);
+
+    void returnDMessageBuffer( const ProtocolBuffer::DMessage* );
 
 protected:
     // override QThread::run
@@ -64,12 +66,12 @@ private:
 
     void needMoreReqs();
 private:
-	QStack<protorpc::Message*> reqs;
-	QHash<int,CallEntry> _currentCalls;
-	QHostAddress _addr;
-	QTProtobufChannelDriver *_helper;
-	int _callid;
-	unsigned short _port;
+    QStack<protorpc::Message*> reqs;
+    QHash<int,CallEntry> _currentCalls;
+    QHostAddress _addr;
+    QTProtobufChannelDriver *_helper;
+    int _callid;
+    unsigned short _port;
 };
 
 #endif

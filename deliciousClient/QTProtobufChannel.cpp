@@ -100,6 +100,11 @@ void QTProtobufChannel::returnQueryBuffer( protorpc::Message* m )
     reqs.push(m);
 }
 
+void QTProtobufChannel::returnDMessageBuffer(const ProtocolBuffer::DMessage *el)
+{
+    _helper->freeMessage(el);
+}
+
 QString QTProtobufChannel::errorString()
 {
     if (_helper)
