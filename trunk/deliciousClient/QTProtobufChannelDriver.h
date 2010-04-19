@@ -12,31 +12,36 @@
 #include "QTProtobufChannel.h"
 #include "MapProtocol.pb.h"
 
+#include <QQueue>
+
 class QTProtobufChannelDriver : public QObject
 {
-	Q_OBJECT
-	friend class QTProtobufChannel;
+    Q_OBJECT
+    friend class QTProtobufChannel;
 signals:
     void MessageReceived(const google::protobuf::MessageLite*);
 private slots:
-	void writeMessage(protorpc::Message* m);
-	void start(QHostAddress *_addr, unsigned short _port);
-	void readMessage();
+    void writeMessage(protorpc::Message* m);
+    void start(QHostAddress *_addr, unsigned short _port);
+    void readMessage();
 public:
-	QTProtobufChannelDriver(QTProtobufChannel* parent, QHash<int,CallEntry> *currentCalls);
-	~QTProtobufChannelDriver();
-	
-	bool started();
-	QAbstractSocket::SocketError networkError() const;
-	
-    ProtocolBuffer::DMessage dmessage;
-	protorpc::Message response;
-	std::string _writebuffer;
-	std::string _readbuffer;
-	QTProtobufChannel* parent;
-	QTcpSocket *_tcps;
-	QHash<int,CallEntry>* _currentCalls;
-	int _buffer_index, _msgsize;
+    QTProtobufChannelDriver(QTProtobufChannel* parent, QHash<int,CallEntry> *currentCalls);
+    ~QTProtobufChannelDriver();
+
+    bool started();
+    QAbstractSocket::SocketError networkError() const;
+    void freeMessage(const ProtocolBuffer::DMessage*);
+private: //funcitons
+    ProtocolBuffer::DMessage* getEmptyMessage();
+private:
+    QQueue<ProtocolBuffer::DMessage*> messagePool;
+    protorpc::Message response;
+    std::string _writebuffer;
+    std::string _readbuffer;
+    QTProtobufChannel* parent;
+    QTcpSocket *_tcps;
+    QHash<int,CallEntry>* _currentCalls;
+    int _buffer_index, _msgsize;
 };
 
 #endif

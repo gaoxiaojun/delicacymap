@@ -20,6 +20,7 @@ MapDataSource::~MapDataSource()
 void MapDataSource::emitDMessage( const google::protobuf::MessageLite*  msg )
 {
     emit messageReceived( ::google::protobuf::down_cast<const ProtocolBuffer::DMessage*>(msg) );
+    channel->returnDMessageBuffer(::google::protobuf::down_cast<const ProtocolBuffer::DMessage*>(msg));
 }
 
 void MapDataSource::channel_disconnected()
