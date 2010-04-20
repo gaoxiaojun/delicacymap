@@ -65,6 +65,7 @@ private slots:
     void showSystemMenu();
     void showSubscriptionTip(const ProtocolBuffer::CommentList*);
     void findCommentByLink(const QString&);
+    void locateByCellID();
    
     void drawRoute(QList<GeoPoint>* route);
     void doRoutingRequest(GeoPoint, GeoPoint, int);
@@ -75,6 +76,7 @@ private slots:
     void HandleUserMessage(const ProtocolBuffer::DMessage* );
 private:
     void searchResponse(ProtocolBuffer::SearchResult*);
+    void locateByCellIDClosure(InaccurateGeoPoint*);
     void createMenu();
     
 private:

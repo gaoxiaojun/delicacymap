@@ -141,8 +141,21 @@ void MainWindow::createMenu()
 {
     mainMenu = new QMenu();
     mainMenu->setStyleSheet("");
+    mainMenu->addAction(tr("Locate by cell network"), this, SLOT(locateByCellID()));
     mainMenu->addSeparator();
     mainMenu->addAction(tr("Quit"), this, SLOT(close()));
+}
+
+void MainWindow::locateByCellID()
+{
+    InaccurateGeoPoint *p = new InaccurateGeoPoint;
+    svc->LocationByCellID(*p, google::protobuf::NewCallback(this, &MainWindow::locateByCellIDClosure, p));
+}
+
+void MainWindow::locateByCellIDClosure(InaccurateGeoPoint *p)
+{
+    navi->setSelfLocation(*p);
+    delete p;
 }
 
 void MainWindow::BTHFind()
