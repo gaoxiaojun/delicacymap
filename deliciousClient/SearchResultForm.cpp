@@ -13,6 +13,7 @@ SearchResultForm::SearchResultForm(ProtocolBuffer::SearchResult* result, MapView
     ui->setupUi(this);
     this->result = result;
     this->target = t;
+    ui->listWidget->setFocus();
     connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(itemClicked(QListWidgetItem*)));
     for (int i=0;i<result->restaurants().restaurants_size();i++)
     {
@@ -50,6 +51,7 @@ void SearchResultForm::itemClicked(QListWidgetItem *item)
     {
         target->addRestaurantMarker( new ProtocolBuffer::Restaurant(r) );
         marker = target->getRestaurantMarker(rid);
+        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
         Q_ASSERT( marker );
     }
     target->centerOn(marker, true);
