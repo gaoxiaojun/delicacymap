@@ -117,6 +117,7 @@ public:
     QList<GeoPoint> getRoute() const {return points;}
     void setRouteReceiverWhenDoneEditing(int);
     int getRouteReceiverWhenDoneEditing() { return targetUser; }
+    bool willHandleMouseEventAtPoint(QPoint);
 
 signals:
     void EditFinished(RouteItem*);

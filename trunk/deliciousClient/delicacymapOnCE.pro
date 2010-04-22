@@ -20,6 +20,7 @@ FORMS += mainwindow.ui \
     loginWindow.ui \
     SearchResultForm.ui \
     RoutingForm.ui \
+    UserInfoForm.ui \
     RestaurantInfoForm.ui
 HEADERS += md5.h \
     bluetoothmanager.h \
@@ -34,6 +35,7 @@ HEADERS += md5.h \
     QTProtobufWaitResponse.h \
     Session.h \
     RoutingForm.h \
+    UserInfoForm.h \
     RestaurantInfoForm.h \
     ../rclib/include/TinyXMLPP/ticpp.h \
     ../rclib/include/TinyXMLPP/tinyxml.h \
@@ -68,6 +70,7 @@ SOURCES += main.cpp \
     QTProtobufWaitResponse.cpp \
     Session.cpp \
     RoutingForm.cpp \
+    UserInfoForm.cpp \
     RestaurantInfoForm.cpp \
     ../rclib/include/TinyXMLPP/ticpp.cpp \
     ../rclib/include/TinyXMLPP/tinyxml.cpp \

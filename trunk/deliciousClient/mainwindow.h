@@ -34,6 +34,7 @@ namespace Ui {
 }
 
 class RestaurantMarkerItem;
+class UserMarkerItem;
 class PanelWidget;
 
 class MainWindow : public QMainWindow 
@@ -51,6 +52,7 @@ protected:
 private slots:
     void BTHFind();
     void RestaurantMarkerResponse(RestaurantMarkerItem*);
+    void UserMarkerResponse(UserMarkerItem*);
     void handlePanelClosing(PanelWidget*);
     void handleBtnConfirmClicked();
     void handleBtnCancelClicked();
