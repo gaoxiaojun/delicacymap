@@ -82,6 +82,7 @@ signals:
     void zoomLevelChanged(int level);
     void boundsChange(const GeoBound& newbound);
     void restaurantMarkerClicked(RestaurantMarkerItem*);
+    void userMarkerClicked(UserMarkerItem*);
 
 protected:
     int xCenter;

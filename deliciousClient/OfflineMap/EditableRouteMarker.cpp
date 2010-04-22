@@ -91,6 +91,11 @@ int ContainsPoint(const QPolygon& polygon, const QPoint& p)
     return -1;
 }
 
+bool RouteItem::willHandleMouseEventAtPoint(QPoint p)
+{
+    return isEditing && ContainsPoint(sceneCoords, p) != -1;
+}
+
 void RouteItem::mousePressEvent( QGraphicsSceneMouseEvent *event )
 {
     if (isEditing)

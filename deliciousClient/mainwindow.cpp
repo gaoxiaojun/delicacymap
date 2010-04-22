@@ -8,6 +8,7 @@
 #include "RestaurantInfoForm.h"
 #include "SearchResultForm.h"
 #include "RoutingForm.h"
+#include "UserInfoForm.h"
 #include "Configurations.h"
 #include "OfflineMap/MarkerItem.h"
 #include "OfflineMap/MapViewBase.h"
@@ -75,6 +76,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
    
     //ZZQ edited,编辑一个slot,专门用来显示餐厅信息
     connect(navi,SIGNAL(restaurantMarkerClicked(RestaurantMarkerItem*)),SLOT(RestaurantMarkerResponse(RestaurantMarkerItem*)));
+    connect(navi, SIGNAL(userMarkerClicked(UserMarkerItem*)), SLOT(UserMarkerResponse(UserMarkerItem*)));
     connect(m_ui->sendButton,SIGNAL(clicked()),this,SLOT(sendDialog()));
     connect(m_ui->FriendlistWidget,SIGNAL(currentRowChanged(int)),this,SLOT(dialogwith(int)));
     connect(m_ui->toolButton_Friends,SIGNAL(clicked()),this,SLOT(transToFriend()));
@@ -325,6 +327,11 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
         PanelWidget* panel = navi->addBlockingPanel(edit, res);
         connect(panel, SIGNAL(closing(PanelWidget*)), SLOT(handlePanelClosing(PanelWidget*)), Qt::DirectConnection);
     }
+}
+
+void MainWindow::UserMarkerResponse(UserMarkerItem *userMarker)
+{
+    navi->addBlockingPanel(new UserInfoForm(), userMarker);
 }
 
 void MainWindow::handlePanelClosing(PanelWidget *w)

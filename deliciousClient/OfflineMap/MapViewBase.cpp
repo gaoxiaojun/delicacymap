@@ -243,9 +243,24 @@ void MapViewBase::mouseReleaseEvent(QMouseEvent *event)
     QGraphicsItem *item = itemAt(event->pos());
     if (!item)
         decorator.mouseReleaseEvent(event);
-    else if (event->button() == Qt::LeftButton && item->type() == RestaurantMarkerItem::Type)
+    else if (event->button() == Qt::LeftButton)
     {
-        emit restaurantMarkerClicked(static_cast<RestaurantMarkerItem*>(item));
+        switch  (item->type())
+        {
+        case RestaurantMarkerItem::Type:
+            emit restaurantMarkerClicked(static_cast<RestaurantMarkerItem*>(item));
+            break;
+        case UserMarkerItem::Type:
+            emit userMarkerClicked(static_cast<UserMarkerItem*>(item));
+            break;
+        case RouteItem::Type:
+            {
+                RouteItem* route = static_cast<RouteItem*>(item);
+                if (!route->willHandleMouseEventAtPoint(this->mapToScene(event->pos()).toPoint()))
+                    decorator.mouseReleaseEvent(event);
+            }
+            break;
+        }
     }
     QGraphicsView::mouseReleaseEvent(event);
 }
