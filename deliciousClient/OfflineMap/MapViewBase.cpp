@@ -251,6 +251,7 @@ void MapViewBase::mouseReleaseEvent(QMouseEvent *event)
             emit restaurantMarkerClicked(static_cast<RestaurantMarkerItem*>(item));
             break;
         case UserMarkerItem::Type:
+        case SelfMarkerItem::Type:
             emit userMarkerClicked(static_cast<UserMarkerItem*>(item));
             break;
         case RouteItem::Type:

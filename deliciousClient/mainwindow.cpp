@@ -95,6 +95,10 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 
     navi->setZoomLevel(15);
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
+    InaccurateGeoPoint p;
+    p.p = GeoPoint(39.96067508327288, 116.35796070098877);
+    p.accuracy = 300;
+    navi->setSelfLocation(p);
 
     qRegisterMetaType<ProtocolBuffer::SearchResult*>("ProtocolBuffer::SearchResult*");
 
@@ -331,7 +335,9 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
 
 void MainWindow::UserMarkerResponse(UserMarkerItem *userMarker)
 {
-    navi->addBlockingPanel(new UserInfoForm(), userMarker);
+    UserInfoForm *item = new UserInfoForm();
+    item->setLocation(userMarker->getPos());
+    navi->addBlockingPanel(item, userMarker);
 }
 
 void MainWindow::handlePanelClosing(PanelWidget *w)
