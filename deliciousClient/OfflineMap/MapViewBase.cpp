@@ -505,7 +505,7 @@ void MapViewBase::DrawMapInRect(  int firstTileX, int firstTileY, int tileRight,
     int mask= (1 << zoomLevel) - 1;
     if (images)
     {
-#if 1
+#if 0
         qDebug()<<"Dirty Region: x: "<<firstTileX<<" y: "<<firstTileY
             <<"              w: "<<tileRight-firstTileX<<" h: "<<tileBottom-firstTileY;
 #endif

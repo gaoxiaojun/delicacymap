@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QSet>
 #include <QString>
+#include <QSystemNetworkInfo>
 #include "GeoCoord.h"
 
 class QNetworkAccessManager;
@@ -46,4 +47,5 @@ private:
     QMap<QNetworkReply*, ServiceResponse> results;
     QSet<QNetworkReply*> reverseGeoRequests;
     QNetworkAccessManager *network;
+    ::QTM_NAMESPACE::QSystemNetworkInfo* ninfo;
 };

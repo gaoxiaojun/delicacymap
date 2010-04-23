@@ -95,10 +95,6 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
 
     navi->setZoomLevel(15);
     navi->setGeoCoords(GeoCoord(39.96067508327288), GeoCoord(116.35796070098877));
-    InaccurateGeoPoint p;
-    p.p = GeoPoint(39.96067508327288, 116.35796070098877);
-    p.accuracy = 300;
-    navi->setSelfLocation(p);
 
     qRegisterMetaType<ProtocolBuffer::SearchResult*>("ProtocolBuffer::SearchResult*");
 
@@ -154,12 +150,14 @@ void MainWindow::createMenu()
 
 void MainWindow::locateByCellID()
 {
+    qDebug()<<"Start Locating by Cell.";
     InaccurateGeoPoint *p = new InaccurateGeoPoint;
     svc->LocationByCellID(*p, google::protobuf::NewCallback(this, &MainWindow::locateByCellIDClosure, p));
 }
 
 void MainWindow::locateByCellIDClosure(InaccurateGeoPoint *p)
 {
+    qDebug()<<"Get location: lat="<<p->p.lat.getDouble()<<". lng="<<p->p.lng.getDouble()<<". acc="<<p->accuracy<<".";
     navi->setSelfLocation(*p);
     delete p;
 }
