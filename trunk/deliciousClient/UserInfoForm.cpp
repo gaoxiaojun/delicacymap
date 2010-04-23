@@ -36,6 +36,7 @@ void UserInfoForm::setLocation(GeoPoint p)
 
 void UserInfoForm::_locationResolved()
 {
+    streetName = streetName.mid(2);
     QMetaObject::invokeMethod(this, "locationResolved");
 }
 

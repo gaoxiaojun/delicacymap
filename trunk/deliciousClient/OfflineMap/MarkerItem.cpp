@@ -3,6 +3,7 @@
 #include "MapProtocol.pb.h"
 #include "OfflineMap/MapViewBase.h"
 #include <QGraphicsSceneResizeEvent>
+#include <QGraphicsEllipseItem>
 #include <QPainter>
 #include <QPixmap>
 #include <QStyle>
@@ -127,8 +128,13 @@ const QPixmap& UserMarkerItem::UserIcon() const
 
 SelfMarkerItem::SelfMarkerItem()
 {
-    radius = 0.;
-    accuracy = 0;
+    accuracy = 0.;
+    area = NULL;
+}
+
+SelfMarkerItem::~SelfMarkerItem()
+{
+    delete area;
 }
 
 const QPixmap& SelfMarkerItem::UserIcon() const
@@ -142,40 +148,36 @@ void SelfMarkerItem::setInaccuratePosition( const InaccurateGeoPoint& p )
     setPos(p.p);
     if (accuracy != p.accuracy)
     {
+        if (!area)
+        {
+            area = new QGraphicsEllipseItem(this);
+            QPen pen(QColor(0, 0, 150, 160));
+            pen.setWidth(2);
+            area->setPen(pen);
+            area->setBrush(QBrush(QColor(0, 0, 200, 50)));
+            area->setFlag(QGraphicsItem::ItemStacksBehindParent);
+        }
         this->accuracy = p.accuracy;
-        radius = p.accuracy * (1<<(CoordsHelper::TilePower2+getZoom())) / cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137;
-        qDebug()<<"Radius(setInaccuratePosition) = "<<radius;
-        this->prepareGeometryChange();
+        qreal radius = p.accuracy * ((1<<(CoordsHelper::TilePower2+getZoom())) / (cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137));
+        area->setRect(-radius, -radius, radius*2, radius*2);
         //     double resolution = cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137 / 1<<(CoordsHelper::TilePower2+getZoom());
         //     radius = p.accuracy / resolution;
     }
 }
 
-QRectF SelfMarkerItem::boundingRect() const
+void SelfMarkerItem::setPos(const GeoPoint& center)
 {
-    qreal actual_Rx = std::max((qreal)UserIcon().width()/2, radius);
-    qreal actual_Ry = std::max((qreal)UserIcon().height()/2, radius);
-    return QRectF(-actual_Rx, -actual_Ry, actual_Rx*2, actual_Ry*2);
+    UserMarkerItem::setPos(center);
+    if (area)
+        area->setPos(this->pos());
 }
 
 void SelfMarkerItem::setZoom( int zoom )
 {
     UserMarkerItem::setZoom(zoom);
-    radius = accuracy * (1<<(CoordsHelper::TilePower2+getZoom())) / cos(getPos().lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137;
-    qDebug()<<"Radius(setZoom) = "<<radius;
-    this->prepareGeometryChange();
-}
-
-void SelfMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )
-{
-    UserMarkerItem::paint(painter, option, widget);
-    if (radius > 0)
-    {
-        qDebug()<<"Radius(paint) = "<<radius;
-        painter->setPen(QColor(0, 0, 255, 160));
-        painter->setBrush(QBrush(QColor(0, 0, 255, 100)));
-        painter->drawEllipse(this->pos(), radius, radius);
-    }
+    qreal radius = accuracy * ((1<<(CoordsHelper::TilePower2+getZoom())) / (cos(getPos().lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137));
+    if (area)
+        area->setRect(-radius, -radius, radius*2, radius*2);
 }
 
 PanelWidget::PanelWidget(MapViewBase *map, QGraphicsItem* parent, Qt::WindowFlags wFlags)

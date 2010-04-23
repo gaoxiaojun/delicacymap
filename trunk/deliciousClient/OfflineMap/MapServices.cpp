@@ -3,7 +3,6 @@
 #include "JSON/json_spirit_writer_template.h"
 #include "google/protobuf/stubs/common.h"
 
-#include <QSystemNetworkInfo>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -45,6 +44,7 @@ static const QString _CellRequest("{"
 
 MapServices::MapServices(void)
 {
+    ninfo = new QSystemNetworkInfo(this);
     network = new QNetworkAccessManager(this);
     connect(network, SIGNAL(finished(QNetworkReply*)), this, SLOT(ProcessJSONResult(QNetworkReply*)));
 }
@@ -286,7 +286,7 @@ void MapServices::ReverseGeoCode( double latitude, double longitude, QString& ad
     QNetworkReply* reply = network->get(request);
     resultCallbacks.insert(reply, callback);
     results.insert(reply, ret);
-    reverseGeoRequests.insert(network->get(request));
+    reverseGeoRequests.insert(reply);
 }
 
 void MapServices::QueryRoute( const QString& from, const QString& to, QList<GeoPoint>& route, google::protobuf::Closure* callback )
@@ -311,12 +311,13 @@ void MapServices::QueryRoute(const GeoPoint &from, const GeoPoint &to, QList<Geo
 
 bool MapServices::LocationByCellID(InaccurateGeoPoint& coord, google::protobuf::Closure* callback)
 {
-    QSystemNetworkInfo ninfo;
-    if (ninfo.currentMobileCountryCode().size() > 0 && ninfo.currentMobileNetworkCode().size() > 0)
+    qDebug()<<"MCC="<<ninfo->currentMobileCountryCode()<<", cellId="<<ninfo->cellId()<<", LAC="<<ninfo->locationAreaCode()<<", MNC="<<ninfo->currentMobileNetworkCode();
+    if (ninfo->currentMobileCountryCode().size() > 0 && ninfo->currentMobileNetworkCode().size() > 0)
     {
+        qDebug()<<"MCC="<<ninfo->currentMobileCountryCode()<<", cellId="<<ninfo->cellId()<<", LAC="<<ninfo->locationAreaCode()<<", MNC="<<ninfo->currentMobileNetworkCode();
         ServiceResponse ret;
         ret.acoord = &coord;
-        QString requestbody = _CellRequest.arg(ninfo.cellId()).arg(ninfo.locationAreaCode()).arg(ninfo.currentMobileCountryCode(), ninfo.currentMobileNetworkCode());
+        QString requestbody = _CellRequest.arg(ninfo->cellId()).arg(ninfo->locationAreaCode()).arg(ninfo->currentMobileCountryCode(), ninfo->currentMobileNetworkCode());
         //QString requestbody = _CellRequest.arg(20442).arg(6015);
         QNetworkReply *reply = network->post(QNetworkRequest(QUrl(_CellLocationURL)), requestbody.toUtf8());
         resultCallbacks.insert(reply, callback);

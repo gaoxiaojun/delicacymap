@@ -19,6 +19,7 @@ MapDataSource::~MapDataSource()
 
 void MapDataSource::emitDMessage( const google::protobuf::MessageLite*  msg )
 {
+    // as of here, MapDataSource is on Main Thread.
     emit messageReceived( ::google::protobuf::down_cast<const ProtocolBuffer::DMessage*>(msg) );
     channel->returnDMessageBuffer(::google::protobuf::down_cast<const ProtocolBuffer::DMessage*>(msg));
 }
