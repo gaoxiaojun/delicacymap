@@ -7,10 +7,30 @@
 #include <QSqlQuery>
 #include <QMap>
 #include <QPixmap>
+#include <QThread>
 
 class Downloader;
 
-class ImageCache: public QObject{
+class AsyncLoader : public QThread
+{
+    Q_OBJECT
+public:
+    AsyncLoader();
+    void setDB(QSqlDatabase *);
+public slots:
+    void loadImage(int x, int y, int zoom);
+signals:
+    void imageLoaded(int x, int y, int zoom, QPixmap* img);
+protected:
+    void prepareStatements();
+    void run();
+private:
+    QSqlQuery queries[18];
+    QSqlDatabase *db;
+};
+
+class ImageCache: public QObject
+{
     Q_OBJECT
 public:
     struct TileCoord{
@@ -47,26 +67,28 @@ public:
     void clear();
     const QString& getUrlTemplate();
     void setUrlTemplate(const QString &newUrlTemplate);
+private slots:
+    void imageLoaded(int x, int y, int zoom, QPixmap* img);
 signals:
-    void imageChanged();
+    void imageChanged(int x, int y, int zoom, QPixmap* img);
+    void needLoadImage(int x, int y, int zoom);
 
 protected:
     void timerEvent(QTimerEvent *);
     void loadImage(const TileCoord& tileCoord, int possibility);
     QString getDownloadUrl(int x, int y, int zoom);
     QString getCoordsQstr(int x, int y, int zoom);
-    void prepareStatements();
     void paintLoadingImage();
     bool isLoading(const TileCoord& tileCoord);
 
+    AsyncLoader asyncLoader;
     QMap<TileCoord, Tile> images;
 
-    QPixmap loadingImg;
-    QSqlQuery queries[18];
-    Downloader* downloader;
-    QString urlTemplate;
     QString dbpath;
     QSqlDatabase db;
+    QPixmap loadingImg;
+    Downloader* downloader;
+    QString urlTemplate;
     QBasicTimer timer;
     int ticks;
 };

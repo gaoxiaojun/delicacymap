@@ -14,28 +14,33 @@ void ImageCache::setDownloader(Downloader* newDownloader){
     downloader->setDB(db);
 }
 
-void ImageCache::setCacheDBPath(const QString& newCachePath){
-	if (newCachePath != dbpath)
+void ImageCache::setCacheDBPath(const QString &newCachePath)
+{
+    if (newCachePath != dbpath)
     {
         dbpath = newCachePath;
         db = QSqlDatabase::addDatabase("QSQLITE");
         db.setDatabaseName(dbpath);
         db.open();
         downloader->setDB(db);
-        prepareStatements();
+        asyncLoader.setDB(&db);
     }
 }
 
-const QString& ImageCache::getCacheDBPath(){
+const QString& ImageCache::getCacheDBPath()
+{
     return dbpath;
 }
 
 ImageCache::ImageCache()
 :downloader(0),
+loadingImg(256, 256),
 urlTemplate("http://mt2.google.com/vt/lyrs=m@116&hl=zh&x=%1&y=%2&z=%3")
 {
     ticks = 0;
-    paintLoadingImage();
+    this->paintLoadingImage();
+    connect(this, SIGNAL(needLoadImage(int,int,int)), &asyncLoader, SLOT(loadImage(int,int,int)), Qt::QueuedConnection);
+    connect(&asyncLoader, SIGNAL(imageLoaded(int,int,int,QPixmap*)), this, SLOT(imageLoaded(int,int,int,QPixmap*)), Qt::QueuedConnection);
 }
 
 QPixmap* ImageCache::getImage(int x, int y, int zoom){
@@ -44,7 +49,10 @@ QPixmap* ImageCache::getImage(int x, int y, int zoom){
         return &loadingImg;
 
     if (!images.contains(tileCoord))
+    {
         loadImage(tileCoord, 100);
+        return &loadingImg;
+    }
 
     if (images.contains(tileCoord)){
         Tile& tile = images[tileCoord];
@@ -89,14 +97,7 @@ void ImageCache::loadImage(const TileCoord& tileCoord, int possibility)
 //         return;
 //     if (possibility > 90 || (rand() % 100)  < possibility)
     {
-        ImageCache::Tile newtile;
-        QSqlQuery &query = queries[tileCoord.zoom];
-        query.bindValue(0, tileCoord.x);
-        query.bindValue(1, tileCoord.y);
-        if (query.exec() && query.next() && newtile.image.loadFromData(query.value(0).toByteArray())) 
-        {
-            images.insert(tileCoord, newtile);
-        }
+        emit needLoadImage(tileCoord.x, tileCoord.y, tileCoord.zoom);
 //         TileCoord tryload;
 //         tryload.zoom = tileCoord.zoom;
 //         LOADIMAGE(tileCoord.x-1, tileCoord.y-1);
@@ -111,6 +112,19 @@ void ImageCache::loadImage(const TileCoord& tileCoord, int possibility)
 }
 #undef LOADIMAGE
 
+// As this method is queued to run in the same thread, there is no race condition
+void ImageCache::imageLoaded(int x, int y, int zoom, QPixmap *img)
+{
+    if (img != NULL)
+    {
+        ImageCache::Tile newtile;
+        newtile.image = *img;
+        delete img;
+        images.insert(TileCoord(x, y, zoom), newtile);
+        emit imageChanged(x, y, zoom, &newtile.image);
+    }
+}
+
 void ImageCache::downloadImage(int x, int y, int zoom){
     if (downloader)
         downloader->addDownload(
@@ -122,7 +136,6 @@ void ImageCache::setUrlTemplate(const QString &newUrlTemplate){
     if (urlTemplate != newUrlTemplate){
         urlTemplate = newUrlTemplate;
         clear();
-        emit imageChanged();
     }
 }
 
@@ -139,7 +152,7 @@ void ImageCache::paintLoadingImage(){
     painter.setBrush(QColor(0, 0, 0));
     painter.setPen(QColor(255, 255, 255));
     painter.drawRect(0, 0, 255, 255);
-    painter.drawText(0, 0, 255, 255, Qt::AlignHCenter|Qt::AlignVCenter,	QString("Downloading..."));
+    painter.drawText(0, 0, 255, 255, Qt::AlignHCenter|Qt::AlignVCenter,	tr("Loading..."));
 }
 
 void ImageCache::timerEvent(QTimerEvent *ev)
@@ -191,7 +204,26 @@ QString ImageCache::getCoordsQstr(int x, int y, int zoom)
     return tmp;
 }
 
-void ImageCache::prepareStatements()
+void ImageCache::tick()
+{
+    ++ticks;
+    if (!timer.isActive())
+        timer.start(100, this);
+}
+
+AsyncLoader::AsyncLoader()
+{
+    this->moveToThread(this);
+    this->start();
+}
+
+void AsyncLoader::setDB(QSqlDatabase *db)
+{
+    this->db = db;
+    prepareStatements();
+}
+
+void AsyncLoader::prepareStatements()
 {
     for (int i=0;i< sizeof(queries) / sizeof(queries[0]);i++)
     {
@@ -201,9 +233,19 @@ void ImageCache::prepareStatements()
     }
 }
 
-void ImageCache::tick()
+void AsyncLoader::loadImage(int x, int y, int zoom)
 {
-    ++ticks;
-    if (!timer.isActive())
-        timer.start(100, this);
+    QSqlQuery &query = queries[zoom];
+    query.bindValue(0, x);
+    query.bindValue(1, y);
+    QPixmap *image = new QPixmap;
+    if (query.exec() && query.next() && image->loadFromData(query.value(0).toByteArray()))
+    {
+        emit this->imageLoaded(x, y, zoom, image);
+    }
+}
+
+void AsyncLoader::run()
+{
+    exec();
 }

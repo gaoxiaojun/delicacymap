@@ -165,13 +165,6 @@ void SelfMarkerItem::setInaccuratePosition( const InaccurateGeoPoint& p )
     }
 }
 
-void SelfMarkerItem::setPos(const GeoPoint& center)
-{
-    UserMarkerItem::setPos(center);
-    if (area)
-        area->setPos(this->pos());
-}
-
 void SelfMarkerItem::setZoom( int zoom )
 {
     UserMarkerItem::setZoom(zoom);

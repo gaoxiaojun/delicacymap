@@ -160,7 +160,6 @@ public:
     SelfMarkerItem();
     ~SelfMarkerItem();
     void setZoom(int zoom);
-    void setPos(const GeoPoint& center);
     int type() const { return Type; }
     void setInaccuratePosition(const InaccurateGeoPoint&);
 protected:
