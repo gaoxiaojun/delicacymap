@@ -518,7 +518,6 @@ void MapViewBase::DrawMapInRect(  int firstTileX, int firstTileY, int tileRight,
             int row = (y >> CoordsHelper::TilePower2) & mask;
             for (int x = firstTileX; x < tileRight; x += 256){
                 int col = (x >> CoordsHelper::TilePower2) & mask;
-                qDebug()<<"Load x="<<x<<", y="<<y;
                 QPixmap* img = images->getImage(col, row, zoomLevel);
                 if (img){
                     cachePainter.drawPixmap(QPoint(x, y), *img, ImageRect);
