@@ -100,8 +100,13 @@ void MapViewBase::unlockMap()
     }
 }
 
-void MapViewBase::setCache(ImageCache* imageCache){
+void MapViewBase::setCache(ImageCache* imageCache)
+{
+    if (images)
+        disconnect(images, SIGNAL(imageChanged(int,int,int,QPixmap*)), this, SLOT(asyncImageLoaded(int,int,int,QPixmap*)));
     images = imageCache;
+    if (images)
+        connect(images, SIGNAL(imageChanged(int,int,int,QPixmap*)), this, SLOT(asyncImageLoaded(int,int,int,QPixmap*)));
 }
 
 void MapViewBase::zoomIn(){
@@ -138,8 +143,8 @@ void MapViewBase::setZoomLevel(int level){
                 images->clear();
             updateBound();
             scene->setSceneRect(0, 0, 1<<(zoomLevel+CoordsHelper::TilePower2), 1<<(zoomLevel+CoordsHelper::TilePower2));
-            this->invalidateBackground();
             centerOn(xCenter, yCenter);
+            this->invalidateBackground();
             //repaint();
         }
         emit canZoomIn(level < CoordsHelper::MaxZoomLevel);
@@ -166,8 +171,8 @@ void MapViewBase::setZoomLevelAt(int level, int x, int y){
                 images->clear();
             updateBound();
             scene->setSceneRect(0, 0, 1<<(zoomLevel+CoordsHelper::TilePower2), 1<<(zoomLevel+CoordsHelper::TilePower2));
-            this->invalidateBackground();
             centerOn(xCenter, yCenter);
+            this->invalidateBackground();
         }
         emit canZoomIn(level < CoordsHelper::MaxZoomLevel);
         emit canZoomOut(level > 0);
@@ -339,7 +344,7 @@ void MapViewBase::panMapStateChange(QTimeLine::State newState)
 }
 
 void MapViewBase::scheduleRepaint(){
-    update();
+    QTimer::singleShot(30, this, SLOT(repaint()));
 }
 
 int MapViewBase::getZoomLevel(){
@@ -513,6 +518,7 @@ void MapViewBase::DrawMapInRect(  int firstTileX, int firstTileY, int tileRight,
             int row = (y >> CoordsHelper::TilePower2) & mask;
             for (int x = firstTileX; x < tileRight; x += 256){
                 int col = (x >> CoordsHelper::TilePower2) & mask;
+                qDebug()<<"Load x="<<x<<", y="<<y;
                 QPixmap* img = images->getImage(col, row, zoomLevel);
                 if (img){
                     cachePainter.drawPixmap(QPoint(x, y), *img, ImageRect);
@@ -534,6 +540,24 @@ void MapViewBase::DrawMapInRect(  int firstTileX, int firstTileY, int tileRight,
     }
     if (this->isLocked())
         cachePainter.fillRect(QRect(firstTileX, firstTileY, tileRight, tileBottom), this->backgroundBrush());
+}
+
+void MapViewBase::asyncImageLoaded(int col, int row, int zoom, QPixmap *img)
+{
+    Q_ASSERT(img);
+    if (zoom == this->zoomLevel)
+    {
+        int x = col<<CoordsHelper::TilePower2;
+        int y = row<<CoordsHelper::TilePower2;
+        if (backgroundRect.contains(x + 128, y + 128))
+        {
+            QPainter painter(&backgroundCache);
+            painter.translate(-backgroundRect.topLeft());
+            painter.drawPixmap(QPoint(x, y), *img, ImageRect);
+            painter.end();
+            this->update(x, y, CoordsHelper::TileSize, CoordsHelper::TileSize);
+        }
+    }
 }
 
 void MapViewBase::invalidateBackground()

@@ -114,6 +114,7 @@ protected:
     void remapMarkers(int oldzoomlevel, int newzoomlevel);
 
 private slots:
+    void asyncImageLoaded(int x, int y, int zoom, QPixmap* img);
     void removeCurrentTip();
     void showNextTip();
     void panMapXhandler(qreal);
