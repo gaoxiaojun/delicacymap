@@ -18,7 +18,7 @@ MapController::MapController(void)
     loc_svc = QGeoPositionInfoSource::createDefaultSource(this);
     if (loc_svc)
     {
-        loc_svc->setUpdateInterval(3000);
+        loc_svc->setUpdateInterval(2000);
         connect(loc_svc, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(translateLocationSignal(const QGeoPositionInfo&)));
         loc_svc->startUpdates();
     }

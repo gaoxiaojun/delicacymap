@@ -243,6 +243,8 @@ void AsyncLoader::loadImage(int x, int y, int zoom)
     {
         emit this->imageLoaded(x, y, zoom, image);
     }
+    else
+        delete image;
 }
 
 void AsyncLoader::run()
