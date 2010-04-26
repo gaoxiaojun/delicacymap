@@ -21,6 +21,7 @@ FORMS += mainwindow.ui \
     SearchResultForm.ui \
     RoutingForm.ui \
     UserInfoForm.ui \
+    AddNewRestaurantForm.ui \
     RestaurantInfoForm.ui
 HEADERS += md5.h \
     bluetoothmanager.h \
@@ -36,6 +37,7 @@ HEADERS += md5.h \
     Session.h \
     RoutingForm.h \
     UserInfoForm.h \
+    AddNewRestaurantForm.h \
     RestaurantInfoForm.h \
     ../rclib/include/TinyXMLPP/ticpp.h \
     ../rclib/include/TinyXMLPP/tinyxml.h \
@@ -71,6 +73,7 @@ SOURCES += main.cpp \
     Session.cpp \
     RoutingForm.cpp \
     UserInfoForm.cpp \
+    AddNewRestaurantForm.cpp \
     RestaurantInfoForm.cpp \
     ../rclib/include/TinyXMLPP/ticpp.cpp \
     ../rclib/include/TinyXMLPP/tinyxml.cpp \

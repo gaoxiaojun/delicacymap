@@ -9,6 +9,7 @@
 #include "SearchResultForm.h"
 #include "RoutingForm.h"
 #include "UserInfoForm.h"
+#include "AddNewRestaurantForm.h"
 #include "Configurations.h"
 #include "OfflineMap/MarkerItem.h"
 #include "OfflineMap/MapViewBase.h"
@@ -323,11 +324,10 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
     }
     else
     {
-        QLineEdit *edit = new QLineEdit;
-        if (res->restaurantInfo())
-            edit->setText(QString::fromUtf8( res->restaurantInfo()->name().c_str() ));
-        PanelWidget* panel = navi->addBlockingPanel(edit, res);
-        connect(panel, SIGNAL(closing(PanelWidget*)), SLOT(handlePanelClosing(PanelWidget*)), Qt::DirectConnection);
+        AddNewRestaurantForm *form = new AddNewRestaurantForm;
+        form->setRestaurant(res->mutableRestaurantInfo());
+        form->show();
+        //PanelWidget* panel = navi->addBlockingPanel(form, res);
     }
 }
 
@@ -336,20 +336,6 @@ void MainWindow::UserMarkerResponse(UserMarkerItem *userMarker)
     UserInfoForm *item = new UserInfoForm();
     item->setLocation(userMarker->getPos());
     navi->addBlockingPanel(item, userMarker);
-}
-
-void MainWindow::handlePanelClosing(PanelWidget *w)
-{
-    QLineEdit *edit = qobject_cast<QLineEdit*>(w->widget());
-    if (edit && edit->text().size() > 0 && w->tiedTo() && w->tiedTo()->type() == RestaurantMarkerItem::Type)
-    {
-        RestaurantMarkerItem* item = static_cast<RestaurantMarkerItem*>(w->tiedTo());
-        if (item->isFakeMarker())
-        {
-            std::string name(edit->text().toUtf8().constData());
-            item->mutableRestaurantInfo()->set_name(name);
-        }
-    }
 }
 
 void MainWindow::handleBtnConfirmClicked()

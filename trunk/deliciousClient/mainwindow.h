@@ -53,7 +53,6 @@ private slots:
     void BTHFind();
     void RestaurantMarkerResponse(RestaurantMarkerItem*);
     void UserMarkerResponse(UserMarkerItem*);
-    void handlePanelClosing(PanelWidget*);
     void handleBtnConfirmClicked();
     void handleBtnCancelClicked();
     void handleBtnGPSInfoClicked();
