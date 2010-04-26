@@ -373,9 +373,13 @@ void DMServiceLocalDBImpl::SetUserRelation( ::google::protobuf::RpcController* c
 
 void DMServiceLocalDBImpl::AddRestaurant( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::Restaurant* response, ::google::protobuf::Closure* done )
 {
-    if (request->has_name() && request->has_location())
+    if (request->has_rinfo())
     {
-        DBResultWrap ret = adapter->AddRestaurant(request->name(), request->location().latitude(), request->location().longitude());
+        DBResultWrap ret = adapter->AddRestaurant(request->rinfo().name(), 
+            request->rinfo().location().latitude(), 
+            request->rinfo().location().longitude(), 
+            request->rinfo().type().tid(),
+            request->rinfo().averageexpense().amount());
         if (ret.empty())
         {
             pantheios::log_ERROR("Add restaurant error, database failed?");

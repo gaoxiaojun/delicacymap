@@ -3659,7 +3659,6 @@ const ::std::string Query::_default_msg_;
 const ::std::string Query::_default_image_;
 const ::std::string Query::_default_emailaddress_;
 const ::std::string Query::_default_password_;
-const ::std::string Query::_default_name_;
 #ifndef _MSC_VER
 const int Query::kAreaFieldNumber;
 const int Query::kLevelFieldNumber;
@@ -3675,7 +3674,7 @@ const int Query::kEmailAddressFieldNumber;
 const int Query::kPasswordFieldNumber;
 const int Query::kUserinfoFieldNumber;
 const int Query::kLocationFieldNumber;
-const int Query::kNameFieldNumber;
+const int Query::kRinfoFieldNumber;
 #endif  // !_MSC_VER
 
 Query::Query()
@@ -3688,6 +3687,7 @@ void Query::InitAsDefaultInstance() {
   time_ = const_cast< ::ProtocolBuffer::Time*>(&::ProtocolBuffer::Time::default_instance());
   userinfo_ = const_cast< ::ProtocolBuffer::User*>(&::ProtocolBuffer::User::default_instance());
   location_ = const_cast< ::ProtocolBuffer::Location*>(&::ProtocolBuffer::Location::default_instance());
+  rinfo_ = const_cast< ::ProtocolBuffer::Restaurant*>(&::ProtocolBuffer::Restaurant::default_instance());
 }
 
 Query::Query(const Query& from)
@@ -3712,7 +3712,7 @@ void Query::SharedCtor() {
   password_ = const_cast< ::std::string*>(&_default_password_);
   userinfo_ = NULL;
   location_ = NULL;
-  name_ = const_cast< ::std::string*>(&_default_name_);
+  rinfo_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -3733,14 +3733,12 @@ void Query::SharedDtor() {
   if (password_ != &_default_password_) {
     delete password_;
   }
-  if (name_ != &_default_name_) {
-    delete name_;
-  }
   if (this != default_instance_) {
     delete area_;
     delete time_;
     delete userinfo_;
     delete location_;
+    delete rinfo_;
   }
 }
 
@@ -3802,9 +3800,7 @@ void Query::Clear() {
       if (location_ != NULL) location_->::ProtocolBuffer::Location::Clear();
     }
     if (_has_bit(14)) {
-      if (name_ != &_default_name_) {
-        name_->clear();
-      }
+      if (rinfo_ != NULL) rinfo_->::ProtocolBuffer::Restaurant::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -4019,17 +4015,17 @@ bool Query::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(122)) goto parse_name;
+        if (input->ExpectTag(130)) goto parse_rinfo;
         break;
       }
       
-      // optional string name = 15;
-      case 15: {
+      // optional .ProtocolBuffer.Restaurant rinfo = 16;
+      case 16: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_name:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_name()));
+         parse_rinfo:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_rinfo()));
         } else {
           goto handle_uninterpreted;
         }
@@ -4132,10 +4128,10 @@ void Query::SerializeWithCachedSizes(
       14, this->location(), output);
   }
   
-  // optional string name = 15;
+  // optional .ProtocolBuffer.Restaurant rinfo = 16;
   if (_has_bit(14)) {
-    ::google::protobuf::internal::WireFormatLite::WriteString(
-      15, this->name(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      16, this->rinfo(), output);
   }
   
 }
@@ -4244,11 +4240,11 @@ int Query::ByteSize() const {
           this->location());
     }
     
-    // optional string name = 15;
-    if (has_name()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->name());
+    // optional .ProtocolBuffer.Restaurant rinfo = 16;
+    if (has_rinfo()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->rinfo());
     }
     
   }
@@ -4311,7 +4307,7 @@ void Query::MergeFrom(const Query& from) {
       mutable_location()->::ProtocolBuffer::Location::MergeFrom(from.location());
     }
     if (from._has_bit(14)) {
-      set_name(from.name());
+      mutable_rinfo()->::ProtocolBuffer::Restaurant::MergeFrom(from.rinfo());
     }
   }
 }
@@ -4336,6 +4332,9 @@ bool Query::IsInitialized() const {
   if (has_location()) {
     if (!this->location().IsInitialized()) return false;
   }
+  if (has_rinfo()) {
+    if (!this->rinfo().IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -4355,7 +4354,7 @@ void Query::Swap(Query* other) {
     std::swap(password_, other->password_);
     std::swap(userinfo_, other->userinfo_);
     std::swap(location_, other->location_);
-    std::swap(name_, other->name_);
+    std::swap(rinfo_, other->rinfo_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }

@@ -214,12 +214,10 @@ void MapDataSource::SetUserRelation( ProtocolBuffer::Query *query, google::proto
     channel->CallMethod( protorpc::SetUserRelation, query, NULL, done );
 }
 
-void MapDataSource::AddRestaurant(const std::string &name, double lattitude, double longitude, ProtocolBuffer::Restaurant *r, google::protobuf::Closure *done)
+void MapDataSource::AddRestaurant(ProtocolBuffer::Restaurant *r, google::protobuf::Closure *done)
 {
     query.Clear();
-    query.set_name(name);
-    query.mutable_location()->set_latitude(lattitude);
-    query.mutable_location()->set_longitude(longitude);
+    query.mutable_rinfo()->CopyFrom(*r);
     AddRestaurant(&query, r, done);
 }
 
