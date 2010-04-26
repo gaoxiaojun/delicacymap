@@ -70,7 +70,6 @@ void MapViewBase::lockMap()
     if (!isLocked())
     {
         mapIsLocked = true;
-        this->invalidateBackground();
         this->update();
         emit canZoomIn(false);
         emit canZoomOut(false);
@@ -93,7 +92,6 @@ void MapViewBase::unlockMap()
     if (isLocked())
     {
         mapIsLocked = false;
-        this->invalidateBackground();
         this->update();
         emit canZoomIn(zoomLevel < CoordsHelper::MaxZoomLevel);
         emit canZoomOut(zoomLevel > 0);
@@ -503,6 +501,8 @@ void MapViewBase::drawBackground( QPainter *painter, const QRectF &rect )
         }
     }
     painter->drawPixmap(intrect, backgroundCache, QRect(intrect.topLeft() - backgroundRect.topLeft(), intrect.size()));
+    if (this->isLocked())
+        painter->fillRect(intrect, this->backgroundBrush());
 }
 
 void MapViewBase::DrawMapInRect(  int firstTileX, int firstTileY, int tileRight, int tileBottom, QPainter &cachePainter  )
@@ -537,8 +537,6 @@ void MapViewBase::DrawMapInRect(  int firstTileX, int firstTileY, int tileRight,
         }
         images->tick();
     }
-    if (this->isLocked())
-        cachePainter.fillRect(QRect(firstTileX, firstTileY, tileRight, tileBottom), this->backgroundBrush());
 }
 
 void MapViewBase::asyncImageLoaded(int col, int row, int zoom, QPixmap *img)

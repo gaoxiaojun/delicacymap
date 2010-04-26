@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AddNewRestaurantForm</class>
+ <widget class="QWidget" name="AddNewRestaurantForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>275</width>
+    <height>71</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Add new restaurant</string>
+  </property>
+  <widget class="QLineEdit" name="lineEdit_name">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>141</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox_price">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>40</y>
+     <width>111</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="suffix">
+    <string> dollar</string>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>999</number>
+   </property>
+   <property name="value">
+    <number>20</number>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_type">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>10</y>
+     <width>111</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>未分类</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>湘菜</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>大杂烩</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>川菜</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>粤菜</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>鲁菜</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>小吃</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>滇菜</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>台湾菜</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>清真</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>火锅</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>意大利菜</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>墨西哥菜</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>西餐</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Average Price:</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

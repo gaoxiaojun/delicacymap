@@ -48,16 +48,15 @@ QPixmap* ImageCache::getImage(int x, int y, int zoom){
     if (isLoading(tileCoord))
         return &loadingImg;
 
-    if (!images.contains(tileCoord))
-    {
-        loadImage(tileCoord, 100);
-        return &loadingImg;
-    }
-
     if (images.contains(tileCoord)){
         Tile& tile = images[tileCoord];
         tile.revive();
         return &tile.image;
+    }
+    else
+    {
+        loadImage(tileCoord, 100);
+        return &loadingImg;
     }
     return 0;
 }
