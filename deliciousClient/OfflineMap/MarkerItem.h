@@ -16,6 +16,7 @@ namespace ProtocolBuffer{
 
 class QPixmap;
 class QTimeLine;
+class QGraphicsItemAnimation;
 class MapViewBase;
 
 class ZoomSensitiveItem : public QGraphicsItem
@@ -25,7 +26,7 @@ public:
     int type() const { return Type; }
     ZoomSensitiveItem() : location(0., 0.), currentZoom(-1){}
     virtual ~ZoomSensitiveItem() {}
-    void setPos(const GeoPoint& center);
+    virtual void setPos(const GeoPoint& center);
     using QGraphicsItem::setPos;
     const GeoPoint& getPos() {return location;};
     virtual void setZoom(int zoom);
@@ -144,6 +145,9 @@ public:
     int type() const { return Type; }
     ProtocolBuffer::User* userInfo() const { return usr; }
     void setUserInfo(ProtocolBuffer::User* usr) { this->usr = usr; }
+    UserMarkerItem();
+    ~UserMarkerItem();
+    void setPos(const GeoPoint& center);
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /* = 0 */);
     QRectF boundingRect() const;
@@ -151,6 +155,8 @@ protected:
     static const QPixmap& defaultUserIcon();
 private:
     ProtocolBuffer::User* usr;
+    QTimeLine *moveTimeline;
+    QGraphicsItemAnimation *moveAnimation;
 };
 
 class SelfMarkerItem : public UserMarkerItem

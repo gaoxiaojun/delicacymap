@@ -4,6 +4,7 @@
 #include "OfflineMap/MapViewBase.h"
 #include <QGraphicsSceneResizeEvent>
 #include <QGraphicsEllipseItem>
+#include <QGraphicsItemAnimation>
 #include <QPainter>
 #include <QPixmap>
 #include <QStyle>
@@ -103,6 +104,19 @@ void RestaurantMarkerItem::PromoteToRealMarker(const ProtocolBuffer::Restaurant*
     r = restaurant;
 }
 
+UserMarkerItem::UserMarkerItem()
+{
+    moveAnimation = new QGraphicsItemAnimation();
+    moveTimeline = new QTimeLine(800, moveAnimation);
+    moveAnimation->setTimeLine(moveTimeline);
+    moveAnimation->setItem(this);
+}
+
+UserMarkerItem::~UserMarkerItem()
+{
+    delete moveAnimation;
+}
+
 void UserMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * /* = 0 */ )
 {
     const QPixmap& image = UserIcon();
@@ -124,6 +138,23 @@ const QPixmap& UserMarkerItem::defaultUserIcon()
 const QPixmap& UserMarkerItem::UserIcon() const
 {
     return defaultUserIcon();
+}
+
+void UserMarkerItem::setPos( const GeoPoint& center )
+{
+    QPointF oldpos = this->pos();
+    ZoomSensitiveItem::setPos(center);
+    QPointF delta = this->pos() - oldpos;
+    if (delta.manhattanLength() > 10.)
+    {
+        if (moveTimeline->state() == QTimeLine::Running)
+            moveTimeline->stop();
+        delta /= 16;
+        for (int i=0;i<16;i++)
+            moveAnimation->setPosAt(i/16., oldpos + delta * i);
+        moveAnimation->setPosAt(1., this->pos());
+        moveTimeline->start();
+    }
 }
 
 SelfMarkerItem::SelfMarkerItem()
@@ -158,7 +189,9 @@ void SelfMarkerItem::setInaccuratePosition( const InaccurateGeoPoint& p )
             area->setFlag(QGraphicsItem::ItemStacksBehindParent);
         }
         this->accuracy = p.accuracy;
-        qreal radius = p.accuracy * ((1<<(CoordsHelper::TilePower2+getZoom())) / (cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137));
+        qreal radius = 1 + p.accuracy * ((1<<(CoordsHelper::TilePower2+getZoom())) / (cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137));
+        if (radius < 10)
+            radius = 0;
         area->setRect(-radius, -radius, radius*2, radius*2);
         //     double resolution = cos(p.p.lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137 / 1<<(CoordsHelper::TilePower2+getZoom());
         //     radius = p.accuracy / resolution;
@@ -168,7 +201,9 @@ void SelfMarkerItem::setInaccuratePosition( const InaccurateGeoPoint& p )
 void SelfMarkerItem::setZoom( int zoom )
 {
     UserMarkerItem::setZoom(zoom);
-    qreal radius = accuracy * ((1<<(CoordsHelper::TilePower2+getZoom())) / (cos(getPos().lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137));
+    qreal radius = 1 + accuracy * ((1<<(CoordsHelper::TilePower2+getZoom())) / (cos(getPos().lat.getDouble() * CoordsHelper::pi/180) * 2 * CoordsHelper::pi * 6378137));
+    if (radius < 10)
+        radius = 0;
     if (area)
         area->setRect(-radius, -radius, radius*2, radius*2);
 }
