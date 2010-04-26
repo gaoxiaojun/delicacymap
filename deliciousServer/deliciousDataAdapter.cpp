@@ -32,6 +32,7 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_Subscription = NULL;
         prepared_UpdateUserSubscription = NULL;
         prepared_UpdateRestaurantSubscription = NULL;
+        prepared_InsertRelationRestaurantType = NULL;
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
@@ -64,7 +65,9 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_InsertComment = dbconn->NewPreparedStatement(
             "INSERT INTO Comments (UID, RID, DID, Comment, PhotoPath, AddTime, TimeZone) VALUES(?, ?, ?, ?, ?, datetime('now'), 8);");
         prepared_AddRestaurant = dbconn->NewPreparedStatement(
-            "INSERT INTO Restaurants (Name, Latitude, Longtitude, AverageExpense) VALUES(?, ?, ?, 0.0);");
+            "INSERT INTO Restaurants (Name, Latitude, Longtitude, AverageExpense) VALUES(?, ?, ?, ?);");
+        prepared_InsertRelationRestaurantType = dbconn->NewPreparedStatement(
+            "INSERT INTO Relation_Restaurant_RestaurantType (RID, TID) VALUES (?, ?);");
         prepared_SearchRestaurants = dbconn->NewPreparedStatement(
             "SELECT * "
             "FROM Restaurants NATURAL INNER JOIN Relation_Restaurant_RestaurantType NATURAL INNER JOIN RestaurantTypes "
@@ -404,7 +407,7 @@ size_t deliciousDataAdapter::SetUserRelation( int uid, int uid_target, int relat
     return retval;
 }
 
-const DBResultWrap deliciousDataAdapter::AddRestaurant( const std::string& rname, double latitude, double longitude )
+const DBResultWrap deliciousDataAdapter::AddRestaurant( const std::string& rname, double latitude, double longitude, int type, int averageExpense )
 {
     pantheios::log_INFORMATIONAL("AddRestaurant(",
         "latitude=", pantheios::real(latitude),
@@ -414,10 +417,18 @@ const DBResultWrap deliciousDataAdapter::AddRestaurant( const std::string& rname
     prepared_AddRestaurant->bindParameter(1, rname);
     prepared_AddRestaurant->bindParameter(2, latitude);
     prepared_AddRestaurant->bindParameter(3, longitude);
+    prepared_AddRestaurant->bindParameter(4, averageExpense);
+
+    type = type >= 0 ? type : 0;
+    type = type < 14 ? type : 0; // hard code this for now
+    prepared_InsertRelationRestaurantType->reset();
+    prepared_InsertRelationRestaurantType->bindParameter(2, type);
 
     dbconn->BeginTransaction();
     dbconn->Execute(prepared_AddRestaurant);
     DBResultWrap result(dbconn->Execute("SELECT Restaurants.* FROM Restaurants WHERE Restaurants.rowid = last_insert_rowid();"), dbconn);
+    prepared_InsertRelationRestaurantType->bindParameter(1, result.getResult()->GetRow(0).GetValueAs<int>("RID"));
+    dbconn->Execute(prepared_InsertRelationRestaurantType);
     dbconn->EndTransaction();
 
     return result;

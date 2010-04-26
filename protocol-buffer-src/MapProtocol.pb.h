@@ -1720,15 +1720,12 @@ class Query : public ::google::protobuf::MessageLite {
   inline const ::ProtocolBuffer::Location& location() const;
   inline ::ProtocolBuffer::Location* mutable_location();
   
-  // optional string name = 15;
-  inline bool has_name() const;
-  inline void clear_name();
-  static const int kNameFieldNumber = 15;
-  inline const ::std::string& name() const;
-  inline void set_name(const ::std::string& value);
-  inline void set_name(const char* value);
-  inline void set_name(const char* value, size_t size);
-  inline ::std::string* mutable_name();
+  // optional .ProtocolBuffer.Restaurant rinfo = 16;
+  inline bool has_rinfo() const;
+  inline void clear_rinfo();
+  static const int kRinfoFieldNumber = 16;
+  inline const ::ProtocolBuffer::Restaurant& rinfo() const;
+  inline ::ProtocolBuffer::Restaurant* mutable_rinfo();
   
   // @@protoc_insertion_point(class_scope:ProtocolBuffer.Query)
  private:
@@ -1752,8 +1749,7 @@ class Query : public ::google::protobuf::MessageLite {
   static const ::std::string _default_password_;
   ::ProtocolBuffer::User* userinfo_;
   ::ProtocolBuffer::Location* location_;
-  ::std::string* name_;
-  static const ::std::string _default_name_;
+  ::ProtocolBuffer::Restaurant* rinfo_;
   friend void  protobuf_AddDesc_MapProtocol_2eproto();
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
@@ -3269,46 +3265,21 @@ inline ::ProtocolBuffer::Location* Query::mutable_location() {
   return location_;
 }
 
-// optional string name = 15;
-inline bool Query::has_name() const {
+// optional .ProtocolBuffer.Restaurant rinfo = 16;
+inline bool Query::has_rinfo() const {
   return _has_bit(14);
 }
-inline void Query::clear_name() {
-  if (name_ != &_default_name_) {
-    name_->clear();
-  }
+inline void Query::clear_rinfo() {
+  if (rinfo_ != NULL) rinfo_->::ProtocolBuffer::Restaurant::Clear();
   _clear_bit(14);
 }
-inline const ::std::string& Query::name() const {
-  return *name_;
+inline const ::ProtocolBuffer::Restaurant& Query::rinfo() const {
+  return rinfo_ != NULL ? *rinfo_ : *default_instance_->rinfo_;
 }
-inline void Query::set_name(const ::std::string& value) {
+inline ::ProtocolBuffer::Restaurant* Query::mutable_rinfo() {
   _set_bit(14);
-  if (name_ == &_default_name_) {
-    name_ = new ::std::string;
-  }
-  name_->assign(value);
-}
-inline void Query::set_name(const char* value) {
-  _set_bit(14);
-  if (name_ == &_default_name_) {
-    name_ = new ::std::string;
-  }
-  name_->assign(value);
-}
-inline void Query::set_name(const char* value, size_t size) {
-  _set_bit(14);
-  if (name_ == &_default_name_) {
-    name_ = new ::std::string;
-  }
-  name_->assign(reinterpret_cast<const char*>(value), size);
-}
-inline ::std::string* Query::mutable_name() {
-  _set_bit(14);
-  if (name_ == &_default_name_) {
-    name_ = new ::std::string;
-  }
-  return name_;
+  if (rinfo_ == NULL) rinfo_ = new ::ProtocolBuffer::Restaurant;
+  return rinfo_;
 }
 
 // -------------------------------------------------------------------

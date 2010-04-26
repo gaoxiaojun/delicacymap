@@ -125,7 +125,7 @@ message Query
     optional string                                          password                    = 10;   // password required to retrieve user specific data
     optional ProtocolBuffer.User                             userinfo                    = 11;   // used in update user info
     optional ProtocolBuffer.Location                         location                    = 14;
-    optional string                                          name                        = 15;
+    optional ProtocolBuffer.Restaurant                       rinfo                       = 16;   //used to add restaurant.
 }
 
 //=====================================================       Messages       =====================================================================

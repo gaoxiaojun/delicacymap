@@ -368,7 +368,7 @@ void MainWindow::handleBtnConfirmClicked()
                         r,
                         &RestaurantMarkerItem::PromoteToRealMarker,
                         const_cast<const ProtocolBuffer::Restaurant*>(rinfo));
-                getSession()->getDataSource().AddRestaurant(rinfo->name(), rinfo->location().latitude(), rinfo->location().longitude(), rinfo, promote);
+                getSession()->getDataSource().AddRestaurant(rinfo, promote);
             }
             break;
         default:

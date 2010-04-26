@@ -2,6 +2,102 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="zh_CN">
 <context>
+    <name>AddNewRestaurantForm</name>
+    <message>
+        <location filename="AddNewRestaurantForm.ui" line="14"/>
+        <source>Add new restaurant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="AddNewRestaurantForm.ui" line="36"/>
+        <source> dollar</source>
+        <translation> 元</translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="59"/>
+        <source>未分类</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="64"/>
+        <source>湘菜</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="69"/>
+        <source>大杂烩</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="74"/>
+        <source>川菜</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="79"/>
+        <source>粤菜</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="84"/>
+        <source>鲁菜</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="89"/>
+        <source>小吃</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="94"/>
+        <source>滇菜</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="99"/>
+        <source>台湾菜</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="104"/>
+        <source>清真</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="109"/>
+        <source>火锅</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="114"/>
+        <source>意大利菜</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="119"/>
+        <source>墨西哥菜</source>
+        <translation></translation>
+    </message>
+    <message utf8="true">
+        <location filename="AddNewRestaurantForm.ui" line="124"/>
+        <source>西餐</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="AddNewRestaurantForm.ui" line="138"/>
+        <source>Average Price:</source>
+        <translation>平均价格:</translation>
+    </message>
+</context>
+<context>
+    <name>ImageCache</name>
+    <message>
+        <location filename="OfflineMap/ImageCache.cpp" line="154"/>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LoginWindow</name>
     <message>
         <location filename="LoginWindow.cpp" line="35"/>
@@ -79,52 +175,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="144"/>
+        <location filename="mainwindow.cpp" line="147"/>
         <source>Locate by cell network</source>
-        <translation type="unfinished">手机定位</translation>
+        <translation>手机定位</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="146"/>
+        <location filename="mainwindow.cpp" line="149"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="267"/>
+        <location filename="mainwindow.cpp" line="272"/>
         <source>%1 is asking your help to guide him.</source>
         <translation>%1希望请你帮助他指引一条路径.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="361"/>
+        <location filename="mainwindow.cpp" line="358"/>
         <source>Do you want to continue? Coninueing will discard this marker.</source>
         <translation>确定要继续并吗？此餐厅的信息将丢失。</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="362"/>
+        <location filename="mainwindow.cpp" line="359"/>
         <source>Restautant without a name</source>
         <translation>未命名的餐厅</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="396"/>
+        <location filename="mainwindow.cpp" line="393"/>
         <source>Do you want to discard all previous work?</source>
         <translation>您确定要丢弃未保存的兴趣点信息？</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="397"/>
+        <location filename="mainwindow.cpp" line="394"/>
         <source>Unsaved local markers.</source>
         <translation>未提交的兴趣点！</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="486"/>
+        <location filename="mainwindow.cpp" line="483"/>
         <source>&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt; has posted a new comment on &lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;.</source>
         <translation>&lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;有一条&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt;发布的新评论.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="487"/>
+        <location filename="mainwindow.cpp" line="484"/>
         <source>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt; has posted a new comment.</source>
         <translation>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt;提交了一条新评论.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="488"/>
+        <location filename="mainwindow.cpp" line="485"/>
         <source>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt; has a new comment.</source>
         <translation>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt;有一条新评论.</translation>
     </message>
