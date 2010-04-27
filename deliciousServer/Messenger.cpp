@@ -233,13 +233,15 @@ void Messenger::RegisterUserOnConnection( int uid, UserControlBlock::SenderFunct
     sharable_lock<MutexType> lockmsg(pool_mutex);
     scoped_lock<MutexType> lock(usr_mutex);
     hash_touid &userMessages = msgpool.get<message_ordered_touid_tag>();
-    assert(liveUsers.find(uid) == liveUsers.end());
-    UserControlBlock &usr = liveUsers[uid];
-    usr.uid = uid;
-    usr.senderFunction = f;
-    BOOST_FOREACH( const std::tr1::shared_ptr<DMessageWrap>& m, userMessages.equal_range(uid) )
+    if (liveUsers.find(uid) == liveUsers.end())
     {
-        usr.usrMessages.push( m );
+        UserControlBlock &usr = liveUsers[uid];
+        usr.uid = uid;
+        usr.senderFunction = f;
+        BOOST_FOREACH( const std::tr1::shared_ptr<DMessageWrap>& m, userMessages.equal_range(uid) )
+        {
+            usr.usrMessages.push( m );
+        }
     }
 }
 
