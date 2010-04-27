@@ -41,6 +41,7 @@ MapViewBase::MapViewBase(QWidget *parent)
     setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setAttribute( Qt::WA_OpaquePaintEvent );// a small optimization
+    setOptimizationFlag(QGraphicsView::DontAdjustForAntialiasing);
 }
 
 MapViewBase::~MapViewBase()
@@ -552,7 +553,7 @@ void MapViewBase::asyncImageLoaded(int col, int row, int zoom, QPixmap *img)
             painter.translate(-backgroundRect.topLeft());
             painter.drawPixmap(QPoint(x, y), *img, ImageRect);
             painter.end();
-            this->update(x, y, CoordsHelper::TileSize, CoordsHelper::TileSize);
+            this->update(this->mapFromScene(x, y, CoordsHelper::TileSize, CoordsHelper::TileSize));
         }
     }
 }

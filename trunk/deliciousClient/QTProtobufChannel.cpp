@@ -37,7 +37,12 @@ void QTProtobufChannel::close()
 void QTProtobufChannel::CallMethod( protorpc::FunctionID method_id, const google::protobuf::MessageLite* request, google::protobuf::MessageLite* response, google::protobuf::Closure* done )
 {
     if (!started())
-        throw "Channel not started!";
+    {
+        // siliently fail
+        delete done;
+        delete response;
+        return;
+    }
 
     if (reqs.empty())
         needMoreReqs();
