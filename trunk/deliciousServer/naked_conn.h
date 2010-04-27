@@ -67,12 +67,9 @@ private://data
     ProtocolBuffer::Query query;
     ProtocolBuffer::DMessage message;
     protorpc::Message income, outcome;
-    boost::asio::deadline_timer msg_timer;
-    boost::posix_time::ptime message_basetime;
     std::string outputbuf;
     DMServiceLocalDBImpl *service;
     AsioRpcController *controller;
     size_t readsize, writesize;
     unsigned int linked_user;
-    bool isClosing;
 };

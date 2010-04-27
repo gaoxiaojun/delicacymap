@@ -15,6 +15,7 @@
 #include <set>
 #include <map>
 #include <unordered_map>
+#include <queue>
 
 #include <time.h>
 
@@ -43,6 +44,16 @@ namespace rclib
             boost::posix_time::ptime ExpireTime;
         };
 
+        struct UserControlBlock
+        {
+            typedef boost::function<void (const DMessageWrap*)> SenderFunctionProtoType;
+            int uid;
+            SenderFunctionProtoType senderFunction;
+            ProtocolBuffer::Location location;
+            std::set<int> shareLocationWith;
+            std::queue< std::tr1::weak_ptr<DMessageWrap> > usrMessages;
+        };
+
         namespace _bm=boost::multi_index;
 
 
@@ -58,7 +69,7 @@ namespace rclib
         {
         private:
             typedef _bm::multi_index_container<
-                DMessageWrap*,
+                std::tr1::shared_ptr<DMessageWrap>,
                 _bm::indexed_by<
                     _bm::hashed_non_unique<
                         _bm::tag<message_hash_fromuid_tag>, 
@@ -83,7 +94,7 @@ namespace rclib
                 >
             > MessagesContainer;
             typedef boost::interprocess::interprocess_upgradable_mutex MutexType;
-            typedef boost::function<void (const DMessageWrap*)> SenderFunction;
+            typedef std::tr1::unordered_map<int, UserControlBlock> UserContainer;
         public:
             typedef MessagesContainer::index<message_ordered_touid_tag>::type::iterator MSGIterator;
             typedef MessagesContainer::index<message_ordered_touid_tag>::type::const_iterator const_MSGIterator;
@@ -111,7 +122,7 @@ namespace rclib
 
             void start();
 
-            void RegisterUserOnConnection( int uid, SenderFunction func);
+            void RegisterUserOnConnection( int uid, UserControlBlock::SenderFunctionProtoType func);
 
             void SignOffUser( int uid );
 
@@ -129,12 +140,12 @@ namespace rclib
 
             void ExpireTimerHandler(const boost::system::error_code& err);
 
+            void SendMessageHandler();
+
         private:
-            MutexType mutex;
-            std::map<int, std::set<int> > usersSharingLocation;
-            std::tr1::unordered_map<int, ProtocolBuffer::Location> userLocations;
-            std::map<int, SenderFunction> liveUsers;
-            boost::asio::deadline_timer msgExpireTimer;
+            MutexType pool_mutex, usr_mutex;
+            UserContainer liveUsers;
+            boost::asio::deadline_timer msgExpireTimer, msgSendTimer;
             boost::asio::io_service &ios;
             ::deliciousDataAdapter *dataadapter;
             MessagesContainer msgpool;

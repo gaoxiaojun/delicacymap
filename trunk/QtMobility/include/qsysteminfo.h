@@ -7,11 +7,11 @@
 ** This file is part of the Qt Mobility Components.
 **
 ** $QT_BEGIN_LICENSE:LGPL$
-** No Commercial Usage
-** This file contains pre-release code and may not be distributed.
-** You may use this file in accordance with the terms and conditions
-** contained in the Technology Preview License Agreement accompanying
-** this package.
+** Commercial Usage
+** Licensees holding valid Qt Commercial licenses may use this file in
+** accordance with the Qt Solutions Commercial License Agreement provided
+** with the Software or, alternatively, in accordance with the terms
+** contained in a written agreement between you and Nokia.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
@@ -25,16 +25,22 @@
 ** rights.  These rights are described in the Nokia Qt LGPL Exception
 ** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 **
-** If you have questions regarding the use of this file, please contact
-** Nokia at qt-info@nokia.com.
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 3.0 as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.  Please review the following information to
+** ensure the GNU General Public License version 3.0 requirements will be
+** met: http://www.gnu.org/copyleft/gpl.html.
 **
+** Please note Third Party Software included with Qt Solutions may impose
+** additional restrictions and it is the user's responsibility to ensure
+** that they have met the licensing requirements of the GPL, LGPL, or Qt
+** Solutions Commercial license and the relevant license of the Third
+** Party Software they are using.
 **
-**
-**
-**
-**
-**
-**
+** If you are unsure which license is appropriate for your use, please
+** contact the sales department at qt-sales@nokia.com.
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
@@ -63,7 +69,7 @@ class QSystemDisplayInfoPrivate;
 class Q_SYSINFO_EXPORT QSystemInfo : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString currentLanguage READ currentLanguage)
+    Q_PROPERTY(QString currentLanguage READ currentLanguage NOTIFY currentLanguageChanged)
     Q_PROPERTY(QStringList availableLanguages READ availableLanguages)
     Q_PROPERTY(QString currentCountryCode READ currentCountryCode)
     Q_ENUMS(Version)
@@ -74,9 +80,9 @@ public:
     QSystemInfo(QObject *parent = 0);
      virtual ~QSystemInfo();
 
-    static QString currentLanguage(); // 2 letter ISO 639-1 //signal
-    static QStringList availableLanguages(); // 2 letter ISO 639-1
-    static QString currentCountryCode(); //2 letter ISO 3166-1
+    QString currentLanguage(); // 2 letter ISO 639-1 //signal
+    QStringList availableLanguages(); // 2 letter ISO 639-1
+    QString currentCountryCode(); //2 letter ISO 3166-1
     enum Version {
         Os = 1,
         QtCore,
@@ -116,10 +122,11 @@ class  Q_SYSINFO_EXPORT QSystemNetworkInfo : public QObject
     Q_ENUMS(NetworkMode)
     Q_PROPERTY(int cellId READ cellId)
     Q_PROPERTY(int locationAreaCode READ locationAreaCode)
-    Q_PROPERTY(QString currentMobileCountryCode READ currentMobileCountryCode)
-    Q_PROPERTY(QString currentMobileNetworkCode READ currentMobileNetworkCode)
-    Q_PROPERTY(QString homeMobileCountryCode READ homeMobileCountryCode)
-    Q_PROPERTY(QString homeMobileNetworkCode READ homeMobileNetworkCode)
+    Q_PROPERTY(QString currentMobileCountryCode READ currentMobileCountryCode NOTIFY currentMobileCountryCodeChanged)
+    Q_PROPERTY(QString currentMobileNetworkCode READ currentMobileNetworkCode NOTIFY currentMobileNetworkCodeChanged)
+    Q_PROPERTY(QString homeMobileCountryCode READ homeMobileCountryCode CONSTANT)
+    Q_PROPERTY(QString homeMobileNetworkCode READ homeMobileNetworkCode CONSTANT)
+    Q_PROPERTY(QSystemNetworkInfo::NetworkMode currentMode READ currentMode)
 
 
 public:
@@ -151,18 +158,19 @@ public:
     };
     Q_DECLARE_FLAGS(NetworkModes, NetworkMode)
 
-    QSystemNetworkInfo::NetworkStatus networkStatus(QSystemNetworkInfo::NetworkMode mode);
-    static int networkSignalStrength(QSystemNetworkInfo::NetworkMode mode);
+    Q_INVOKABLE QSystemNetworkInfo::NetworkStatus networkStatus(QSystemNetworkInfo::NetworkMode mode);
+    Q_INVOKABLE static int networkSignalStrength(QSystemNetworkInfo::NetworkMode mode);
     QString macAddress(QSystemNetworkInfo::NetworkMode mode);
+    QSystemNetworkInfo::NetworkMode currentMode();
 
-    static int cellId();
-    static int locationAreaCode();
+    int cellId();
+    int locationAreaCode();
 
-    static QString currentMobileCountryCode();
-    static QString currentMobileNetworkCode();
-    static QString homeMobileCountryCode();
-    static QString homeMobileNetworkCode();
-    static QString networkName(QSystemNetworkInfo::NetworkMode mode);
+    QString currentMobileCountryCode();
+    QString currentMobileNetworkCode();
+    QString homeMobileCountryCode();
+    QString homeMobileNetworkCode();
+    Q_INVOKABLE static QString networkName(QSystemNetworkInfo::NetworkMode mode);
     QNetworkInterface interfaceForMode(QSystemNetworkInfo::NetworkMode mode);
 
 
@@ -173,6 +181,11 @@ Q_SIGNALS:
    void currentMobileNetworkCodeChanged(const QString &);
    void networkNameChanged(QSystemNetworkInfo::NetworkMode,const QString &);
    void networkModeChanged(QSystemNetworkInfo::NetworkMode);
+
+protected:
+    virtual void connectNotify(const char *signal);
+    virtual void disconnectNotify(const char *signal);
+
 private:
        QSystemNetworkInfoPrivate *d;
 };
@@ -212,35 +225,35 @@ public:
         CdromDrive
 	};
 
-    qlonglong totalDiskSpace(const QString &driveVolume);
-    qlonglong availableDiskSpace(const QString &driveVolume);
+    Q_INVOKABLE qlonglong totalDiskSpace(const QString &driveVolume);
+    Q_INVOKABLE qlonglong availableDiskSpace(const QString &driveVolume);
     static QStringList logicalDrives();
 
-    QSystemStorageInfo::DriveType typeForDrive(const QString &driveVolume);
+    Q_INVOKABLE QSystemStorageInfo::DriveType typeForDrive(const QString &driveVolume);
 
 };
 
 class  Q_SYSINFO_EXPORT QSystemDeviceInfo : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Profile currentProfile READ currentProfile)
-    Q_PROPERTY(PowerState currentPowerState READ currentPowerState)
-    Q_PROPERTY(SimStatus simStatus READ simStatus)
-    Q_PROPERTY(BatteryStatus batteryStatus READ batteryStatus)
+    Q_PROPERTY(Profile currentProfile READ currentProfile NOTIFY currentProfileChanged)
+    Q_PROPERTY(PowerState currentPowerState READ currentPowerState NOTIFY powerStateChanged)
+    Q_PROPERTY(SimStatus simStatus READ simStatus CONSTANT)
+    Q_PROPERTY(BatteryStatus batteryStatus READ batteryStatus NOTIFY batteryStatusChanged)
     Q_PROPERTY(InputMethodFlags inputMethodType READ inputMethodType)
 
-    Q_PROPERTY(QString imei READ imei)
-    Q_PROPERTY(QString imsi READ imsi)
-    Q_PROPERTY(QString manufacturer READ manufacturer)
-    Q_PROPERTY(QString model READ model)
-    Q_PROPERTY(QString productName READ productName)
-    Q_PROPERTY(int batteryLevel READ batteryLevel)
+    Q_PROPERTY(QString imei READ imei CONSTANT)
+    Q_PROPERTY(QString imsi READ imsi CONSTANT)
+    Q_PROPERTY(QString manufacturer READ manufacturer CONSTANT)
+    Q_PROPERTY(QString model READ model CONSTANT)
+    Q_PROPERTY(QString productName READ productName CONSTANT)
+    Q_PROPERTY(int batteryLevel READ batteryLevel NOTIFY batteryLevelChanged)
     Q_PROPERTY(bool isDeviceLocked READ isDeviceLocked)
 
 
-    Q_ENUMS(BatteryLevel)
+    Q_ENUMS(BatteryStatus)
     Q_ENUMS(PowerState)
-    Q_ENUMS(InputMethod)
+    Q_FLAGS(InputMethod InputMethodFlags)
     Q_ENUMS(SimStatus)
     Q_ENUMS(Profile)
 
@@ -274,15 +287,16 @@ public:
         MultiTouch = 0x0000010,
         Mouse = 0x0000020
     };
+
     Q_DECLARE_FLAGS(InputMethodFlags, InputMethod)
 
     QSystemDeviceInfo::InputMethodFlags inputMethodType();
 
-    static QString imei();
-    static QString imsi();
-    static QString manufacturer();
-    static QString model();
-    static QString productName();
+    QString imei();
+    QString imsi();
+    QString manufacturer();
+    QString model();
+    QString productName();
     int batteryLevel() const;
    QSystemDeviceInfo::BatteryStatus batteryStatus();
 
@@ -320,6 +334,7 @@ private:
     QSystemDeviceInfoPrivate *d;
 };
 
+Q_DECLARE_OPERATORS_FOR_FLAGS(QSystemDeviceInfo::InputMethodFlags )
 
 class QSystemScreenSaverPrivate;
 class  Q_SYSINFO_EXPORT QSystemScreenSaver : public QObject
@@ -334,7 +349,7 @@ public:
     ~QSystemScreenSaver();
 
     bool screenSaverInhibited();
-    bool setScreenSaverInhibit();
+    Q_INVOKABLE bool setScreenSaverInhibit();
 
 private:
     bool screenSaverIsInhibited;
