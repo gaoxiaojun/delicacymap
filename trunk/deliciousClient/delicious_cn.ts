@@ -210,6 +210,11 @@
         <translation>未提交的兴趣点！</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="467"/>
+        <source> say : </source>
+        <translation> 说: </translation>
+    </message>
+    <message>
         <location filename="mainwindow.cpp" line="483"/>
         <source>&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt; has posted a new comment on &lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;.</source>
         <translation>&lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;有一条&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt;发布的新评论.</translation>
