@@ -219,7 +219,7 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
             scoped_lock<MutexType> lock(pool_mutex);
             scoped_lock<MutexType> lockusr(usr_mutex);
             msgpool.insert(newmsg);
-            liveUsers[msg->fromuser()].usrMessages.push(newmsg);
+            liveUsers[msg->touser()].usrMessages.push(newmsg);
         }
     }
     catch (const std::exception& e)
@@ -230,14 +230,14 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
 
 void Messenger::RegisterUserOnConnection( int uid, UserControlBlock::SenderFunctionProtoType f )
 {
-    typedef MessagesContainer::index<message_hash_fromuid_tag>::type hash_fromuid;
+    typedef MessagesContainer::index<message_ordered_touid_tag>::type hash_touid;
 
     sharable_lock<MutexType> lockmsg(pool_mutex);
     scoped_lock<MutexType> lock(usr_mutex);
-    hash_fromuid &userMessages = msgpool.get<message_hash_fromuid_tag>();
+    hash_touid &userMessages = msgpool.get<message_ordered_touid_tag>();
     assert(liveUsers.find(uid) == liveUsers.end());
     UserControlBlock &usr = liveUsers[uid];
-    usr.uid;
+    usr.uid = uid;
     usr.senderFunction = f;
     BOOST_FOREACH( const std::tr1::shared_ptr<DMessageWrap>& m, userMessages.equal_range(uid) )
     {

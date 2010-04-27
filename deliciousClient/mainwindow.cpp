@@ -448,7 +448,7 @@ void MainWindow::HandleUserMessage(const ProtocolBuffer::DMessage* m)
     //是用户信息
     if(!m->issystemmessage())
     {
-        this->m_ui->stackedWidget->setCurrentIndex(1);
+        this->m_ui->stackedWidget->setCurrentWidget(m_ui->page_Friend);
         int fromuid=m->fromuser();
         int touid=m->touser();
         if(touid!=this->getSession()->getUser()->uid())
@@ -464,7 +464,7 @@ void MainWindow::HandleUserMessage(const ProtocolBuffer::DMessage* m)
                 QString fromname=this->m_ui->FriendlistWidget->item(i)->text();
                 m_ui->FriendlistWidget->setCurrentRow(i);
                 QString old=m_ui->FriendlistWidget->currentItem()->data(Qt::AccessibleTextRole).toString();
-                old=old+fromname+" say : "+QString::fromUtf8(m->text().c_str())+'\n';
+                old=old+fromname+tr(" say : ")+QString::fromUtf8(m->text().c_str())+'\n';
                 this->m_ui->DialogtextEdit->setText(old);
                 this->m_ui->FriendlistWidget->currentItem()->setData(Qt::AccessibleTextRole,old);
             
