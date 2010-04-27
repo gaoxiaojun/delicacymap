@@ -51,7 +51,7 @@ protected:
     QPointF m_speed;
     QPoint m_mouse_pos;
     int timerId;
-    bool dragging;
+    bool dragging, smooth_enabled;
 };
 
 class ZoomDecorator: public MapDecorator

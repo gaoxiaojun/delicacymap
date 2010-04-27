@@ -553,7 +553,7 @@ void MapViewBase::asyncImageLoaded(int col, int row, int zoom, QPixmap *img)
             painter.translate(-backgroundRect.topLeft());
             painter.drawPixmap(QPoint(x, y), *img, ImageRect);
             painter.end();
-            this->update(this->mapFromScene(x, y, CoordsHelper::TileSize, CoordsHelper::TileSize));
+            this->update(this->mapFromScene(x, y, CoordsHelper::TileSize+1, CoordsHelper::TileSize+1));
         }
     }
 }

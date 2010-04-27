@@ -14,6 +14,7 @@ MoveDecorator::MoveDecorator(MapViewBase* mapView, bool smooth)
 :MapDecorator(mapView), dragging(false)
 {
     timerId = -1;
+    smooth_enabled = false;
     EnableSmoothMovement(smooth);
 }
 
@@ -21,14 +22,19 @@ void MoveDecorator::EnableSmoothMovement(bool enable)
 {
     if (!enable && timerId != -1)
         this->killTimer(timerId);
-    else if (enable && timerId == -1)
-        timerId = startTimer(1000/50);
+
+    smooth_enabled = enable;
 }
 
 void MoveDecorator::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton)
     {
+        if (timerId != -1)
+        {
+            this->killTimer(timerId);
+            timerId = -1;
+        }
         m_mouse_pos = event->pos();
         dragging = true;
         m_speed = QPointF();
@@ -41,6 +47,7 @@ void MoveDecorator::mouseReleaseEvent(QMouseEvent *event)
     if ((event->buttons() & Qt::LeftButton) == 0)
     {
         dragging = false;
+        timerId = this->startTimer(1000/35);
     }
     MapDecorator::mouseReleaseEvent(event);
 }
@@ -60,10 +67,15 @@ void MoveDecorator::mouseMoveEvent(QMouseEvent *event)
 
 void MoveDecorator::timerEvent( QTimerEvent *e )
 {
-    if (!dragging && m_speed.manhattanLength() > 2.0)
+    if (!dragging && m_speed.manhattanLength() > 3.0)
     {
-        m_speed *= 0.95;
+        m_speed *= 0.85;
         target->moveBy(m_speed.x(), m_speed.y());
+    }
+    else
+    {
+        this->killTimer(timerId);
+        timerId = -1;
     }
 }
 
