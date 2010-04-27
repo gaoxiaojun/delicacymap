@@ -326,10 +326,10 @@ void Session::handleLocationSharing( const ProtocolBuffer::DMessage* msg )
         switch (msg->systemmessagetype())
         {
         case ProtocolBuffer::ShareLocationWith:
-            userSharingLocationWithMe.insert(uid);
+            userSharingLocationWithMe.insert(msg->fromuser());
             break;
         case ProtocolBuffer::StopShareLocationWith:
-            userSharingLocationWithMe.remove(uid);
+            userSharingLocationWithMe.remove(msg->fromuser());
             break;
         }
     }
