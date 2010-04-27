@@ -26,7 +26,7 @@ using namespace ProtocolBuffer;
 using namespace rclib::network;
 
 naked_conn::naked_conn( boost::asio::io_service &io )
-:_s(io), msg_timer(io)
+:_s(io)
 {
     controller = new AsioRpcController();
     service = new DMServiceLocalDBImpl(controller);
@@ -40,9 +40,7 @@ naked_conn::~naked_conn()
 
 void naked_conn::prepare()
 {
-    isClosing = false;
     linked_user = 0;
-    message_basetime = time_from_string("1970-01-01 00:00:00");
 }
 
 void naked_conn::start()
@@ -115,8 +113,12 @@ void naked_conn::handle_read( const boost::system::error_code& err, size_t bytes
 {
     if (err)
     {
-        pantheios::log_ERROR("read msg err '", err.message() , "' . errcode: ", pantheios::integer(err.value()));
-        isClosing = true;
+        if (err.value() == 10054)
+            pantheios::log_INFORMATIONAL("Connectioin closed.");
+        else
+            pantheios::log_ERROR("read msg err '", err.message() , "' . errcode: ", pantheios::integer(err.value()));
+        if (linked_user != 0)
+            Messenger::GetInstance()->SignOffUser(linked_user);
     }
     else
     {
@@ -153,8 +155,12 @@ void naked_conn::handle_write( const boost::system::error_code& err, size_t /*by
 {
     if (err)
     {
-        pantheios::log_ERROR("write msg err '", err.message() , "' . errcode: ", pantheios::integer(err.value()));
-        isClosing = true;
+        if (err.value() == 10054)
+            pantheios::log_INFORMATIONAL("Connectioin closed.");
+        else
+            pantheios::log_ERROR("write msg err '", err.message() , "' . errcode: ", pantheios::integer(err.value()));
+        if (linked_user != 0)
+            Messenger::GetInstance()->SignOffUser(linked_user);
     }
     else
         readrequest(0);
@@ -163,7 +169,14 @@ void naked_conn::handle_write( const boost::system::error_code& err, size_t /*by
 void naked_conn::handle_message_sent( unsigned int msgid, const boost::system::error_code& err, size_t /*bytes_transferred*/ )
 {
     if (err)
-        pantheios::log_ERROR("Error sending message to client '", err.message() , "' . errcode: ", pantheios::integer(err.value()));
+    {
+        if (err.value() == 10054)
+            pantheios::log_INFORMATIONAL("Connectioin closed.");
+        else
+            pantheios::log_ERROR("Error sending message to client '", err.message() , "' . errcode: ", pantheios::integer(err.value()));
+        if (linked_user != 0)
+            Messenger::GetInstance()->SignOffUser(linked_user);
+    }
     else
     {
         Messenger::GetInstance()->MessageConfirmedRecieved( msgid );
@@ -263,8 +276,7 @@ void naked_conn::handle_request()
                 if (income.method_id() == protorpc::UserLogin && !controller->Failed() && !controller->IsCanceled())
                 {
                     linked_user = ::google::protobuf::down_cast<::ProtocolBuffer::User*>(response)->uid();
-                    msg_timer.expires_from_now(seconds(3));
-                    msg_timer.async_wait(bind(&naked_conn::messageTimerHandler, shared_from_this(), placeholders::error));
+                    Messenger::GetInstance()->RegisterUserOnConnection(linked_user, boost::bind(&naked_conn::writeMessage, shared_from_this(), _1));
                 }
                 delete response;
             }
@@ -296,23 +308,4 @@ void naked_conn::handle_messaging()
     else
         pantheios::log_WARNING("Incompatible message type. missing buffer");
     readrequest(0);
-}
-
-void naked_conn::messageTimerHandler(const boost::system::error_code& err)
-{
-    if (err)
-    {
-        pantheios::log_ERROR("Connection timer error, Error message: [", pantheios::integer(err.value()), "] ", err.message());
-    }
-    else if (!isClosing)
-    {
-        Messenger::MessageRange msgs = Messenger::GetInstance()->MessageForUser(linked_user, message_basetime);
-        BOOST_FOREACH(const DMessageWrap* m, msgs)
-        {
-            writeMessage(m);
-            message_basetime = m->AddTime;
-        }
-        msg_timer.expires_from_now(seconds(5));
-        msg_timer.async_wait(bind(&naked_conn::messageTimerHandler, shared_from_this(), placeholders::error));
-    }
 }

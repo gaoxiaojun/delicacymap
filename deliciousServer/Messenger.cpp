@@ -27,7 +27,7 @@ using namespace boost::interprocess;
 Messenger* Messenger::__messenger = NULL;
 
 Messenger::Messenger(boost::asio::io_service& _io)
-:ios(_io), msgExpireTimer(_io)
+:ios(_io), msgExpireTimer(_io), msgSendTimer(_io)
 {
     // when we start, we need to get all the messages from db
     dataadapter = deliciousDataAdapter::GetInstance();
@@ -46,11 +46,8 @@ Messenger* Messenger::GetInstance()
 
 Messenger::~Messenger(void)
 {
+    msgSendTimer.cancel();
     msgExpireTimer.cancel();
-    BOOST_FOREACH(const DMessageWrap* m, msgpool)
-    {
-        delete m;
-    }
 }
 
 void Messenger::GetMessageCallback( const DBRow& row )
@@ -79,7 +76,7 @@ void Messenger::GetMessageCallback( const DBRow& row )
     newmsg->ExpireTime = time_from_string(row["ExpireTime"]);
 
     // This is only used when we initialize, so no locking is needed.
-    msgpool.insert(newmsg);
+    msgpool.insert(std::tr1::shared_ptr<DMessageWrap>(newmsg));
 }
 
 void Messenger::start()
@@ -88,9 +85,11 @@ void Messenger::start()
     order_by_expire& view = msgpool.get<message_ordered_expiretime_tag>();
 
     // The user may actually send message first then start.
-    sharable_lock<MutexType> lock(mutex);
+    sharable_lock<MutexType> lock(pool_mutex);
     msgExpireTimer.expires_from_now( view.empty() ? minutes(3) : (*view.begin())->ExpireTime - second_clock::universal_time() + seconds(30) );
     msgExpireTimer.async_wait(bind(&Messenger::ExpireTimerHandler, this, placeholders::error));
+    msgSendTimer.expires_from_now(seconds(2));
+    msgSendTimer.async_wait(bind(&Messenger::SendMessageHandler, this));
 }
 
 bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
@@ -102,13 +101,15 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
     case ProtocolBuffer::ShareLocationWith:
         {
             // send the user updated location to the appointed user
-            usersSharingLocation[msg->fromuser()].insert(msg->touser());
+            scoped_lock<MutexType> lock(usr_mutex);
+            liveUsers[msg->fromuser()].shareLocationWith.insert(msg->touser());
             handled = true;
             break;
         }
     case ProtocolBuffer::StopShareLocationWith:
         {
-            usersSharingLocation[msg->fromuser()].erase(msg->touser());
+            scoped_lock<MutexType> lock(usr_mutex);
+            liveUsers[msg->fromuser()].shareLocationWith.erase(msg->touser());
             handled = true;
             break;
         }
@@ -116,9 +117,9 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
         if (msg->touser() == 0)
         {
             msg->clear_text();
-            userLocations[msg->fromuser()].ParseFromString(msg->buffer());
-            typedef std::pair<int, SenderFunction> ConnType;
-            BOOST_FOREACH(int usr, usersSharingLocation[msg->fromuser()])
+            scoped_lock<MutexType> lock(usr_mutex);
+            liveUsers[msg->fromuser()].location.ParseFromString(msg->buffer());
+            BOOST_FOREACH(int usr, liveUsers[msg->fromuser()].shareLocationWith)
             {
                 msg->set_touser(usr);
                 ProcessMessage(msg);
@@ -210,13 +211,15 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
 
         if (!msg->issystemmessage() || !ProcessSystemMessage(msg))
         {
-            DMessageWrap *newmsg = new DMessageWrap;
+            std::tr1::shared_ptr<DMessageWrap> newmsg(new DMessageWrap);
             newmsg->CopyFrom(*msg);
             newmsg->AddTime = second_clock::universal_time();
             newmsg->ExpireTime = second_clock::universal_time() + time_duration(expiretime.tm_hour, expiretime.tm_min, expiretime.tm_sec);
 
-            scoped_lock<MutexType> lock(mutex);
+            scoped_lock<MutexType> lock(pool_mutex);
+            scoped_lock<MutexType> lockusr(usr_mutex);
             msgpool.insert(newmsg);
+            liveUsers[msg->fromuser()].usrMessages.push(newmsg);
         }
     }
     catch (const std::exception& e)
@@ -225,15 +228,27 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
     }
 }
 
-void Messenger::RegisterUserOnConnection( int uid, SenderFunction f )
+void Messenger::RegisterUserOnConnection( int uid, UserControlBlock::SenderFunctionProtoType f )
 {
-    liveUsers[uid] = f;
+    typedef MessagesContainer::index<message_hash_fromuid_tag>::type hash_fromuid;
+
+    sharable_lock<MutexType> lockmsg(pool_mutex);
+    scoped_lock<MutexType> lock(usr_mutex);
+    hash_fromuid &userMessages = msgpool.get<message_hash_fromuid_tag>();
+    assert(liveUsers.find(uid) == liveUsers.end());
+    UserControlBlock &usr = liveUsers[uid];
+    usr.uid;
+    usr.senderFunction = f;
+    BOOST_FOREACH( const std::tr1::shared_ptr<DMessageWrap>& m, userMessages.equal_range(uid) )
+    {
+        usr.usrMessages.push( m );
+    }
 }
 
 void Messenger::SignOffUser( int uid )
 {
+    scoped_lock<MutexType> lock(usr_mutex);
     liveUsers.erase(uid);
-    userLocations.erase(uid);
 }
 
 void Messenger::ExpireTimerHandler(const boost::system::error_code& err)
@@ -247,7 +262,7 @@ void Messenger::ExpireTimerHandler(const boost::system::error_code& err)
         typedef MessagesContainer::index<message_ordered_expiretime_tag>::type order_by_expire;
         order_by_expire& view = msgpool.get<message_ordered_expiretime_tag>();
 
-        scoped_lock<MutexType> lock(mutex);
+        scoped_lock<MutexType> lock(pool_mutex);
         ptime now(second_clock::universal_time());
         pair<order_by_expire::iterator, order_by_expire::iterator> expiredmsgs = view.range(unbounded, boost::lambda::_1<=now);
         view.erase(expiredmsgs.first, expiredmsgs.second);
@@ -260,9 +275,11 @@ void Messenger::ExpireTimerHandler(const boost::system::error_code& err)
 Messenger::MessageRange Messenger::MessageForUser( unsigned int uid, boost::posix_time::ptime msgafter )
 {
     typedef MessagesContainer::index<message_ordered_touid_tag>::type order_by_to_user;
+
+    sharable_lock<MutexType> lock(pool_mutex);
     order_by_to_user& view = msgpool.get<message_ordered_touid_tag>();
 
-    MessageRange ret(mutex);
+    MessageRange ret(pool_mutex);
 
     pair<Messenger::MSGIterator, Messenger::MSGIterator> msgforuser = view.equal_range(uid);
 
@@ -285,9 +302,8 @@ void Messenger::MessageConfirmedRecieved(::google::protobuf::uint32 msgid)
     try
     {
         {
-            scoped_lock<MutexType> lock(mutex);
-            hash_by_msgid::iterator msg = view.find(msgid);
-            view.erase(msg);
+            scoped_lock<MutexType> lock(pool_mutex);
+            view.erase(msgid);
         }
         dataadapter->ConfirmMessageDelivered( msgid );
         // msg found
@@ -296,6 +312,24 @@ void Messenger::MessageConfirmedRecieved(::google::protobuf::uint32 msgid)
     {
         pantheios::log_WARNING("Error confirming message is delivered(msgid=", pantheios::integer(msgid), "). Error Msg:", e->what());
     }
+}
+
+void Messenger::SendMessageHandler()
+{
+    sharable_lock<MutexType> lock(usr_mutex);
+    BOOST_FOREACH( UserContainer::value_type &value, liveUsers)
+    {
+        UserControlBlock &usr = value.second;
+        while (!usr.usrMessages.empty())
+        {
+            std::tr1::shared_ptr<DMessageWrap> msg = usr.usrMessages.front().lock();
+            usr.usrMessages.pop();
+            if (msg)
+                usr.senderFunction(msg.get());
+        }
+    }
+    msgSendTimer.expires_from_now(seconds(2));
+    msgSendTimer.async_wait(bind(&Messenger::SendMessageHandler, this));
 }
 
 Messenger::MessageRange::MessageRange( const MessageRange& other )
