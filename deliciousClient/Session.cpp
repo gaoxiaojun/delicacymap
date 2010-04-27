@@ -15,6 +15,7 @@ Session::Session()
     user = new ProtocolBuffer::User();
     network = NULL;
     connect(&getDataSource(), SIGNAL(ready(bool)), this, SIGNAL(ready(bool)), Qt::DirectConnection);
+    connect(&getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(handleLocationSharing(const ProtocolBuffer::DMessage*)));
     info_isdirty = false;
     infotoupdate = NULL;
     updatedone = NULL;
@@ -311,4 +312,25 @@ void Session::RelationChangeResponse(int uid,UserRelation relation)
 void Session::GetUserResponse()
 {
     
+}
+
+bool Session::isSharing( int uid ) const
+{
+    return userSharingLocationWithMe.contains(uid);
+}
+
+void Session::handleLocationSharing( const ProtocolBuffer::DMessage* msg )
+{
+    if (msg->issystemmessage())
+    {
+        switch (msg->systemmessagetype())
+        {
+        case ProtocolBuffer::ShareLocationWith:
+            userSharingLocationWithMe.insert(uid);
+            break;
+        case ProtocolBuffer::StopShareLocationWith:
+            userSharingLocationWithMe.remove(uid);
+            break;
+        }
+    }
 }

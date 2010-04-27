@@ -8,6 +8,7 @@
 #include <string>
 #include <QObject>
 #include <QMap>
+#include <QSet>
 #include <QList>
 #include <QBasicTimer>
 
@@ -35,6 +36,8 @@ public:
 
     QList<ProtocolBuffer::User*> friends();
     ProtocolBuffer::User* getUser(int uid);
+
+    bool isSharing(int uid) const;
     
     void SendRoutingReply( const QList<GeoPoint>& route, int user );
     void SendRoutingRequest( const QString&, const QString&, int user);
@@ -58,6 +61,9 @@ signals:
 protected:
     void timerEvent(QTimerEvent *);
 
+private slots:
+    void handleLocationSharing(const ProtocolBuffer::DMessage*);
+
 private:
     void UpdatedUserInfo();
     void FriendsResponse(ProtocolBuffer::UserList*);
@@ -65,6 +71,7 @@ private:
     QBasicTimer timer, subscriptionTimer;
     MapDataSource datasource;
     QMap<int, ProtocolBuffer::User*> myfriends;
+    QSet<int> userSharingLocationWithMe;
     ProtocolBuffer::User *user, *infotoupdate;
     google::protobuf::Closure *updatedone;
     QTM_PREPEND_NAMESPACE(QNetworkSession)* network;

@@ -101,27 +101,25 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
     case ProtocolBuffer::ShareLocationWith:
         {
             // send the user updated location to the appointed user
-            scoped_lock<MutexType> lock(usr_mutex);
+            sharable_lock<MutexType> lock(usr_mutex);
             liveUsers[msg->fromuser()].shareLocationWith.insert(msg->touser());
-            handled = true;
             break;
         }
     case ProtocolBuffer::StopShareLocationWith:
         {
-            scoped_lock<MutexType> lock(usr_mutex);
+            sharable_lock<MutexType> lock(usr_mutex);
             liveUsers[msg->fromuser()].shareLocationWith.erase(msg->touser());
-            handled = true;
             break;
         }
     case ProtocolBuffer::UserLocationUpdate:
         if (msg->touser() == 0)
         {
             msg->clear_text();
-            scoped_lock<MutexType> lock(usr_mutex);
+            sharable_lock<MutexType> lock(usr_mutex);
             liveUsers[msg->fromuser()].location.ParseFromString(msg->buffer());
-            BOOST_FOREACH(int usr, liveUsers[msg->fromuser()].shareLocationWith)
+            BOOST_FOREACH(const UserContainer::value_type &userPair, liveUsers)
             {
-                msg->set_touser(usr);
+                msg->set_touser(userPair.second.uid);
                 ProcessMessage(msg);
             }
             handled = true;
