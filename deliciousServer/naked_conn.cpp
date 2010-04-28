@@ -248,6 +248,7 @@ MessageLite* ResultTypeForMethod(protorpc::FunctionID method_id)
     case protorpc::SetUserRelation:
         msg = NULL;
         break;
+    case protorpc::GetSubscribtionInfo:
     case protorpc::Search:
         msg = new ::ProtocolBuffer::SearchResult;
         break;

@@ -37,7 +37,9 @@ public:
     QList<ProtocolBuffer::User*> friends();
     ProtocolBuffer::User* getUser(int uid);
 
-    bool isSharing(int uid) const;
+    bool isSharingLocationWith(int uid) const;
+    bool isSubscribedToUser(int uid) const;
+    bool isSubscribedToRestaurant(int rid) const;
     
     void SendRoutingReply( const QList<GeoPoint>& route, int user );
     void SendRoutingRequest( const QString&, const QString&, int user);
@@ -68,10 +70,11 @@ private:
     void UpdatedUserInfo();
     void FriendsResponse(ProtocolBuffer::UserList*);
     void GetUserResponse();
+    void GetSubscribeUserResponse(ProtocolBuffer::SearchResult*);
     QBasicTimer timer, subscriptionTimer;
     MapDataSource datasource;
     QMap<int, ProtocolBuffer::User*> myfriends;
-    QSet<int> userSharingLocationWithMe;
+    QSet<int> userSharingLocationWithMe, userSubscribeTo, restaurantSubscribeTo;
     ProtocolBuffer::User *user, *infotoupdate;
     google::protobuf::Closure *updatedone;
     QTM_PREPEND_NAMESPACE(QNetworkSession)* network;

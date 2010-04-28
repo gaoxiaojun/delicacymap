@@ -33,6 +33,8 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_UpdateUserSubscription = NULL;
         prepared_UpdateRestaurantSubscription = NULL;
         prepared_InsertRelationRestaurantType = NULL;
+        prepared_SubscribtionUser = NULL;
+        prepared_SubscribtionRestaurant = NULL;
         dbconn = new DBContext(connstr); 
         DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
         dbconn->Free(&ret);
@@ -89,6 +91,14 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "INSERT OR REPLACE INTO Relation_User_Restaurant "
             "(UID, RID, Subscription) "
             "VALUES(?, ?, ?);");
+        prepared_SubscribtionUser = dbconn->NewPreparedStatement(
+            "SELECT Users.* FROM Users "
+            "INNER JOIN Relation_User_User AS RU ON Users.UID = RU.UID_Target "
+            "WHERE RU.UID_Host = ? AND RU.Subscription = 1;");
+        prepared_SubscribtionRestaurant = dbconn->NewPreparedStatement(
+            "SELECT Restaurants.* FROM Restaurants "
+            "NATURAL INNER JOIN Relation_User_Restaurant AS RU "
+            "WHERE RU.UID = ? AND RU.Subscription = 1;");
     }
     catch (exception&)
     {
@@ -106,6 +116,8 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         delete prepared_Subscription;
         delete prepared_UpdateUserSubscription;
         delete prepared_UpdateRestaurantSubscription;
+        delete prepared_SubscribtionUser;
+        delete prepared_SubscribtionRestaurant;
         throw;
     }
 }
@@ -126,6 +138,8 @@ deliciousDataAdapter::~deliciousDataAdapter(void)
     delete prepared_Subscription;
     delete prepared_UpdateUserSubscription;
     delete prepared_UpdateRestaurantSubscription;
+    delete prepared_SubscribtionUser;
+    delete prepared_SubscribtionRestaurant;
 }
 
 deliciousDataAdapter* deliciousDataAdapter::GetInstance()
@@ -443,6 +457,28 @@ const DBResultWrap deliciousDataAdapter::Search( const std::string& text )
     prepared_SearchRestaurants->reset();
     prepared_SearchRestaurants->bindParameter(1, clause);
     return DBResultWrap(dbconn->Execute(prepared_SearchRestaurants), dbconn);
+}
+
+const DBResultWrap deliciousDataAdapter::GetSubscribedUserBy( int uid )
+{
+    pantheios::log_INFORMATIONAL("GetSubscribedUserBy(",
+        "uid=", pantheios::integer(uid), ")");
+
+    prepared_SubscribtionUser->reset();
+    prepared_SubscribtionUser->bindParameter(1, uid);
+    
+    return DBResultWrap(dbconn->Execute(prepared_SubscribtionUser), dbconn);
+}
+
+const DBResultWrap deliciousDataAdapter::GetSubscribedRestaurantBy( int uid )
+{
+    pantheios::log_INFORMATIONAL("GetSubscribedRestaurantBy(",
+        "uid=", pantheios::integer(uid), ")");
+
+    prepared_SubscribtionRestaurant->reset();
+    prepared_SubscribtionRestaurant->bindParameter(1, uid);
+
+    return DBResultWrap(dbconn->Execute(prepared_SubscribtionRestaurant), dbconn);
 }
 
 // TODO: maybe database schema object to manage all primary keys and stuff?

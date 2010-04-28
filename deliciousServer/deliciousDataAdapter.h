@@ -70,6 +70,10 @@ public://DB methods
 
     const DBResultWrap Search( const std::string& text );
 
+    const DBResultWrap GetSubscribedUserBy(int uid);
+
+    const DBResultWrap GetSubscribedRestaurantBy(int uid);
+
     /************************************************************************/
     /*                    Methods Used by Messenger                         */
     /************************************************************************/
@@ -98,5 +102,6 @@ private://data
     DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage, *prepared_GetUserByUID, *prepared_GetCommentsOfRest_N;
     DBPrepared* prepared_Login, *prepared_InsertComment, *prepared_AddRestaurant, *prepared_SearchRestaurants, *prepared_Subscription;
     DBPrepared* prepared_SearchUsers, *prepared_UpdateUserSubscription, *prepared_UpdateRestaurantSubscription, *prepared_InsertRelationRestaurantType;
+    DBPrepared* prepared_SubscribtionUser, *prepared_SubscribtionRestaurant;
     DBContext *dbconn;
 };

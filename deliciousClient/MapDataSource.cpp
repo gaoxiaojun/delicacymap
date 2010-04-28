@@ -237,3 +237,15 @@ void MapDataSource::Search(ProtocolBuffer::Query *query, ProtocolBuffer::SearchR
 {
     channel->CallMethod( protorpc::Search, query, result, done );
 }
+
+void MapDataSource::GetSubscribtionInfo( int uid, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done )
+{
+    query.Clear();
+    query.set_uid(uid);
+    GetSubscribtionInfo(&query, result, done);
+}
+
+void MapDataSource::GetSubscribtionInfo( ProtocolBuffer::Query *query, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done )
+{
+    channel->CallMethod( protorpc::GetSubscribtionInfo, query, result, done );
+}

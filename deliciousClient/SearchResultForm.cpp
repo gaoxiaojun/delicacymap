@@ -21,6 +21,13 @@ SearchResultForm::SearchResultForm(ProtocolBuffer::SearchResult* result, MapView
         item->setData( Qt::UserRole, i );
         ui->listWidget->addItem(item);
     }
+
+    if (!result->has_restaurants() && !result->has_users())
+    {
+        QListWidgetItem* item = new QListWidgetItem(tr("     <Not Found>"));
+        item->setData( Qt::UserRole, -1 );
+        ui->listWidget->addItem(item);
+    }
 }
 
 SearchResultForm::~SearchResultForm()
@@ -45,6 +52,8 @@ void SearchResultForm::itemClicked(QListWidgetItem *item)
 {
     const ProtocolBuffer::Restaurant& r = result->restaurants().restaurants(item->data( Qt::UserRole ).toInt());
     int rid = r.rid();
+    if (rid == -1)
+        return;
     Q_ASSERT( rid>0 );
     RestaurantMarkerItem *marker = target->getRestaurantMarker(rid);
     if (!marker) // this item is not in the view yet!
