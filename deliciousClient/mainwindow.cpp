@@ -324,6 +324,7 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
 void MainWindow::UserMarkerResponse(UserMarkerItem *userMarker)
 {
     UserInfoForm *item = new UserInfoForm();
+    item->setSession(this->getSession());
     item->setLocation(userMarker->getPos());
     navi->addBlockingPanel(item, userMarker);
 }

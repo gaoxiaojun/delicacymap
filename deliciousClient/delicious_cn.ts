@@ -210,42 +210,42 @@
         <translation>%1希望请你帮助他指引一条路径.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="348"/>
+        <location filename="mainwindow.cpp" line="349"/>
         <source>Do you want to continue? Coninueing will discard this marker.</source>
         <translation>确定要继续并吗？此餐厅的信息将丢失。</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="349"/>
+        <location filename="mainwindow.cpp" line="350"/>
         <source>Restautant without a name</source>
         <translation>未命名的餐厅</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="383"/>
+        <location filename="mainwindow.cpp" line="384"/>
         <source>Do you want to discard all previous work?</source>
         <translation>您确定要丢弃未保存的兴趣点信息？</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="384"/>
+        <location filename="mainwindow.cpp" line="385"/>
         <source>Unsaved local markers.</source>
         <translation>未提交的兴趣点！</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="457"/>
+        <location filename="mainwindow.cpp" line="458"/>
         <source> say : </source>
         <translation> 说: </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="473"/>
+        <location filename="mainwindow.cpp" line="474"/>
         <source>&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt; has posted a new comment on &lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;.</source>
         <translation>&lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;有一条&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt;发布的新评论.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="474"/>
+        <location filename="mainwindow.cpp" line="475"/>
         <source>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt; has posted a new comment.</source>
         <translation>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt;提交了一条新评论.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="475"/>
+        <location filename="mainwindow.cpp" line="476"/>
         <source>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt; has a new comment.</source>
         <translation>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt;有一条新评论.</translation>
     </message>
@@ -369,6 +369,21 @@
         <location filename="user.ui" line="104"/>
         <source>加入时间：</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UserInfoForm</name>
+    <message>
+        <location filename="UserInfoForm.ui" line="39"/>
+        <location filename="UserInfoForm.cpp" line="68"/>
+        <source>Subscribe</source>
+        <translation>订阅</translation>
+    </message>
+    <message>
+        <location filename="UserInfoForm.cpp" line="59"/>
+        <location filename="UserInfoForm.cpp" line="73"/>
+        <source>UnSubscribe</source>
+        <translation>取消订阅</translation>
     </message>
 </context>
 <context>

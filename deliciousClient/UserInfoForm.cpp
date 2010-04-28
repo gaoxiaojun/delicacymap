@@ -1,6 +1,7 @@
 #include "UserInfoForm.h"
 #include "ui_UserInfoForm.h"
 #include "OfflineMap/MapServices.h"
+#include "Session.h"
 #include <google/protobuf/stubs/common.h>
 
 UserInfoForm::UserInfoForm(QWidget *parent) :
@@ -43,4 +44,32 @@ void UserInfoForm::_locationResolved()
 void UserInfoForm::locationResolved()
 {
     ui->label_location->setText(this->streetName);
+}
+
+void UserInfoForm::setUID(int uid)
+{
+    this->uid = uid;
+    if (uid == getSession()->getUser()->uid())
+    {
+        ui->label_location->resize(this->width(), this->height());
+        ui->btnSub->hide();
+    }
+    else if (getSession()->isSubscribedToUser(uid))
+    {
+        ui->btnSub->setText(tr("UnSubscribe"));
+    }
+}
+
+void UserInfoForm::on_btnSub_clicked()
+{
+    if (getSession()->isSubscribedToUser(uid))
+    {
+        getSession()->UnSubscribeFromUser(uid);
+        ui->btnSub->setText(tr("Subscribe"));
+    }
+    else
+    {
+        getSession()->SubscribeToUser(uid);
+        ui->btnSub->setText(tr("UnSubscribe"));
+    }
 }

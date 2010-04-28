@@ -10,6 +10,7 @@ namespace Ui {
 }
 
 class MapServices;
+class Session;
 
 class UserInfoForm : public QWidget {
     Q_OBJECT
@@ -18,6 +19,9 @@ public:
     ~UserInfoForm();
 
     void setLocation(GeoPoint);
+    void setUID(int uid);
+    void setSession(Session* s) { this->s = s; }
+    Session* getSession() { return s; }
 
 protected:
     void changeEvent(QEvent *e);
@@ -25,10 +29,13 @@ protected:
 private:
     void _locationResolved();
 private slots:
+    void on_btnSub_clicked();
     void locationResolved();
 private:
     Ui::UserInfoForm *ui;
     MapServices *svc;
+    Session* s;
+    int uid;
     QString streetName;
 };
 
