@@ -50,6 +50,10 @@ void RestaurantInfoForm::setRestaurant(const ProtocolBuffer::Restaurant* info)
     ui->label_RestaurantName->setText(QString::fromUtf8(info->name().c_str(), info->name().size()));
     ui->label_price->setText(QString::number(info->averageexpense().amount()));
     res = info;
+    if (info && getSession() && getSession()->isSubscribedToRestaurant(info->rid()))
+    {
+        ui->btnSubs->setText(tr("UnSubscribe"));
+    }
 }
 
 void RestaurantInfoForm::changeEvent(QEvent *e)
@@ -218,4 +222,18 @@ void RestaurantInfoForm::handleCommentList( ProtocolBuffer::CommentList* list )
         addCommentToList(&c);
     }
     delete list;
+}
+
+void RestaurantInfoForm::on_btnSubs_clicked()
+{
+    if (getSession()->isSubscribedToRestaurant(res->rid()))
+    {
+        getSession()->UnSubscribeFromRestaurant(res->rid());
+        ui->btnSubs->setText(tr("Subscribe"));
+    }
+    else
+    {
+        getSession()->SubscribeToRestaurant(res->rid());
+        ui->btnSubs->setText(tr("UnSubscribe"));
+    }
 }

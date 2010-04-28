@@ -49,6 +49,7 @@ private:
     bool commentsShown, addShown;
 
 private slots:
+    void on_btnSubs_clicked();
     void on_btnCommit_clicked();
     void handleCommentList(ProtocolBuffer::CommentList*);
     void frameChange(int);

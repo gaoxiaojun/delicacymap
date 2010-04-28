@@ -6,7 +6,7 @@
     <message>
         <location filename="AddNewRestaurantForm.ui" line="14"/>
         <source>Add new restaurant</source>
-        <translation type="unfinished"></translation>
+        <translation>添加新餐厅</translation>
     </message>
     <message>
         <location filename="AddNewRestaurantForm.ui" line="36"/>
@@ -195,57 +195,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="147"/>
+        <location filename="mainwindow.cpp" line="138"/>
         <source>Locate by cell network</source>
         <translation>手机定位</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="149"/>
+        <location filename="mainwindow.cpp" line="140"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="271"/>
+        <location filename="mainwindow.cpp" line="262"/>
         <source>%1 is asking your help to guide him.</source>
         <translation>%1希望请你帮助他指引一条路径.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="357"/>
+        <location filename="mainwindow.cpp" line="348"/>
         <source>Do you want to continue? Coninueing will discard this marker.</source>
         <translation>确定要继续并吗？此餐厅的信息将丢失。</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="358"/>
+        <location filename="mainwindow.cpp" line="349"/>
         <source>Restautant without a name</source>
         <translation>未命名的餐厅</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="392"/>
+        <location filename="mainwindow.cpp" line="383"/>
         <source>Do you want to discard all previous work?</source>
         <translation>您确定要丢弃未保存的兴趣点信息？</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="393"/>
+        <location filename="mainwindow.cpp" line="384"/>
         <source>Unsaved local markers.</source>
         <translation>未提交的兴趣点！</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="466"/>
+        <location filename="mainwindow.cpp" line="457"/>
         <source> say : </source>
         <translation> 说: </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="482"/>
+        <location filename="mainwindow.cpp" line="473"/>
         <source>&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt; has posted a new comment on &lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;.</source>
         <translation>&lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;有一条&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt;发布的新评论.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="483"/>
+        <location filename="mainwindow.cpp" line="474"/>
         <source>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt; has posted a new comment.</source>
         <translation>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt;提交了一条新评论.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="484"/>
+        <location filename="mainwindow.cpp" line="475"/>
         <source>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt; has a new comment.</source>
         <translation>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt;有一条新评论.</translation>
     </message>
@@ -261,30 +261,43 @@
 </context>
 <context>
     <name>RestaurantInfoForm</name>
-    <message utf8="true">
+    <message>
         <location filename="RestaurantInfoForm.ui" line="48"/>
-        <source>价格:</source>
-        <translation type="unfinished"></translation>
+        <source>Price:</source>
+        <translation>平均价格:</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="RestaurantInfoForm.ui" line="93"/>
-        <source>评论</source>
-        <translation type="unfinished"></translation>
+        <source>Comments</source>
+        <translation>评论</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="RestaurantInfoForm.ui" line="106"/>
-        <source>添加</source>
-        <translation type="unfinished"></translation>
+        <source>Add</source>
+        <translation>添加</translation>
     </message>
     <message>
         <location filename="RestaurantInfoForm.ui" line="129"/>
         <source>Commit</source>
         <translation>提交</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="RestaurantInfoForm.ui" line="152"/>
-        <source>导航</source>
-        <translation type="unfinished"></translation>
+        <source>Navigation</source>
+        <translation>导航</translation>
+    </message>
+    <message>
+        <location filename="RestaurantInfoForm.ui" line="165"/>
+        <location filename="RestaurantInfoForm.cpp" line="232"/>
+        <source>Subscribe</source>
+        <translation>订阅</translation>
+    </message>
+    <message>
+        <location filename="RestaurantInfoForm.cpp" line="55"/>
+        <location filename="RestaurantInfoForm.cpp" line="237"/>
+        <source>UnSubscribe</source>
+        <oldsource>Unsubscribe</oldsource>
+        <translation>取消订阅</translation>
     </message>
 </context>
 <context>
@@ -316,6 +329,46 @@
         <location filename="SearchResultForm.cpp" line="27"/>
         <source>     &lt;Not Found&gt;</source>
         <translation>     &lt;找不到餐厅&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UserClass</name>
+    <message>
+        <location filename="user.ui" line="14"/>
+        <source>User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="user.ui" line="26"/>
+        <source>删除好友</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="user.ui" line="39"/>
+        <source>订阅评论</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="user.ui" line="52"/>
+        <location filename="user.ui" line="91"/>
+        <location filename="user.ui" line="117"/>
+        <source>TextLabel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="user.ui" line="65"/>
+        <source>用户名：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="user.ui" line="78"/>
+        <source>邮箱：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="user.ui" line="104"/>
+        <source>加入时间：</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

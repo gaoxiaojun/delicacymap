@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>262</width>
+    <width>300</width>
     <height>95</height>
    </rect>
   </property>
@@ -45,7 +45,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>价格:</string>
+    <string>Price:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_price">
@@ -83,27 +83,27 @@
   <widget class="QPushButton" name="btnShow">
    <property name="geometry">
     <rect>
-     <x>55</x>
+     <x>100</x>
      <y>60</y>
      <width>100</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>评论</string>
+    <string>Comments</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnAdd">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>200</x>
      <y>60</y>
      <width>100</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>添加</string>
+    <string>Add</string>
    </property>
   </widget>
   <widget class="QListWidget" name="listComment">
@@ -111,7 +111,7 @@
     <rect>
      <x>0</x>
      <y>100</y>
-     <width>260</width>
+     <width>300</width>
      <height>121</height>
     </rect>
    </property>
@@ -119,9 +119,9 @@
   <widget class="QPushButton" name="btnCommit">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>209</x>
      <y>230</y>
-     <width>80</width>
+     <width>90</width>
      <height>24</height>
     </rect>
    </property>
@@ -134,22 +134,35 @@
     <rect>
      <x>0</x>
      <y>230</y>
-     <width>181</width>
-     <height>22</height>
+     <width>211</width>
+     <height>24</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="btnRouting">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>200</x>
      <y>10</y>
      <width>100</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>导航</string>
+    <string>Navigation</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnSubs">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>60</y>
+     <width>100</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Subscribe</string>
    </property>
   </widget>
  </widget>
