@@ -22,8 +22,10 @@ FORMS += mainwindow.ui \
     RoutingForm.ui \
     UserInfoForm.ui \
     AddNewRestaurantForm.ui \
-    RestaurantInfoForm.ui
+    RestaurantInfoForm.ui  \
+	user.ui
 HEADERS += md5.h \
+	user.h  \
     bluetoothmanager.h \
     Configurations.h \
     MapDataSource.h \
@@ -60,6 +62,7 @@ HEADERS += md5.h \
     OfflineMap/GeoCoord.h
 SOURCES += main.cpp \
     md5.cpp \
+	user.cpp \
     Configurations.cpp \
     bluetoothmanager.cpp \
     MapDataSource.cpp \
