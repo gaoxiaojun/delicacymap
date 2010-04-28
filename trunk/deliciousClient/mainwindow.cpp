@@ -216,11 +216,8 @@ void MainWindow::handleSearchClicked()
 
 void MainWindow::searchResponse(ProtocolBuffer::SearchResult *result)
 {
-    if (result->has_restaurants() || result->has_users())
-    {
-        qDebug()<<"Before invoke.";
-        QMetaObject::invokeMethod(this, "handleSearchResponse", Q_ARG(ProtocolBuffer::SearchResult*, result));
-    }
+    qDebug()<<"Before invoke.";
+    QMetaObject::invokeMethod(this, "handleSearchResponse", Q_ARG(ProtocolBuffer::SearchResult*, result));
 }
 
 void MainWindow::handleSearchResponse(ProtocolBuffer::SearchResult *result)

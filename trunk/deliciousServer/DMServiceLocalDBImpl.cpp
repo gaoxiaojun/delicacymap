@@ -102,6 +102,12 @@ void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::p
             ::google::protobuf::down_cast< ::ProtocolBuffer::SearchResult*>(response),
             done);
         break;
+    case protorpc::GetSubscribtionInfo:
+        GetSubscribtionInfo(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::SearchResult*>(response),
+            done);
+        break;
     default:
         pantheios::log_CRITICAL("Not handled method id!!!(CallMethod)");
     }
@@ -415,6 +421,39 @@ void DMServiceLocalDBImpl::Search( ::google::protobuf::RpcController* controller
     {
         pantheios::log_WARNING("calling Search() with wrong request message.");
         controller->SetFailed("calling Search() with wrong request message.");
+    }
+
+    done->Run();
+}
+
+void DMServiceLocalDBImpl::GetSubscribtionInfo( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::SearchResult* response, ::google::protobuf::Closure* done )
+{
+    if (request->has_uid())
+    {
+        DBResultWrap retuser = adapter->GetSubscribedUserBy(request->uid());
+        DBResultWrap retrestaurant = adapter->GetSubscribedRestaurantBy(request->uid());
+
+        if (!retuser.empty())
+        {
+            ProtocolBuffer::UserList* rs = response->mutable_users();
+            for (size_t i=0;i<retuser.getResult()->RowsCount();i++)
+            {
+                ProtubufDBRowConversion::Convert(retuser.getResult()->GetRow(i), *rs->add_users());
+            }
+        }
+        if (!retrestaurant.empty())
+        {
+            ProtocolBuffer::RestaurantList* us = response->mutable_restaurants();
+            for (size_t i=0;i<retrestaurant.getResult()->RowsCount();i++)
+            {
+                ProtubufDBRowConversion::Convert(retrestaurant.getResult()->GetRow(i), *us->add_restaurants());
+            }
+        }
+    }
+    else
+    {
+        pantheios::log_WARNING("calling GetSubscribtionInfo() with wrong request message.");
+        controller->SetFailed("calling GetSubscribtionInfo() with wrong request message.");
     }
 
     done->Run();

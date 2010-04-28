@@ -10,7 +10,7 @@ using namespace std;
 enum UserRelation
 {
     Friend = 0,
-    BlackList,
+    BlackList = 1,
     Unspecified = -1
 };
 
@@ -45,6 +45,7 @@ public:
     void SetUserRelation(int uid, int target_uid, UserRelation relation, google::protobuf::Closure *);
     void AddRestaurant(ProtocolBuffer::Restaurant* r, google::protobuf::Closure* done);
     void Search(const std::string& text, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done);
+    void GetSubscribtionInfo(int uid, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done);
 
     void GetRestaurants(ProtocolBuffer::Query *, ProtocolBuffer::RestaurantList *, google::protobuf::Closure *);
     void GetLastestCommentsOfRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
@@ -59,6 +60,8 @@ public:
     void SetUserRelation(ProtocolBuffer::Query *, google::protobuf::Closure*);
     void AddRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::Restaurant*, google::protobuf::Closure*);
     void Search(ProtocolBuffer::Query *, ProtocolBuffer::SearchResult*, google::protobuf::Closure*);
+    void GetSubscribtionInfo(ProtocolBuffer::Query *, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done);
+
     void SendMessage(ProtocolBuffer::DMessage*);
     void SendMessage(int fromuid,int touid,string message);
 

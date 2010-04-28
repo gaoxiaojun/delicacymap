@@ -145,8 +145,11 @@ void Session::loginMessenger()
     if (getUser()->has_uid())
     {
         ProtocolBuffer::UserList* users = new ProtocolBuffer::UserList;
+        ProtocolBuffer::SearchResult* subscribes = new ProtocolBuffer::SearchResult;
         google::protobuf::Closure* closure = google::protobuf::NewCallback(this, &Session::FriendsResponse, users);
         getDataSource().GetRelatedUsers(getUser()->uid(), Friend, users, closure);
+        google::protobuf::Closure* Subscribtion = google::protobuf::NewCallback(this, &Session::GetSubscribeUserResponse, subscribes);
+        getDataSource().GetSubscribtionInfo(getUser()->uid(), subscribes, Subscribtion);
     }
 }
 
@@ -231,6 +234,7 @@ void Session::SubscribeToUser( int otherUser )
     msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
     msg.set_systemmessagetype(ProtocolBuffer::SubscribTo);
     getDataSource().SendMessage(&msg);
+    userSubscribeTo.insert(otherUser);
 }
 
 void Session::UnSubscribeFromUser( int otherUser )
@@ -242,6 +246,7 @@ void Session::UnSubscribeFromUser( int otherUser )
     msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
     msg.set_systemmessagetype(ProtocolBuffer::UnSubscribeFrom);
     getDataSource().SendMessage(&msg);
+    userSubscribeTo.remove(otherUser);
 }
 
 void Session::SubscribeToRestaurant( int RID )
@@ -256,6 +261,7 @@ void Session::SubscribeToRestaurant( int RID )
     msg.set_systemmessagetype(ProtocolBuffer::SubscribTo);
     msg.set_buffer(queryRID.SerializeAsString());
     getDataSource().SendMessage(&msg);
+    restaurantSubscribeTo.insert(RID);
 }
 
 void Session::UnSubscribeFromRestaurant( int RID )
@@ -270,6 +276,7 @@ void Session::UnSubscribeFromRestaurant( int RID )
     msg.set_systemmessagetype(ProtocolBuffer::UnSubscribeFrom);
     msg.set_buffer(queryRID.SerializeAsString());
     getDataSource().SendMessage(&msg);
+    restaurantSubscribeTo.remove(RID);
 }
 
 //通过姓名查找uid.......................未完成
@@ -316,9 +323,19 @@ void Session::GetUserResponse()
     
 }
 
-bool Session::isSharing( int uid ) const
+bool Session::isSharingLocationWith( int uid ) const
 {
     return userSharingLocationWithMe.contains(uid);
+}
+
+bool Session::isSubscribedToUser( int uid ) const
+{
+    return userSubscribeTo.contains(uid);
+}
+
+bool Session::isSubscribedToRestaurant( int rid ) const
+{
+    return restaurantSubscribeTo.contains(rid);
 }
 
 void Session::handleLocationSharing( const ProtocolBuffer::DMessage* msg )
@@ -335,4 +352,27 @@ void Session::handleLocationSharing( const ProtocolBuffer::DMessage* msg )
             break;
         }
     }
+}
+
+void Session::GetSubscribeUserResponse( ProtocolBuffer::SearchResult* result )
+{
+    userSubscribeTo.clear();
+    restaurantSubscribeTo.clear();
+    if (result->has_users())
+    {
+        for (int i=0;i<result->users().users_size();i++)
+        {
+            const ProtocolBuffer::User &usr = result->users().users(i);
+            userSubscribeTo.insert(usr.uid());
+        }
+    }
+    if (result->has_restaurants())
+    {
+        for (int i=0;i<result->restaurants().restaurants_size();i++)
+        {
+            const ProtocolBuffer::Restaurant& r = result->restaurants().restaurants(i);
+            restaurantSubscribeTo.insert(r.rid());
+        }
+    }
+    delete result;
 }

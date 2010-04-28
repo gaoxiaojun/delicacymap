@@ -59,7 +59,7 @@ void QTProtobufChannel::CallMethod( protorpc::FunctionID method_id, const google
 void QTProtobufChannel::SendMessage( ProtocolBuffer::DMessage* m )
 {
     if (!started())
-        throw "Channel not started!";
+        return;
 
     if (reqs.empty())
         needMoreReqs();
