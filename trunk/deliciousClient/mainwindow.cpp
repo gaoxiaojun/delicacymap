@@ -110,15 +110,6 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     this->m_ui->stackedWidget->insertWidget(0, navi);
     this->m_ui->stackedWidget->setCurrentWidget(navi);
     this->m_ui->DialogtextEdit->setDisabled(true);
-    int uid;
-    QList<ProtocolBuffer::User*> friendlist=this->getSession()->friends();
-    for(int i=0;i<friendlist.count();i++)
-    {
-        uid=friendlist.value(i)->uid();
-        m_ui->FriendlistWidget->addItem(friendlist.value(i)->nickname().c_str());
-        m_ui->FriendlistWidget->setCurrentRow(i);
-        m_ui->FriendlistWidget->currentItem()->setData(Qt::WhatsThisRole,uid);
-    }
 }
 
 MainWindow::~MainWindow()
@@ -537,6 +528,18 @@ void MainWindow::transToFriend()
 {
     m_ui->stackedWidget->setCurrentIndex(2);
     m_ui->FriendlistWidget->setCurrentRow(0);
+    int uid;
+    QList<ProtocolBuffer::User*> friendlist=this->getSession()->friends();
+    if(m_ui->FriendlistWidget->count()!=0)
+        m_ui->FriendlistWidget->clear();
+    for(int i=0;i<friendlist.count();i++)
+    {
+        uid=friendlist.value(i)->uid();
+        m_ui->FriendlistWidget->addItem(friendlist.value(i)->nickname().c_str());
+        m_ui->FriendlistWidget->setCurrentRow(i);
+        m_ui->FriendlistWidget->currentItem()->setData(Qt::WhatsThisRole,uid);
+    }
+    connect(m_ui->FriendlistWidget,SIGNAL(itemDoubleClicked (QListWidgetItem *)),this,SLOT(showFriendsInfo(QListWidgetItem *)));
 }
 
 void MainWindow::startRouting(const ProtocolBuffer::Restaurant *res)
@@ -580,4 +583,16 @@ void MainWindow::drawRoute(QList<GeoPoint>* route)
 {
     this->navi->addRoute(*route);
     delete route;
+}
+void MainWindow::showFriendsInfo(QListWidgetItem* usrname)
+{
+    int uid=usrname->data(Qt::WhatsThisRole).toInt();
+    ProtocolBuffer::User* u =this->getSession()->getUser(uid);
+    string nickname=u->nickname();
+    string mail=u->emailaddress();
+    ProtocolBuffer::Time a=u->jointime();
+    string* addtime=a.mutable_timestamp();
+    usrForm.setSession(this->getSession());
+    usrForm.setusr(uid,nickname.c_str(),mail.c_str(),addtime->c_str());
+    usrForm.show();   
 }

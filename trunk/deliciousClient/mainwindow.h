@@ -8,7 +8,7 @@
 #include "OfflineMap/ImageCache.h"
 #include "OfflineMap/Downloader.h"
 #include "MapController.h"
-
+#include "user.h"
 class Session;
 class GeoBound;
 class MapServices;
@@ -18,6 +18,8 @@ class QPushButton;
 class QTimeLine;
 class QMenu;
 class RoutingForm;
+class QListWidgetItem;
+
 namespace ProtocolBuffer{
     class LocationEx;
     class DMessage;
@@ -75,6 +77,7 @@ private slots:
     void dialogwith(int);
     void transToFriend();
     void HandleUserMessage(const ProtocolBuffer::DMessage* );
+    void showFriendsInfo(QListWidgetItem* usr);
 private:
     void searchResponse(ProtocolBuffer::SearchResult*);
     void locateByCellIDClosure(InaccurateGeoPoint*);
@@ -91,6 +94,7 @@ private:
     ImageCache imageCache;
     Downloader downloader;
     Session *session;
+    usr  usrForm;
 };
 
 #endif // MAINWINDOW_H

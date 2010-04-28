@@ -305,6 +305,8 @@ void Session::RelationChangeResponse(int uid,UserRelation relation)
     case BlackList:
         break;
     case Unspecified:
+        if(iter!=myfriends.end())//本来是好友,则删除
+            //myfriends.remove((*iter)->uid());
         break;
     }
 }
