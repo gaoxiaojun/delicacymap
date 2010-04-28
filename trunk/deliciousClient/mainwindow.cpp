@@ -306,8 +306,8 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
     if (!res->isFakeMarker())
     {
         RestaurantInfoForm* form = new RestaurantInfoForm();
-        form->setRestaurant(res->restaurantInfo());
         form->setSession(getSession());
+        form->setRestaurant(res->restaurantInfo());
         navi->addBlockingPanel(form, res);      
         connect(form,SIGNAL(RequestByRestaurant(const ProtocolBuffer::Restaurant*)),
             this,SLOT(startRouting(const ProtocolBuffer::Restaurant *)));

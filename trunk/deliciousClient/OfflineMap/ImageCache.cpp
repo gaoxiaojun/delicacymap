@@ -148,10 +148,10 @@ QString ImageCache::getDownloadUrl(int x, int y, int zoom){
 
 void ImageCache::paintLoadingImage(){
     QPainter painter(&loadingImg);
-    painter.setBrush(QColor(128, 128, 128));
-    painter.setPen(QColor(255, 255, 255));
-    painter.drawRect(0, 0, 255, 255);
-    painter.drawText(0, 0, 255, 255, Qt::AlignHCenter|Qt::AlignVCenter,	tr("Loading..."));
+    painter.setBrush(QColor(239, 237, 233));
+    painter.setPen(QColor(0, 0, 0));
+    painter.drawRect(0, 0, 256, 256);
+    painter.drawText(0, 0, 256, 256, Qt::AlignHCenter|Qt::AlignVCenter,	tr("Loading..."));
 }
 
 void ImageCache::timerEvent(QTimerEvent *ev)
