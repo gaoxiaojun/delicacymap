@@ -124,6 +124,26 @@
      <string>西餐</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>烧烤</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>咖啡厅</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>饮料</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>快餐</string>
+    </property>
+   </item>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
