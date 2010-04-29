@@ -6,7 +6,7 @@
 #include <QMovie>
 #include <QTimeLine>
 
-static const int WidgetMargin = 3;
+static const int WidgetMargin = 5;
 
 static inline
 void HideWidget(QWidget* widget, bool doHide = true)
