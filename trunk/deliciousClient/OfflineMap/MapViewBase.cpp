@@ -618,6 +618,13 @@ void MapViewBase::addRoute(RouteItem *item)
     scene->addItem(item);
 }
 
+void MapViewBase::removeRoute( RouteItem* item )
+{
+    Q_ASSERT( item == singleRouteItem);
+    scene->removeItem(item);
+    singleRouteItem = NULL;
+}
+
 void MapViewBase::setSelfLocation( const InaccurateGeoPoint& coord )
 {
     if (!self)

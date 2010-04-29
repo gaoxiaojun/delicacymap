@@ -150,7 +150,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>
-        <location filename="mainwindow.cpp" line="188"/>
+        <location filename="mainwindow.cpp" line="189"/>
         <source>delicacymap</source>
         <translation>美食地图社区</translation>
     </message>
@@ -196,57 +196,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="140"/>
+        <location filename="mainwindow.cpp" line="141"/>
         <source>Locate by cell network</source>
         <translation>手机定位</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="142"/>
+        <location filename="mainwindow.cpp" line="143"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="265"/>
+        <location filename="mainwindow.cpp" line="266"/>
         <source>%1 is asking your help to guide him.</source>
         <translation>%1希望请你帮助他指引一条路径.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="355"/>
+        <location filename="mainwindow.cpp" line="270"/>
+        <source>Routing request</source>
+        <translation>导航请求</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="311"/>
+        <source>Show %1 routing result?</source>
+        <translation>显示%1为您导航的结果么?</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="314"/>
+        <source>Routing reply</source>
+        <translation>导航结果</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="371"/>
         <source>Do you want to continue? Coninueing will discard this marker.</source>
         <translation>确定要继续并吗？此餐厅的信息将丢失。</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="356"/>
+        <location filename="mainwindow.cpp" line="372"/>
         <source>Restautant without a name</source>
         <translation>未命名的餐厅</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="390"/>
+        <location filename="mainwindow.cpp" line="406"/>
         <source>Do you want to discard all previous work?</source>
         <translation>您确定要丢弃未保存的兴趣点信息？</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="391"/>
+        <location filename="mainwindow.cpp" line="407"/>
         <source>Unsaved local markers.</source>
         <translation>未提交的兴趣点！</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="464"/>
+        <location filename="mainwindow.cpp" line="480"/>
         <source> say : </source>
         <translation> 说: </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="480"/>
+        <location filename="mainwindow.cpp" line="496"/>
         <source>&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt; has posted a new comment on &lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;.</source>
         <translation>&lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;有一条&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt;发布的新评论.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="481"/>
+        <location filename="mainwindow.cpp" line="497"/>
         <source>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt; has posted a new comment.</source>
         <translation>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt;提交了一条新评论.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="482"/>
+        <location filename="mainwindow.cpp" line="498"/>
         <source>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt; has a new comment.</source>
         <translation>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt;有一条新评论.</translation>
     </message>
@@ -329,7 +344,7 @@
         <translation>导航</translation>
     </message>
     <message>
-        <location filename="RoutingForm.cpp" line="56"/>
+        <location filename="RoutingForm.cpp" line="68"/>
         <source>[My current location]</source>
         <translation>[当前位置]</translation>
     </message>
