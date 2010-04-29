@@ -35,7 +35,7 @@ void RouteItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWid
     pen.setWidth(6);
     painter->setPen(pen);
     painter->drawPolyline(sceneCoords);
-    painter->drawRect(boundingRect());
+    //painter->drawRect(boundingRect());
     if (isEditing)
     {
         pen.setWidth(10);

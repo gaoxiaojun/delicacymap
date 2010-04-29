@@ -12,13 +12,14 @@
 using namespace std;
 using namespace ProtocolBuffer;
 
-deliciousDataAdapter* deliciousDataAdapter::_single = NULL;
+//deliciousDataAdapter* deliciousDataAdapter::_single = NULL;
+std::string deliciousDataAdapter::dbpath;
+DBContext* deliciousDataAdapter::dbconn;
 
 deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
 {
     try
     {
-        dbconn = NULL;
         prepared_GetUserByUID = NULL;
         prepared_Message = NULL;
         prepared_RestaurantWithinBound = NULL;
@@ -35,9 +36,6 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_InsertRelationRestaurantType = NULL;
         prepared_SubscribtionUser = NULL;
         prepared_SubscribtionRestaurant = NULL;
-        dbconn = new DBContext(connstr); 
-        DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
-        dbconn->Free(&ret);
         prepared_Message = dbconn->NewPreparedStatement(
             "INSERT INTO Messages "
             "(FromUID, ToUID, AddTime, ExpireTime, MessageType, MSG) "
@@ -102,7 +100,6 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
     }
     catch (exception&)
     {
-        delete dbconn;
         delete prepared_GetCommentsOfRest_N;
         delete prepared_Login;
         delete prepared_GetUserByUID;
@@ -124,7 +121,6 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
 
 deliciousDataAdapter::~deliciousDataAdapter(void)
 {
-    delete dbconn;
     delete prepared_GetCommentsOfRest_N;
     delete prepared_Login;
     delete prepared_GetUserByUID;
@@ -142,16 +138,21 @@ deliciousDataAdapter::~deliciousDataAdapter(void)
     delete prepared_SubscribtionRestaurant;
 }
 
-deliciousDataAdapter* deliciousDataAdapter::GetInstance()
+deliciousDataAdapter* deliciousDataAdapter::NewInstance()
 {
-    if (!_single)
-        Initialize("delicacyDB.db3"); //TODO: give more rational solution.
-    return _single;
+//     if (!_single)
+//         Initialize("delicacyDB.db3"); //TODO: give more rational solution.
+//     return _single;
+    return new deliciousDataAdapter(dbpath);
 }
 
 void deliciousDataAdapter::Initialize(const string& dbfile)
 {
-    _single = new deliciousDataAdapter(dbfile);
+    //_single = new deliciousDataAdapter(dbfile);
+    dbpath = dbfile;
+    dbconn = new DBContext(dbfile); 
+    DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
+    dbconn->Free(&ret);
 }
 
 DBResultWrap::DBResultWrap( DBResult* result, DBContext* context )
@@ -579,8 +580,6 @@ const DBResultWrap deliciousDataAdapter::GetSubscriptionForUserSinceLastUpdate( 
     sprintf_s(update, sizeof(update), "UPDATE Users SET SubscriptionCheckTime=datetime(\"now\") WHERE UID=%d;", uid);
 
     dbconn->Execute(update);
-
-    pantheios::log_INFORMATIONAL("Leave GetSubscriptionForUserSinceLastUpdate()");
 
     return result;
 }

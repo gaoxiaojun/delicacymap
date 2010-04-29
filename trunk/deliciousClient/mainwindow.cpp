@@ -308,13 +308,14 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
         RestaurantInfoForm* form = new RestaurantInfoForm();
         form->setSession(getSession());
         form->setRestaurant(res->restaurantInfo());
-        navi->addBlockingPanel(form, res);      
+        //navi->addBlockingPanel(form, res);
+        form->show();
         connect(form,SIGNAL(RequestByRestaurant(const ProtocolBuffer::Restaurant*)),
             this,SLOT(startRouting(const ProtocolBuffer::Restaurant *)));
     }
     else
     {
-        AddNewRestaurantForm *form = new AddNewRestaurantForm;
+        AddNewRestaurantForm *form = new AddNewRestaurantForm();
         form->setRestaurant(res->mutableRestaurantInfo());
         form->show();
         //PanelWidget* panel = navi->addBlockingPanel(form, res);

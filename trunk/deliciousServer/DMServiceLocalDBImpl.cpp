@@ -13,12 +13,13 @@ using namespace boost;
 
 DMServiceLocalDBImpl::DMServiceLocalDBImpl(google::protobuf::RpcController* controller)
 {
-    adapter = deliciousDataAdapter::GetInstance();
+    adapter = deliciousDataAdapter::NewInstance();
     this->controller = controller;
 }
 
 DMServiceLocalDBImpl::~DMServiceLocalDBImpl(void)
 {
+    delete adapter;
 }
 
 void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::protobuf::RpcController* controller, const google::protobuf::MessageLite* request, google::protobuf::MessageLite* response, google::protobuf::Closure* done )
