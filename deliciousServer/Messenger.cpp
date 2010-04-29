@@ -30,7 +30,7 @@ Messenger::Messenger(boost::asio::io_service& _io)
 :ios(_io), msgExpireTimer(_io), msgSendTimer(_io)
 {
     // when we start, we need to get all the messages from db
-    dataadapter = deliciousDataAdapter::GetInstance();
+    dataadapter = deliciousDataAdapter::NewInstance();
     dataadapter->RetrieveAllNonDeliveredMessages( boost::bind(&Messenger::GetMessageCallback, this, _1));
 }
 
@@ -48,6 +48,7 @@ Messenger::~Messenger(void)
 {
     msgSendTimer.cancel();
     msgExpireTimer.cancel();
+    delete dataadapter;
 }
 
 void Messenger::GetMessageCallback( const DBRow& row )
@@ -115,13 +116,16 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
         if (msg->touser() == 0)
         {
             msg->clear_text();
-            sharable_lock<MutexType> lock(usr_mutex);
-            liveUsers[msg->fromuser()].location.ParseFromString(msg->buffer());
-            BOOST_FOREACH(const UserContainer::value_type &userPair, liveUsers)
             {
-                msg->set_touser(userPair.second.uid);
-                ProcessMessage(msg);
+                sharable_lock<MutexType> lock(usr_mutex);
+                liveUsers[msg->fromuser()].location.ParseFromString(msg->buffer());
             }
+            BOOST_FOREACH(const UserContainer::value_type &userPair, liveUsers)
+                if (userPair.second.uid != msg->fromuser())
+                {
+                    msg->set_touser(userPair.second.uid);
+                    ProcessMessage(msg);
+                }
             handled = true;
         }
         break;

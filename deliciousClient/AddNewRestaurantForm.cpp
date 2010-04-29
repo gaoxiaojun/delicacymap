@@ -7,6 +7,7 @@ AddNewRestaurantForm::AddNewRestaurantForm(QWidget *parent) :
     ui(new Ui::AddNewRestaurantForm)
 {
     ui->setupUi(this);
+    this->setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 AddNewRestaurantForm::~AddNewRestaurantForm()

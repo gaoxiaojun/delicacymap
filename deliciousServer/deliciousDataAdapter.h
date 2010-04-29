@@ -34,7 +34,7 @@ public://destructor
     ~deliciousDataAdapter(void);
 
 public://singleton impl
-    static deliciousDataAdapter* GetInstance();
+    static deliciousDataAdapter* NewInstance();
 	static void Initialize(const std::string& connstr);
 public://DB methods
 
@@ -96,12 +96,13 @@ private://methods
     size_t ExecuteNormal( char* query, CallbackFunc callback );
     size_t ExecuteNormal( DBPrepared* query, CallbackFunc callback );
 private://data
-    static deliciousDataAdapter* _single;
+    //static deliciousDataAdapter* _single;
+    static std::string dbpath;
 
     // prepared statements
     DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage, *prepared_GetUserByUID, *prepared_GetCommentsOfRest_N;
     DBPrepared* prepared_Login, *prepared_InsertComment, *prepared_AddRestaurant, *prepared_SearchRestaurants, *prepared_Subscription;
     DBPrepared* prepared_SearchUsers, *prepared_UpdateUserSubscription, *prepared_UpdateRestaurantSubscription, *prepared_InsertRelationRestaurantType;
     DBPrepared* prepared_SubscribtionUser, *prepared_SubscribtionRestaurant;
-    DBContext *dbconn;
+    static DBContext *dbconn;
 };
