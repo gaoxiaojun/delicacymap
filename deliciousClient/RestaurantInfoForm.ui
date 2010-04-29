@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>95</height>
+    <height>97</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string notr="true">Form</string>
+   <string>Restaurant Informations</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -112,7 +112,7 @@
      <x>0</x>
      <y>100</y>
      <width>300</width>
-     <height>150</height>
+     <height>200</height>
     </rect>
    </property>
   </widget>
@@ -120,7 +120,7 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>260</y>
+     <y>310</y>
      <width>90</width>
      <height>28</height>
     </rect>
@@ -133,7 +133,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>260</y>
+     <y>310</y>
      <width>211</width>
      <height>28</height>
     </rect>
