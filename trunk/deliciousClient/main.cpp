@@ -2,6 +2,7 @@
 #include <QTranslator>
 #include <QMenuBar>
 #include <QDialog>
+#include <QtPlugin>
 
 #include "mainwindow.h"
 #include "bluetoothmanager.h"
@@ -14,6 +15,9 @@ int main(int argc, char *argv[])
     QApplication::setGraphicsSystem("raster");
     QApplication a(argc, argv);
     a.setAutoSipEnabled(true);
+#if _WIN32_WCE
+    a.setAutoMaximizeThreshold(-1);//disable this feature
+#endif
 
     QTranslator trans;
     trans.load("delicious_cn");

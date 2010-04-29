@@ -301,12 +301,12 @@ Messenger::MessageRange Messenger::MessageForUser( unsigned int uid, boost::posi
 void Messenger::MessageConfirmedRecieved(::google::protobuf::uint32 msgid)
 {
     typedef MessagesContainer::index<message_hash_msgid_tag>::type hash_by_msgid;
-    hash_by_msgid& view = msgpool.get<message_hash_msgid_tag>();
 
     try
     {
         {
             scoped_lock<MutexType> lock(pool_mutex);
+            hash_by_msgid& view = msgpool.get<message_hash_msgid_tag>();
             view.erase(msgid);
         }
         dataadapter->ConfirmMessageDelivered( msgid );

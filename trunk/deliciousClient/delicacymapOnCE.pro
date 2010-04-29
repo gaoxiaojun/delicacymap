@@ -108,6 +108,7 @@ linux-* {
     LIBS += -lprotobuf_linux_x86
 }
 wince* {
+    QTPLUGIN += qgif
     RESOURCES += mainwindow_480_800.qrc
     configs.sources = configs.xml delicious_cn.qm
     DEPLOYMENT += configs

@@ -33,6 +33,7 @@ public:
 signals:
     void RequestByRestaurant(const ProtocolBuffer::Restaurant *);
 protected:
+    void closeEvent(QCloseEvent * event);
     void changeEvent(QEvent *e);
     void UIAnimation_ShowComments(bool show);
     void UIAnimation_ShowAdd(bool show);
@@ -46,7 +47,9 @@ private:
     QTimeLine *timeline;
     QMovie *loading;
     Session *s;
+    int pendingOperations;
     bool commentsShown, addShown;
+    bool isClosed;
 
 private slots:
     void on_btnSubs_clicked();

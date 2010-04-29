@@ -20,9 +20,12 @@ RestaurantInfoForm::RestaurantInfoForm(QWidget *parent) :
     ui(new Ui::RestaurantInfoForm)
 {
     ui->setupUi(this);
-    loading = NULL;
+    ui->label_spin->raise();
+    loading = new QMovie(":/Icons/loading.gif");
     s = NULL;
     res = NULL;
+    pendingOperations = false;
+    isClosed = false;
     timeline = new QTimeLine(200, this);
     connect(timeline, SIGNAL(frameChanged(int)), SLOT(frameChange(int)));
     qRegisterMetaType<ProtocolBuffer::CommentList*>("ProtocolBuffer::CommentList*");
@@ -38,6 +41,15 @@ RestaurantInfoForm::~RestaurantInfoForm()
 {
     delete loading;
     delete ui;
+}
+
+void RestaurantInfoForm::closeEvent(QCloseEvent * event)
+{
+    QWidget::closeEvent(event);
+    if (pendingOperations == 0)
+        this->deleteLater();
+    else
+        isClosed = true;
 }
 
 QWidget* RestaurantInfoForm::getInputWidget()
@@ -84,7 +96,6 @@ void RestaurantInfoForm::UIAnimation_ShowComments(bool show)
         if (!addShown)
         {
             timeline->setFrameRange(this->height(), ui->listComment->geometry().bottom() + WidgetMargin);
-            loading = new QMovie(":/Icons/loading.gif");
             ui->label_spin->show();
             ui->label_spin->setMovie(loading);
             ui->label_spin->setGeometry(
@@ -161,6 +172,7 @@ void RestaurantInfoForm::on_btnShow_clicked()
         ProtocolBuffer::CommentList* commentlist=new ProtocolBuffer::CommentList();
         google::protobuf::Closure* commentDataArrive = google::protobuf::NewCallback(this, &RestaurantInfoForm::commentsResponse, commentlist);
         getSession()->getDataSource().GetLastestCommentsOfRestaurant(res->rid(), 20, commentlist, commentDataArrive);
+        ++pendingOperations;
     }
 }
 
@@ -192,6 +204,7 @@ void RestaurantInfoForm::on_btnCommit_clicked()
              contentStr,
              newComment,
              commentadded);
+         ++pendingOperations;
      }
 }
 
@@ -202,24 +215,33 @@ void RestaurantInfoForm::commentsResponse(ProtocolBuffer::CommentList *list)
 
 void RestaurantInfoForm::addCommentToList(const ProtocolBuffer::Comment *c, bool releaseComment)
 {
-    QString item = QString("%1 : %2").arg(QString::fromUtf8(c->userinfo().nickname().c_str()), QString::fromUtf8(c->content().c_str()));
-    ui->listComment->addItem(item);
-    if (releaseComment)
+    if (releaseComment && --pendingOperations==0 && isClosed)
+    {
+        delete this;
         delete c;
+    }
+    else
+    {
+        QString item = QString("%1 : %2").arg(QString::fromUtf8(c->userinfo().nickname().c_str()), QString::fromUtf8(c->content().c_str()));
+        ui->listComment->addItem(item);
+        if (releaseComment)
+            delete c;
+    }
 }
 
 void RestaurantInfoForm::handleCommentList( ProtocolBuffer::CommentList* list )
 {
-    delete loading;
-    loading = NULL;
-
-    // This may crash, because we might have closed the form before the closure is ran
-    // To fix this problem, we have to implement cancelation mechanism in rpc.
-    ui->listComment->clear();
-    for (int i=0;i<list->comments_size();++i)
+    if (--pendingOperations==0 && isClosed)
+        this->deleteLater();
+    else
     {
-        const ProtocolBuffer::Comment& c = list->comments(i);
-        addCommentToList(&c);
+        ui->listComment->clear();
+        ui->label_spin->hide();
+        for (int i=0;i<list->comments_size();++i)
+        {
+            const ProtocolBuffer::Comment& c = list->comments(i);
+            addCommentToList(&c);
+        }
     }
     delete list;
 }
