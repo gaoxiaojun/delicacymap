@@ -37,6 +37,8 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     m_ui->setupUi(this);
     createMenu();
 
+    this->setAttribute(Qt::WA_QuitOnClose);
+
     navi = new MapViewBase(this);
     navi->setDecorator(new MoveDecorator(navi, Configurations::Instance().SmoothPan()));
     navi->setCache(&imageCache);
@@ -183,6 +185,7 @@ void MainWindow::changeSession( Session *s )
 //        connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(printMessage(const ProtocolBuffer::DMessage*)));
         connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), &controller, SLOT(HandleSystemMessages(const ProtocolBuffer::DMessage*)));
         connect(&s->getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)),this,SLOT(HandleUserMessage(const ProtocolBuffer::DMessage* )));   
+        this->setWindowTitle( tr("delicacymap") + " - " + QString::fromUtf8(s->getUser()->nickname().c_str()));
     }
     controller.setSession(s);
 }
@@ -306,6 +309,7 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
     if (!res->isFakeMarker())
     {
         RestaurantInfoForm* form = new RestaurantInfoForm();
+        form->setWindowFlags(Qt::Dialog);
         form->setSession(getSession());
         form->setRestaurant(res->restaurantInfo());
         //navi->addBlockingPanel(form, res);
@@ -316,6 +320,7 @@ void MainWindow::RestaurantMarkerResponse(RestaurantMarkerItem* res)
     else
     {
         AddNewRestaurantForm *form = new AddNewRestaurantForm();
+        form->setWindowFlags(Qt::Dialog);
         form->setRestaurant(res->mutableRestaurantInfo());
         form->show();
         //PanelWidget* panel = navi->addBlockingPanel(form, res);

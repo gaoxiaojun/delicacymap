@@ -112,17 +112,17 @@
      <x>0</x>
      <y>100</y>
      <width>300</width>
-     <height>121</height>
+     <height>150</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="btnCommit">
    <property name="geometry">
     <rect>
-     <x>209</x>
-     <y>230</y>
+     <x>210</x>
+     <y>260</y>
      <width>90</width>
-     <height>24</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">
@@ -133,9 +133,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>230</y>
+     <y>260</y>
      <width>211</width>
-     <height>24</height>
+     <height>28</height>
     </rect>
    </property>
   </widget>
