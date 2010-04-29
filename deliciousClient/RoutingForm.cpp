@@ -34,10 +34,22 @@ void RoutingForm::setFromLocation(const QString &from)
     this->on_lineEdit_from_editingFinished();
 }
 
+void RoutingForm::setFromLocation( const QString&from, GeoPoint& p )
+{
+    ui->lineEdit_from->setText(from);
+    this->from = p;
+}
+
 void RoutingForm::setToLocation(const QString &to)
 {
     ui->lineEdit_to->setText(to);
     this->on_lineEdit_to_editingFinished();
+}
+
+void RoutingForm::setToLocation( const QString&to, GeoPoint& p )
+{
+    ui->lineEdit_to->setText(to);
+    this->to = p;
 }
 
 void RoutingForm::on_pushButton_switch_clicked()

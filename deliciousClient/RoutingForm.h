@@ -26,7 +26,9 @@ public:
     Session* getSession() const { return s; }
     void setFriends();
     void setFromLocation(const QString&);
+    void setFromLocation(const QString&, GeoPoint& p);
     void setToLocation(const QString&);
+    void setToLocation(const QString&, GeoPoint& p);
 
 signals:
     void doRoutingRequest(GeoPoint from, GeoPoint to, int uid);

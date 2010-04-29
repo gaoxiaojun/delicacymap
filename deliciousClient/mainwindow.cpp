@@ -86,6 +86,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(&controller, SIGNAL(currentLocationUpdate(InaccurateGeoPoint)), navi, SLOT(setSelfLocation(const InaccurateGeoPoint&)));
     connect(&controller, SIGNAL(subscriptionArrived(const ProtocolBuffer::CommentList*)), this, SLOT(showSubscriptionTip(const ProtocolBuffer::CommentList*)));
     connect(&controller, SIGNAL(SysMsgRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*)), this, SLOT(handleRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*)));
+    connect(&controller, SIGNAL(SysMsgRoutingReply(int, QList<GeoPoint>)), SLOT(handleRoutingReply(int, QList<GeoPoint>)));
     connect(&controller, SIGNAL(SysMsgUserLocationUpdate(int, GeoPoint)), navi, SLOT(updateUserLocation(int, const GeoPoint&)));
     QGeoSatelliteInfoSource* src = controller.getSatelliteInfoSource();
     if (src)
@@ -266,7 +267,7 @@ void MainWindow::handleRequestRouting(int uid, const ProtocolBuffer::LocationEx*
     QPushButton* googlebutton = msgbox.addButton(QString("google direction"), QMessageBox::AcceptRole);
     msgbox.setIcon(QMessageBox::Question);
     msgbox.setText(text);
-    msgbox.setWindowTitle("Routing request");
+    msgbox.setWindowTitle(tr("Routing request"));
     msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgbox.setDefaultButton(googlebutton);
     int ret = msgbox.exec();
@@ -301,6 +302,21 @@ void MainWindow::handleRequestRouting(int uid, const ProtocolBuffer::LocationEx*
     case QMessageBox::No:
         // TODO: Send back reject message
         break;
+    }
+}
+
+void MainWindow::handleRoutingReply( int from_uid, QList<GeoPoint> route )
+{
+    QMessageBox msgbox;
+    QString text = tr("Show %1 routing result?").arg(QString::fromUtf8(getSession()->getUser(from_uid)->nickname().c_str()));
+    msgbox.setIcon(QMessageBox::Question);
+    msgbox.setText(text);
+    msgbox.setWindowTitle(tr("Routing reply"));
+    msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgbox.setDefaultButton(QMessageBox::Yes);
+    if ( msgbox.exec() == QMessageBox::Yes )
+    {
+        this->navi->addRoute(route);
     }
 }
 
@@ -505,8 +521,9 @@ void MainWindow::showSubscriptionTip(const ProtocolBuffer::CommentList *list)
     if (!labeltext.empty())
     {
         QLabel *label = new QLabel(labeltext.join("\n"));
+        label->setTextFormat(Qt::RichText);
         label->setWordWrap(true);
-        label->setMaximumWidth(navi->width()/3);
+        label->setMaximumWidth(navi->width()/2.5);
         connect(label, SIGNAL(linkActivated(QString)), this, SLOT(findCommentByLink(QString)));
         navi->showTip(label);
     }
@@ -549,11 +566,12 @@ void MainWindow::transToFriend()
 void MainWindow::startRouting(const ProtocolBuffer::Restaurant *res)
 {
     RoutingForm * r_ui=new RoutingForm;
+    r_ui->setWindowFlags(Qt::Dialog);
     //navi->addBlockingPanel(r_ui);
     r_ui->setService(svc);
     r_ui->setSession(this->getSession());
     r_ui->setFriends();
-    r_ui->setToLocation(QString::fromUtf8(res->name().c_str()));
+    r_ui->setToLocation(QString::fromUtf8(res->name().c_str()), GeoPoint(res->location().latitude(), res->location().longitude()));
     r_ui->show();
     connect(r_ui,SIGNAL(doRoutingRequest(GeoPoint,GeoPoint,int)),this,SLOT(doRoutingRequest(GeoPoint,GeoPoint,int)));
 }

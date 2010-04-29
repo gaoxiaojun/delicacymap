@@ -169,7 +169,7 @@ void MapController::finishedRouteEditing( RouteItem* item )
             getSession()->SendRoutingReply( item->getRoute(), item->getRouteReceiverWhenDoneEditing() );
             // assume it would success
             // remove this route
-            map->removeItem(item);
+            map->removeRoute(item);
             item->deleteLater();
             break;
         case QMessageBox::No:

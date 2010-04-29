@@ -41,6 +41,7 @@ protected:
 private:
     void commentsResponse(ProtocolBuffer::CommentList*);
     void addCommentToList(const ProtocolBuffer::Comment *, bool releaseComment=false);
+    Q_INVOKABLE void handleCommentList(ProtocolBuffer::CommentList*);
 
     Ui::RestaurantInfoForm *ui;
     const ProtocolBuffer::Restaurant* res;
@@ -54,7 +55,6 @@ private:
 private slots:
     void on_btnSubs_clicked();
     void on_btnCommit_clicked();
-    void handleCommentList(ProtocolBuffer::CommentList*);
     void frameChange(int);
     void on_btnAdd_clicked();
     void on_btnShow_clicked();
