@@ -54,6 +54,7 @@ enum FunctionID {
   SetUserRelation                           = 12;
   Search                                    = 13;
   GetSubscribtionInfo                       = 14;
+  RegisterUser                              = 15;
 };
 
 message Message {

@@ -232,6 +232,7 @@ MessageLite* ResultTypeForMethod(protorpc::FunctionID method_id)
         msg = new ::ProtocolBuffer::CommentList;
         break;
     case protorpc::UserLogin:
+    case protorpc::RegisterUser:
     case protorpc::GetUserInfo:
     case protorpc::UpdateUserInfo:
         msg = new ::ProtocolBuffer::User;
@@ -268,7 +269,7 @@ void naked_conn::handle_request()
             query.ParseFromString(income.buffer());
             MessageLite* response = ResultTypeForMethod(income.method_id());
             controller->Reset();
-            Closure *closure = income.method_id() == protorpc::UserLogin
+            Closure *closure = income.method_id() == protorpc::UserLogin || income.method_id() == protorpc::RegisterUser
                 ? NewCallback(this, &naked_conn::handle_login_after_verification, income.id(), response)
                 : NewCallback(this, &naked_conn::rpccalldone, income.id(), response);
             controller->NotifyOnCancel(closure);

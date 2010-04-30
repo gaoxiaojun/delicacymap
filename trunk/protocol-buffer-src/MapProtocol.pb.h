@@ -1696,6 +1696,16 @@ class Query : public ::google::protobuf::MessageLite {
   inline void set_emailaddress(const char* value, size_t size);
   inline ::std::string* mutable_emailaddress();
   
+  // optional string nickname = 17;
+  inline bool has_nickname() const;
+  inline void clear_nickname();
+  static const int kNicknameFieldNumber = 17;
+  inline const ::std::string& nickname() const;
+  inline void set_nickname(const ::std::string& value);
+  inline void set_nickname(const char* value);
+  inline void set_nickname(const char* value, size_t size);
+  inline ::std::string* mutable_nickname();
+  
   // optional string password = 10;
   inline bool has_password() const;
   inline void clear_password();
@@ -1745,6 +1755,8 @@ class Query : public ::google::protobuf::MessageLite {
   static const ::std::string _default_image_;
   ::std::string* emailaddress_;
   static const ::std::string _default_emailaddress_;
+  ::std::string* nickname_;
+  static const ::std::string _default_nickname_;
   ::std::string* password_;
   static const ::std::string _default_password_;
   ::ProtocolBuffer::User* userinfo_;
@@ -1754,7 +1766,7 @@ class Query : public ::google::protobuf::MessageLite {
   friend void protobuf_AssignDesc_MapProtocol_2eproto();
   friend void protobuf_ShutdownFile_MapProtocol_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(15 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(16 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -3189,42 +3201,84 @@ inline ::std::string* Query::mutable_emailaddress() {
   return emailaddress_;
 }
 
+// optional string nickname = 17;
+inline bool Query::has_nickname() const {
+  return _has_bit(11);
+}
+inline void Query::clear_nickname() {
+  if (nickname_ != &_default_nickname_) {
+    nickname_->clear();
+  }
+  _clear_bit(11);
+}
+inline const ::std::string& Query::nickname() const {
+  return *nickname_;
+}
+inline void Query::set_nickname(const ::std::string& value) {
+  _set_bit(11);
+  if (nickname_ == &_default_nickname_) {
+    nickname_ = new ::std::string;
+  }
+  nickname_->assign(value);
+}
+inline void Query::set_nickname(const char* value) {
+  _set_bit(11);
+  if (nickname_ == &_default_nickname_) {
+    nickname_ = new ::std::string;
+  }
+  nickname_->assign(value);
+}
+inline void Query::set_nickname(const char* value, size_t size) {
+  _set_bit(11);
+  if (nickname_ == &_default_nickname_) {
+    nickname_ = new ::std::string;
+  }
+  nickname_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Query::mutable_nickname() {
+  _set_bit(11);
+  if (nickname_ == &_default_nickname_) {
+    nickname_ = new ::std::string;
+  }
+  return nickname_;
+}
+
 // optional string password = 10;
 inline bool Query::has_password() const {
-  return _has_bit(11);
+  return _has_bit(12);
 }
 inline void Query::clear_password() {
   if (password_ != &_default_password_) {
     password_->clear();
   }
-  _clear_bit(11);
+  _clear_bit(12);
 }
 inline const ::std::string& Query::password() const {
   return *password_;
 }
 inline void Query::set_password(const ::std::string& value) {
-  _set_bit(11);
+  _set_bit(12);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(value);
 }
 inline void Query::set_password(const char* value) {
-  _set_bit(11);
+  _set_bit(12);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(value);
 }
 inline void Query::set_password(const char* value, size_t size) {
-  _set_bit(11);
+  _set_bit(12);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
   password_->assign(reinterpret_cast<const char*>(value), size);
 }
 inline ::std::string* Query::mutable_password() {
-  _set_bit(11);
+  _set_bit(12);
   if (password_ == &_default_password_) {
     password_ = new ::std::string;
   }
@@ -3233,51 +3287,51 @@ inline ::std::string* Query::mutable_password() {
 
 // optional .ProtocolBuffer.User userinfo = 11;
 inline bool Query::has_userinfo() const {
-  return _has_bit(12);
+  return _has_bit(13);
 }
 inline void Query::clear_userinfo() {
   if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
-  _clear_bit(12);
+  _clear_bit(13);
 }
 inline const ::ProtocolBuffer::User& Query::userinfo() const {
   return userinfo_ != NULL ? *userinfo_ : *default_instance_->userinfo_;
 }
 inline ::ProtocolBuffer::User* Query::mutable_userinfo() {
-  _set_bit(12);
+  _set_bit(13);
   if (userinfo_ == NULL) userinfo_ = new ::ProtocolBuffer::User;
   return userinfo_;
 }
 
 // optional .ProtocolBuffer.Location location = 14;
 inline bool Query::has_location() const {
-  return _has_bit(13);
+  return _has_bit(14);
 }
 inline void Query::clear_location() {
   if (location_ != NULL) location_->::ProtocolBuffer::Location::Clear();
-  _clear_bit(13);
+  _clear_bit(14);
 }
 inline const ::ProtocolBuffer::Location& Query::location() const {
   return location_ != NULL ? *location_ : *default_instance_->location_;
 }
 inline ::ProtocolBuffer::Location* Query::mutable_location() {
-  _set_bit(13);
+  _set_bit(14);
   if (location_ == NULL) location_ = new ::ProtocolBuffer::Location;
   return location_;
 }
 
 // optional .ProtocolBuffer.Restaurant rinfo = 16;
 inline bool Query::has_rinfo() const {
-  return _has_bit(14);
+  return _has_bit(15);
 }
 inline void Query::clear_rinfo() {
   if (rinfo_ != NULL) rinfo_->::ProtocolBuffer::Restaurant::Clear();
-  _clear_bit(14);
+  _clear_bit(15);
 }
 inline const ::ProtocolBuffer::Restaurant& Query::rinfo() const {
   return rinfo_ != NULL ? *rinfo_ : *default_instance_->rinfo_;
 }
 inline ::ProtocolBuffer::Restaurant* Query::mutable_rinfo() {
-  _set_bit(14);
+  _set_bit(15);
   if (rinfo_ == NULL) rinfo_ = new ::ProtocolBuffer::Restaurant;
   return rinfo_;
 }

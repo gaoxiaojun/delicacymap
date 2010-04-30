@@ -48,6 +48,7 @@ public:
     void AddRestaurant(ProtocolBuffer::Restaurant* r, google::protobuf::Closure* done);
     void Search(const std::string& text, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done);
     void GetSubscribtionInfo(int uid, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done);
+    void RegisterUser(const QString& username, const QString& md5PWD, ProtocolBuffer::User* result, google::protobuf::Closure* done);
 
     void GetRestaurants(ProtocolBuffer::Query *, ProtocolBuffer::RestaurantList *, google::protobuf::Closure *);
     void GetLastestCommentsOfRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);
@@ -63,6 +64,7 @@ public:
     void AddRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::Restaurant*, google::protobuf::Closure*);
     void Search(ProtocolBuffer::Query *, ProtocolBuffer::SearchResult*, google::protobuf::Closure*);
     void GetSubscribtionInfo(ProtocolBuffer::Query *, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done);
+    void RegisterUser(ProtocolBuffer::Query *, ProtocolBuffer::User* result, google::protobuf::Closure* done);
 
     void SendMessage(ProtocolBuffer::DMessage*);
     void SendMessage(int fromuid,int touid,string message);

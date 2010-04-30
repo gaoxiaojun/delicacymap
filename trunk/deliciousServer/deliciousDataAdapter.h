@@ -66,6 +66,8 @@ public://DB methods
 
     const DBResultWrap GetUserInfo( int uid );
 
+    const DBResultWrap GetUserInfo( const std::string& email );
+
     const DBResultWrap GetUserAfterValidation( int uid, const std::string& password );
 
     const DBResultWrap Search( const std::string& text );
@@ -73,6 +75,8 @@ public://DB methods
     const DBResultWrap GetSubscribedUserBy(int uid);
 
     const DBResultWrap GetSubscribedRestaurantBy(int uid);
+
+    const DBResultWrap AddUser( const std::string& nickname, const std::string& email, const std::string& pwd );
 
     /************************************************************************/
     /*                    Methods Used by Messenger                         */
@@ -103,6 +107,6 @@ private://data
     DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage, *prepared_GetUserByUID, *prepared_GetCommentsOfRest_N;
     DBPrepared* prepared_Login, *prepared_InsertComment, *prepared_AddRestaurant, *prepared_SearchRestaurants, *prepared_Subscription;
     DBPrepared* prepared_SearchUsers, *prepared_UpdateUserSubscription, *prepared_UpdateRestaurantSubscription, *prepared_InsertRelationRestaurantType;
-    DBPrepared* prepared_SubscribtionUser, *prepared_SubscribtionRestaurant;
+    DBPrepared* prepared_SubscribtionUser, *prepared_SubscribtionRestaurant, *prepared_GetUserByEmail, *prepared_RegisterUser;
     static DBContext *dbconn;
 };

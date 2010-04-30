@@ -64,6 +64,7 @@ bool FunctionID_IsValid(int value) {
     case 12:
     case 13:
     case 14:
+    case 15:
       return true;
     default:
       return false;

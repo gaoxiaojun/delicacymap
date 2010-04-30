@@ -62,6 +62,12 @@ void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::p
             ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
             done);
         break;
+    case protorpc::RegisterUser:
+        UserLogin(controller,
+            ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
+            ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
+            done);
+        break;
     case protorpc::GetUserInfo:
         GetUser(controller,
             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
@@ -455,6 +461,30 @@ void DMServiceLocalDBImpl::GetSubscribtionInfo( ::google::protobuf::RpcControlle
     {
         pantheios::log_WARNING("calling GetSubscribtionInfo() with wrong request message.");
         controller->SetFailed("calling GetSubscribtionInfo() with wrong request message.");
+    }
+
+    done->Run();
+}
+
+void DMServiceLocalDBImpl::RegisterUser( ::google::protobuf::RpcController* controller, const ::ProtocolBuffer::Query* request, ::ProtocolBuffer::User* response, ::google::protobuf::Closure* done )
+{
+    if (request->has_emailaddress() && request->has_password() && request->has_nickname())
+    {
+        DBResultWrap usr = adapter->GetUserInfo(request->emailaddress());
+        if (usr.empty())
+        {
+            controller->SetFailed("User already exist.");
+        }
+        else
+        {
+            DBResultWrap newUsr = adapter->AddUser(request->nickname(), request->emailaddress(), request->password());
+            ProtubufDBRowConversion::Convert(newUsr.getResult()->GetRow(0), *response);
+        }
+    }
+    else
+    {
+        pantheios::log_WARNING("calling RegisterUser() with wrong request message.");
+        controller->SetFailed("calling RegisterUser() with wrong request message.");
     }
 
     done->Run();
