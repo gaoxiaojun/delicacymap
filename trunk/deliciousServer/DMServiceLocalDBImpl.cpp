@@ -63,7 +63,7 @@ void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::p
             done);
         break;
     case protorpc::RegisterUser:
-        UserLogin(controller,
+        RegisterUser(controller,
             ::google::protobuf::down_cast<const ::ProtocolBuffer::Query*>(request),
             ::google::protobuf::down_cast< ::ProtocolBuffer::User*>(response),
             done);
@@ -471,7 +471,7 @@ void DMServiceLocalDBImpl::RegisterUser( ::google::protobuf::RpcController* cont
     if (request->has_emailaddress() && request->has_password() && request->has_nickname())
     {
         DBResultWrap usr = adapter->GetUserInfo(request->emailaddress());
-        if (usr.empty())
+        if (!usr.empty())
         {
             controller->SetFailed("User already exist.");
         }

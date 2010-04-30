@@ -99,7 +99,7 @@ DBResult* DBContext::Execute( DBPrepared* stmt )
         }
         else
         {
-            pantheios::log_WARNING("Execute prepared statement failed, error code: ", pantheios::integer(returncode));
+            pantheios::log_WARNING("Execute prepared statement failed, ", sqlite3_errmsg(db), ". error code: ", pantheios::integer(returncode));
         }
     }
     return result;
