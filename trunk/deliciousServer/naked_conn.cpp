@@ -268,17 +268,13 @@ void naked_conn::handle_request()
             query.ParseFromString(income.buffer());
             MessageLite* response = ResultTypeForMethod(income.method_id());
             controller->Reset();
-            Closure *closure = NewCallback(this, &naked_conn::rpccalldone, income.id(), response);
+            Closure *closure = income.method_id() == protorpc::UserLogin
+                ? NewCallback(this, &naked_conn::handle_login_after_verification, income.id(), response)
+                : NewCallback(this, &naked_conn::rpccalldone, income.id(), response);
             controller->NotifyOnCancel(closure);
             try
             {
                 service->CallMethod(income.method_id(), controller, &query, response, closure);
-                // ugly code, refactor some time else~
-                if (income.method_id() == protorpc::UserLogin && !controller->Failed() && !controller->IsCanceled())
-                {
-                    linked_user = ::google::protobuf::down_cast<::ProtocolBuffer::User*>(response)->uid();
-                    Messenger::GetInstance()->RegisterUserOnConnection(linked_user, boost::bind(&naked_conn::writeMessage, shared_from_this(), _1));
-                }
                 delete response;
             }
             catch (const std::exception& e)
@@ -309,4 +305,21 @@ void naked_conn::handle_messaging()
     else
         pantheios::log_WARNING("Incompatible message type. missing buffer");
     readrequest(0);
+}
+
+void naked_conn::handle_login_after_verification( google::protobuf::uint32 id, google::protobuf::MessageLite* msg )
+{
+    if (!controller->Failed() && !controller->IsCanceled())
+    {
+        unsigned int uid = ::google::protobuf::down_cast<::ProtocolBuffer::User*>(msg)->uid();
+        if (Messenger::GetInstance()->RegisterUserOnConnection(uid, boost::bind(&naked_conn::writeMessage, shared_from_this(), _1)))
+        {
+            linked_user = uid;
+        }
+        else
+        {
+            controller->SetFailed("User already loged in.");
+        }
+    }
+    rpccalldone(id, msg);
 }

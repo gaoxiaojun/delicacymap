@@ -57,6 +57,8 @@ private://methods handling different rpc request types
 
     void handle_default();
 
+    void handle_login_after_verification(google::protobuf::uint32 id, google::protobuf::MessageLite*);
+
     void write(const google::protobuf::MessageLite* msg);
 
     void writeMessage(const rclib::network::DMessageWrap*);

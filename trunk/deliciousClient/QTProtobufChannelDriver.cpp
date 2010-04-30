@@ -50,6 +50,7 @@ void QTProtobufChannelDriver::readMessage()
                         entry.response->Clear();
                         parent->returnQueryBuffer(entry.request);
                         _currentCalls->remove(response.id());
+                        lastError = QString::fromUtf8(response.buffer().c_str());
                         entry.done->Run();
                     }
                     break;
@@ -141,4 +142,9 @@ bool QTProtobufChannelDriver::started()
 QAbstractSocket::SocketError QTProtobufChannelDriver::networkError() const
 {
     return _tcps->error();
+}
+
+const QString& QTProtobufChannelDriver::lastErrorText()
+{
+    return this->lastError;
 }

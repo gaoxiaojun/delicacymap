@@ -29,7 +29,9 @@ public slots:
 public:
     MapDataSource();
     ~MapDataSource();
+    bool isReady();
     QString error();
+    QString lastRPCError();
 
     // **Caution** : following methods are not reentrent!!!
     void GetRestaurants(double lattitude_from, double longitude_from, double latitude_to, double longitude_to, int level, ProtocolBuffer::RestaurantList *, google::protobuf::Closure *);

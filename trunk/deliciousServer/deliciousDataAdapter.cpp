@@ -339,12 +339,7 @@ const DBResultWrap deliciousDataAdapter::UserLogin( const std::string& email, co
     prepared_Login->bindParameter(1, email);
     prepared_Login->bindParameter(2, password);
 
-    DBResult* ret = dbconn->Execute(prepared_Login);
-    if (ret->RowsCount() != 1) // Email is unique, so only 0 or 1 row.
-    {
-        dbconn->Free(&ret);
-    }
-    return DBResultWrap(ret, dbconn);
+    return DBResultWrap(dbconn->Execute(prepared_Login), dbconn);
 }
 
 const DBResultWrap deliciousDataAdapter::GetUserAfterValidation( int uid, const std::string& password )

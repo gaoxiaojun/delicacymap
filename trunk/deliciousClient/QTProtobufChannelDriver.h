@@ -28,6 +28,7 @@ public:
     QTProtobufChannelDriver(QTProtobufChannel* parent, QHash<int,CallEntry> *currentCalls);
     ~QTProtobufChannelDriver();
 
+    const QString& lastErrorText();
     bool started();
     QAbstractSocket::SocketError networkError() const;
     void freeMessage(const ProtocolBuffer::DMessage*);
@@ -38,6 +39,7 @@ private:
     protorpc::Message response;
     std::string _writebuffer;
     std::string _readbuffer;
+    QString lastError;
     QTProtobufChannel* parent;
     QTcpSocket *_tcps;
     QHash<int,CallEntry>* _currentCalls;

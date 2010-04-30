@@ -81,6 +81,11 @@ void LoginWindow::success()
 
 void LoginWindow::failed()
 {
-    dialog->label_status->setText(tr("Login failed! Wrong username or password!"));
+    QString errorText;
+    if (session->getDataSource().isReady())
+        errorText = session->getDataSource().lastRPCError();
+    else
+        errorText = session->getDataSource().error();
+    dialog->label_status->setText(tr("Login failed! ") + errorText);
 }
 

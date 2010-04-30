@@ -19,7 +19,7 @@ Session::Session()
     info_isdirty = false;
     infotoupdate = NULL;
     updatedone = NULL;
-    subscriptionTimer.start(60000, this);
+    subscriptionTimer.start(10000, this);
 }
 
 Session::~Session()
