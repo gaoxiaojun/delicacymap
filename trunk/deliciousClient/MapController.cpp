@@ -145,6 +145,7 @@ void MapController::AddEditingRouteInFavorOf( const QList<GeoPoint>* points, int
     if (map)
     {
         RouteItem* item = map->addRoute(*points, uid);
+        map->centerOn(item);
         connect(item, SIGNAL(EditFinished(RouteItem*)), this, SLOT(finishedRouteEditing(RouteItem*)));
     }
     delete points;

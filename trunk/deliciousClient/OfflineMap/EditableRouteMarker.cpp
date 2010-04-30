@@ -91,51 +91,6 @@ int ContainsPoint(const QPolygon& polygon, const QPoint& p)
     return -1;
 }
 
-bool RouteItem::willHandleMouseEventAtPoint(QPoint p)
-{
-    return isEditing && ContainsPoint(sceneCoords, p) != -1;
-}
-
-void RouteItem::mousePressEvent( QGraphicsSceneMouseEvent *event )
-{
-    if (isEditing)
-    {
-        QPoint point = event->scenePos().toPoint() - Center;
-        pointEditing = ContainsPoint(sceneCoords, point);
-    }
-}
-
-void RouteItem::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
-{
-    pointEditing = -1;
-}
-
-void RouteItem::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
-{
-    if (isEditing && pointEditing != -1)
-    {
-        QPoint modifiedPoint = event->scenePos().toPoint();
-        bool boundChanged = false;
-        sceneCoords[pointEditing] = modifiedPoint - Center;
-        CoordsHelper::InternalCoordToGeoCoord(modifiedPoint, getZoom(), points[pointEditing].lat, points[pointEditing].lng);
-
-        // Adjusting bounds
-        GeoPoint geop;
-        CoordsHelper::InternalCoordToGeoCoord(modifiedPoint, getZoom(), geop.lat, geop.lng);
-        if (geop.lat < boundRect.SW.lat)
-            boundRect.SW.lat = geop.lat, boundChanged = true;
-        if (geop.lng < boundRect.SW.lng)
-            boundRect.SW.lng = geop.lng, boundChanged = true;
-        if (boundRect.NE.lat < geop.lat)
-            boundRect.NE.lat = geop.lat, boundChanged = true;
-        if (boundRect.NE.lng < geop.lng)
-            boundRect.NE.lng = geop.lng, boundChanged = true;
-        if (boundChanged)
-            this->prepareGeometryChange();
-        update();
-    }
-}
-
 static inline
 bool ValueInBetween(int val, int target1, int target2)
 {
@@ -166,6 +121,63 @@ bool PointOnLine(const QPoint& lineStart, const QPoint& lineEnd, const QPoint& p
         return abs( y - p.y() ) < abs(y * 0.08);
     }
     return false;
+}
+
+static inline
+bool PointOnPolygon(const QPoint& p, const QPolygon& polygon)
+{
+    if (ContainsPoint(polygon, p) != -1)
+        return true;
+    for (int i=0;i<polygon.size()-1;i++)
+        if (PointOnLine(polygon[i], polygon[i+1], p))
+            return true;
+    return false;
+}
+
+bool RouteItem::willHandleMouseEventAtPoint(QPoint p)
+{
+    p -= this->pos().toPoint();
+    return isEditing || (isEditable && PointOnPolygon( p, sceneCoords ));
+}
+
+void RouteItem::mousePressEvent( QGraphicsSceneMouseEvent *event )
+{
+    if (isEditing)
+    {
+        QPoint point = event->scenePos().toPoint() - Center;
+        pointEditing = ContainsPoint(sceneCoords, point);
+    }
+}
+
+void RouteItem::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )
+{
+    pointEditing = -1;
+}
+
+void RouteItem::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
+{
+    if (isEditing && pointEditing != -1)
+    {
+        QPoint modifiedPoint = event->scenePos().toPoint();
+        bool boundChanged = false;
+        sceneCoords[pointEditing] = modifiedPoint - Center;
+        CoordsHelper::InternalCoordToGeoCoord(modifiedPoint, getZoom(), points[pointEditing].lat, points[pointEditing].lng);
+
+        // Adjusting bounds
+        GeoPoint geop;
+        CoordsHelper::InternalCoordToGeoCoord(modifiedPoint, getZoom(), geop.lat, geop.lng);
+        if (geop.lat < boundRect.SW.lat)
+            boundRect.SW.lat = geop.lat, boundChanged = true;
+        if (geop.lng < boundRect.SW.lng)
+            boundRect.SW.lng = geop.lng, boundChanged = true;
+        if (boundRect.NE.lat < geop.lat)
+            boundRect.NE.lat = geop.lat, boundChanged = true;
+        if (boundRect.NE.lng < geop.lng)
+            boundRect.NE.lng = geop.lng, boundChanged = true;
+        if (boundChanged)
+            this->prepareGeometryChange();
+        update();
+    }
 }
 
 void RouteItem::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *event )
