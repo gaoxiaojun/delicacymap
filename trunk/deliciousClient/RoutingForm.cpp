@@ -34,7 +34,7 @@ void RoutingForm::setFromLocation(const QString &from)
     this->on_lineEdit_from_editingFinished();
 }
 
-void RoutingForm::setFromLocation( const QString&from, GeoPoint& p )
+void RoutingForm::setFromLocation( const QString&from, const GeoPoint& p )
 {
     ui->lineEdit_from->setText(from);
     this->from = p;
@@ -46,7 +46,7 @@ void RoutingForm::setToLocation(const QString &to)
     this->on_lineEdit_to_editingFinished();
 }
 
-void RoutingForm::setToLocation( const QString&to, GeoPoint& p )
+void RoutingForm::setToLocation( const QString&to, const GeoPoint& p )
 {
     ui->lineEdit_to->setText(to);
     this->to = p;

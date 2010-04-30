@@ -30,13 +30,16 @@ signals:
     void loginFailed();
 
 private slots:
+    void on_btnRegister_clicked();
     void login_step1();
     void login_step2(bool);
+    void register_step2(bool);
     void success();
     void failed();
 
 private:
     void loginResponse();
+    void registerResponse();
 
 private:
     Session* session;

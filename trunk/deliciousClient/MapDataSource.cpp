@@ -259,11 +259,12 @@ void MapDataSource::GetSubscribtionInfo( ProtocolBuffer::Query *query, ProtocolB
     channel->CallMethod( protorpc::GetSubscribtionInfo, query, result, done );
 }
 
-void MapDataSource::RegisterUser( const QString& username, const QString& md5PWD, ProtocolBuffer::User* result, google::protobuf::Closure* done )
+void MapDataSource::RegisterUser( const std::string& username, const std::string& md5PWD, const std::string& nickname, ProtocolBuffer::User* result, google::protobuf::Closure* done )
 {
     query.Clear();
-    query.set_emailaddress(username.toUtf8().constData(), username.toUtf8().size());
-    query.set_password(md5PWD.toUtf8().constData(), md5PWD.toUtf8().size());
+    query.set_emailaddress(username);
+    query.set_password(md5PWD);
+    query.set_nickname(nickname);
     RegisterUser(&query, result, done);
 }
 

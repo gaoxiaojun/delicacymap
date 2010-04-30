@@ -75,7 +75,7 @@ void Session::timerEvent( QTimerEvent *ev )
             timer.stop();
         }
     }
-    else if(subscriptionTimer.timerId() == ev->timerId())
+    else if(subscriptionTimer.timerId() == ev->timerId() && this->getUser()->has_uid())
     {
         ProtocolBuffer::DMessage msg;
         msg.set_fromuser(getUser()->uid());
