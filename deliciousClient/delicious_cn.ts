@@ -141,9 +141,9 @@
         <translation>登陆成功...</translation>
     </message>
     <message>
-        <location filename="LoginWindow.cpp" line="84"/>
-        <source>Login failed! Wrong username or password!</source>
-        <translation>登陆失败!用户名密码不匹配!</translation>
+        <location filename="LoginWindow.cpp" line="89"/>
+        <source>Login failed! </source>
+        <translation>登陆shhibai! </translation>
     </message>
 </context>
 <context>
@@ -269,7 +269,7 @@
 <context>
     <name>MapController</name>
     <message>
-        <location filename="MapController.cpp" line="159"/>
+        <location filename="MapController.cpp" line="160"/>
         <source>Do you want to send this route back to %1?</source>
         <oldsource>Do you want to send this route back to %1?.</oldsource>
         <translation>你希望把导航的结果返回给%1吗?</translation>

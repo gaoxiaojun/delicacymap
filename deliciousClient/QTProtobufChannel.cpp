@@ -118,3 +118,12 @@ QString QTProtobufChannel::errorString()
     }
     return QString();
 }
+
+const QString& QTProtobufChannel::lastRPCErrorString()
+{
+    if (_helper)
+    {
+        return _helper->lastErrorText();
+    }
+    return QString();
+}

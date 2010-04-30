@@ -47,11 +47,20 @@ void MapDataSource::connect()
         channel->start();
 }
 
+bool MapDataSource::isReady()
+{
+    return channel->started();
+}
+
 QString MapDataSource::error()
 {
     return channel->errorString();
 }
 
+QString MapDataSource::lastRPCError()
+{
+    return channel->lastRPCErrorString();
+}
 
 void MapDataSource::GetRestaurants( ProtocolBuffer::Query *query, ProtocolBuffer::RestaurantList *rlist, google::protobuf::Closure *done )
 {

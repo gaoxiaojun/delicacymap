@@ -122,7 +122,7 @@ namespace rclib
 
             void start();
 
-            void RegisterUserOnConnection( int uid, UserControlBlock::SenderFunctionProtoType func);
+            bool RegisterUserOnConnection( int uid, UserControlBlock::SenderFunctionProtoType func);
 
             void SignOffUser( int uid );
 

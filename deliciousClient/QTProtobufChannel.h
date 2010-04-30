@@ -39,6 +39,7 @@ public:
 	bool started();
 	void close();
     QString errorString();
+    const QString& lastRPCErrorString();
 
     void CallMethod( protorpc::FunctionID method_id, const google::protobuf::MessageLite* request, google::protobuf::MessageLite* response, google::protobuf::Closure* done );
 

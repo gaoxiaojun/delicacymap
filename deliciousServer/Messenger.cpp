@@ -187,7 +187,7 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
             break;
         }
     }
-    if (handled)
+    if (handled && msg->systemmessagetype() != ProtocolBuffer::RequestSubscriptionUpdate)
     {
         dataadapter->ConfirmMessageDelivered( msg->msgid() );
     }
@@ -203,13 +203,16 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
         tm expiretime = {0};
         expiretime.tm_min = msg->issystemmessage() && msg->systemmessagetype() == ProtocolBuffer::UserLocationUpdate ? 1 : 5; // Don't propagate location update when we restart.
 
-        size_t msgid = dataadapter->AddMessagesToDB( 
-            msg->fromuser(),
-            msg->touser(),
-            msg->issystemmessage() ? msg->systemmessagetype() : 0,
-            msg->issystemmessage() ? msg->buffer() : msg->text(),
-            expiretime);
-        msg->set_msgid(msgid);
+        if (!msg->issystemmessage() || msg->systemmessagetype() != ProtocolBuffer::RequestSubscriptionUpdate)
+        {
+            size_t msgid = dataadapter->AddMessagesToDB( 
+                msg->fromuser(),
+                msg->touser(),
+                msg->issystemmessage() ? msg->systemmessagetype() : 0,
+                msg->issystemmessage() ? msg->buffer() : msg->text(),
+                expiretime);
+            msg->set_msgid(msgid);
+        }
 
         if (!msg->issystemmessage() || !ProcessSystemMessage(msg))
         {
@@ -230,7 +233,7 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
     }
 }
 
-void Messenger::RegisterUserOnConnection( int uid, UserControlBlock::SenderFunctionProtoType f )
+bool Messenger::RegisterUserOnConnection( int uid, UserControlBlock::SenderFunctionProtoType f )
 {
     typedef MessagesContainer::index<message_ordered_touid_tag>::type hash_touid;
 
@@ -246,7 +249,9 @@ void Messenger::RegisterUserOnConnection( int uid, UserControlBlock::SenderFunct
         {
             usr.usrMessages.push( m );
         }
+        return true;
     }
+    return false;
 }
 
 void Messenger::SignOffUser( int uid )
