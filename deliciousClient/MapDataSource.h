@@ -48,7 +48,7 @@ public:
     void AddRestaurant(ProtocolBuffer::Restaurant* r, google::protobuf::Closure* done);
     void Search(const std::string& text, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done);
     void GetSubscribtionInfo(int uid, ProtocolBuffer::SearchResult* result, google::protobuf::Closure* done);
-    void RegisterUser(const QString& username, const QString& md5PWD, ProtocolBuffer::User* result, google::protobuf::Closure* done);
+    void RegisterUser(const std::string& username, const std::string& md5PWD, const std::string& nickname, ProtocolBuffer::User* result, google::protobuf::Closure* done);
 
     void GetRestaurants(ProtocolBuffer::Query *, ProtocolBuffer::RestaurantList *, google::protobuf::Closure *);
     void GetLastestCommentsOfRestaurant(ProtocolBuffer::Query *, ProtocolBuffer::CommentList *, google::protobuf::Closure *);

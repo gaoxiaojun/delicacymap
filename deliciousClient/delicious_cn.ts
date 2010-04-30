@@ -120,30 +120,45 @@
 <context>
     <name>LoginWindow</name>
     <message>
-        <location filename="LoginWindow.cpp" line="35"/>
+        <location filename="LoginWindow.cpp" line="38"/>
         <source>Connecting server....</source>
         <translation>正在连接服务器...</translation>
     </message>
     <message>
-        <location filename="LoginWindow.cpp" line="50"/>
+        <location filename="LoginWindow.cpp" line="52"/>
         <source>Verifing username/password....</source>
         <translation>正在登陆...</translation>
     </message>
     <message>
-        <location filename="LoginWindow.cpp" line="58"/>
+        <location filename="LoginWindow.cpp" line="60"/>
         <source>Error connecting server.</source>
         <translation>连接服务器失败.</translation>
     </message>
     <message>
-        <location filename="LoginWindow.cpp" line="78"/>
+        <location filename="LoginWindow.cpp" line="80"/>
         <source>Login succeeded....</source>
         <oldsource>Login suceeded....</oldsource>
         <translation>登陆成功...</translation>
     </message>
     <message>
-        <location filename="LoginWindow.cpp" line="89"/>
+        <location filename="LoginWindow.cpp" line="91"/>
         <source>Login failed! </source>
         <translation>登陆shhibai! </translation>
+    </message>
+    <message>
+        <location filename="LoginWindow.cpp" line="103"/>
+        <source>Email address and Nickname needed!</source>
+        <translation>Email地址及用户名不可为空!</translation>
+    </message>
+    <message>
+        <location filename="LoginWindow.cpp" line="107"/>
+        <source>Registering...</source>
+        <translation>注册中...</translation>
+    </message>
+    <message>
+        <location filename="LoginWindow.cpp" line="123"/>
+        <source>Register failed. </source>
+        <translation>注册失败. </translation>
     </message>
 </context>
 <context>
@@ -419,25 +434,35 @@
         <source>Login to delicacyMap</source>
         <translation>登陆系统</translation>
     </message>
-    <message utf8="true">
-        <location filename="loginWindow.ui" line="53"/>
-        <source>用户名：</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="loginWindow.ui" line="73"/>
+        <source>Email Address:</source>
+        <translation>Email:</translation>
     </message>
-    <message utf8="true">
-        <location filename="loginWindow.ui" line="69"/>
-        <source>密码：</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="loginWindow.ui" line="89"/>
+        <source>Password:</source>
+        <translation>密码:</translation>
     </message>
-    <message utf8="true">
-        <location filename="loginWindow.ui" line="105"/>
-        <source>登陆</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="loginWindow.ui" line="109"/>
+        <source>User Name:</source>
+        <translation>用户名:</translation>
     </message>
-    <message utf8="true">
-        <location filename="loginWindow.ui" line="124"/>
-        <source>退出</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="loginWindow.ui" line="126"/>
+        <source>Register</source>
+        <translation>注册</translation>
+    </message>
+    <message>
+        <location filename="loginWindow.ui" line="133"/>
+        <source>Login</source>
+        <translation>登录</translation>
+    </message>
+    <message>
+        <location filename="loginWindow.ui" line="146"/>
+        <source>Quit</source>
+        <translation>退出</translation>
     </message>
 </context>
 </TS>
