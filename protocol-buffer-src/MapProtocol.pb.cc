@@ -3658,6 +3658,7 @@ void SearchResult::Swap(SearchResult* other) {
 const ::std::string Query::_default_msg_;
 const ::std::string Query::_default_image_;
 const ::std::string Query::_default_emailaddress_;
+const ::std::string Query::_default_nickname_;
 const ::std::string Query::_default_password_;
 #ifndef _MSC_VER
 const int Query::kAreaFieldNumber;
@@ -3671,6 +3672,7 @@ const int Query::kRelationFieldNumber;
 const int Query::kMsgFieldNumber;
 const int Query::kImageFieldNumber;
 const int Query::kEmailAddressFieldNumber;
+const int Query::kNicknameFieldNumber;
 const int Query::kPasswordFieldNumber;
 const int Query::kUserinfoFieldNumber;
 const int Query::kLocationFieldNumber;
@@ -3709,6 +3711,7 @@ void Query::SharedCtor() {
   msg_ = const_cast< ::std::string*>(&_default_msg_);
   image_ = const_cast< ::std::string*>(&_default_image_);
   emailaddress_ = const_cast< ::std::string*>(&_default_emailaddress_);
+  nickname_ = const_cast< ::std::string*>(&_default_nickname_);
   password_ = const_cast< ::std::string*>(&_default_password_);
   userinfo_ = NULL;
   location_ = NULL;
@@ -3729,6 +3732,9 @@ void Query::SharedDtor() {
   }
   if (emailaddress_ != &_default_emailaddress_) {
     delete emailaddress_;
+  }
+  if (nickname_ != &_default_nickname_) {
+    delete nickname_;
   }
   if (password_ != &_default_password_) {
     delete password_;
@@ -3789,17 +3795,22 @@ void Query::Clear() {
       }
     }
     if (_has_bit(11)) {
+      if (nickname_ != &_default_nickname_) {
+        nickname_->clear();
+      }
+    }
+    if (_has_bit(12)) {
       if (password_ != &_default_password_) {
         password_->clear();
       }
     }
-    if (_has_bit(12)) {
+    if (_has_bit(13)) {
       if (userinfo_ != NULL) userinfo_->::ProtocolBuffer::User::Clear();
     }
-    if (_has_bit(13)) {
+    if (_has_bit(14)) {
       if (location_ != NULL) location_->::ProtocolBuffer::Location::Clear();
     }
-    if (_has_bit(14)) {
+    if (_has_bit(15)) {
       if (rinfo_ != NULL) rinfo_->::ProtocolBuffer::Restaurant::Clear();
     }
   }
@@ -4029,6 +4040,20 @@ bool Query::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(138)) goto parse_nickname;
+        break;
+      }
+      
+      // optional string nickname = 17;
+      case 17: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_nickname:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_nickname()));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -4101,13 +4126,13 @@ void Query::SerializeWithCachedSizes(
   }
   
   // optional string password = 10;
-  if (_has_bit(11)) {
+  if (_has_bit(12)) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
       10, this->password(), output);
   }
   
   // optional .ProtocolBuffer.User userinfo = 11;
-  if (_has_bit(12)) {
+  if (_has_bit(13)) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
       11, this->userinfo(), output);
   }
@@ -4123,15 +4148,21 @@ void Query::SerializeWithCachedSizes(
   }
   
   // optional .ProtocolBuffer.Location location = 14;
-  if (_has_bit(13)) {
+  if (_has_bit(14)) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
       14, this->location(), output);
   }
   
   // optional .ProtocolBuffer.Restaurant rinfo = 16;
-  if (_has_bit(14)) {
+  if (_has_bit(15)) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
       16, this->rinfo(), output);
+  }
+  
+  // optional string nickname = 17;
+  if (_has_bit(11)) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      17, this->nickname(), output);
   }
   
 }
@@ -4219,6 +4250,13 @@ int Query::ByteSize() const {
           this->emailaddress());
     }
     
+    // optional string nickname = 17;
+    if (has_nickname()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->nickname());
+    }
+    
     // optional string password = 10;
     if (has_password()) {
       total_size += 1 +
@@ -4298,15 +4336,18 @@ void Query::MergeFrom(const Query& from) {
       set_emailaddress(from.emailaddress());
     }
     if (from._has_bit(11)) {
-      set_password(from.password());
+      set_nickname(from.nickname());
     }
     if (from._has_bit(12)) {
-      mutable_userinfo()->::ProtocolBuffer::User::MergeFrom(from.userinfo());
+      set_password(from.password());
     }
     if (from._has_bit(13)) {
-      mutable_location()->::ProtocolBuffer::Location::MergeFrom(from.location());
+      mutable_userinfo()->::ProtocolBuffer::User::MergeFrom(from.userinfo());
     }
     if (from._has_bit(14)) {
+      mutable_location()->::ProtocolBuffer::Location::MergeFrom(from.location());
+    }
+    if (from._has_bit(15)) {
       mutable_rinfo()->::ProtocolBuffer::Restaurant::MergeFrom(from.rinfo());
     }
   }
@@ -4351,6 +4392,7 @@ void Query::Swap(Query* other) {
     std::swap(msg_, other->msg_);
     std::swap(image_, other->image_);
     std::swap(emailaddress_, other->emailaddress_);
+    std::swap(nickname_, other->nickname_);
     std::swap(password_, other->password_);
     std::swap(userinfo_, other->userinfo_);
     std::swap(location_, other->location_);

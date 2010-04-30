@@ -122,6 +122,7 @@ message Query
     optional string                                          msg                         = 7;    // used in add comment for restaurant
     optional bytes                                           image                       = 8;    // used in add comment for restaurant
     optional string                                          emailAddress                = 9;    // emailAddress used to validate user input
+    optional string                                          nickname                    = 17;   // used in add user
     optional string                                          password                    = 10;   // password required to retrieve user specific data
     optional ProtocolBuffer.User                             userinfo                    = 11;   // used in update user info
     optional ProtocolBuffer.Location                         location                    = 14;

@@ -36,6 +36,8 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         prepared_InsertRelationRestaurantType = NULL;
         prepared_SubscribtionUser = NULL;
         prepared_SubscribtionRestaurant = NULL;
+        prepared_GetUserByEmail = NULL;
+        prepared_RegisterUser = NULL;
         prepared_Message = dbconn->NewPreparedStatement(
             "INSERT INTO Messages "
             "(FromUID, ToUID, AddTime, ExpireTime, MessageType, MSG) "
@@ -97,6 +99,14 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "SELECT Restaurants.* FROM Restaurants "
             "NATURAL INNER JOIN Relation_User_Restaurant AS RU "
             "WHERE RU.UID = ? AND RU.Subscription = 1;");
+        prepared_GetUserByEmail = dbconn->NewPreparedStatement(
+            "SELECT * "
+            "FROM Users "
+            "WHERE EmailAddress = ?;");
+        prepared_RegisterUser = dbconn->NewPreparedStatement(
+            "INSERT INTO Users "
+            "(EmailAddress, Password, Nickname, JoinTime, LastLatitude, LastLongitude, SubscriptionCheckTime) "
+            "VALUES (?, ?, ?, datetime('now'), 0, 0, datetime('now'));");
     }
     catch (exception&)
     {
@@ -115,6 +125,8 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
         delete prepared_UpdateRestaurantSubscription;
         delete prepared_SubscribtionUser;
         delete prepared_SubscribtionRestaurant;
+        delete prepared_GetUserByEmail;
+        delete prepared_RegisterUser;
         throw;
     }
 }
@@ -136,6 +148,8 @@ deliciousDataAdapter::~deliciousDataAdapter(void)
     delete prepared_UpdateRestaurantSubscription;
     delete prepared_SubscribtionUser;
     delete prepared_SubscribtionRestaurant;
+    delete prepared_GetUserByEmail;
+    delete prepared_RegisterUser;
 }
 
 deliciousDataAdapter* deliciousDataAdapter::NewInstance()
@@ -350,7 +364,7 @@ const DBResultWrap deliciousDataAdapter::GetUserAfterValidation( int uid, const 
     prepared_GetUserByUID->bindParameter(1, uid);
 
     DBResult* ret = dbconn->Execute(prepared_GetUserByUID);
-    if (ret->RowsCount() != 1 || (*ret)[0]["Password"] != password) // uid is unique, so only 0 or 1 row.
+    if (!ret || ret->RowsCount() != 1 || (*ret)[0]["Password"] != password) // uid is unique, so only 0 or 1 row.
     {
         pantheios::log_INFORMATIONAL("Authentication failed!");
         dbconn->Free(&ret);
@@ -370,6 +384,16 @@ const DBResultWrap deliciousDataAdapter::GetUserInfo( int uid )
     prepared_GetUserByUID->bindParameter(1, uid);
 
     return DBResultWrap(dbconn->Execute(prepared_GetUserByUID), dbconn);
+}
+
+const DBResultWrap deliciousDataAdapter::GetUserInfo( const std::string& email )
+{
+    pantheios::log_INFORMATIONAL("GerUserInfo(email='",email, "')");
+
+    prepared_GetUserByEmail->reset();
+    prepared_GetUserByEmail->bindParameter(1, email);
+
+    return DBResultWrap(dbconn->Execute(prepared_GetUserByEmail), dbconn);
 }
 
 size_t deliciousDataAdapter::GetRelatedUsersWith( int uid, int relation, CallbackFunc callback )
@@ -475,6 +499,21 @@ const DBResultWrap deliciousDataAdapter::GetSubscribedRestaurantBy( int uid )
     prepared_SubscribtionRestaurant->bindParameter(1, uid);
 
     return DBResultWrap(dbconn->Execute(prepared_SubscribtionRestaurant), dbconn);
+}
+
+const DBResultWrap deliciousDataAdapter::AddUser( const std::string& nickname, const std::string& email, const std::string& pwd )
+{
+    pantheios::log_INFORMATIONAL("AddUser(",
+        "email='", email, "')");
+
+    prepared_RegisterUser->reset();
+    prepared_RegisterUser->bindParameter(1, email);
+    prepared_RegisterUser->bindParameter(2, pwd);
+    prepared_RegisterUser->bindParameter(3, nickname);
+
+    dbconn->Execute(prepared_RegisterUser);
+
+    return GetUserInfo(email);
 }
 
 // TODO: maybe database schema object to manage all primary keys and stuff?
