@@ -225,9 +225,20 @@ void MapViewBase::mouseMoveEvent(QMouseEvent *event)
     if (isLocked())
         return QGraphicsView::mouseMoveEvent(event);
     QGraphicsItem *item = itemAt(event->pos());
+    RouteItem *ritem = qgraphicsitem_cast<RouteItem*>(item);
     if (!item)
+    {
         decorator.mouseMoveEvent(event);
-    QGraphicsView::mouseMoveEvent(event);
+        QGraphicsView::mouseMoveEvent(event);
+    }
+    else if (ritem && !ritem->willHandleMouseEventAtPoint(this->mapToScene(event->pos()).toPoint()))
+    {
+        decorator.mouseMoveEvent(event);
+    }
+    else
+    {
+        QGraphicsView::mouseMoveEvent(event);
+    }
 }
 
 void MapViewBase::mousePressEvent(QMouseEvent *event)
@@ -235,9 +246,20 @@ void MapViewBase::mousePressEvent(QMouseEvent *event)
     if (isLocked())
         return QGraphicsView::mousePressEvent(event);
     QGraphicsItem *item = itemAt(event->pos());
+    RouteItem *ritem = qgraphicsitem_cast<RouteItem*>(item);
     if (!item)
+    {
         decorator.mousePressEvent(event);
-    QGraphicsView::mousePressEvent(event);
+        QGraphicsView::mousePressEvent(event);
+    }
+    else if (ritem && !ritem->willHandleMouseEventAtPoint(this->mapToScene(event->pos()).toPoint()))
+    {
+        decorator.mousePressEvent(event);
+    }
+    else
+    {
+        QGraphicsView::mousePressEvent(event);
+    }
 }
 
 void MapViewBase::mouseReleaseEvent(QMouseEvent *event)
@@ -245,6 +267,7 @@ void MapViewBase::mouseReleaseEvent(QMouseEvent *event)
     if (isLocked())
         return QGraphicsView::mouseReleaseEvent(event);
     QGraphicsItem *item = itemAt(event->pos());
+    RouteItem *ritem = qgraphicsitem_cast<RouteItem*>(item);
     if (!item)
         decorator.mouseReleaseEvent(event);
     else if (event->button() == Qt::LeftButton)
@@ -262,7 +285,10 @@ void MapViewBase::mouseReleaseEvent(QMouseEvent *event)
             {
                 RouteItem* route = static_cast<RouteItem*>(item);
                 if (!route->willHandleMouseEventAtPoint(this->mapToScene(event->pos()).toPoint()))
+                {
                     decorator.mouseReleaseEvent(event);
+                    return;
+                }
             }
             break;
         }
@@ -275,9 +301,20 @@ void MapViewBase::mouseDoubleClickEvent(QMouseEvent *event)
     if (isLocked())
         return QGraphicsView::mouseDoubleClickEvent(event);
     QGraphicsItem *item = itemAt(event->pos());
+    RouteItem *ritem = qgraphicsitem_cast<RouteItem*>(item);
     if (!item)
+    {
         decorator.mouseDoubleClickEvent(event);
-    QGraphicsView::mouseDoubleClickEvent(event);
+        QGraphicsView::mouseDoubleClickEvent(event);
+    }
+    else if (ritem && !ritem->willHandleMouseEventAtPoint(this->mapToScene(event->pos()).toPoint()))
+    {
+        decorator.mouseDoubleClickEvent(event);
+    }
+    else
+    {
+        QGraphicsView::mouseDoubleClickEvent(event);
+    }
 }
 
 #ifndef QT_NO_WHEELEVENT
