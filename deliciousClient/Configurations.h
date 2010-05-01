@@ -19,6 +19,8 @@ public:
     double GPSCorrection_Latitude() const { return gps_lat; };
     double GPSCorrection_Longitude() const { return gps_long; };
 
+    bool UI_UseLargeIcon() const { return ui_largeicon; }
+
     bool SmoothPan() const { return smooth_pan; }
 
 private:
@@ -31,6 +33,7 @@ private:
     int port;
     bool autologin;
     bool smooth_pan;
+    bool ui_largeicon;
 
     static Configurations _config;
 };

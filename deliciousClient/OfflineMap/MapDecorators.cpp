@@ -72,7 +72,7 @@ void MoveDecorator::timerEvent( QTimerEvent *e )
         m_speed *= 0.85;
         target->moveBy(m_speed.x(), m_speed.y());
     }
-    else
+    else if (timerId != -1)
     {
         this->killTimer(timerId);
         timerId = -1;

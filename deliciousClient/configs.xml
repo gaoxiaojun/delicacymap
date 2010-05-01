@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <deliciousClient>
-    <autologin enabled="true">
+    <autologin enabled="false">
         <username></username>
         <password></password>
     </autologin>
     <server>
-        <address>192.168.0.199</address>
+        <address>59.64.131.180</address>
         <port>24000</port>
     </server>
     <location>
         <gps>
-            <correction latitude="0.001" longitude="0.005" />
+            <correction latitude="0.001051" longitude="0.00638" />
         </gps>
     </location>
     <mapview>
@@ -19,4 +19,7 @@
         <smoothscroll>true</smoothscroll>
         <followselfmarker>true</followselfmarker>
     </mapview>
+    <UI>
+        <ToolBar UserLargeIcon="true"/>
+    </UI>
 </deliciousClient>

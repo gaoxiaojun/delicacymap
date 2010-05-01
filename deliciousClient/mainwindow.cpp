@@ -113,6 +113,20 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     this->m_ui->stackedWidget->insertWidget(0, navi);
     this->m_ui->stackedWidget->setCurrentWidget(navi);
     this->m_ui->DialogtextEdit->setDisabled(true);
+
+    if (Configurations::Instance().UI_UseLargeIcon())
+    {
+        m_ui->toolButton_Friends->setMinimumSize(QSize(64, 64));
+        m_ui->toolButton_Friends->setIconSize(QSize(64, 640));
+        m_ui->toolButton_GPS->setMinimumSize(QSize(64, 64));
+        m_ui->toolButton_GPS->setIconSize(QSize(64, 640));
+        m_ui->toolButton_Map->setMinimumSize(QSize(64, 64));
+        m_ui->toolButton_Map->setIconSize(QSize(64, 640));
+        m_ui->toolButton_B->setMinimumSize(QSize(64, 64));
+        m_ui->toolButton_B->setIconSize(QSize(64, 640));
+        m_ui->toolButton_C->setMinimumSize(QSize(64, 64));
+        m_ui->toolButton_C->setIconSize(QSize(64, 640));
+    }
 }
 
 MainWindow::~MainWindow()
