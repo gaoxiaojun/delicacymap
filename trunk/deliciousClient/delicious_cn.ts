@@ -143,7 +143,7 @@
     <message>
         <location filename="LoginWindow.cpp" line="91"/>
         <source>Login failed! </source>
-        <translation>登陆shhibai! </translation>
+        <translation>登陆失败! </translation>
     </message>
     <message>
         <location filename="LoginWindow.cpp" line="103"/>

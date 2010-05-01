@@ -21,6 +21,7 @@ void Configurations::ReloadConfigs()
     gps_lat = 0.;
     gps_long = 0.;
     smooth_pan = true;
+    ui_largeicon = false;
 
     try{
         doc.LoadFile("configs.xml");
@@ -65,6 +66,16 @@ void Configurations::ReloadConfigs()
             if (datapath)
             {
                 mappath = datapath->GetTextOrDefault(mappath);
+            }
+        }
+
+        ticpp::Element* ui = deliciousClient->FirstChildElement("UI");
+        if (ui)
+        {
+            ticpp::Element* toolbar = ui->FirstChildElement("ToolBar");
+            if (toolbar)
+            {
+                toolbar->GetAttributeOrDefault("UserLargeIcon", &ui_largeicon, ui_largeicon);
             }
         }
 

@@ -144,6 +144,16 @@
      <string>快餐</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>韩国料理</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>日本料理</string>
+    </property>
+   </item>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
