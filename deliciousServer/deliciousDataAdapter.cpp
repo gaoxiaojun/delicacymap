@@ -81,8 +81,8 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "LEFT OUTER JOIN Relation_User_Restaurant AS RR ON C.rid = RR.rid "
             "NATURAL INNER JOIN Restaurants as R "
             "WHERE C.addtime > (SELECT SubscriptionCheckTime FROM Users WHERE Users.uid = :1) "
-            "AND ((RU.uid_host = :1 AND RU.Subscription) "
-            "OR (RR.uid = :1 AND RR.Subscription))");
+            "AND ((RU.UID_Host = :1 AND RU.Subscription) "
+            "OR (RR.UID = :1 AND RR.Subscription));");
         prepared_UpdateUserSubscription = dbconn->NewPreparedStatement(
             "INSERT OR REPLACE INTO Relation_User_User "
             "(UID_Host, UID_Target, Subscription) "
@@ -608,12 +608,14 @@ const DBResultWrap deliciousDataAdapter::GetSubscriptionForUserSinceLastUpdate( 
     prepared_Subscription->reset();
     prepared_Subscription->bindParameter(1, uid);
 
+    dbconn->BeginTransaction();
     DBResultWrap result(dbconn->Execute(prepared_Subscription), dbconn);
 
     char update[100];
     sprintf_s(update, sizeof(update), "UPDATE Users SET SubscriptionCheckTime=datetime(\"now\") WHERE UID=%d;", uid);
 
     dbconn->Execute(update);
+    dbconn->EndTransaction();
 
     return result;
 }

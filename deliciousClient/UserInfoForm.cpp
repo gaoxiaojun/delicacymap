@@ -49,7 +49,7 @@ void UserInfoForm::locationResolved()
 void UserInfoForm::setUID(int uid)
 {
     this->uid = uid;
-    if (uid == getSession()->getUser()->uid())
+    if (uid == getSession()->getUser()->uid() || !getSession()->getUser(uid))
     {
         ui->label_location->resize(this->width(), this->height());
         ui->btnSub->hide();

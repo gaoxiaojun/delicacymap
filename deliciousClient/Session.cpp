@@ -8,7 +8,9 @@
 #include <QTimerEvent>
 #include <boost/foreach.hpp>
 
+#if QT_VERSION < 0x040700
 QTM_USE_NAMESPACE
+#endif
 
 Session::Session()
 {

@@ -44,7 +44,7 @@ void LoginWindow::login_step1()
 
 void LoginWindow::login_step2(bool connected)
 {
-    disconnect(this, SLOT(login_step2(bool)));
+    disconnect(&session->getDataSource(), SIGNAL(ready(bool)), this, SLOT(login_step2(bool)));
     if (connected)
     {
         dialog->label_status->setText(tr("Verifing username/password...."));
@@ -111,7 +111,7 @@ void LoginWindow::on_btnRegister_clicked()
 
 void LoginWindow::register_step2(bool connected)
 {
-    disconnect(this, SLOT(register_step2(bool)));
+    disconnect(&session->getDataSource(), SIGNAL(ready(bool)), this, SLOT(register_step2(bool)));
     if (connected)
     {
         dialog->label_status->setText(tr("Registering..."));

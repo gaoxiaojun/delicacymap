@@ -18,9 +18,14 @@ namespace ProtocolBuffer
     class UserList;
 }
 
+#if QT_VERSION >= 0x040700
+class QNetworkSession;
+#define QTM_PREPEND_NAMESPACE(x) x
+#else
 QTM_BEGIN_NAMESPACE
-    class QNetworkSession;
+class QNetworkSession;
 QTM_END_NAMESPACE
+#endif
 
 class Session : public QObject
 {
