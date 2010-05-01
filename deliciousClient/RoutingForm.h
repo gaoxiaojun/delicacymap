@@ -38,10 +38,16 @@ protected:
     void setLocalPositionIfEmpty(QLineEdit*);
 
 private:
+    void pendingOperationsDone();
+    Q_INVOKABLE void emitRouting();
+
+private:
     Ui::RoutingForm *ui;
     Session* s;
     MapServices *svc;
     GeoPoint from, to;
+    int pendingOperations;
+    bool doRoutingAfterpendingOperationsDone;
 private slots:
     void on_lineEdit_to_editingFinished();
     void on_lineEdit_from_editingFinished();
