@@ -9,6 +9,8 @@ RoutingForm::RoutingForm(QWidget *parent) :
     ui(new Ui::RoutingForm)
 {
     ui->setupUi(this);
+    pendingOperations = 0;
+    doRoutingAfterpendingOperationsDone = false;
 }
 
 RoutingForm::~RoutingForm()
@@ -76,14 +78,14 @@ void RoutingForm::setLocalPositionIfEmpty(QLineEdit *w)
 
 void RoutingForm::on_pushButton_confirm_clicked()
 {
-    if (this->from != this->to)
+    if (pendingOperations == 0)
     {
-        int currentIndex=ui->direct_comboBox->currentIndex();
-        int uid=ui->direct_comboBox->itemData(currentIndex).toInt();
-        if(currentIndex==0)  //google 导航
-            uid=-1;
-        emit doRoutingRequest(from, to, uid);
+        emitRouting();
+        this->deleteLater();
     }
+    else
+        doRoutingAfterpendingOperationsDone = true;
+    this->close();
 }
 void RoutingForm::setFriends()
 {
@@ -105,7 +107,8 @@ void RoutingForm::on_lineEdit_from_editingFinished()
         from = GeoPoint();
     else
     {
-        getService()->GeoCode(ui->lineEdit_from->text(), from, google::protobuf::NewCallback(google::protobuf::DoNothing));
+        ++pendingOperations;
+        getService()->GeoCode(ui->lineEdit_from->text(), from, google::protobuf::NewCallback(this, &RoutingForm::pendingOperationsDone));
     }
 }
 
@@ -115,6 +118,29 @@ void RoutingForm::on_lineEdit_to_editingFinished()
         to = GeoPoint();
     else
     {
-        getService()->GeoCode(ui->lineEdit_to->text(), to, google::protobuf::NewCallback(google::protobuf::DoNothing));
+        ++pendingOperations;
+        getService()->GeoCode(ui->lineEdit_to->text(), to, google::protobuf::NewCallback(this, &RoutingForm::pendingOperationsDone));
     }
+}
+
+void RoutingForm::pendingOperationsDone()
+{
+    --pendingOperations;
+    if (pendingOperations == 0)
+    {
+        if (doRoutingAfterpendingOperationsDone)
+            QMetaObject::invokeMethod(this, "emitRouting");
+        if (!this->isVisible())
+            QMetaObject::invokeMethod(this, "deleteLater");
+    }
+}
+
+void RoutingForm::emitRouting()
+{
+    int currentIndex=ui->direct_comboBox->currentIndex();
+    int uid=ui->direct_comboBox->itemData(currentIndex).toInt();
+    if(currentIndex==0)  //google 导航
+        uid=-1;
+    emit doRoutingRequest(from, to, uid);
+    emit doRoutingRequest(from, to, uid);
 }
