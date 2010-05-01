@@ -8,6 +8,10 @@
 #include "bluetoothmanager.h"
 #include "LoginWindow.h"
 
+#if _WIN32_WCE
+Q_IMPORT_PLUGIN(qgif);
+#endif
+
 Session* TryLogin();
 
 int main(int argc, char *argv[])
