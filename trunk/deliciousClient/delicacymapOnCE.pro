@@ -13,7 +13,6 @@ MOBILITY += location \
     systeminfo
 
 # Input
-win32:CONFIG += console
 QT += network \
       sql
 FORMS += mainwindow.ui \
@@ -137,6 +136,7 @@ win32:!wince* {
         bluetoothmanager_win.h
     RESOURCES += mainwindow.qrc
     LIBS += Ws2_32.lib
+    CONFIG(debug, debug|release):CONFIG += console
     CONFIG(debug, debug|release):LIBS += libprotobuf-lite_win32_debug.lib \
                                          ../QtMobility/lib_win32/QtBearerd.lib \
                                          ../QtMobility/lib_win32/QtLocationd.lib \

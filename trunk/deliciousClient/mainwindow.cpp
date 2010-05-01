@@ -534,10 +534,10 @@ void MainWindow::showSubscriptionTip(const ProtocolBuffer::CommentList *list)
     }
     if (!labeltext.empty())
     {
-        QLabel *label = new QLabel(labeltext.join("\n"));
+        QLabel *label = new QLabel(labeltext.join("<br>"));
         label->setTextFormat(Qt::RichText);
         label->setWordWrap(true);
-        label->setMaximumWidth(navi->width()/2.5);
+        label->setMaximumWidth(navi->width()/2.2);
         connect(label, SIGNAL(linkActivated(QString)), this, SLOT(findCommentByLink(QString)));
         navi->showTip(label);
     }
