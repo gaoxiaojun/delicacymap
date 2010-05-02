@@ -113,7 +113,7 @@ void naked_conn::handle_read( const boost::system::error_code& err, size_t bytes
 {
     if (err)
     {
-        if (err.value() == 10054)
+        if (err.value() == 10054 || err.value() == 2)
             pantheios::log_INFORMATIONAL("Connectioin closed.");
         else
             pantheios::log_ERROR("read msg err '", err.message() , "' . errcode: ", pantheios::integer(err.value()));
