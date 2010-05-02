@@ -74,6 +74,10 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "SELECT * "
             "FROM Restaurants NATURAL INNER JOIN Relation_Restaurant_RestaurantType NATURAL INNER JOIN RestaurantTypes "
             "WHERE Restaurants.Name LIKE :1 OR RestaurantTypes.ReadableText LIKE :1;");
+        prepared_SearchUsers = dbconn->NewPreparedStatement(
+            "SELECT * "
+            "FROM Users "
+            "WHERE nickname LIKE :1 OR emailAddress LIKE :1;");
         prepared_Subscription = dbconn->NewPreparedStatement(
             "SELECT C.*,U.*,R.* FROM Comments AS C "
             "INNER JOIN Users AS U ON U.UID = C.UID "
@@ -468,15 +472,27 @@ const DBResultWrap deliciousDataAdapter::AddRestaurant( const std::string& rname
     return result;
 }
 
-const DBResultWrap deliciousDataAdapter::Search( const std::string& text )
+const DBResultWrap deliciousDataAdapter::SearchRestaurant( const std::string& text )
 {
-    pantheios::log_INFORMATIONAL("Search(",
+    pantheios::log_INFORMATIONAL("SearchRestaurant(",
         "text=", text,
         ")");
     std::string clause = "%" + text + "%";
     prepared_SearchRestaurants->reset();
     prepared_SearchRestaurants->bindParameter(1, clause);
     return DBResultWrap(dbconn->Execute(prepared_SearchRestaurants), dbconn);
+}
+
+const DBResultWrap deliciousDataAdapter::SearchUser( const std::string& text )
+{
+    pantheios::log_INFORMATIONAL("SearchUser(",
+        "text=", text,
+        ")");
+    std::string clause = "%" + text + "%";
+    prepared_SearchUsers->reset();
+    prepared_SearchUsers->bindParameter(1, clause);
+    return DBResultWrap(dbconn->Execute(prepared_SearchUsers), dbconn);
+    return DBResultWrap(NULL, dbconn);
 }
 
 const DBResultWrap deliciousDataAdapter::GetSubscribedUserBy( int uid )

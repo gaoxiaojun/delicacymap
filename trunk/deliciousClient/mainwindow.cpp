@@ -234,14 +234,13 @@ void MainWindow::handleSearchClicked()
 
 void MainWindow::searchResponse(ProtocolBuffer::SearchResult *result)
 {
-    qDebug()<<"Before invoke.";
     QMetaObject::invokeMethod(this, "handleSearchResponse", Q_ARG(ProtocolBuffer::SearchResult*, result));
 }
 
 void MainWindow::handleSearchResponse(ProtocolBuffer::SearchResult *result)
 {
-    qDebug()<<"Invoke.";
     SearchResultForm *form = new SearchResultForm(result, navi);
+    form->setSession(this->getSession());
     form->setPanel(navi->addBlockingPanel(form));
 }
 

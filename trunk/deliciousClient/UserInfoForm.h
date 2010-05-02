@@ -35,7 +35,7 @@ private:
     Ui::UserInfoForm *ui;
     MapServices *svc;
     Session* s;
-    int uid;
+    int uid, pendingOperations;
     QString streetName;
 };
 

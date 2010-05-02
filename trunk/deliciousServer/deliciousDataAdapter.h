@@ -70,7 +70,9 @@ public://DB methods
 
     const DBResultWrap GetUserAfterValidation( int uid, const std::string& password );
 
-    const DBResultWrap Search( const std::string& text );
+    const DBResultWrap SearchRestaurant( const std::string& text );
+
+    const DBResultWrap SearchUser( const std::string& text );
 
     const DBResultWrap GetSubscribedUserBy(int uid);
 

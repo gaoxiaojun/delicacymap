@@ -10,6 +10,7 @@ UserInfoForm::UserInfoForm(QWidget *parent) :
 {
     ui->setupUi(this);
     svc = new MapServices();
+    pendingOperations = 0;
 }
 
 UserInfoForm::~UserInfoForm()

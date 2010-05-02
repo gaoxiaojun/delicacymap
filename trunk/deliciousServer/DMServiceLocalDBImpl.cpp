@@ -414,7 +414,7 @@ void DMServiceLocalDBImpl::Search( ::google::protobuf::RpcController* controller
 {
     if (request->has_msg())
     {
-        DBResultWrap ret = adapter->Search(request->msg());
+        DBResultWrap ret = adapter->SearchRestaurant(request->msg());
         if (!ret.empty())
         {
             for (size_t i=0;i<ret.getResult()->RowsCount();i++)
@@ -423,11 +423,20 @@ void DMServiceLocalDBImpl::Search( ::google::protobuf::RpcController* controller
                 ProtubufDBRowConversion::Convert(ret.getResult()->GetRow(i), *newr);
             }
         }
+        DBResultWrap retuser = adapter->SearchUser(request->msg());
+        if (!retuser.empty())
+        {
+            for (size_t i=0;i<retuser.getResult()->RowsCount();i++)
+            {
+                ProtocolBuffer::User* newu = response->mutable_users()->add_users();
+                ProtubufDBRowConversion::Convert(retuser.getResult()->GetRow(i), *newu);
+            }
+        }
     }
     else
     {
-        pantheios::log_WARNING("calling Search() with wrong request message.");
-        controller->SetFailed("calling Search() with wrong request message.");
+        pantheios::log_WARNING("calling SearchRestaurant() with wrong request message.");
+        controller->SetFailed("calling SearchRestaurant() with wrong request message.");
     }
 
     done->Run();

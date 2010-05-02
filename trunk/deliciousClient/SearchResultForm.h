@@ -14,6 +14,7 @@ namespace ProtocolBuffer{
 class MapViewBase;
 class QListWidgetItem;
 class PanelWidget;
+class Session;
 
 class SearchResultForm : public QWidget {
     Q_OBJECT
@@ -22,6 +23,8 @@ public:
     ~SearchResultForm();
 
     void setPanel(PanelWidget* panel) { this->panel = panel; }
+    void setSession(Session* s) {this->s = s;}
+    Session* getSession() const {return s;}
 
 protected:
     void changeEvent(QEvent *e);
@@ -33,6 +36,7 @@ private:
     Ui::SearchResultForm *ui;
     ProtocolBuffer::SearchResult* result;
     MapViewBase* target;
+    Session* s;
     PanelWidget *panel;
 };
 
