@@ -88,9 +88,9 @@ deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
             "AND ((RU.UID_Host = :1 AND RU.Subscription) "
             "OR (RR.UID = :1 AND RR.Subscription));");
         prepared_UpdateUserSubscription = dbconn->NewPreparedStatement(
-            "INSERT OR REPLACE INTO Relation_User_User "
-            "(UID_Host, UID_Target, Subscription) "
-            "VALUES(?, ?, ?);");
+            "UPDATE Relation_User_User "
+            "SET Subscription=? "
+            "WHERE UID_Host=? AND UID_Target=?;");
         prepared_UpdateRestaurantSubscription = dbconn->NewPreparedStatement(
             "INSERT OR REPLACE INTO Relation_User_Restaurant "
             "(UID, RID, Subscription) "
@@ -645,9 +645,9 @@ void deliciousDataAdapter::ChangeSubsciptionStatusWithUser( int me, int target, 
         ")");
     
     prepared_UpdateUserSubscription->reset();
-    prepared_UpdateUserSubscription->bindParameter(1, me);
-    prepared_UpdateUserSubscription->bindParameter(2, target);
-    prepared_UpdateUserSubscription->bindParameter(3, subscribe);
+    prepared_UpdateUserSubscription->bindParameter(1, subscribe);
+    prepared_UpdateUserSubscription->bindParameter(2, me);
+    prepared_UpdateUserSubscription->bindParameter(3, target);
 
     dbconn->Execute(prepared_UpdateUserSubscription);
 
