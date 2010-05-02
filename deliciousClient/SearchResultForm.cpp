@@ -3,6 +3,7 @@
 #include "OfflineMap/MarkerItem.h"
 #include "MapProtocol.pb.h"
 #include "ui_SearchResultForm.h"
+#include "user.h"
 
 SearchResultForm::SearchResultForm(ProtocolBuffer::SearchResult* result, MapViewBase *t, QWidget *parent) :
     QWidget(parent),
@@ -22,11 +23,21 @@ SearchResultForm::SearchResultForm(ProtocolBuffer::SearchResult* result, MapView
         ui->listWidget->addItem(item);
     }
 
+    if (result->has_restaurants() && result->has_users())
+    {
+        ui->listWidget->addItem("--------------");
+    }
+
+    for (int i=0;i<result->users().users_size();i++)
+    {
+        QListWidgetItem* item = new QListWidgetItem(QString::fromUtf8( result->users().users(i).nickname().c_str() ));
+        item->setData( Qt::UserRole+1, i );
+        ui->listWidget->addItem(item);
+    }
+
     if (!result->has_restaurants() && !result->has_users())
     {
-        QListWidgetItem* item = new QListWidgetItem(tr("     <Not Found>"));
-        item->setData( Qt::UserRole, -1 );
-        ui->listWidget->addItem(item);
+        ui->listWidget->addItem(tr("     <Not Found>"));
     }
 }
 
@@ -50,23 +61,32 @@ void SearchResultForm::changeEvent(QEvent *e)
 
 void SearchResultForm::itemClicked(QListWidgetItem *item)
 {
-    const ProtocolBuffer::Restaurant& r = result->restaurants().restaurants(item->data( Qt::UserRole ).toInt());
-    int rid = r.rid();
-    if (rid == -1)
-        return;
-    Q_ASSERT( rid>0 );
-    RestaurantMarkerItem *marker = target->getRestaurantMarker(rid);
-    if (!marker) // this item is not in the view yet!
+    if (item->data(Qt::UserRole).isValid())
     {
-        target->addRestaurantMarker( new ProtocolBuffer::Restaurant(r) );
-        marker = target->getRestaurantMarker(rid);
-        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-        Q_ASSERT( marker );
+        const ProtocolBuffer::Restaurant& r = result->restaurants().restaurants(item->data( Qt::UserRole ).toInt());
+        int rid = r.rid();
+        Q_ASSERT( rid>0 );
+        RestaurantMarkerItem *marker = target->getRestaurantMarker(rid);
+        if (!marker) // this item is not in the view yet!
+        {
+            target->addRestaurantMarker( new ProtocolBuffer::Restaurant(r) );
+            marker = target->getRestaurantMarker(rid);
+            QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+            Q_ASSERT( marker );
+        }
+        target->centerOn(marker, true);
+        if (panel)
+        {
+            panel->tie(marker);
+            target->ensureVisible(panel);
+        }
     }
-    target->centerOn(marker, true);
-    if (panel)
+    else if (item->data(Qt::UserRole+1).isValid())
     {
-        panel->tie(marker);
-        target->ensureVisible(panel);
+        const ProtocolBuffer::User& user = result->users().users(item->data(Qt::UserRole+1).toInt());
+        usr* usrWindow = new usr();
+        usrWindow->setSession(this->getSession());
+        usrWindow->setusr(user.uid(), user.nickname().c_str(), user.emailaddress().c_str(), user.jointime().timestamp().c_str());
+        usrWindow->show();
     }
 }
