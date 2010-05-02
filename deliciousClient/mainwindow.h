@@ -79,6 +79,7 @@ private slots:
     void transToFriend();
     void HandleUserMessage(const ProtocolBuffer::DMessage* );
     void showFriendsInfo(QListWidgetItem* usr);
+    void FriChanged(bool b,int uid);
 private:
     void searchResponse(ProtocolBuffer::SearchResult*);
     void locateByCellIDClosure(InaccurateGeoPoint*);

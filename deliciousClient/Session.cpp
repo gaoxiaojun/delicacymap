@@ -296,33 +296,47 @@ void Session::setRelationWith(int uid,UserRelation relation)
     google::protobuf::Closure* closure = google::protobuf::NewCallback(this, &Session::RelationChangeResponse, uid,relation);
     getDataSource().SetUserRelation(getUser()->uid(),uid,relation,closure);
 }
-
-void Session::RelationChangeResponse(int uid,UserRelation relation)
+bool Session::isfriend(int uid)
 {
     QMap<int, ProtocolBuffer::User*>::iterator iter;
     iter=myfriends.find(uid);
-    google::protobuf::Closure* closure = google::protobuf::NewCallback(this, &Session::GetUserResponse); 
+    if(iter!=myfriends.end())
+        return true;
+    return false;
+}
+void Session::RelationChangeResponse(int uid,UserRelation relation)
+{
     ProtocolBuffer::User* u=new ProtocolBuffer::User;
+    google::protobuf::Closure* closure = google::protobuf::NewCallback(this, &Session::GetUserResponse,u,relation); 
     getDataSource().GetUser(uid,u,closure);
+   
+}
+
+void Session::GetUserResponse(ProtocolBuffer::User * u,UserRelation relation)
+{
+    int uid=u->uid();
+    QMap<int, ProtocolBuffer::User*>::iterator iter;
+    iter=myfriends.find(uid);
     switch(relation)
     {
     case Friend:
         if(iter==myfriends.end())
+        {
             myfriends.insert(uid, u); //加为好友
-        //否则，已经是好友，什么都不做
+            emit userChanged(true,uid);
+            //否则，已经是好友，什么都不做
+        }
         break;
     case BlackList:
         break;
     case Unspecified:
         if(iter!=myfriends.end())//本来是好友,则删除
-            //myfriends.remove((*iter)->uid());
+        {
+            myfriends.remove((*iter)->uid());
+            emit userChanged(false,uid);
+        }
         break;
     }
-}
-
-void Session::GetUserResponse()
-{
-    
 }
 
 bool Session::isSharingLocationWith( int uid ) const
