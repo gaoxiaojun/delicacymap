@@ -113,18 +113,15 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(m_ui->FriendlistWidget,SIGNAL(currentRowChanged(int)),this,SLOT(dialogwith(int)));
     connect(m_ui->toolButton_Friends,SIGNAL(clicked()),this,SLOT(transToFriend()));
 
-    int uid;
     QList<ProtocolBuffer::User*> friendlist=this->getSession()->friends();
     if(m_ui->FriendlistWidget->count()!=0)
     {
         m_ui->FriendlistWidget->clear();
-    }
-    for(int i=0;i<friendlist.count();i++)
-    {
-        uid=friendlist.value(i)->uid();
-        m_ui->FriendlistWidget->addItem(friendlist.value(i)->nickname().c_str());
-        m_ui->FriendlistWidget->setCurrentRow(i);
-        m_ui->FriendlistWidget->currentItem()->setData(Qt::UserRole,uid);
+        for(int i=0;i<friendlist.count();i++)
+        {
+            int uid=friendlist.value(i)->uid();
+            this->FriChanged(true, uid);
+        }
     }
     connect(m_ui->FriendlistWidget,SIGNAL(itemDoubleClicked (QListWidgetItem *)),this,SLOT(showFriendsInfo(QListWidgetItem *)));
     connect(this->getSession(),SIGNAL(userChanged(bool,int)),this,SLOT(FriChanged(bool,int)));   
@@ -469,18 +466,20 @@ void MainWindow::sendDialog()
     //消息框处理,
     QString old=m_ui->DialogtextEdit->toPlainText();
     old=old+fromusrName+" says:  "+message+"\n";
-    this->m_ui->FriendlistWidget->currentItem()->setData(Qt::AccessibleTextRole,old);
+    this->m_ui->FriendlistWidget->currentItem()->setData(Qt::UserRole + 1,old);
     this->m_ui->DialogtextEdit->setText(old);
     this->m_ui->messageLineEdit->clear();
 }
 
 void MainWindow::dialogwith(const int current)
 {
-    m_ui->chatLabel->setText(QString("chatting with %1").arg(m_ui->FriendlistWidget->currentItem()->text()));
-    //改变聊天对象时，应该保存当前的聊天记录，并显示其他人的聊天记录...
-    m_ui->DialogtextEdit->clear();
-    m_ui->DialogtextEdit->setText(m_ui->FriendlistWidget->currentItem()->data(Qt::AccessibleTextRole).toString());
-    
+    if (m_ui->FriendlistWidget->currentItem())
+    {
+        m_ui->chatLabel->setText(QString("chatting with %1").arg(m_ui->FriendlistWidget->currentItem()->text()));
+        //改变聊天对象时，应该保存当前的聊天记录，并显示其他人的聊天记录...
+        m_ui->DialogtextEdit->clear();
+        m_ui->DialogtextEdit->setText(m_ui->FriendlistWidget->currentItem()->data(Qt::UserRole + 1).toString());
+    }
 }
 
 void MainWindow::HandleUserMessage(const ProtocolBuffer::DMessage* m)
@@ -503,10 +502,10 @@ void MainWindow::HandleUserMessage(const ProtocolBuffer::DMessage* m)
             {
                 QString fromname=this->m_ui->FriendlistWidget->item(i)->text();
                 m_ui->FriendlistWidget->setCurrentRow(i);
-                QString old=m_ui->FriendlistWidget->currentItem()->data(Qt::AccessibleTextRole).toString();
+                QString old=m_ui->FriendlistWidget->currentItem()->data(Qt::UserRole + 1).toString();
                 old=old+fromname+tr(" say : ")+QString::fromUtf8(m->text().c_str())+'\n';
                 this->m_ui->DialogtextEdit->setText(old);
-                this->m_ui->FriendlistWidget->currentItem()->setData(Qt::AccessibleTextRole,old);
+                this->m_ui->FriendlistWidget->currentItem()->setData(Qt::UserRole + 1,old);
             
             }
         }
