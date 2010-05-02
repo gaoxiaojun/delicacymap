@@ -6,7 +6,7 @@
         <password></password>
     </autologin>
     <server>
-        <address>59.64.131.180</address>
+        <address>delicacymap.52byr.com</address>
         <port>24000</port>
     </server>
     <location>
@@ -20,6 +20,6 @@
         <followselfmarker>true</followselfmarker>
     </mapview>
     <UI>
-        <ToolBar UserLargeIcon="true"/>
+        <ToolBar UserLargeIcon="false"/>
     </UI>
 </deliciousClient>

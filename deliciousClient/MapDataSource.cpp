@@ -5,7 +5,7 @@
 
 MapDataSource::MapDataSource()
 {
-    channel = new QTProtobufChannel(QHostAddress(QString::fromStdString(Configurations::Instance().Server_Address())), Configurations::Instance().Server_Port());
+    channel = new QTProtobufChannel(QString::fromUtf8(Configurations::Instance().Server_Address().c_str()), Configurations::Instance().Server_Port());
     QObject::connect(channel, SIGNAL(connected()), this, SLOT(channel_connected()));
     QObject::connect(channel, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(channel_error(QAbstractSocket::SocketError)), Qt::DirectConnection);
     QObject::connect(channel, SIGNAL(disconnected()), this, SLOT(channel_disconnected()));
