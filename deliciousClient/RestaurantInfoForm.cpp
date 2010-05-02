@@ -194,7 +194,7 @@ void RestaurantInfoForm::on_btnCommit_clicked()
      {
          ui->txtComment->clear();
          ProtocolBuffer::Comment *newComment=new ProtocolBuffer::Comment();
-
+         newComment->mutable_userinfo()->set_nickname(usrname);
          google::protobuf::Closure* commentadded = google::protobuf::NewCallback(this, &RestaurantInfoForm::addCommentToList, const_cast<const ProtocolBuffer::Comment*>(newComment), true);
          QByteArray utf8Content = content.toUtf8();
          std::string contentStr(utf8Content.constData(), utf8Content.size());

@@ -22,6 +22,7 @@ public:
 public slots:
     void setusr(int _uid,const char * name,const char * mail,const char * addtime);
     void SubscribeToUser();
+    void UnSubscribeToUser();
     void deleteFriend();
     void addFriend();
 signals:

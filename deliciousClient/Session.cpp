@@ -161,6 +161,7 @@ void Session::FriendsResponse(ProtocolBuffer::UserList* users)
     {
         const ProtocolBuffer::User& u = users->users(i);
         myfriends.insert(u.uid(), new ProtocolBuffer::User(u));
+        emit userChanged(true,u.uid());
     }
     delete users;
 }

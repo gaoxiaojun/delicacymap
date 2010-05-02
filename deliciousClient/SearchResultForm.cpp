@@ -86,6 +86,7 @@ void SearchResultForm::itemClicked(QListWidgetItem *item)
         const ProtocolBuffer::User& user = result->users().users(item->data(Qt::UserRole+1).toInt());
         usr* usrWindow = new usr();
         usrWindow->setSession(this->getSession());
+
         usrWindow->setusr(user.uid(), user.nickname().c_str(), user.emailaddress().c_str(), user.jointime().timestamp().c_str());
         usrWindow->show();
     }
