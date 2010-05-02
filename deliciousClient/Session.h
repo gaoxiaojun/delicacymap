@@ -46,7 +46,7 @@ public:
     bool isSubscribedToUser(int uid) const;
     bool isSubscribedToRestaurant(int rid) const;
     
-    bool isfriend(int uid);
+    bool isFriend(int uid);
     void SendRoutingReply( const QList<GeoPoint>& route, int user );
     void SendRoutingRequest( const QString&, const QString&, int user);
     void SendRoutingRequest( const GeoPoint&, const GeoPoint&, int user);

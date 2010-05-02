@@ -2,6 +2,7 @@
 #include "ui_UserInfoForm.h"
 #include "OfflineMap/MapServices.h"
 #include "Session.h"
+#include <QCloseEvent>
 #include <google/protobuf/stubs/common.h>
 
 UserInfoForm::UserInfoForm(QWidget *parent) :
@@ -44,13 +45,18 @@ void UserInfoForm::_locationResolved()
 
 void UserInfoForm::locationResolved()
 {
+    --pendingOperations;
     ui->label_location->setText(this->streetName);
+    if (pendingOperations == 0 && !isVisible())
+    {
+        this->deleteLater();
+    }
 }
 
 void UserInfoForm::setUID(int uid)
 {
     this->uid = uid;
-    if (uid == getSession()->getUser()->uid() || !getSession()->getUser(uid))
+    if (uid == getSession()->getUser()->uid() || !getSession()->isSharingLocationWith(uid))
     {
         ui->label_location->resize(this->width(), this->height());
         ui->btnSub->hide();
@@ -72,5 +78,14 @@ void UserInfoForm::on_btnSub_clicked()
     {
         getSession()->SubscribeToUser(uid);
         ui->btnSub->setText(tr("UnSubscribe"));
+    }
+}
+
+void UserInfoForm::closeEvent( QCloseEvent *event )
+{
+    if (this->pendingOperations > 0)
+    {
+        event->ignore();
+        this->hide();
     }
 }

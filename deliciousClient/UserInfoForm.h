@@ -25,6 +25,7 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
+    void closeEvent(QCloseEvent *);
 
 private:
     void _locationResolved();

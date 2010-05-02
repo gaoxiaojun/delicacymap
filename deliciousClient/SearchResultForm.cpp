@@ -15,7 +15,7 @@ SearchResultForm::SearchResultForm(ProtocolBuffer::SearchResult* result, MapView
     this->result = result;
     this->target = t;
     ui->listWidget->setFocus();
-    connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(itemClicked(QListWidgetItem*)));
+    connect(ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(itemClicked(QListWidgetItem*)));
     for (int i=0;i<result->restaurants().restaurants_size();i++)
     {
         QListWidgetItem* item = new QListWidgetItem(QString::fromUtf8( result->restaurants().restaurants(i).name().c_str() ));
@@ -25,7 +25,7 @@ SearchResultForm::SearchResultForm(ProtocolBuffer::SearchResult* result, MapView
 
     if (result->has_restaurants() && result->has_users())
     {
-        ui->listWidget->addItem("--------------");
+        ui->listWidget->addItem("-----------------");
     }
 
     for (int i=0;i<result->users().users_size();i++)

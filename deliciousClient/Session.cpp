@@ -296,7 +296,7 @@ void Session::setRelationWith(int uid,UserRelation relation)
     google::protobuf::Closure* closure = google::protobuf::NewCallback(this, &Session::RelationChangeResponse, uid,relation);
     getDataSource().SetUserRelation(getUser()->uid(),uid,relation,closure);
 }
-bool Session::isfriend(int uid)
+bool Session::isFriend(int uid)
 {
     QMap<int, ProtocolBuffer::User*>::iterator iter;
     iter=myfriends.find(uid);
