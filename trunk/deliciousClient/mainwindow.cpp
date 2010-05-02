@@ -476,7 +476,7 @@ void MainWindow::dialogwith(const int current)
 {
     if (m_ui->FriendlistWidget->currentItem())
     {
-        m_ui->chatLabel->setText(QString("chatting with %1").arg(m_ui->FriendlistWidget->currentItem()->text()));
+        m_ui->chatLabel->setText(tr("chatting with %1").arg(m_ui->FriendlistWidget->currentItem()->text()));
         //改变聊天对象时，应该保存当前的聊天记录，并显示其他人的聊天记录...
         m_ui->DialogtextEdit->clear();
         m_ui->DialogtextEdit->setText(m_ui->FriendlistWidget->currentItem()->data(Qt::UserRole + 1).toString());

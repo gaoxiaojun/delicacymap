@@ -56,7 +56,6 @@ public slots:
 
 private:
     void RestaurantListHandler(ProtocolBuffer::RestaurantList*, MapViewBase*);
-
 private slots:
     void translateLocationSignal(const QGeoPositionInfo&);
     void finishedRouteEditing(RouteItem*);

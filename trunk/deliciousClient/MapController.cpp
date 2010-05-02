@@ -167,7 +167,7 @@ void MapController::finishedRouteEditing( RouteItem* item )
         {
         case QMessageBox::Yes:
             // send this route back.
-            getSession()->SendRoutingReply( item->getRoute(), item->getRouteReceiverWhenDoneEditing() );
+            getSession()->SendRoutingReply(item->getRoute(), item->getRouteReceiverWhenDoneEditing() );
             // assume it would success
             // remove this route
             map->removeRoute(item);
@@ -188,3 +188,4 @@ void MapController::setSession( Session* s )
         connect(this, SIGNAL(currentLocationUpdate(GeoPoint)), s, SLOT(UserLocationUpdate(const GeoPoint&)));
     session = s;
 }
+
