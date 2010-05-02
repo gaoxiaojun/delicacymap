@@ -32,7 +32,7 @@ class QTProtobufChannel :
 {
 	Q_OBJECT
 public:
-	QTProtobufChannel(const QHostAddress &serveraddr, unsigned short port);
+	QTProtobufChannel(const QString &serveraddr, unsigned short port);
 	~QTProtobufChannel(void);
 
 	void start();
@@ -60,7 +60,7 @@ signals:
     void messageReceived(const google::protobuf::MessageLite*);
 
     void writeMessage(protorpc::Message* m);
-    void requetStart(QHostAddress *_addr, unsigned short _port);
+    void requetStart(QString _addr, unsigned short _port);
 
 private:
     bool readMessage(google::protobuf::Message* m);
@@ -69,7 +69,7 @@ private:
 private:
     QStack<protorpc::Message*> reqs;
     QHash<int,CallEntry> _currentCalls;
-    QHostAddress _addr;
+    QString _addr;
     QTProtobufChannelDriver *_helper;
     int _callid;
     unsigned short _port;

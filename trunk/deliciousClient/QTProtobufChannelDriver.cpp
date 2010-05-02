@@ -126,11 +126,11 @@ void QTProtobufChannelDriver::writeMessage( protorpc::Message* m )
         throw _tcps->errorString().toUtf8().constData();
 }
 
-void QTProtobufChannelDriver::start( QHostAddress *_addr, unsigned short _port )
+void QTProtobufChannelDriver::start( QString _addr, unsigned short _port )
 {
     if (_tcps->state() == QTcpSocket::UnconnectedState)
     {
-        _tcps->connectToHost(*_addr, _port);
+        _tcps->connectToHost(_addr, _port);
     }
 }
 

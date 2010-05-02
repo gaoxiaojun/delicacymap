@@ -3,7 +3,7 @@
 
 static const int CallBufferIncrease = 4;
 
-QTProtobufChannel::QTProtobufChannel( const QHostAddress &serveraddr, unsigned short port )
+QTProtobufChannel::QTProtobufChannel( const QString &serveraddr, unsigned short port )
 :_addr(serveraddr), _port(port)
 {
     QThread::start();
@@ -25,7 +25,7 @@ QTProtobufChannel::~QTProtobufChannel(void)
 
 void QTProtobufChannel::start()
 {
-    emit requetStart(&_addr, _port);
+    emit requetStart(_addr, _port);
 }
 
 void QTProtobufChannel::close()
@@ -76,7 +76,7 @@ void QTProtobufChannel::run()
     _helper = new QTProtobufChannelDriver(this, &_currentCalls);
 
     connect(this, SIGNAL(writeMessage(protorpc::Message*)), _helper, SLOT(writeMessage( protorpc::Message*  )));
-    connect(this, SIGNAL(requetStart(QHostAddress*, unsigned short )), _helper, SLOT(start(QHostAddress*, unsigned short)));
+    connect(this, SIGNAL(requetStart(QString, unsigned short )), _helper, SLOT(start(QString, unsigned short)));
     connect(_helper, SIGNAL(MessageReceived(const google::protobuf::MessageLite*)), this, SIGNAL(messageReceived(const google::protobuf::MessageLite*)));
     connect(_helper->_tcps, SIGNAL(connected()), this, SIGNAL(connected()), Qt::DirectConnection);
     connect(_helper->_tcps, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error(QAbstractSocket::SocketError)), Qt::DirectConnection);

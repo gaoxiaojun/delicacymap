@@ -22,7 +22,7 @@ signals:
     void MessageReceived(const google::protobuf::MessageLite*);
 private slots:
     void writeMessage(protorpc::Message* m);
-    void start(QHostAddress *_addr, unsigned short _port);
+    void start(QString _addr, unsigned short _port);
     void readMessage();
 public:
     QTProtobufChannelDriver(QTProtobufChannel* parent, QHash<int,CallEntry> *currentCalls);
