@@ -76,13 +76,6 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(btn_zoomIn, SIGNAL(clicked()), navi, SLOT(zoomIn()));
     connect(btn_zoomOut, SIGNAL(clicked()), navi, SLOT(zoomOut()));
     connect(navi, SIGNAL(boundsChange(const GeoBound&)), &controller, SLOT(MapViewBoundsChange(const GeoBound&)));
-   
-    //ZZQ edited,编辑一个slot,专门用来显示餐厅信息
-    connect(navi,SIGNAL(restaurantMarkerClicked(RestaurantMarkerItem*)),SLOT(RestaurantMarkerResponse(RestaurantMarkerItem*)));
-    connect(navi, SIGNAL(userMarkerClicked(UserMarkerItem*)), SLOT(UserMarkerResponse(UserMarkerItem*)));
-    connect(m_ui->sendButton,SIGNAL(clicked()),this,SLOT(sendDialog()));
-    connect(m_ui->FriendlistWidget,SIGNAL(currentRowChanged(int)),this,SLOT(dialogwith(int)));
-    connect(m_ui->toolButton_Friends,SIGNAL(clicked()),this,SLOT(transToFriend()));
     connect(&controller, SIGNAL(currentLocationUpdate(InaccurateGeoPoint)), navi, SLOT(setSelfLocation(const InaccurateGeoPoint&)));
     connect(&controller, SIGNAL(subscriptionArrived(const ProtocolBuffer::CommentList*)), this, SLOT(showSubscriptionTip(const ProtocolBuffer::CommentList*)));
     connect(&controller, SIGNAL(SysMsgRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*)), this, SLOT(handleRequestRouting(int, const ProtocolBuffer::LocationEx*, const ProtocolBuffer::LocationEx*)));
@@ -113,7 +106,28 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     this->m_ui->stackedWidget->insertWidget(0, navi);
     this->m_ui->stackedWidget->setCurrentWidget(navi);
     this->m_ui->DialogtextEdit->setDisabled(true);
+    //ZZQ edited,编辑一个slot,专门用来显示餐厅信息
+    connect(navi,SIGNAL(restaurantMarkerClicked(RestaurantMarkerItem*)),SLOT(RestaurantMarkerResponse(RestaurantMarkerItem*)));
+    connect(navi, SIGNAL(userMarkerClicked(UserMarkerItem*)), SLOT(UserMarkerResponse(UserMarkerItem*)));
+    connect(m_ui->sendButton,SIGNAL(clicked()),this,SLOT(sendDialog()));
+    connect(m_ui->FriendlistWidget,SIGNAL(currentRowChanged(int)),this,SLOT(dialogwith(int)));
+    connect(m_ui->toolButton_Friends,SIGNAL(clicked()),this,SLOT(transToFriend()));
 
+    int uid;
+    QList<ProtocolBuffer::User*> friendlist=this->getSession()->friends();
+    if(m_ui->FriendlistWidget->count()!=0)
+    {
+        m_ui->FriendlistWidget->clear();
+    }
+    for(int i=0;i<friendlist.count();i++)
+    {
+        uid=friendlist.value(i)->uid();
+        m_ui->FriendlistWidget->addItem(friendlist.value(i)->nickname().c_str());
+        m_ui->FriendlistWidget->setCurrentRow(i);
+        m_ui->FriendlistWidget->currentItem()->setData(Qt::UserRole,uid);
+    }
+    connect(m_ui->FriendlistWidget,SIGNAL(itemDoubleClicked (QListWidgetItem *)),this,SLOT(showFriendsInfo(QListWidgetItem *)));
+    connect(this->getSession(),SIGNAL(userChanged(bool,int)),this,SLOT(FriChanged(bool,int)));   
     if (Configurations::Instance().UI_UseLargeIcon())
     {
         m_ui->toolButton_Friends->setMinimumSize(QSize(64, 64));
@@ -448,7 +462,7 @@ void MainWindow::sendDialog()
     //得到当前聊天的用户
     QString tousrName=m_ui->FriendlistWidget->currentItem()->text();
     QString fromusrName=QString(this->getSession()->getUser()->nickname().c_str());
-    int touid=m_ui->FriendlistWidget->currentItem()->data(Qt::WhatsThisRole).toInt();
+    int touid=m_ui->FriendlistWidget->currentItem()->data(Qt::UserRole).toInt();
     int fromuid=this->getSession()->getUser()->uid();
     //发送消息
     this->getSession()->getDataSource().SendMessage(fromuid,touid,string(message.toUtf8().constData()));
@@ -485,7 +499,7 @@ void MainWindow::HandleUserMessage(const ProtocolBuffer::DMessage* m)
         for(int i=0;i<m_ui->FriendlistWidget->count();i++)
         {
             //如果当前的Item就是发送人
-            if(m_ui->FriendlistWidget->item(i)->data(Qt::WhatsThisRole).toInt()==fromuid)
+            if(m_ui->FriendlistWidget->item(i)->data(Qt::UserRole).toInt()==fromuid)
             {
                 QString fromname=this->m_ui->FriendlistWidget->item(i)->text();
                 m_ui->FriendlistWidget->setCurrentRow(i);
@@ -561,19 +575,7 @@ void MainWindow::findCommentByLink(const QString &link)
 void MainWindow::transToFriend()
 {
     m_ui->stackedWidget->setCurrentIndex(2);
-    m_ui->FriendlistWidget->setCurrentRow(0);
-    int uid;
-    QList<ProtocolBuffer::User*> friendlist=this->getSession()->friends();
-    if(m_ui->FriendlistWidget->count()!=0)
-        m_ui->FriendlistWidget->clear();
-    for(int i=0;i<friendlist.count();i++)
-    {
-        uid=friendlist.value(i)->uid();
-        m_ui->FriendlistWidget->addItem(friendlist.value(i)->nickname().c_str());
-        m_ui->FriendlistWidget->setCurrentRow(i);
-        m_ui->FriendlistWidget->currentItem()->setData(Qt::WhatsThisRole,uid);
-    }
-    connect(m_ui->FriendlistWidget,SIGNAL(itemDoubleClicked (QListWidgetItem *)),this,SLOT(showFriendsInfo(QListWidgetItem *)));
+    //m_ui->FriendlistWidget->setCurrentRow(0);
 }
 
 void MainWindow::startRouting(const ProtocolBuffer::Restaurant *res)
@@ -621,7 +623,7 @@ void MainWindow::drawRoute(QList<GeoPoint>* route)
 }
 void MainWindow::showFriendsInfo(QListWidgetItem* usrname)
 {
-    int uid=usrname->data(Qt::WhatsThisRole).toInt();
+    int uid=usrname->data(Qt::UserRole).toInt();
     ProtocolBuffer::User* u =this->getSession()->getUser(uid);
     string nickname=u->nickname();
     string mail=u->emailaddress();
@@ -630,4 +632,27 @@ void MainWindow::showFriendsInfo(QListWidgetItem* usrname)
     usrForm.setSession(this->getSession());
     usrForm.setusr(uid,nickname.c_str(),mail.c_str(),addtime->c_str());
     usrForm.show();   
+}
+void MainWindow::FriChanged(bool b,int uid)
+{
+    if(b)
+    {
+        const char * name=this->getSession()->getUser(uid)->nickname().c_str();
+        QListWidgetItem * item=new QListWidgetItem(name);
+        item->setData(Qt::UserRole,uid);
+        m_ui->FriendlistWidget->addItem(item);
+    }
+    else
+    {
+        int n=m_ui->FriendlistWidget->count();
+        for(int i=0;i<n;i++)
+        {
+            QListWidgetItem *item=m_ui->FriendlistWidget->item(i);
+            if(item->data(Qt::UserRole).toInt()==uid)
+            {
+                delete item;
+                break;
+            }
+        }
+    }
 }

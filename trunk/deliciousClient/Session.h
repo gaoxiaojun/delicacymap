@@ -46,6 +46,7 @@ public:
     bool isSubscribedToUser(int uid) const;
     bool isSubscribedToRestaurant(int rid) const;
     
+    bool isfriend(int uid);
     void SendRoutingReply( const QList<GeoPoint>& route, int user );
     void SendRoutingRequest( const QString&, const QString&, int user);
     void SendRoutingRequest( const GeoPoint&, const GeoPoint&, int user);
@@ -64,6 +65,7 @@ public slots:
 
 signals:
     void ready(bool);
+    void userChanged(bool,int);  //true代表添加好友，int为uid
 
 protected:
     void timerEvent(QTimerEvent *);
@@ -74,7 +76,7 @@ private slots:
 private:
     void UpdatedUserInfo();
     void FriendsResponse(ProtocolBuffer::UserList*);
-    void GetUserResponse();
+    void GetUserResponse(ProtocolBuffer::User *,UserRelation relation);
     void GetSubscribeUserResponse(ProtocolBuffer::SearchResult*);
     QBasicTimer timer, subscriptionTimer;
     MapDataSource datasource;
