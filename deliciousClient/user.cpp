@@ -36,6 +36,7 @@ void usr::setusr(int _uid,const char * name,const char * mail,const char * addti
     {
         ui->addComment_Button->setVisible(false);
         ui->addFriend_Button->setVisible(false);
+    }
     if(!this->getSession()->isFriend(_uid))
     {
         ui->addComment_Button->setVisible(false);

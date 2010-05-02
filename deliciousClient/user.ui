@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>213</width>
+    <width>215</width>
     <height>117</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>User</string>
+   <string>User Information</string>
   </property>
   <widget class="QPushButton" name="addFriend_Button">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>80</y>
-     <width>80</width>
+     <width>91</width>
      <height>32</height>
     </rect>
    </property>
@@ -29,9 +29,9 @@
   <widget class="QPushButton" name="addComment_Button">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>109</x>
      <y>80</y>
-     <width>80</width>
+     <width>91</width>
      <height>32</height>
     </rect>
    </property>
