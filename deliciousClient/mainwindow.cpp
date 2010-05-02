@@ -287,46 +287,60 @@ void MainWindow::updateGPSInfo_Used(QList<QGeoSatelliteInfo> satellites)
 
 void MainWindow::handleRequestRouting(int uid, const ProtocolBuffer::LocationEx* from, const ProtocolBuffer::LocationEx* to)
 {
-    QMessageBox msgbox;
-    QString text = tr("%1 is asking your help to guide him.").arg(QString::fromUtf8(getSession()->getUser(uid)->nickname().c_str()));
-    QPushButton* googlebutton = msgbox.addButton(QString("google direction"), QMessageBox::AcceptRole);
-    msgbox.setIcon(QMessageBox::Question);
-    msgbox.setText(text);
-    msgbox.setWindowTitle(tr("Routing request"));
-    msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msgbox.setDefaultButton(googlebutton);
-    int ret = msgbox.exec();
-    switch (ret)
+    if (getSession()->getUser(uid))
     {
-    case 0:
-        if (msgbox.clickedButton() == googlebutton)
+        Q_ASSERT(from->has_location_geo() == to->has_location_geo());
+        QMessageBox msgbox;
+        QString text = tr("%1 is asking your help to guide him.").arg(QString::fromUtf8(getSession()->getUser(uid)->nickname().c_str()));
+        QPushButton* googlebutton = msgbox.addButton(QString("google direction"), QMessageBox::AcceptRole);
+        msgbox.setIcon(QMessageBox::Question);
+        msgbox.setText(text);
+        msgbox.setWindowTitle(tr("Routing request"));
+        msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgbox.setDefaultButton(googlebutton);
+        int ret = msgbox.exec();
+        switch (ret)
         {
-            QList<GeoPoint> *result = new QList<GeoPoint>;
-            google::protobuf::Closure* closure = google::protobuf::NewCallback(&controller, &MapController::AddEditingRouteInFavorOf, (const QList<GeoPoint>*)result, uid);
-            if (from->has_location_st())
+        case 0:
+            if (msgbox.clickedButton() == googlebutton)
             {
-                svc->QueryRoute(
+                QList<GeoPoint> *result = new QList<GeoPoint>;
+                google::protobuf::Closure* closure = google::protobuf::NewCallback(&controller, &MapController::AddEditingRouteInFavorOf, (const QList<GeoPoint>*)result, uid);
+                if (from->has_location_st())
+                {
+                    svc->QueryRoute(
                         QString::fromUtf8(from->location_st().c_str(), from->location_st().length()),
                         QString::fromUtf8(to->location_st().c_str(), to->location_st().length()),
                         *result,
                         closure);
-            }
-            else
-            {
-                svc->QueryRoute(
+                }
+                else
+                {
+                    svc->QueryRoute(
                         GeoPoint(from->location_geo().latitude(), from->location_geo().longitude()),
                         GeoPoint(to->location_geo().latitude(), to->location_geo().longitude()),
                         *result,
                         closure);
+                }
             }
+            break;
+        case QMessageBox::Yes:
+            if (from->has_location_st())
+            {
+
+            }
+            else
+            {
+                QList<GeoPoint> *result = new QList<GeoPoint>;
+                result->push_back(GeoPoint(from->location_geo().latitude(), from->location_geo().longitude()));
+                result->push_back(GeoPoint(to->location_geo().latitude(), to->location_geo().longitude()));
+                controller.AddEditingRouteInFavorOf(result, uid);
+            }
+            break;
+        case QMessageBox::No:
+            getSession()->SendRoutingRejection( uid );
+            break;
         }
-        break;
-    case QMessageBox::Yes:
-        // TODO: Create a simple path from source location to target location
-        break;
-    case QMessageBox::No:
-        // TODO: Send back reject message
-        break;
     }
 }
 
@@ -459,7 +473,7 @@ void MainWindow::sendDialog()
     QString message=QString(m_ui->messageLineEdit->text());
     //得到当前聊天的用户
     QString tousrName=m_ui->FriendlistWidget->currentItem()->text();
-    QString fromusrName=QString(this->getSession()->getUser()->nickname().c_str());
+    QString fromusrName=QString::fromUtf8(this->getSession()->getUser()->nickname().c_str());
     int touid=m_ui->FriendlistWidget->currentItem()->data(Qt::UserRole).toInt();
     int fromuid=this->getSession()->getUser()->uid();
     //发送消息
@@ -642,8 +656,8 @@ void MainWindow::FriChanged(bool b,int uid)
     if(b)
     {
         const char * name=this->getSession()->getUser(uid)->nickname().c_str();
-        QListWidgetItem * item=new QListWidgetItem(name);
-        item->setData(Qt::UserRole,uid);
+        QListWidgetItem * item=new QListWidgetItem(QString::fromUtf8(name));
+        item->setData(Qt::UserRole, uid);
         m_ui->FriendlistWidget->addItem(item);
     }
     else

@@ -115,6 +115,16 @@ void MapController::HandleSystemMessages( const ProtocolBuffer::DMessage* msg )
             }
             break;
         case ProtocolBuffer::RejectRouting:
+            if (getSession()->getUser(msg->fromuser()))
+            {
+                QMessageBox msgbox;
+                QString text = tr("%1 rejected your routing request.").arg(QString::fromUtf8(getSession()->getUser(msg->fromuser())->nickname().c_str()));
+                msgbox.setIcon(QMessageBox::Information);
+                msgbox.setText(text);
+                msgbox.setWindowTitle(tr("Routing rejected"));
+                msgbox.setStandardButtons(QMessageBox::Ok);
+                msgbox.exec();
+            }
             break;
         case ProtocolBuffer::UserLocationUpdate:
             {

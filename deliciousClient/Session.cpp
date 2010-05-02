@@ -166,6 +166,17 @@ void Session::FriendsResponse(ProtocolBuffer::UserList* users)
     delete users;
 }
 
+void Session::SendRoutingRejection( int user )
+{
+    ProtocolBuffer::DMessage msg;
+    msg.set_fromuser(getUser()->uid());
+    msg.set_touser(user);
+    msg.set_issystemmessage(true);
+    msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
+    msg.set_systemmessagetype(ProtocolBuffer::RejectRouting);
+    getDataSource().SendMessage(&msg);
+}
+
 void Session::SendRoutingReply( const QList<GeoPoint>& route, int user )
 {
     ProtocolBuffer::Route routereply;

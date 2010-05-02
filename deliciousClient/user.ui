@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>215</width>
-    <height>117</height>
+    <width>220</width>
+    <height>130</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>80</y>
+     <y>90</y>
      <width>91</width>
      <height>32</height>
     </rect>
@@ -29,8 +29,8 @@
   <widget class="QPushButton" name="addComment_Button">
    <property name="geometry">
     <rect>
-     <x>109</x>
-     <y>80</y>
+     <x>120</x>
+     <y>90</y>
      <width>91</width>
      <height>32</height>
     </rect>
@@ -42,10 +42,10 @@
   <widget class="QLabel" name="usrname">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>5</y>
+     <x>110</x>
+     <y>2</y>
      <width>101</width>
-     <height>21</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">
@@ -56,9 +56,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>5</y>
+     <y>2</y>
      <width>61</width>
-     <height>21</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">
@@ -71,7 +71,7 @@
      <x>10</x>
      <y>30</y>
      <width>61</width>
-     <height>21</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">
@@ -81,10 +81,10 @@
   <widget class="QLabel" name="mail">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>110</x>
      <y>30</y>
      <width>101</width>
-     <height>21</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">
@@ -95,9 +95,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>55</y>
+     <y>58</y>
      <width>51</width>
-     <height>21</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">
@@ -107,10 +107,10 @@
   <widget class="QLabel" name="joinTime">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>55</y>
+     <x>110</x>
+     <y>58</y>
      <width>101</width>
-     <height>21</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">

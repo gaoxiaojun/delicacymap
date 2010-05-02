@@ -48,6 +48,7 @@ public:
     
     bool isFriend(int uid);
     void SendRoutingReply( const QList<GeoPoint>& route, int user );
+    void SendRoutingRejection( int user );
     void SendRoutingRequest( const QString&, const QString&, int user);
     void SendRoutingRequest( const GeoPoint&, const GeoPoint&, int user);
     void ShareMyLocationWith( int otherUser );

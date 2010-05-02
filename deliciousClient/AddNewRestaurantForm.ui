@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>141</width>
-     <height>26</height>
+     <height>28</height>
     </rect>
    </property>
   </widget>
@@ -29,7 +29,7 @@
      <x>160</x>
      <y>40</y>
      <width>111</width>
-     <height>25</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="suffix">
@@ -51,7 +51,7 @@
      <x>160</x>
      <y>10</y>
      <width>111</width>
-     <height>26</height>
+     <height>28</height>
     </rect>
    </property>
    <item>
@@ -161,7 +161,7 @@
      <x>10</x>
      <y>40</y>
      <width>141</width>
-     <height>21</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">
