@@ -2,6 +2,7 @@
 #define __MAPDATASOURCE__H__INCLUDED__
 
 #include <QtCore/qobject>
+#include <QAbstractSocket>
 #include <string>
 #include "MapProtocol.pb.h"
 #undef abort
@@ -78,7 +79,7 @@ private slots:
 
     void channel_disconnected();
     void channel_connected();
-    void channel_error();
+    void channel_error(QAbstractSocket::SocketError);
 };
 
 #endif

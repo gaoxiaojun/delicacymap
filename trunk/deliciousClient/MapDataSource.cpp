@@ -7,7 +7,7 @@ MapDataSource::MapDataSource()
 {
     channel = new QTProtobufChannel(QHostAddress(QString::fromStdString(Configurations::Instance().Server_Address())), Configurations::Instance().Server_Port());
     QObject::connect(channel, SIGNAL(connected()), this, SLOT(channel_connected()));
-    QObject::connect(channel, SIGNAL(error()), this, SLOT(channel_error()));
+    QObject::connect(channel, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(channel_error(QAbstractSocket::SocketError)), Qt::DirectConnection);
     QObject::connect(channel, SIGNAL(disconnected()), this, SLOT(channel_disconnected()));
     QObject::connect(channel, SIGNAL(messageReceived(const google::protobuf::MessageLite*)), this, SLOT(emitDMessage(const google::protobuf::MessageLite*)));
 }
@@ -30,8 +30,13 @@ void MapDataSource::channel_disconnected()
     connect();
 }
 
-void MapDataSource::channel_error()
+void MapDataSource::channel_error(QAbstractSocket::SocketError err)
 {
+    if (!channel->started() && 
+        (err==QAbstractSocket::NetworkError || err==QAbstractSocket::ConnectionRefusedError))
+    {
+        QTimer::singleShot(5000, this, SLOT(connect()));
+    }
     emit ready(false);
 }
 void MapDataSource::channel_connected()
