@@ -112,9 +112,11 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     connect(m_ui->sendButton,SIGNAL(clicked()),this,SLOT(sendDialog()));
     connect(m_ui->FriendlistWidget,SIGNAL(currentRowChanged(int)),this,SLOT(dialogwith(int)));
     connect(m_ui->toolButton_Friends,SIGNAL(clicked()),this,SLOT(transToFriend()));
-
+    connect(m_ui->FriendlistWidget,SIGNAL(itemDoubleClicked (QListWidgetItem *)),this,SLOT(showFriendsInfo(QListWidgetItem *)));
+    connect(this->getSession(),SIGNAL(userChanged(bool,int)),this,SLOT(FriChanged(bool,int)));   
+   
     QList<ProtocolBuffer::User*> friendlist=this->getSession()->friends();
-    if(m_ui->FriendlistWidget->count()!=0)
+    if(friendlist.size()!=0)
     {
         m_ui->FriendlistWidget->clear();
         for(int i=0;i<friendlist.count();i++)
@@ -122,9 +124,8 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
             int uid=friendlist.value(i)->uid();
             this->FriChanged(true, uid);
         }
-    }
-    connect(m_ui->FriendlistWidget,SIGNAL(itemDoubleClicked (QListWidgetItem *)),this,SLOT(showFriendsInfo(QListWidgetItem *)));
-    connect(this->getSession(),SIGNAL(userChanged(bool,int)),this,SLOT(FriChanged(bool,int)));   
+    } 
+
     if (Configurations::Instance().UI_UseLargeIcon())
     {
         m_ui->toolButton_Friends->setMinimumSize(QSize(64, 64));
@@ -480,6 +481,10 @@ void MainWindow::dialogwith(const int current)
         m_ui->DialogtextEdit->clear();
         m_ui->DialogtextEdit->setText(m_ui->FriendlistWidget->currentItem()->data(Qt::UserRole + 1).toString());
     }
+    else
+    {
+        m_ui->chatLabel->setText("");
+    }
 }
 
 void MainWindow::HandleUserMessage(const ProtocolBuffer::DMessage* m)
@@ -574,7 +579,7 @@ void MainWindow::findCommentByLink(const QString &link)
 void MainWindow::transToFriend()
 {
     m_ui->stackedWidget->setCurrentIndex(2);
-    //m_ui->FriendlistWidget->setCurrentRow(0);
+    m_ui->FriendlistWidget->setCurrentRow(0);
 }
 
 void MainWindow::startRouting(const ProtocolBuffer::Restaurant *res)

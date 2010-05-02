@@ -32,6 +32,14 @@ Session* usr::getSession()
 
 void usr::setusr(int _uid,const char * name,const char * mail,const char * addtime)
 {
+    if(_uid==this->getSession()->getUser()->uid())
+    {
+        ui->addComment_Button->setVisible(false);
+        ui->addFriend_Button->setVisible(false);
+    if(!this->getSession()->isFriend(_uid))
+    {
+        ui->addComment_Button->setVisible(false);
+    }
     disconnectall();
     uid=_uid;
     ui->usrname->setText(QString::fromUtf8(name));
@@ -41,24 +49,40 @@ void usr::setusr(int _uid,const char * name,const char * mail,const char * addti
     {
         ui->addFriend_Button->setText(tr("Delete friend"));
         connect(ui->addFriend_Button,SIGNAL(clicked()),this,SLOT(deleteFriend()));
+        disconnect(ui->addFriend_Button,SIGNAL(clicked()),this,SLOT(addFriend()));
     }
     else
     {
         ui->addFriend_Button->setText(tr("Add as friend"));
         connect(ui->addFriend_Button,SIGNAL(clicked()),this,SLOT(addFriend()));
+        disconnect(ui->addFriend_Button,SIGNAL(clicked()),this,SLOT(deleteFriend()));
     }
     if(this->getSession()->isSubscribedToUser(uid))
-        ui->addComment_Button->setText(tr("Subscribe"));
-    else
+    {
         ui->addComment_Button->setText(tr("UnSubscribe"));
+        disconnect(ui->addComment_Button,SIGNAL(clicked()),this,SLOT(SubscribeToUser()));
+        connect(ui->addComment_Button,SIGNAL(clicked()),this,SLOT(UnSubscribeToUser()));
+    }
+    else
+    {
+        ui->addComment_Button->setText(tr("Subscribe"));
+        connect(ui->addComment_Button,SIGNAL(clicked()),this,SLOT(SubscribeToUser()));
+        disconnect(ui->addComment_Button,SIGNAL(clicked()),this,SLOT(UnSubscribeToUser()));
+    }
 }
 
+void usr::UnSubscribeToUser()
+{
+    this->getSession()->UnSubscribeFromUser(uid);
+    ui->addComment_Button->setText(tr("Subscribe"));
+    this->close();
+}
 void usr::SubscribeToUser()
 {
     this->getSession()->SubscribeToUser(uid);
     ui->addComment_Button->setText(tr("UnSubscribe"));
+    this->close();
 }
-
 void usr::deleteFriend()
 {
     this->getSession()->setRelationWith(uid,Unspecified);
