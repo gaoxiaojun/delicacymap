@@ -42,9 +42,9 @@
   <widget class="QLabel" name="usrname">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>100</x>
      <y>2</y>
-     <width>101</width>
+     <width>111</width>
      <height>28</height>
     </rect>
    </property>
@@ -57,7 +57,7 @@
     <rect>
      <x>10</x>
      <y>2</y>
-     <width>61</width>
+     <width>71</width>
      <height>28</height>
     </rect>
    </property>
@@ -70,7 +70,7 @@
     <rect>
      <x>10</x>
      <y>30</y>
-     <width>61</width>
+     <width>71</width>
      <height>28</height>
     </rect>
    </property>
@@ -81,9 +81,9 @@
   <widget class="QLabel" name="mail">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>100</x>
      <y>30</y>
-     <width>101</width>
+     <width>111</width>
      <height>28</height>
     </rect>
    </property>
@@ -96,7 +96,7 @@
     <rect>
      <x>10</x>
      <y>58</y>
-     <width>51</width>
+     <width>71</width>
      <height>28</height>
     </rect>
    </property>
@@ -107,9 +107,9 @@
   <widget class="QLabel" name="joinTime">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>100</x>
      <y>58</y>
-     <width>101</width>
+     <width>111</width>
      <height>28</height>
     </rect>
    </property>
