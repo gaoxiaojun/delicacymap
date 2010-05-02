@@ -126,7 +126,7 @@ void UserMarkerItem::paint( QPainter *painter, const QStyleOptionGraphicsItem *,
 QRectF UserMarkerItem::boundingRect() const
 {
     const QPixmap& image = UserIcon();
-    return QRectF(-image.width()/2, -image.height(), image.width(), image.height());
+    return QRectF(-image.width()/2, -image.height()/2, image.width(), image.height());
 }
 
 const QPixmap& UserMarkerItem::defaultUserIcon()

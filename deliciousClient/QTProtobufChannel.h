@@ -56,7 +56,7 @@ protected:
 signals:
     void disconnected();
     void connected();
-    void error();
+    void error(QAbstractSocket::SocketError);
     void messageReceived(const google::protobuf::MessageLite*);
 
     void writeMessage(protorpc::Message* m);

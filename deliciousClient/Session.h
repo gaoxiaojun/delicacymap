@@ -72,7 +72,9 @@ protected:
     void timerEvent(QTimerEvent *);
 
 private slots:
+    void reLogin(bool);
     void handleLocationSharing(const ProtocolBuffer::DMessage*);
+    void continueSubscriptionTimer(const ProtocolBuffer::DMessage*);
 
 private:
     void UpdatedUserInfo();

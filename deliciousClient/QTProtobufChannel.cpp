@@ -79,7 +79,7 @@ void QTProtobufChannel::run()
     connect(this, SIGNAL(requetStart(QHostAddress*, unsigned short )), _helper, SLOT(start(QHostAddress*, unsigned short)));
     connect(_helper, SIGNAL(MessageReceived(const google::protobuf::MessageLite*)), this, SIGNAL(messageReceived(const google::protobuf::MessageLite*)));
     connect(_helper->_tcps, SIGNAL(connected()), this, SIGNAL(connected()), Qt::DirectConnection);
-    connect(_helper->_tcps, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error()), Qt::DirectConnection);
+    connect(_helper->_tcps, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error(QAbstractSocket::SocketError)), Qt::DirectConnection);
     connect(_helper->_tcps, SIGNAL(disconnected()), this, SIGNAL(disconnected()), Qt::DirectConnection);
 
     exec();

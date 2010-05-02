@@ -17,11 +17,12 @@ Session::Session()
     user = new ProtocolBuffer::User();
     network = NULL;
     connect(&getDataSource(), SIGNAL(ready(bool)), this, SIGNAL(ready(bool)), Qt::DirectConnection);
+    connect(&getDataSource(), SIGNAL(ready(bool)), this, SLOT(reLogin(bool)));
     connect(&getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(handleLocationSharing(const ProtocolBuffer::DMessage*)));
+    connect(&getDataSource(), SIGNAL(messageReceived(const ProtocolBuffer::DMessage*)), this, SLOT(continueSubscriptionTimer(const ProtocolBuffer::DMessage*)));
     info_isdirty = false;
     infotoupdate = NULL;
     updatedone = NULL;
-    subscriptionTimer.start(10000, this);
 }
 
 Session::~Session()
@@ -30,6 +31,20 @@ Session::~Session()
     delete user;
     delete infotoupdate;
     delete updatedone;
+}
+
+void invokeWrap(QObject* obj, const char* member)
+{
+    QMetaObject::invokeMethod(obj, member);
+}
+
+void Session::reLogin( bool ready )
+{
+    if (ready && getUser()->has_uid())
+    {
+        google::protobuf::Closure* closure = google::protobuf::NewCallback(&invokeWrap, (QObject*)this, "loginMessenger");
+        getDataSource().UserLogin(getUser()->emailaddress(), getUser()->password(), getUser(), closure);
+    }
 }
 
 MapDataSource& Session::getDataSource()
@@ -93,6 +108,14 @@ void Session::timerEvent( QTimerEvent *ev )
     }
 }
 
+void Session::continueSubscriptionTimer( const ProtocolBuffer::DMessage* msg )
+{
+    if (msg->issystemmessage() && msg->systemmessagetype() == ProtocolBuffer::SubscriptionData)
+    {
+        subscriptionTimer.start(10000, this);
+    }
+}
+
 void Session::UserLocationUpdate( const GeoPoint& p )
 {
     if (getUser()->password().empty())
@@ -152,11 +175,14 @@ void Session::loginMessenger()
         getDataSource().GetRelatedUsers(getUser()->uid(), Friend, users, closure);
         google::protobuf::Closure* Subscribtion = google::protobuf::NewCallback(this, &Session::GetSubscribeUserResponse, subscribes);
         getDataSource().GetSubscribtionInfo(getUser()->uid(), subscribes, Subscribtion);
+        subscriptionTimer.start(10000, this);
     }
 }
 
 void Session::FriendsResponse(ProtocolBuffer::UserList* users)
 {
+    qDeleteAll(myfriends.values());
+    myfriends.clear();
     for (int i=0;i<users->users_size();i++)
     {
         const ProtocolBuffer::User& u = users->users(i);
@@ -310,11 +336,7 @@ void Session::setRelationWith(int uid,UserRelation relation)
 }
 bool Session::isFriend(int uid)
 {
-    QMap<int, ProtocolBuffer::User*>::iterator iter;
-    iter=myfriends.find(uid);
-    if(iter!=myfriends.end())
-        return true;
-    return false;
+    return myfriends.contains(uid);
 }
 void Session::RelationChangeResponse(int uid,UserRelation relation)
 {

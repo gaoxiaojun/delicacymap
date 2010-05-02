@@ -387,6 +387,7 @@ void MainWindow::UserMarkerResponse(UserMarkerItem *userMarker)
     UserInfoForm *item = new UserInfoForm();
     item->setSession(this->getSession());
     item->setLocation(userMarker->getPos());
+    item->setUID(userMarker->userInfo()->uid());
     navi->addBlockingPanel(item, userMarker);
 }
 
