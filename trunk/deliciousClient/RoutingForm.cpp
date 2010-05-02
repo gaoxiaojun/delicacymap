@@ -96,7 +96,7 @@ void RoutingForm::setFriends()
     for(int i=0;i<friendlist.count();i++)
     {
         int uid=friendlist.value(i)->uid();
-        this->ui->direct_comboBox->addItem(friendlist.value(i)->nickname().c_str(),uid);
+        this->ui->direct_comboBox->addItem(QString::fromUtf8(friendlist.value(i)->nickname().c_str()),uid);
     }
     this->ui->direct_comboBox->setCurrentIndex(0);
 }
@@ -141,6 +141,5 @@ void RoutingForm::emitRouting()
     int uid=ui->direct_comboBox->itemData(currentIndex).toInt();
     if(currentIndex==0)  //google 导航
         uid=-1;
-    emit doRoutingRequest(from, to, uid);
     emit doRoutingRequest(from, to, uid);
 }

@@ -96,7 +96,7 @@
       <item row="1" column="1" colspan="2">
        <widget class="QLineEdit" name="lineEdit_password">
         <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
+         <enum>QLineEdit::PasswordEchoOnEdit</enum>
         </property>
        </widget>
       </item>
@@ -171,7 +171,7 @@
      <property name="minimumSize">
       <size>
        <width>270</width>
-       <height>100</height>
+       <height>150</height>
       </size>
      </property>
      <property name="styleSheet">
