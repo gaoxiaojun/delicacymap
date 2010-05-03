@@ -24,6 +24,11 @@ LoginWindow::LoginWindow(void)
         this->dialog->lineEdit_password->setText( QString::fromUtf8(Configurations::Instance().AutoLogin_Password().c_str()) );
         login_step1();
     }
+#if _WIN32_WCE
+    dialog->lineEdit_password->setEchoMode(QLineEdit::PasswordEchoOnEdit);
+#else
+    dialog->lineEdit_password->setEchoMode(QLineEdit::Password);
+#endif
 }
 
 LoginWindow::~LoginWindow(void)
