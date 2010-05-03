@@ -273,6 +273,11 @@
         <translation>未提交的兴趣点！</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="469"/>
+        <source> says:  </source>
+        <translation> 说：</translation>
+    </message>
+    <message>
         <location filename="mainwindow.cpp" line="479"/>
         <source>chatting with %1</source>
         <translation>和%1聊天中...</translation>
@@ -428,6 +433,11 @@
         <source>加入时间：</source>
         <translation type="unfinished"></translation>
     </message>
+    <message utf8="true">
+        <location filename="user.ui" line="130"/>
+        <source>位置共享</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>UserInfoForm</name>
@@ -485,26 +495,38 @@
 <context>
     <name>usr</name>
     <message>
-        <location filename="user.cpp" line="51"/>
-        <location filename="user.cpp" line="97"/>
+        <location filename="user.cpp" line="53"/>
+        <location filename="user.cpp" line="111"/>
         <source>Delete friend</source>
         <translation>删除好友</translation>
     </message>
     <message>
-        <location filename="user.cpp" line="57"/>
-        <location filename="user.cpp" line="90"/>
+        <location filename="user.cpp" line="59"/>
+        <location filename="user.cpp" line="104"/>
         <source>Add as friend</source>
         <translation>添加好友</translation>
     </message>
     <message>
-        <location filename="user.cpp" line="69"/>
-        <location filename="user.cpp" line="78"/>
+        <location filename="user.cpp" line="71"/>
+        <location filename="user.cpp" line="92"/>
         <source>Subscribe</source>
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="user.cpp" line="63"/>
-        <location filename="user.cpp" line="84"/>
+        <location filename="user.cpp" line="77"/>
+        <location filename="user.cpp" line="117"/>
+        <source>UnShareLocation</source>
+        <translation>取消共享</translation>
+    </message>
+    <message>
+        <location filename="user.cpp" line="83"/>
+        <location filename="user.cpp" line="123"/>
+        <source>ShareLocation</source>
+        <translation>位置共享</translation>
+    </message>
+    <message>
+        <location filename="user.cpp" line="65"/>
+        <location filename="user.cpp" line="98"/>
         <source>UnSubscribe</source>
         <translation>取消订阅</translation>
     </message>

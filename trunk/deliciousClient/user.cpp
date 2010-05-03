@@ -13,6 +13,7 @@ void usr:: disconnectall()
     //disconnect(ui->addComment_Button,SIGNAL(clicked()),this,);
     disconnect(ui->addFriend_Button,SIGNAL(clicked()),this,SLOT(addFriend()));
     disconnect(ui->addFriend_Button,SIGNAL(clicked()),this,SLOT(deleteFriend()));
+    disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
 }
 
 usr::~usr()
@@ -36,6 +37,7 @@ void usr::setusr(int _uid,const char * name,const char * mail,const char * addti
     {
         ui->addComment_Button->setVisible(false);
         ui->addFriend_Button->setVisible(false);
+        ui->locationShare_Button->setVisible(false);
     }
     if(!this->getSession()->isFriend(_uid))
     {
@@ -70,6 +72,18 @@ void usr::setusr(int _uid,const char * name,const char * mail,const char * addti
         connect(ui->addComment_Button,SIGNAL(clicked()),this,SLOT(SubscribeToUser()));
         disconnect(ui->addComment_Button,SIGNAL(clicked()),this,SLOT(UnSubscribeToUser()));
     }
+    if(this->getSession()->isSharingLocationWith(uid))
+    {
+        ui->locationShare_Button->setText(tr("UnShareLocation"));
+        disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
+        connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(nShareLocation()));
+    }
+    else
+    {
+        ui->locationShare_Button->setText(tr("ShareLocation"));
+        connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
+        disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(nShareLocation()));
+    }
 }
 
 void usr::UnSubscribeToUser()
@@ -95,5 +109,17 @@ void usr::addFriend()
 {
     this->getSession()->setRelationWith(uid,Friend);
     ui->addFriend_Button->setText(tr("Delete friend"));
+    this->close();
+}
+void usr::ShareLocation()
+{
+    this->getSession()->ShareMyLocationWith(uid);
+    ui->locationShare_Button->setText(tr("UnShareLocation"));
+    this->close();
+}
+void usr::nShareLocation()
+{
+    this->getSession()->UnShareMyLocationWith(uid);   
+    ui->locationShare_Button->setText(tr("ShareLocation"));
     this->close();
 }
