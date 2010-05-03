@@ -14,12 +14,15 @@ using namespace ProtocolBuffer;
 
 //deliciousDataAdapter* deliciousDataAdapter::_single = NULL;
 std::string deliciousDataAdapter::dbpath;
-DBContext* deliciousDataAdapter::dbconn;
+//DBContext* deliciousDataAdapter::dbconn;
 
 deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
 {
     try
     {
+        dbconn = new DBContext(connstr); 
+        DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
+        dbconn->Free(&ret);
         prepared_GetUserByUID = NULL;
         prepared_Message = NULL;
         prepared_RestaurantWithinBound = NULL;
@@ -168,9 +171,6 @@ void deliciousDataAdapter::Initialize(const string& dbfile)
 {
     //_single = new deliciousDataAdapter(dbfile);
     dbpath = dbfile;
-    dbconn = new DBContext(dbfile); 
-    DBResult *ret = dbconn->Execute("PRAGMA foreign_keys = true");
-    dbconn->Free(&ret);
 }
 
 DBResultWrap::DBResultWrap( DBResult* result, DBContext* context )
