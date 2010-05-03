@@ -73,6 +73,19 @@ void usr::setusr(int _uid,const char * name,const char * mail,const char * addti
         connect(ui->addComment_Button,SIGNAL(clicked()),this,SLOT(SubscribeToUser()));
         disconnect(ui->addComment_Button,SIGNAL(clicked()),this,SLOT(UnSubscribeToUser()));
     }
+    if(this->getSession()->isISharingLocationWith(uid))
+    {
+        ui->locationShare_Button->setText(tr("UnShareLocation"));
+        disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
+        connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(nShareLocation()));
+    }
+    else
+    {
+        ui->locationShare_Button->setText(tr("ShareLocation"));
+        connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
+        disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(nShareLocation()));
+    }
+
 }
 
 void usr::UnSubscribeToUser()
@@ -103,16 +116,10 @@ void usr::addFriend()
 void usr::ShareLocation()
 {
     this->getSession()->ShareMyLocationWith(uid);
-    ui->locationShare_Button->setText(tr("UnShareLocation"));
-    disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
-    connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(nShareLocation()));
     this->close();
 }
 void usr::nShareLocation()
 {
     this->getSession()->UnShareMyLocationWith(uid);   
-    ui->locationShare_Button->setText(tr("ShareLocation"));
-    connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
-    disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(nShareLocation()));
     this->close();
 }

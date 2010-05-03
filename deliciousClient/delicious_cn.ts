@@ -233,72 +233,72 @@
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="291"/>
+        <location filename="mainwindow.cpp" line="294"/>
         <source>%1 is asking your help to guide him.</source>
         <translation>%1希望请你帮助他指引一条路径.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="295"/>
+        <location filename="mainwindow.cpp" line="298"/>
         <source>Routing request</source>
         <translation>导航请求</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="336"/>
+        <location filename="mainwindow.cpp" line="350"/>
         <source>Show %1 routing result?</source>
         <translation>显示%1为您导航的结果么?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="339"/>
+        <location filename="mainwindow.cpp" line="353"/>
         <source>Routing reply</source>
         <translation>导航结果</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="396"/>
+        <location filename="mainwindow.cpp" line="411"/>
         <source>Do you want to continue? Coninueing will discard this marker.</source>
         <translation>确定要继续并吗？此餐厅的信息将丢失。</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="397"/>
+        <location filename="mainwindow.cpp" line="412"/>
         <source>Restautant without a name</source>
         <translation>未命名的餐厅</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="431"/>
+        <location filename="mainwindow.cpp" line="446"/>
         <source>Do you want to discard all previous work?</source>
         <translation>您确定要丢弃未保存的兴趣点信息？</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="432"/>
+        <location filename="mainwindow.cpp" line="447"/>
         <source>Unsaved local markers.</source>
         <translation>未提交的兴趣点！</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="469"/>
+        <location filename="mainwindow.cpp" line="484"/>
         <source> says:  </source>
         <translation> 说：</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="479"/>
+        <location filename="mainwindow.cpp" line="494"/>
         <source>chatting with %1</source>
         <translation>和%1聊天中...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="511"/>
+        <location filename="mainwindow.cpp" line="526"/>
         <source> say : </source>
         <translation> 说: </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="527"/>
+        <location filename="mainwindow.cpp" line="542"/>
         <source>&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt; has posted a new comment on &lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;.</source>
         <translation>&lt;a href=&apos;restaurant_click#%4&apos;&gt;%2&lt;/a&gt;有一条&lt;a href=&apos;user_click#%3&apos;&gt;%1&lt;/a&gt;发布的新评论.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="528"/>
+        <location filename="mainwindow.cpp" line="543"/>
         <source>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt; has posted a new comment.</source>
         <translation>&lt;a href=&apos;user_click#%2&apos;&gt;%1&lt;/a&gt;提交了一条新评论.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="529"/>
+        <location filename="mainwindow.cpp" line="544"/>
         <source>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt; has a new comment.</source>
         <translation>&lt;a href=&apos;restaurant_click#%2&apos;&gt;%1&lt;/a&gt;有一条新评论.</translation>
     </message>
@@ -306,7 +306,17 @@
 <context>
     <name>MapController</name>
     <message>
-        <location filename="MapController.cpp" line="160"/>
+        <location filename="MapController.cpp" line="121"/>
+        <source>%1 rejected your routing request.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MapController.cpp" line="124"/>
+        <source>Routing rejected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MapController.cpp" line="170"/>
         <source>Do you want to send this route back to %1?</source>
         <oldsource>Do you want to send this route back to %1?.</oldsource>
         <translation>你希望把导航的结果返回给%1吗?</translation>
@@ -496,37 +506,36 @@
     <name>usr</name>
     <message>
         <location filename="user.cpp" line="53"/>
-        <location filename="user.cpp" line="111"/>
+        <location filename="user.cpp" line="112"/>
         <source>Delete friend</source>
         <translation>删除好友</translation>
     </message>
     <message>
         <location filename="user.cpp" line="59"/>
-        <location filename="user.cpp" line="104"/>
+        <location filename="user.cpp" line="105"/>
         <source>Add as friend</source>
         <translation>添加好友</translation>
     </message>
     <message>
         <location filename="user.cpp" line="71"/>
-        <location filename="user.cpp" line="92"/>
+        <location filename="user.cpp" line="93"/>
         <source>Subscribe</source>
         <translation>订阅</translation>
     </message>
     <message>
         <location filename="user.cpp" line="77"/>
-        <location filename="user.cpp" line="117"/>
         <source>UnShareLocation</source>
         <translation>取消共享</translation>
     </message>
     <message>
+        <location filename="user.cpp" line="10"/>
         <location filename="user.cpp" line="83"/>
-        <location filename="user.cpp" line="123"/>
         <source>ShareLocation</source>
         <translation>位置共享</translation>
     </message>
     <message>
         <location filename="user.cpp" line="65"/>
-        <location filename="user.cpp" line="98"/>
+        <location filename="user.cpp" line="99"/>
         <source>UnSubscribe</source>
         <translation>取消订阅</translation>
     </message>
