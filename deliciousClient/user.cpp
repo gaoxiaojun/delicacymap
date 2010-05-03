@@ -6,14 +6,14 @@ usr::usr(QWidget *parent, Qt::WFlags flags)
     : QWidget(parent, flags),ui(new Ui::UserClass)
 {
     ui->setupUi(this);
-    //disconnectall();
+    connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
+    ui->locationShare_Button->setText(tr("ShareLocation"));
 }
 void usr:: disconnectall()
 {
     //disconnect(ui->addComment_Button,SIGNAL(clicked()),this,);
     disconnect(ui->addFriend_Button,SIGNAL(clicked()),this,SLOT(addFriend()));
     disconnect(ui->addFriend_Button,SIGNAL(clicked()),this,SLOT(deleteFriend()));
-    disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
 }
 
 usr::~usr()
@@ -72,18 +72,6 @@ void usr::setusr(int _uid,const char * name,const char * mail,const char * addti
         connect(ui->addComment_Button,SIGNAL(clicked()),this,SLOT(SubscribeToUser()));
         disconnect(ui->addComment_Button,SIGNAL(clicked()),this,SLOT(UnSubscribeToUser()));
     }
-    if(this->getSession()->isSharingLocationWith(uid))
-    {
-        ui->locationShare_Button->setText(tr("UnShareLocation"));
-        disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
-        connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(nShareLocation()));
-    }
-    else
-    {
-        ui->locationShare_Button->setText(tr("ShareLocation"));
-        connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
-        disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(nShareLocation()));
-    }
 }
 
 void usr::UnSubscribeToUser()
@@ -115,11 +103,15 @@ void usr::ShareLocation()
 {
     this->getSession()->ShareMyLocationWith(uid);
     ui->locationShare_Button->setText(tr("UnShareLocation"));
+    disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
+    connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(nShareLocation()));
     this->close();
 }
 void usr::nShareLocation()
 {
     this->getSession()->UnShareMyLocationWith(uid);   
     ui->locationShare_Button->setText(tr("ShareLocation"));
+    connect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(ShareLocation()));
+    disconnect(ui->locationShare_Button,SIGNAL(clicked()),this,SLOT(nShareLocation()));
     this->close();
 }

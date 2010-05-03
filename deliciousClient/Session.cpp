@@ -262,7 +262,6 @@ void Session::ShareMyLocationWith( int otherUser )
     msg.set_issystemmessage(true);
     msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
     msg.set_systemmessagetype(ProtocolBuffer::ShareLocationWith);
-    userSharingLocationWithMe.insert(otherUser);
     getDataSource().SendMessage(&msg);
 }
 void Session::UnShareMyLocationWith( int otherUser )
@@ -273,7 +272,6 @@ void Session::UnShareMyLocationWith( int otherUser )
     msg.set_issystemmessage(true);
     msg.set_msgid(-1); // msgid is not set by user code. this is only to satisfy protocol buffer 
     msg.set_systemmessagetype(ProtocolBuffer::StopShareLocationWith);
-    userSharingLocationWithMe.remove(otherUser);
     getDataSource().SendMessage(&msg);
 }
 void Session::SubscribeToUser( int otherUser )
