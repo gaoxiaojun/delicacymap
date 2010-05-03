@@ -510,7 +510,6 @@ const DBResultWrap deliciousDataAdapter::SearchUser( const std::string& text )
     prepared_SearchUsers->reset();
     prepared_SearchUsers->bindParameter(1, clause);
     return DBResultWrap(dbconn->Execute(prepared_SearchUsers), dbconn);
-    return DBResultWrap(NULL, dbconn);
 }
 
 const DBResultWrap deliciousDataAdapter::GetSubscribedUserBy( int uid )
