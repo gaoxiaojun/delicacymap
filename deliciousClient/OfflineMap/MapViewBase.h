@@ -27,6 +27,8 @@ namespace ProtocolBuffer{
 class MapViewBase: public QGraphicsView{
     Q_OBJECT
 public:
+    enum SceneLayers { RouteLayer=0, UserLayer, MarkerLayer, PanelLayer, TipLayer};
+public:
     MapViewBase(QWidget *parent = 0);
     ~MapViewBase();
     QSize sizeHint() const;

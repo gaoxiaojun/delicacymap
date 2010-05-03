@@ -30,8 +30,7 @@ Messenger::Messenger(boost::asio::io_service& _io)
 :ios(_io), msgExpireTimer(_io), msgSendTimer(_io)
 {
     // when we start, we need to get all the messages from db
-    dataadapter = deliciousDataAdapter::NewInstance();
-    dataadapter->RetrieveAllNonDeliveredMessages( boost::bind(&Messenger::GetMessageCallback, this, _1));
+    deliciousDataAdapter::GetInstance()->RetrieveAllNonDeliveredMessages( boost::bind(&Messenger::GetMessageCallback, this, _1));
 }
 
 void Messenger::Initialize( boost::asio::io_service &io )
@@ -48,7 +47,6 @@ Messenger::~Messenger(void)
 {
     msgSendTimer.cancel();
     msgExpireTimer.cancel();
-    delete dataadapter;
 }
 
 void Messenger::GetMessageCallback( const DBRow& row )
@@ -97,6 +95,7 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
 {
     assert ( msg->issystemmessage() );
     bool handled = false;
+    deliciousDataAdapter* dataadapter = deliciousDataAdapter::GetInstance();
     switch (msg->systemmessagetype())
     {
     case ProtocolBuffer::ShareLocationWith:
@@ -203,9 +202,9 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
         tm expiretime = {0};
         expiretime.tm_min = msg->issystemmessage() && msg->systemmessagetype() == ProtocolBuffer::UserLocationUpdate ? 1 : 5; // Don't propagate location update when we restart.
 
-        if (!msg->issystemmessage() || msg->systemmessagetype() != ProtocolBuffer::RequestSubscriptionUpdate)
+        if (!msg->issystemmessage() || (msg->systemmessagetype() != ProtocolBuffer::RequestSubscriptionUpdate && msg->systemmessagetype() != ProtocolBuffer::SubscriptionData))
         {
-            size_t msgid = dataadapter->AddMessagesToDB( 
+            size_t msgid = deliciousDataAdapter::GetInstance()->AddMessagesToDB( 
                 msg->fromuser(),
                 msg->touser(),
                 msg->issystemmessage() ? msg->systemmessagetype() : 0,
@@ -221,9 +220,12 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
             newmsg->AddTime = second_clock::universal_time();
             newmsg->ExpireTime = second_clock::universal_time() + time_duration(expiretime.tm_hour, expiretime.tm_min, expiretime.tm_sec);
 
-            scoped_lock<MutexType> lock(pool_mutex);
+            if (msg->msgid() != -1)
+            {
+                scoped_lock<MutexType> lock(pool_mutex);
+                msgpool.insert(newmsg);
+            }
             scoped_lock<MutexType> lockusr(usr_mutex);
-            msgpool.insert(newmsg);
             if (liveUsers.find(msg->touser()) != liveUsers.end())
                 liveUsers[msg->touser()].usrMessages.push(newmsg);
         }
@@ -275,7 +277,7 @@ void Messenger::SignOffUser( int uid )
                 newmsg->set_systemmessagetype(ProtocolBuffer::StopShareLocationWith);
                 newmsg->AddTime = second_clock::universal_time();
                 newmsg->ExpireTime = second_clock::universal_time() + time_duration(expiretime.tm_hour, expiretime.tm_min, expiretime.tm_sec);
-                size_t msgid = dataadapter->AddMessagesToDB( 
+                size_t msgid = deliciousDataAdapter::GetInstance()->AddMessagesToDB( 
                     newmsg->fromuser(),
                     newmsg->touser(),
                     ProtocolBuffer::StopShareLocationWith,
@@ -335,6 +337,9 @@ void Messenger::MessageConfirmedRecieved(::google::protobuf::uint32 msgid)
 {
     typedef MessagesContainer::index<message_hash_msgid_tag>::type hash_by_msgid;
 
+    if (msgid == -1)
+        return;
+
     try
     {
         {
@@ -342,12 +347,12 @@ void Messenger::MessageConfirmedRecieved(::google::protobuf::uint32 msgid)
             hash_by_msgid& view = msgpool.get<message_hash_msgid_tag>();
             view.erase(msgid);
         }
-        dataadapter->ConfirmMessageDelivered( msgid );
+        deliciousDataAdapter::GetInstance()->ConfirmMessageDelivered( msgid );
         // msg found
     }
-    catch (std::exception* e)
+    catch (const std::exception& e)
     {
-        pantheios::log_WARNING("Error confirming message is delivered(msgid=", pantheios::integer(msgid), "). Error Msg:", e->what());
+        pantheios::log_WARNING("Error confirming message is delivered(msgid=", pantheios::integer(msgid), "). Error Msg:", e.what());
     }
 }
 

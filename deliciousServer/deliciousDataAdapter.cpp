@@ -14,6 +14,7 @@ using namespace ProtocolBuffer;
 
 //deliciousDataAdapter* deliciousDataAdapter::_single = NULL;
 std::string deliciousDataAdapter::dbpath;
+boost::thread_specific_ptr<deliciousDataAdapter> deliciousDataAdapter::_instancePerThread;
 //DBContext* deliciousDataAdapter::dbconn;
 
 deliciousDataAdapter::deliciousDataAdapter(const std::string& connstr)
@@ -159,12 +160,16 @@ deliciousDataAdapter::~deliciousDataAdapter(void)
     delete prepared_RegisterUser;
 }
 
-deliciousDataAdapter* deliciousDataAdapter::NewInstance()
+deliciousDataAdapter* deliciousDataAdapter::GetInstance()
 {
 //     if (!_single)
 //         Initialize("delicacyDB.db3"); //TODO: give more rational solution.
 //     return _single;
-    return new deliciousDataAdapter(dbpath);
+    if (!_instancePerThread.get())
+    {
+        _instancePerThread.reset(new deliciousDataAdapter(dbpath));
+    }
+    return _instancePerThread.get();
 }
 
 void deliciousDataAdapter::Initialize(const string& dbfile)
@@ -340,10 +345,10 @@ const DBResultWrap deliciousDataAdapter::PostCommentForRestaurant( int rid, int 
         prepared_InsertComment->bindParameter(5);
     else
         prepared_InsertComment->bindParameter(5, *image);
-    dbconn->BeginTransaction();
+
     dbconn->Execute(prepared_InsertComment);
     DBResultWrap result( dbconn->Execute("SELECT * FROM Comments NATURAL INNER JOIN Users WHERE Comments.rowid = last_insert_rowid();"), dbconn );
-    dbconn->EndTransaction();
+
     return result;
 }
 
@@ -458,18 +463,31 @@ const DBResultWrap deliciousDataAdapter::AddRestaurant( const std::string& rname
     prepared_AddRestaurant->bindParameter(4, averageExpense);
 
     type = type >= 0 ? type : 0;
-    type = type < 14 ? type : 0; // hard code this for now
+    type = type < 20 ? type : 0; // hard code this for now
     prepared_InsertRelationRestaurantType->reset();
     prepared_InsertRelationRestaurantType->bindParameter(2, type);
 
-    dbconn->BeginTransaction();
-    dbconn->Execute(prepared_AddRestaurant);
-    DBResultWrap result(dbconn->Execute("SELECT Restaurants.* FROM Restaurants WHERE Restaurants.rowid = last_insert_rowid();"), dbconn);
-    prepared_InsertRelationRestaurantType->bindParameter(1, result.getResult()->GetRow(0).GetValueAs<int>("RID"));
-    dbconn->Execute(prepared_InsertRelationRestaurantType);
-    dbconn->EndTransaction();
+    bool success = false;
+    while (!success)
+    {
+        try
+        {
+            dbconn->BeginTransaction();
+            dbconn->Execute(prepared_AddRestaurant);
+            DBResultWrap result(dbconn->Execute("SELECT Restaurants.* FROM Restaurants WHERE Restaurants.rowid = last_insert_rowid();"), dbconn);
+            prepared_InsertRelationRestaurantType->bindParameter(1, result.getResult()->GetRow(0).GetValueAs<int>("RID"));
+            dbconn->Execute(prepared_InsertRelationRestaurantType);
+            dbconn->Commit();
+            success = true;
+            return result;
+        }
+        catch (const DBexception& e)
+        {
+            dbconn->Rollback();
+        }
+    }
 
-    return result;
+    return DBResultWrap(NULL, dbconn);
 }
 
 const DBResultWrap deliciousDataAdapter::SearchRestaurant( const std::string& text )
@@ -609,10 +627,8 @@ size_t deliciousDataAdapter::AddMessagesToDB( int from_uid, int to_uid, int mess
     prepared_Message->bindParameter(3, messageType);
     prepared_Message->bindParameter(4, text);
 
-    dbconn->BeginTransaction();
     dbconn->Execute(prepared_Message);
     DBResultWrap result(dbconn->Execute("SELECT msgid FROM Messages WHERE Messages.rowid = last_insert_rowid();"), dbconn);
-    dbconn->EndTransaction();
 
     return result.getResult()->GetRow(0).GetValueAs<unsigned int>("MSGID");
 }
@@ -624,14 +640,12 @@ const DBResultWrap deliciousDataAdapter::GetSubscriptionForUserSinceLastUpdate( 
     prepared_Subscription->reset();
     prepared_Subscription->bindParameter(1, uid);
 
-    dbconn->BeginTransaction();
     DBResultWrap result(dbconn->Execute(prepared_Subscription), dbconn);
 
     char update[100];
     sprintf_s(update, sizeof(update), "UPDATE Users SET SubscriptionCheckTime=datetime(\"now\") WHERE UID=%d;", uid);
 
     dbconn->Execute(update);
-    dbconn->EndTransaction();
 
     return result;
 }
