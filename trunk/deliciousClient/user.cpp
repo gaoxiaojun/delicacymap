@@ -42,6 +42,7 @@ void usr::setusr(int _uid,const char * name,const char * mail,const char * addti
     if(!this->getSession()->isFriend(_uid))
     {
         ui->addComment_Button->setVisible(false);
+        ui->locationShare_Button->setVisible(false);
     }
     disconnectall();
     uid=_uid;

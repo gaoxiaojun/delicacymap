@@ -336,7 +336,7 @@ background-color: rgba(255, 255, 255, 200);
           <item>
            <widget class="QTextEdit" name="DialogtextEdit">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>

@@ -224,7 +224,8 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
             scoped_lock<MutexType> lock(pool_mutex);
             scoped_lock<MutexType> lockusr(usr_mutex);
             msgpool.insert(newmsg);
-            liveUsers[msg->touser()].usrMessages.push(newmsg);
+            if (liveUsers.find(msg->touser()) != liveUsers.end())
+                liveUsers[msg->touser()].usrMessages.push(newmsg);
         }
     }
     catch (const std::exception& e)
@@ -242,6 +243,7 @@ bool Messenger::RegisterUserOnConnection( int uid, UserControlBlock::SenderFunct
     hash_touid &userMessages = msgpool.get<message_ordered_touid_tag>();
     if (liveUsers.find(uid) == liveUsers.end())
     {
+        pantheios::log_NOTICE("User ", pantheios::integer(uid), " loged on.");
         UserControlBlock &usr = liveUsers[uid];
         usr.uid = uid;
         usr.senderFunction = f;
@@ -257,6 +259,32 @@ bool Messenger::RegisterUserOnConnection( int uid, UserControlBlock::SenderFunct
 void Messenger::SignOffUser( int uid )
 {
     scoped_lock<MutexType> lock(usr_mutex);
+    if (liveUsers.find(uid) != liveUsers.end())
+    {
+        pantheios::log_NOTICE("User ", pantheios::integer(uid), " loging off.");
+        tm expiretime = {0};
+        expiretime.tm_min = 5;
+        BOOST_FOREACH( int otherUser, liveUsers[uid].shareLocationWith )
+            if (liveUsers.find(otherUser) != liveUsers.end())
+            {
+                pantheios::log_INFORMATIONAL("User ", pantheios::integer(uid), "Stopped sharing location with user ", pantheios::integer(otherUser), " due to log off.");
+                std::tr1::shared_ptr<DMessageWrap> newmsg(new DMessageWrap);
+                newmsg->set_fromuser(uid);
+                newmsg->set_touser(otherUser);
+                newmsg->set_issystemmessage(true);
+                newmsg->set_systemmessagetype(ProtocolBuffer::StopShareLocationWith);
+                newmsg->AddTime = second_clock::universal_time();
+                newmsg->ExpireTime = second_clock::universal_time() + time_duration(expiretime.tm_hour, expiretime.tm_min, expiretime.tm_sec);
+                size_t msgid = dataadapter->AddMessagesToDB( 
+                    newmsg->fromuser(),
+                    newmsg->touser(),
+                    ProtocolBuffer::StopShareLocationWith,
+                    "",
+                    expiretime);
+                newmsg->set_msgid(msgid);
+                liveUsers[otherUser].usrMessages.push(newmsg);
+            }
+    }
     liveUsers.erase(uid);
 }
 

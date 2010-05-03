@@ -110,5 +110,5 @@ private://data
     DBPrepared* prepared_Login, *prepared_InsertComment, *prepared_AddRestaurant, *prepared_SearchRestaurants, *prepared_Subscription;
     DBPrepared* prepared_SearchUsers, *prepared_UpdateUserSubscription, *prepared_UpdateRestaurantSubscription, *prepared_InsertRelationRestaurantType;
     DBPrepared* prepared_SubscribtionUser, *prepared_SubscribtionRestaurant, *prepared_GetUserByEmail, *prepared_RegisterUser;
-    static DBContext *dbconn;
+    DBContext *dbconn;
 };
