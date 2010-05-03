@@ -89,7 +89,7 @@ void RestaurantInfoForm::UIAnimation_ShowComments(bool show)
 {
     if (show == commentsShown)
         return;
-    HideWidget(ui->listComment, show);
+    HideWidget(ui->listComment, !show);
     if (!commentsShown)
     {
         ui->listComment->move(0, ui->btnShow->geometry().bottom() + WidgetMargin);
@@ -132,8 +132,8 @@ void RestaurantInfoForm::UIAnimation_ShowAdd(bool show)
 {
     if (show == addShown)
         return;
-    HideWidget(ui->btnCommit, show);
-    HideWidget(ui->txtComment, show);
+    HideWidget(ui->btnCommit, !show);
+    HideWidget(ui->txtComment, !show);
     if (!commentsShown)
     {
         if (!addShown)

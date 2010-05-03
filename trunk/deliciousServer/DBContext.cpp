@@ -4,6 +4,7 @@
 #include "DBPrepared.h"
 #include "sqlite3.h"
 
+#include <boost/thread/thread.hpp>
 #include <exception>
 
 using namespace std;
@@ -12,7 +13,9 @@ DBContext::DBContext(const std::string& connstr)
 {
     try
     {
-        int err = sqlite3_open_v2(connstr.c_str(), &db, SQLITE_OPEN_READWRITE, NULL);
+        int err = sqlite3_open_v2(connstr.c_str(), &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX, NULL);
+//         isInTransaction = false;
+//         isCommit = false;
         if (!db)
             throw DBexception("Error allocating memory for db handle");
         else if (err != SQLITE_OK)
@@ -55,7 +58,13 @@ DBResult* DBContext::Execute( const std::string &sql )
 {
     DBResult *result = new DBResult();
     char* errmsg;
-    int err = sqlite3_exec(db, sql.c_str(), sqlexeccallback, result, &errmsg);
+    int err = SQLITE_OK;
+    int retryCount = 20;
+    do {
+        err = sqlite3_exec(db, sql.c_str(), sqlexeccallback, result, &errmsg);
+        if (err == SQLITE_BUSY)
+            boost::thread::yield();
+    }while (err == SQLITE_BUSY && retryCount-- > 0);
     if (err != SQLITE_OK)
     {
         const DBexception &e = DBexception(errmsg, err);
@@ -72,7 +81,13 @@ DBResult* DBContext::Execute( DBPrepared* stmt )
     DBResult *result = NULL;
     if (stmt && stmt->isValid())
     {
-        int returncode = sqlite3_step(stmt->stmt);
+        int returncode = SQLITE_DONE;
+        int retryCount = /*(!isInTransaction || isCommit) ? 20 :*/ 20;
+        do{
+            returncode = sqlite3_step(stmt->stmt);
+            if (returncode == SQLITE_BUSY)
+                boost::thread::yield();
+        }while (returncode == SQLITE_BUSY && retryCount-- > 0);
         if ( returncode == SQLITE_ROW)
         {
             // this is the case where we need to return data
@@ -100,6 +115,8 @@ DBResult* DBContext::Execute( DBPrepared* stmt )
         else
         {
             pantheios::log_WARNING("Execute prepared statement failed, ", sqlite3_errmsg(db), ". error code: ", pantheios::integer(returncode));
+            const DBexception &e = DBexception(sqlite3_errmsg(db), returncode);
+            throw e;
         }
     }
     return result;
@@ -119,11 +136,23 @@ DBPrepared* DBContext::NewPreparedStatement( const std::string& sql )
 void DBContext::BeginTransaction()
 {
     static std::string beginTransaction("BEGIN TRANSACTION;");
+    /*isInTransaction = true;*/
     Execute(beginTransaction);
 }
 
-void DBContext::EndTransaction()
+void DBContext::Commit()
 {
     static std::string endTransaction("END TRANSACTION;");
+    /*isCommit = true;*/
     Execute(endTransaction);
+//     isCommit = false;
+//     isInTransaction = false;
+}
+
+void DBContext::Rollback()
+{
+    static std::string rollback("ROLLBACK TRANSACTION;");
+//     isInTransaction = false;
+//     isCommit = false;
+    Execute(rollback);
 }

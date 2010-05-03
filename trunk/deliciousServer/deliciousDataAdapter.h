@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <boost/function.hpp>
+#include <boost/thread/tss.hpp>
 #include "MapProtocol.pb.h"
 
 class DBContext;
@@ -34,7 +35,7 @@ public://destructor
     ~deliciousDataAdapter(void);
 
 public://singleton impl
-    static deliciousDataAdapter* NewInstance();
+    static deliciousDataAdapter* GetInstance();
 	static void Initialize(const std::string& connstr);
 public://DB methods
 
@@ -104,6 +105,7 @@ private://methods
 private://data
     //static deliciousDataAdapter* _single;
     static std::string dbpath;
+    static boost::thread_specific_ptr<deliciousDataAdapter> _instancePerThread;
 
     // prepared statements
     DBPrepared* prepared_Message, *prepared_RestaurantWithinBound, *prepared_ConfirmMessage, *prepared_GetUserByUID, *prepared_GetCommentsOfRest_N;

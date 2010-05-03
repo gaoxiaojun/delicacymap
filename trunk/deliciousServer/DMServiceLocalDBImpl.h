@@ -84,6 +84,5 @@ private://callbacks
     void GetCommentsCallback( const DBRow& row, ProtocolBuffer::CommentList* result );
     void GetUsersCallback( const DBRow& row, ProtocolBuffer::UserList* result);
 private:
-    deliciousDataAdapter* adapter;
     google::protobuf::RpcController* controller;
 };

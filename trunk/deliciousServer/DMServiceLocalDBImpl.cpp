@@ -13,13 +13,11 @@ using namespace boost;
 
 DMServiceLocalDBImpl::DMServiceLocalDBImpl(google::protobuf::RpcController* controller)
 {
-    adapter = deliciousDataAdapter::NewInstance();
     this->controller = controller;
 }
 
 DMServiceLocalDBImpl::~DMServiceLocalDBImpl(void)
 {
-    delete adapter;
 }
 
 void DMServiceLocalDBImpl::CallMethod( protorpc::FunctionID method_id, google::protobuf::RpcController* controller, const google::protobuf::MessageLite* request, google::protobuf::MessageLite* response, google::protobuf::Closure* done )
@@ -127,7 +125,7 @@ void DMServiceLocalDBImpl::GetRestaurants( ::google::protobuf::RpcController* co
     {
         try
         {
-            adapter->QueryRestaurantWithinLocation(
+            deliciousDataAdapter::GetInstance()->QueryRestaurantWithinLocation(
                 request->area().southwest().longitude(),
                 request->area().southwest().latitude(),
                 request->area().northeast().longitude(),
@@ -155,7 +153,7 @@ void DMServiceLocalDBImpl::GetLastestCommentsOfRestaurant( ::google::protobuf::R
 {
     if (request->has_rid() && request->has_n())
     {
-        adapter->QueryLatestCommentsOfRestaurant(
+        deliciousDataAdapter::GetInstance()->QueryLatestCommentsOfRestaurant(
             request->rid(),
             request->n(),
             bind(&DMServiceLocalDBImpl::GetCommentsCallback, this, _1, response));
@@ -175,7 +173,7 @@ void DMServiceLocalDBImpl::GetCommentsOfRestaurantSince( ::google::protobuf::Rpc
 {
     if (request->has_rid() && request->has_time())
     {
-        adapter->QueryCommentsOfRestaurantSince(
+        deliciousDataAdapter::GetInstance()->QueryCommentsOfRestaurantSince(
             request->rid(),
             request->time().timestamp(),
             bind(&DMServiceLocalDBImpl::GetCommentsCallback, this, _1, response));
@@ -195,7 +193,7 @@ void DMServiceLocalDBImpl::GetLastestCommentsByUser( ::google::protobuf::RpcCont
 {
     if (request->has_uid() && request->has_n())
     {
-        adapter->QueryLastestCommentsByUser(
+        deliciousDataAdapter::GetInstance()->QueryLastestCommentsByUser(
             request->uid(),
             request->n(),
             bind(&DMServiceLocalDBImpl::GetCommentsCallback, this, _1, response));
@@ -215,7 +213,7 @@ void DMServiceLocalDBImpl::GetCommentsOfUserSince( ::google::protobuf::RpcContro
 {
     if (request->has_uid() && request->has_time())
     {
-        adapter->QueryCommentsOfUserSince(
+        deliciousDataAdapter::GetInstance()->QueryCommentsOfUserSince(
             request->uid(),
             request->time().timestamp(),
             bind(&DMServiceLocalDBImpl::GetCommentsCallback, this, _1, response));
@@ -235,7 +233,7 @@ void DMServiceLocalDBImpl::AddCommentForRestaurant( ::google::protobuf::RpcContr
 {
     if (request->has_uid() && request->has_rid() && request->has_msg())
     {
-        DBResultWrap ret = adapter->PostCommentForRestaurant( 
+        DBResultWrap ret = deliciousDataAdapter::GetInstance()->PostCommentForRestaurant( 
             request->rid(), 
             request->uid(),
             request->msg(),
@@ -266,7 +264,7 @@ void DMServiceLocalDBImpl::UserLogin( ::google::protobuf::RpcController* control
 {
     if (request->has_password() && request->has_emailaddress())
     {
-        DBResultWrap ret = adapter->UserLogin(request->emailaddress(), request->password());
+        DBResultWrap ret = deliciousDataAdapter::GetInstance()->UserLogin(request->emailaddress(), request->password());
         if (!ret.empty())
         {
             const DBRow& usr = ret.getResult()->GetRow(0);
@@ -293,7 +291,7 @@ void DMServiceLocalDBImpl::GetUser( ::google::protobuf::RpcController* controlle
 {
     if (request->has_uid())
     {
-        DBResultWrap ret = adapter->GetUserInfo(request->uid());
+        DBResultWrap ret = deliciousDataAdapter::GetInstance()->GetUserInfo(request->uid());
         if (!ret.empty())
         {
             const DBRow& usr = ret.getResult()->GetRow(0);
@@ -321,6 +319,7 @@ void DMServiceLocalDBImpl::UpdateUserInfo( ::google::protobuf::RpcController* co
 {
     if (request->has_uid() && request->has_password() && request->has_userinfo())
     {
+        deliciousDataAdapter* adapter = deliciousDataAdapter::GetInstance();
         DBResultWrap usrrow = adapter->GetUserAfterValidation(request->uid(), request->password());
         if (!usrrow.empty())
         {
@@ -352,7 +351,7 @@ void DMServiceLocalDBImpl::GetRelatedUsers( ::google::protobuf::RpcController* c
 {
     if (request->has_uid() && request->has_relation())
     {
-        adapter->GetRelatedUsersWith(
+        deliciousDataAdapter::GetInstance()->GetRelatedUsersWith(
             request->uid(),
             request->relation(),
             bind(&DMServiceLocalDBImpl::GetUsersCallback, this, _1, response));
@@ -370,7 +369,7 @@ void DMServiceLocalDBImpl::SetUserRelation( ::google::protobuf::RpcController* c
 {
     if (request->has_uid() && request->has_uid_target() && request->has_relation())
     {
-        if (!adapter->SetUserRelation(request->uid(), request->uid_target(), request->relation()))
+        if (!deliciousDataAdapter::GetInstance()->SetUserRelation(request->uid(), request->uid_target(), request->relation()))
         {
             controller->SetFailed("Set user relation failed");
         }
@@ -388,7 +387,7 @@ void DMServiceLocalDBImpl::AddRestaurant( ::google::protobuf::RpcController* con
 {
     if (request->has_rinfo())
     {
-        DBResultWrap ret = adapter->AddRestaurant(request->rinfo().name(), 
+        DBResultWrap ret = deliciousDataAdapter::GetInstance()->AddRestaurant(request->rinfo().name(), 
             request->rinfo().location().latitude(), 
             request->rinfo().location().longitude(), 
             request->rinfo().type().tid(),
@@ -414,6 +413,7 @@ void DMServiceLocalDBImpl::Search( ::google::protobuf::RpcController* controller
 {
     if (request->has_msg())
     {
+        deliciousDataAdapter* adapter = deliciousDataAdapter::GetInstance();
         DBResultWrap ret = adapter->SearchRestaurant(request->msg());
         if (!ret.empty())
         {
@@ -446,6 +446,7 @@ void DMServiceLocalDBImpl::GetSubscribtionInfo( ::google::protobuf::RpcControlle
 {
     if (request->has_uid())
     {
+        deliciousDataAdapter* adapter = deliciousDataAdapter::GetInstance();
         DBResultWrap retuser = adapter->GetSubscribedUserBy(request->uid());
         DBResultWrap retrestaurant = adapter->GetSubscribedRestaurantBy(request->uid());
 
@@ -479,6 +480,7 @@ void DMServiceLocalDBImpl::RegisterUser( ::google::protobuf::RpcController* cont
 {
     if (request->has_emailaddress() && request->has_password() && request->has_nickname())
     {
+        deliciousDataAdapter* adapter = deliciousDataAdapter::GetInstance();
         DBResultWrap usr = adapter->GetUserInfo(request->emailaddress());
         if (!usr.empty())
         {

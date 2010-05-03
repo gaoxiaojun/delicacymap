@@ -13,7 +13,9 @@ public:
 
     void BeginTransaction();
 
-    void EndTransaction();
+    void Rollback();
+
+    void Commit();
 
     DBResult* Execute(const std::string &sql);
 
@@ -28,4 +30,5 @@ public:
 private:
     static int sqlexeccallback(void * context, int argc, char **argv, char **azColName);
     sqlite3 *db;
+/*    bool isInTransaction, isCommit;*/
 };

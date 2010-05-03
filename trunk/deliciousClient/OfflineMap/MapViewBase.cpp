@@ -605,6 +605,7 @@ void MapViewBase::addRestaurantMarker(const ProtocolBuffer::Restaurant* r)
     RestaurantMarkerItem *item = new RestaurantMarkerItem(r);
     item->setPos(GeoPoint(r->location().latitude(), r->location().longitude()));
     item->setZoom(zoomLevel);
+    item->setZValue(MarkerLayer);
     scene->addItem(item);
 }
 
@@ -638,6 +639,7 @@ RouteItem* MapViewBase::addRoute( const QList<GeoPoint>& p, int user )
 {
     RouteItem * item = new RouteItem(p, true);
     item->setRouteReceiverWhenDoneEditing(user);
+    item->setZValue(RouteLayer);
     addRoute(item);
     return item;
 }
@@ -668,6 +670,7 @@ void MapViewBase::setSelfLocation( const InaccurateGeoPoint& coord )
     {
         self = new SelfMarkerItem;
         self->setZoom(zoomLevel);
+        self->setZValue(UserLayer);
         scene->addItem(self);
     }
     self->setInaccuratePosition(coord);
@@ -680,6 +683,7 @@ void MapViewBase::updateUserLocation( int uid, const GeoPoint& coord )
     {
         UserMarkerItem* newusr = new UserMarkerItem;
         newusr->setZoom(zoomLevel);
+        newusr->setZValue(UserLayer);
         scene->addItem(newusr);
         users[uid] = newusr;
     }
@@ -693,7 +697,7 @@ PanelWidget* MapViewBase::addBlockingPanel(QWidget* panel, ZoomSensitiveItem* ba
     PanelWidget *proxy = new PanelWidget(this, NULL, Qt::Window);
     //proxy->setFlag( QGraphicsItem::ItemAcceptsInputMethod );
     proxy->setWidget(panel, balloonOn);
-    proxy->setZValue(1000);
+    proxy->setZValue(PanelLayer);
     if (!balloonOn)
         proxy->setPos(xCenter - panel->width()/2, qMax(yCenter - panel->height(), yCenter - this->height()/2));
 //    proxy->setPanelModality(QGraphicsItem::SceneModal);
@@ -722,7 +726,7 @@ void MapViewBase::showNextTip()
     if (!tipPanels.empty() && !tipPanels.front()->isShown())
     {
         tipPanels.front()->showTip();
-        tipPanels.front()->setZValue(1);
+        tipPanels.front()->setZValue(TipLayer);
         scene->addItem(tipPanels.front());
     }
 }
@@ -754,6 +758,7 @@ void MapViewBase::addLocalMarker(ZoomSensitiveItem * e)
     localItems.push_back(e);
     e->setPos(this->getGeoCenter());
     e->setZoom(zoomLevel);
+    e->setZValue(MarkerLayer);
     scene->addItem(e);
     // start the bounce effect
 }

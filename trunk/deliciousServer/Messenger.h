@@ -147,7 +147,6 @@ namespace rclib
             UserContainer liveUsers;
             boost::asio::deadline_timer msgExpireTimer, msgSendTimer;
             boost::asio::io_service &ios;
-            ::deliciousDataAdapter *dataadapter;
             MessagesContainer msgpool;
 
             static Messenger* __messenger;
