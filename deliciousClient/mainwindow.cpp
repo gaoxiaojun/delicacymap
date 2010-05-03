@@ -105,7 +105,7 @@ MainWindow::MainWindow(Session *s, QWidget *parent) :
     //新修改
     this->m_ui->stackedWidget->insertWidget(0, navi);
     this->m_ui->stackedWidget->setCurrentWidget(navi);
-    this->m_ui->DialogtextEdit->setDisabled(true);
+    this->m_ui->DialogtextEdit->setReadOnly(true);
     //ZZQ edited,编辑一个slot,专门用来显示餐厅信息
     connect(navi,SIGNAL(restaurantMarkerClicked(RestaurantMarkerItem*)),SLOT(RestaurantMarkerResponse(RestaurantMarkerItem*)));
     connect(navi, SIGNAL(userMarkerClicked(UserMarkerItem*)), SLOT(UserMarkerResponse(UserMarkerItem*)));
@@ -481,7 +481,7 @@ void MainWindow::sendDialog()
     this->getSession()->getDataSource().SendMessage(fromuid,touid,string(message.toUtf8().constData()));
     //消息框处理,
     QString old=m_ui->DialogtextEdit->toPlainText();
-    old=old+fromusrName+" says:  "+message+"\n";
+    old=old+fromusrName+tr(" says:  ")+message+"\n";
     this->m_ui->FriendlistWidget->currentItem()->setData(Qt::UserRole + 1,old);
     this->m_ui->DialogtextEdit->setText(old);
     this->m_ui->messageLineEdit->clear();
@@ -658,7 +658,7 @@ void MainWindow::FriChanged(bool b,int uid)
     {
         const char * name=this->getSession()->getUser(uid)->nickname().c_str();
         QListWidgetItem * item=new QListWidgetItem(QString::fromUtf8(name));
-        item->setData(Qt::UserRole, uid);
+        item->setData(Qt::UserRole,uid);
         m_ui->FriendlistWidget->addItem(item);
     }
     else

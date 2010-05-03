@@ -52,6 +52,7 @@ public:
     void SendRoutingRequest( const QString&, const QString&, int user);
     void SendRoutingRequest( const GeoPoint&, const GeoPoint&, int user);
     void ShareMyLocationWith( int otherUser );
+    void UnShareMyLocationWith( int otherUser );
     void SubscribeToUser( int otherUser );
     void UnSubscribeFromUser( int otherUser );
     void SubscribeToRestaurant( int RID );

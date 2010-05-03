@@ -25,6 +25,8 @@ public slots:
     void UnSubscribeToUser();
     void deleteFriend();
     void addFriend();
+    void ShareLocation();
+    void nShareLocation();
 signals:
     void FriendDelete(int uid);
     void FriendAdd(int uid);
