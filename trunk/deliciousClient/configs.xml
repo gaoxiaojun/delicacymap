@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <deliciousClient>
-    <autologin enabled="false">
-        <username></username>
+    <autologin enabled="true">
+        <username>colprog@gmail.com</username>
         <password></password>
     </autologin>
     <server>
-        <address>delicacymap.52byr.com</address>
-        <port>24000</port>
+        <address>127.0.0.1</address>
+        <port></port>
     </server>
     <location>
         <gps>
