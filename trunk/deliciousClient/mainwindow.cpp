@@ -470,21 +470,24 @@ void MainWindow::handleBtnCancelClicked()
 
 void MainWindow::sendDialog()
 {
-    //得到消息框   
-    QString message=QString(m_ui->messageLineEdit->text());
-    //得到当前聊天的用户
-    QString tousrName=m_ui->FriendlistWidget->currentItem()->text();
-    QString fromusrName=QString::fromUtf8(this->getSession()->getUser()->nickname().c_str());
-    int touid=m_ui->FriendlistWidget->currentItem()->data(Qt::UserRole).toInt();
-    int fromuid=this->getSession()->getUser()->uid();
-    //发送消息
-    this->getSession()->getDataSource().SendMessage(fromuid,touid,string(message.toUtf8().constData()));
-    //消息框处理,
-    QString old=m_ui->DialogtextEdit->toPlainText();
-    old=old+fromusrName+tr(" says:  ")+message+"\n";
-    this->m_ui->FriendlistWidget->currentItem()->setData(Qt::UserRole + 1,old);
-    this->m_ui->DialogtextEdit->setText(old);
-    this->m_ui->messageLineEdit->clear();
+    if(m_ui->FriendlistWidget->currentItem())
+    {
+        //得到消息框   
+        QString message=QString(m_ui->messageLineEdit->text());
+        //得到当前聊天的用户
+        QString tousrName=m_ui->FriendlistWidget->currentItem()->text();
+        QString fromusrName=QString::fromUtf8(this->getSession()->getUser()->nickname().c_str());
+        int touid=m_ui->FriendlistWidget->currentItem()->data(Qt::UserRole).toInt();
+        int fromuid=this->getSession()->getUser()->uid();
+        //发送消息
+        this->getSession()->getDataSource().SendMessage(fromuid,touid,string(message.toUtf8().constData()));
+        //消息框处理,
+        QString old=m_ui->DialogtextEdit->toPlainText();
+        old=old+fromusrName+tr(" says:  ")+message+"\n";
+        this->m_ui->FriendlistWidget->currentItem()->setData(Qt::UserRole + 1,old);
+        this->m_ui->DialogtextEdit->setText(old);
+        this->m_ui->messageLineEdit->clear();
+    }
 }
 
 void MainWindow::dialogwith(const int current)
