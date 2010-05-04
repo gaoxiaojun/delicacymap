@@ -143,16 +143,15 @@ bool Messenger::ProcessSystemMessage( ProtocolBuffer::DMessage* msg )
                     ProtubufDBRowConversion::Convert(result.getResult()->GetRow(i), *c->mutable_userinfo());
                     ProtubufDBRowConversion::Convert(result.getResult()->GetRow(i), *c->mutable_restaurantinfo());
                 }
+                data.set_fromuser(0);
+                data.set_touser(msg->fromuser());
+                data.set_issystemmessage(true);
+                data.set_msgid(-1); // this will be set in the call to ProcessMessage
+                data.set_systemmessagetype(ProtocolBuffer::SubscriptionData);
+                data.set_buffer(comments.SerializeAsString());
+                assert( data.IsInitialized() );
+                ProcessMessage(&data);
             }
-
-            data.set_fromuser(0);
-            data.set_touser(msg->fromuser());
-            data.set_issystemmessage(true);
-            data.set_msgid(-1); // this will be set in the call to ProcessMessage
-            data.set_systemmessagetype(ProtocolBuffer::SubscriptionData);
-            data.set_buffer(comments.SerializeAsString());
-            assert( data.IsInitialized() );
-            ProcessMessage(&data);
 
             handled = true;
             break;
@@ -202,7 +201,7 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
         tm expiretime = {0};
         expiretime.tm_min = msg->issystemmessage() && msg->systemmessagetype() == ProtocolBuffer::UserLocationUpdate ? 1 : 5; // Don't propagate location update when we restart.
 
-        if (!msg->issystemmessage() || (msg->systemmessagetype() != ProtocolBuffer::RequestSubscriptionUpdate && msg->systemmessagetype() != ProtocolBuffer::SubscriptionData))
+        if (!msg->issystemmessage() || msg->systemmessagetype() != ProtocolBuffer::RequestSubscriptionUpdate)
         {
             size_t msgid = deliciousDataAdapter::GetInstance()->AddMessagesToDB( 
                 msg->fromuser(),
@@ -220,11 +219,8 @@ void Messenger::ProcessMessage( ProtocolBuffer::DMessage* msg )
             newmsg->AddTime = second_clock::universal_time();
             newmsg->ExpireTime = second_clock::universal_time() + time_duration(expiretime.tm_hour, expiretime.tm_min, expiretime.tm_sec);
 
-            if (msg->msgid() != -1)
-            {
-                scoped_lock<MutexType> lock(pool_mutex);
-                msgpool.insert(newmsg);
-            }
+            scoped_lock<MutexType> lock(pool_mutex);
+            msgpool.insert(newmsg);
             scoped_lock<MutexType> lockusr(usr_mutex);
             if (liveUsers.find(msg->touser()) != liveUsers.end())
                 liveUsers[msg->touser()].usrMessages.push(newmsg);

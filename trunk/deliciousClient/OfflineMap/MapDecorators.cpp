@@ -47,7 +47,8 @@ void MoveDecorator::mouseReleaseEvent(QMouseEvent *event)
     if ((event->buttons() & Qt::LeftButton) == 0)
     {
         dragging = false;
-        timerId = this->startTimer(1000/35);
+        if (smooth_enabled)
+            timerId = this->startTimer(1000/35);
     }
     MapDecorator::mouseReleaseEvent(event);
 }

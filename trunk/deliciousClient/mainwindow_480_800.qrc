@@ -3,9 +3,7 @@
         <file alias="add_favourite.png">Resources/image_480_800/add_favourite.png</file>
         <file alias="add_friends.png">Resources/image_480_800/add_friends.png</file>
         <file alias="background.png">Resources/image_480_800/background.png</file>
-        <file alias="favourite.png">Resources/image_480_800/favourite.png</file>
         <file alias="submit_comments.png">Resources/image_480_800/submit_comments.png</file>
-        <file alias="view_comments.png">Resources/image_480_800/view_comments.png</file>
         <file alias="view_friends.png">Resources/image_480_800/view_friends.png</file>
         <file alias="marker.png">Resources/marker.png</file>
         <file alias="arrow.png">Resources/arrow.png</file>
