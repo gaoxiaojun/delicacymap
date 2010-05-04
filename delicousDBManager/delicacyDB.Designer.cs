@@ -953,6 +953,8 @@ namespace delicousDBManager {
             
             private global::System.Data.DataColumn columnLastUpdatePosition;
             
+            private global::System.Data.DataColumn columnSubscriptionCheckTime;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public UsersDataTable() {
                 this.TableName = "Users";
@@ -1040,6 +1042,13 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn SubscriptionCheckTimeColumn {
+                get {
+                    return this.columnSubscriptionCheckTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1068,7 +1077,7 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public UsersRow AddUsersRow(string Password, string Nickname, System.DateTime JoinTime, string EmailAddress, double LastLatitude, double LastLongitude, System.DateTime LastUpdatePosition) {
+            public UsersRow AddUsersRow(string Password, string Nickname, System.DateTime JoinTime, string EmailAddress, double LastLatitude, double LastLongitude, System.DateTime LastUpdatePosition, System.DateTime SubscriptionCheckTime) {
                 UsersRow rowUsersRow = ((UsersRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -1078,7 +1087,8 @@ namespace delicousDBManager {
                         EmailAddress,
                         LastLatitude,
                         LastLongitude,
-                        LastUpdatePosition};
+                        LastUpdatePosition,
+                        SubscriptionCheckTime};
                 rowUsersRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowUsersRow);
                 return rowUsersRow;
@@ -1112,6 +1122,7 @@ namespace delicousDBManager {
                 this.columnLastLatitude = base.Columns["LastLatitude"];
                 this.columnLastLongitude = base.Columns["LastLongitude"];
                 this.columnLastUpdatePosition = base.Columns["LastUpdatePosition"];
+                this.columnSubscriptionCheckTime = base.Columns["SubscriptionCheckTime"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1132,6 +1143,8 @@ namespace delicousDBManager {
                 base.Columns.Add(this.columnLastLongitude);
                 this.columnLastUpdatePosition = new global::System.Data.DataColumn("LastUpdatePosition", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLastUpdatePosition);
+                this.columnSubscriptionCheckTime = new global::System.Data.DataColumn("SubscriptionCheckTime", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSubscriptionCheckTime);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnUID}, true));
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint2", new global::System.Data.DataColumn[] {
@@ -1148,6 +1161,7 @@ namespace delicousDBManager {
                 this.columnEmailAddress.AllowDBNull = false;
                 this.columnEmailAddress.Unique = true;
                 this.columnEmailAddress.MaxLength = 256;
+                this.columnSubscriptionCheckTime.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2080,6 +2094,8 @@ namespace delicousDBManager {
             
             private global::System.Data.DataColumn columnRelation;
             
+            private global::System.Data.DataColumn columnSubscription;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public Relation_User_RestaurantDataTable() {
                 this.TableName = "Relation_User_Restaurant";
@@ -2132,6 +2148,13 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn SubscriptionColumn {
+                get {
+                    return this.columnSubscription;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2160,12 +2183,13 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public Relation_User_RestaurantRow AddRelation_User_RestaurantRow(UsersRow parentUsersRowByFK_Relation_User_Restaurant_1, RestaurantsRow parentRestaurantsRowByFK_Relation_User_Restaurant_0, int Relation) {
+            public Relation_User_RestaurantRow AddRelation_User_RestaurantRow(UsersRow parentUsersRowByFK_Relation_User_Restaurant_1, RestaurantsRow parentRestaurantsRowByFK_Relation_User_Restaurant_0, int Relation, bool Subscription) {
                 Relation_User_RestaurantRow rowRelation_User_RestaurantRow = ((Relation_User_RestaurantRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null,
-                        Relation};
+                        Relation,
+                        Subscription};
                 if ((parentUsersRowByFK_Relation_User_Restaurant_1 != null)) {
                     columnValuesArray[0] = parentUsersRowByFK_Relation_User_Restaurant_1[0];
                 }
@@ -2201,6 +2225,7 @@ namespace delicousDBManager {
                 this.columnUID = base.Columns["UID"];
                 this.columnRID = base.Columns["RID"];
                 this.columnRelation = base.Columns["Relation"];
+                this.columnSubscription = base.Columns["Subscription"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2211,6 +2236,8 @@ namespace delicousDBManager {
                 base.Columns.Add(this.columnRID);
                 this.columnRelation = new global::System.Data.DataColumn("Relation", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRelation);
+                this.columnSubscription = new global::System.Data.DataColumn("Subscription", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSubscription);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnUID,
                                 this.columnRID}, true));
@@ -2348,6 +2375,8 @@ namespace delicousDBManager {
             
             private global::System.Data.DataColumn columnRelation;
             
+            private global::System.Data.DataColumn columnSubscription;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public Relation_User_UserDataTable() {
                 this.TableName = "Relation_User_User";
@@ -2400,6 +2429,13 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn SubscriptionColumn {
+                get {
+                    return this.columnSubscription;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2428,12 +2464,13 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public Relation_User_UserRow AddRelation_User_UserRow(UsersRow parentUsersRowByFK_Relation_User_User_1, UsersRow parentUsersRowByFK_Relation_User_User_0, int Relation) {
+            public Relation_User_UserRow AddRelation_User_UserRow(UsersRow parentUsersRowByFK_Relation_User_User_1, UsersRow parentUsersRowByFK_Relation_User_User_0, int Relation, bool Subscription) {
                 Relation_User_UserRow rowRelation_User_UserRow = ((Relation_User_UserRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null,
-                        Relation};
+                        Relation,
+                        Subscription};
                 if ((parentUsersRowByFK_Relation_User_User_1 != null)) {
                     columnValuesArray[0] = parentUsersRowByFK_Relation_User_User_1[0];
                 }
@@ -2469,6 +2506,7 @@ namespace delicousDBManager {
                 this.columnUID_Host = base.Columns["UID_Host"];
                 this.columnUID_Target = base.Columns["UID_Target"];
                 this.columnRelation = base.Columns["Relation"];
+                this.columnSubscription = base.Columns["Subscription"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2479,6 +2517,8 @@ namespace delicousDBManager {
                 base.Columns.Add(this.columnUID_Target);
                 this.columnRelation = new global::System.Data.DataColumn("Relation", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRelation);
+                this.columnSubscription = new global::System.Data.DataColumn("Subscription", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSubscription);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnUID_Host,
                                 this.columnUID_Target}, true));
@@ -3424,6 +3464,16 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.DateTime SubscriptionCheckTime {
+                get {
+                    return ((global::System.DateTime)(this[this.tableUsers.SubscriptionCheckTimeColumn]));
+                }
+                set {
+                    this[this.tableUsers.SubscriptionCheckTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsLastLatitudeNull() {
                 return this.IsNull(this.tableUsers.LastLatitudeColumn);
             }
@@ -3780,6 +3830,22 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool Subscription {
+                get {
+                    try {
+                        return ((bool)(this[this.tableRelation_User_Restaurant.SubscriptionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Subscription\' in table \'Relation_User_Restaurant\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableRelation_User_Restaurant.SubscriptionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public RestaurantsRow RestaurantsRow {
                 get {
                     return ((RestaurantsRow)(this.GetParentRow(this.Table.ParentRelations["FK_Relation_User_Restaurant_0"])));
@@ -3797,6 +3863,16 @@ namespace delicousDBManager {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_Relation_User_Restaurant_1"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsSubscriptionNull() {
+                return this.IsNull(this.tableRelation_User_Restaurant.SubscriptionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetSubscriptionNull() {
+                this[this.tableRelation_User_Restaurant.SubscriptionColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -3845,6 +3921,21 @@ namespace delicousDBManager {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool Subscription {
+                get {
+                    try {
+                        return ((bool)(this[this.tableRelation_User_User.SubscriptionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Subscription\' in table \'Relation_User_User\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRelation_User_User.SubscriptionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public UsersRow UsersRowByFK_Relation_User_User_0 {
                 get {
                     return ((UsersRow)(this.GetParentRow(this.Table.ParentRelations["FK_Relation_User_User_0"])));
@@ -3862,6 +3953,16 @@ namespace delicousDBManager {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_Relation_User_User_1"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsSubscriptionNull() {
+                return this.IsNull(this.tableRelation_User_User.SubscriptionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetSubscriptionNull() {
+                this[this.tableRelation_User_User.SubscriptionColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -4445,14 +4546,26 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Comments] ([RID], [Comment], [AddTime], [UID], [TimeZone], [PhotoPat" +
-                "h], [DID]) VALUES (@RID, @Comment, @AddTime, @UID, @TimeZone, @PhotoPath, @DID)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [Comments] ([RID], [UID], [DID], [Comment], [AddTime], [TimeZone], [P" +
+                "hotoPath]) VALUES (@RID, @UID, @DID, @Comment, @AddTime, @TimeZone, @PhotoPath)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@RID";
             param.DbType = global::System.Data.DbType.Int64;
             param.DbType = global::System.Data.DbType.Int64;
             param.SourceColumn = "RID";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@UID";
+            param.DbType = global::System.Data.DbType.Int64;
+            param.DbType = global::System.Data.DbType.Int64;
+            param.SourceColumn = "UID";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@DID";
+            param.DbType = global::System.Data.DbType.Int64;
+            param.DbType = global::System.Data.DbType.Int64;
+            param.SourceColumn = "DID";
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@Comment";
@@ -4466,12 +4579,6 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "AddTime";
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@UID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "UID";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@TimeZone";
             param.DbType = global::System.Data.DbType.Int32;
             param.DbType = global::System.Data.DbType.Int32;
@@ -4482,16 +4589,10 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.DbType = global::System.Data.DbType.String;
             param.SourceColumn = "PhotoPath";
             this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@DID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "DID";
-            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [Comments] SET [RID] = @RID, [Comment] = @Comment, [AddTime] = @AddTime, [" +
-                "UID] = @UID, [TimeZone] = @TimeZone, [PhotoPath] = @PhotoPath, [DID] = @DID WHER" +
+            this._adapter.UpdateCommand.CommandText = "UPDATE [Comments] SET [RID] = @RID, [UID] = @UID, [DID] = @DID, [Comment] = @Comm" +
+                "ent, [AddTime] = @AddTime, [TimeZone] = @TimeZone, [PhotoPath] = @PhotoPath WHER" +
                 "E (([CID] = @Original_CID))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::System.Data.SQLite.SQLiteParameter();
@@ -4501,6 +4602,18 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "RID";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@UID";
+            param.DbType = global::System.Data.DbType.Int64;
+            param.DbType = global::System.Data.DbType.Int64;
+            param.SourceColumn = "UID";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@DID";
+            param.DbType = global::System.Data.DbType.Int64;
+            param.DbType = global::System.Data.DbType.Int64;
+            param.SourceColumn = "DID";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@Comment";
             param.DbType = global::System.Data.DbType.String;
             param.SourceColumn = "Comment";
@@ -4512,12 +4625,6 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "AddTime";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@UID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "UID";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@TimeZone";
             param.DbType = global::System.Data.DbType.Int32;
             param.DbType = global::System.Data.DbType.Int32;
@@ -4527,12 +4634,6 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.ParameterName = "@PhotoPath";
             param.DbType = global::System.Data.DbType.String;
             param.SourceColumn = "PhotoPath";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::System.Data.SQLite.SQLiteParameter();
-            param.ParameterName = "@DID";
-            param.DbType = global::System.Data.DbType.Int64;
-            param.DbType = global::System.Data.DbType.Int64;
-            param.SourceColumn = "DID";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@Original_CID";
@@ -4546,7 +4647,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void InitConnection() {
             this._connection = new global::System.Data.SQLite.SQLiteConnection();
-            this._connection.ConnectionString = global::delicousDBManager.Properties.Settings.Default.delicacyDBConnectionString;
+            this._connection.ConnectionString = "data source=F:\\QT\\delicacymap\\deliciousServer\\delicacyDB.db3";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4554,8 +4655,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._commandCollection = new global::System.Data.SQLite.SQLiteCommand[1];
             this._commandCollection[0] = new global::System.Data.SQLite.SQLiteCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT        RID, Comment, AddTime, UID, TimeZone, PhotoPath, DID, CID\r\nFROM    " +
-                "        Comments";
+            this._commandCollection[0].CommandText = "SELECT        Comments.*\r\nFROM            Comments";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -4569,6 +4669,16 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             }
             int returnValue = this.Adapter.Fill(dataTable);
             return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual delicacyDB.CommentsDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            delicacyDB.CommentsDataTable dataTable = new delicacyDB.CommentsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4620,28 +4730,28 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(long RID, string Comment, System.DateTime AddTime, long UID, int TimeZone, string PhotoPath, global::System.Nullable<long> DID) {
+        public virtual int Insert(long RID, long UID, global::System.Nullable<long> DID, string Comment, System.DateTime AddTime, int TimeZone, string PhotoPath) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((long)(RID));
+            this.Adapter.InsertCommand.Parameters[1].Value = ((long)(UID));
+            if ((DID.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[2].Value = ((long)(DID.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
             if ((Comment == null)) {
                 throw new global::System.ArgumentNullException("Comment");
             }
             else {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Comment));
+                this.Adapter.InsertCommand.Parameters[3].Value = ((string)(Comment));
             }
-            this.Adapter.InsertCommand.Parameters[2].Value = ((System.DateTime)(AddTime));
-            this.Adapter.InsertCommand.Parameters[3].Value = ((long)(UID));
-            this.Adapter.InsertCommand.Parameters[4].Value = ((int)(TimeZone));
+            this.Adapter.InsertCommand.Parameters[4].Value = ((System.DateTime)(AddTime));
+            this.Adapter.InsertCommand.Parameters[5].Value = ((int)(TimeZone));
             if ((PhotoPath == null)) {
-                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(PhotoPath));
-            }
-            if ((DID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[6].Value = ((long)(DID.Value));
-            }
-            else {
                 this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[6].Value = ((string)(PhotoPath));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -4662,28 +4772,28 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(long RID, string Comment, System.DateTime AddTime, long UID, int TimeZone, string PhotoPath, global::System.Nullable<long> DID, long Original_CID) {
+        public virtual int Update(long RID, long UID, global::System.Nullable<long> DID, string Comment, System.DateTime AddTime, int TimeZone, string PhotoPath, long Original_CID) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(RID));
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((long)(UID));
+            if ((DID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((long)(DID.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
             if ((Comment == null)) {
                 throw new global::System.ArgumentNullException("Comment");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Comment));
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(Comment));
             }
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((System.DateTime)(AddTime));
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((long)(UID));
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(TimeZone));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((System.DateTime)(AddTime));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(TimeZone));
             if ((PhotoPath == null)) {
-                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(PhotoPath));
-            }
-            if ((DID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((long)(DID.Value));
-            }
-            else {
                 this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(PhotoPath));
             }
             this.Adapter.UpdateCommand.Parameters[7].Value = ((long)(Original_CID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
@@ -4826,6 +4936,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             tableMapping.ColumnMappings.Add("LastLatitude", "LastLatitude");
             tableMapping.ColumnMappings.Add("LastLongitude", "LastLongitude");
             tableMapping.ColumnMappings.Add("LastUpdatePosition", "LastUpdatePosition");
+            tableMapping.ColumnMappings.Add("SubscriptionCheckTime", "SubscriptionCheckTime");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -4840,10 +4951,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Users] ([UID], [Password], [Nickname], [JoinTime], [LastLatitude], [" +
-                "LastLongitude], [EmailAddress], [LastUpdatePosition]) VALUES (@UID, @Password, @" +
-                "Nickname, @JoinTime, @LastLatitude, @LastLongitude, @EmailAddress, @LastUpdatePo" +
-                "sition)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [Users] ([UID], [Password], [Nickname], [JoinTime], [LastLatitude], [LastLongitude], [EmailAddress], [LastUpdatePosition], [SubscriptionCheckTime]) VALUES (@UID, @Password, @Nickname, @JoinTime, @LastLatitude, @LastLongitude, @EmailAddress, @LastUpdatePosition, @SubscriptionCheckTime)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@UID";
@@ -4890,9 +4998,15 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.DbType = global::System.Data.DbType.DateTime;
             param.SourceColumn = "LastUpdatePosition";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@SubscriptionCheckTime";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.SourceColumn = "SubscriptionCheckTime";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [Users] SET [UID] = @UID, [Password] = @Password, [Nickname] = @Nickname, [JoinTime] = @JoinTime, [LastLatitude] = @LastLatitude, [LastLongitude] = @LastLongitude, [EmailAddress] = @EmailAddress, [LastUpdatePosition] = @LastUpdatePosition WHERE (([UID] = @Original_UID))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [Users] SET [UID] = @UID, [Password] = @Password, [Nickname] = @Nickname, [JoinTime] = @JoinTime, [LastLatitude] = @LastLatitude, [LastLongitude] = @LastLongitude, [EmailAddress] = @EmailAddress, [LastUpdatePosition] = @LastUpdatePosition, [SubscriptionCheckTime] = @SubscriptionCheckTime WHERE (([UID] = @Original_UID))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@UID";
@@ -4940,6 +5054,12 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "LastUpdatePosition";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@SubscriptionCheckTime";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.SourceColumn = "SubscriptionCheckTime";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@Original_UID";
             param.DbType = global::System.Data.DbType.Int64;
             param.DbType = global::System.Data.DbType.Int64;
@@ -4959,8 +5079,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._commandCollection = new global::System.Data.SQLite.SQLiteCommand[1];
             this._commandCollection[0] = new global::System.Data.SQLite.SQLiteCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT        UID, Password, Nickname, JoinTime, LastLatitude, LastLongitude, Ema" +
-                "ilAddress, LastUpdatePosition\r\nFROM            Users";
+            this._commandCollection[0].CommandText = "SELECT        Users.*\r\nFROM            Users";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -5035,7 +5154,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(long UID, string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastLatitude, global::System.Nullable<double> LastLongitude, string EmailAddress, global::System.Nullable<global::System.DateTime> LastUpdatePosition) {
+        public virtual int Insert(long UID, string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastLatitude, global::System.Nullable<double> LastLongitude, string EmailAddress, global::System.Nullable<global::System.DateTime> LastUpdatePosition, System.DateTime SubscriptionCheckTime) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((long)(UID));
             if ((Password == null)) {
                 throw new global::System.ArgumentNullException("Password");
@@ -5074,6 +5193,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             else {
                 this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
+            this.Adapter.InsertCommand.Parameters[8].Value = ((System.DateTime)(SubscriptionCheckTime));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -5093,7 +5213,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(long UID, string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastLatitude, global::System.Nullable<double> LastLongitude, string EmailAddress, global::System.Nullable<global::System.DateTime> LastUpdatePosition, long Original_UID) {
+        public virtual int Update(long UID, string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastLatitude, global::System.Nullable<double> LastLongitude, string EmailAddress, global::System.Nullable<global::System.DateTime> LastUpdatePosition, System.DateTime SubscriptionCheckTime, long Original_UID) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(UID));
             if ((Password == null)) {
                 throw new global::System.ArgumentNullException("Password");
@@ -5132,7 +5252,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[8].Value = ((long)(Original_UID));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((System.DateTime)(SubscriptionCheckTime));
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((long)(Original_UID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -5152,8 +5273,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastLatitude, global::System.Nullable<double> LastLongitude, string EmailAddress, global::System.Nullable<global::System.DateTime> LastUpdatePosition, long Original_UID) {
-            return this.Update(Original_UID, Password, Nickname, JoinTime, LastLatitude, LastLongitude, EmailAddress, LastUpdatePosition, Original_UID);
+        public virtual int Update(string Password, string Nickname, System.DateTime JoinTime, global::System.Nullable<double> LastLatitude, global::System.Nullable<double> LastLongitude, string EmailAddress, global::System.Nullable<global::System.DateTime> LastUpdatePosition, System.DateTime SubscriptionCheckTime, long Original_UID) {
+            return this.Update(Original_UID, Password, Nickname, JoinTime, LastLatitude, LastLongitude, EmailAddress, LastUpdatePosition, SubscriptionCheckTime, Original_UID);
         }
     }
     
@@ -5407,7 +5528,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void InitConnection() {
             this._connection = new global::System.Data.SQLite.SQLiteConnection();
-            this._connection.ConnectionString = global::delicousDBManager.Properties.Settings.Default.delicacyDBConnectionString;
+            this._connection.ConnectionString = "data source=F:\\QT\\delicacymap\\deliciousServer\\delicacyDB.db3";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5415,7 +5536,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._commandCollection = new global::System.Data.SQLite.SQLiteCommand[1];
             this._commandCollection[0] = new global::System.Data.SQLite.SQLiteCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT [DID], [ImagePath], [Name], [Description] FROM [Courses]";
+            this._commandCollection[0].CommandText = "SELECT        Courses.*\r\nFROM            Courses";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -5429,6 +5550,16 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             }
             int returnValue = this.Adapter.Fill(dataTable);
             return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual delicacyDB.CoursesDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            delicacyDB.CoursesDataTable dataTable = new delicacyDB.CoursesDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6433,11 +6564,14 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             tableMapping.ColumnMappings.Add("UID", "UID");
             tableMapping.ColumnMappings.Add("RID", "RID");
             tableMapping.ColumnMappings.Add("Relation", "Relation");
+            tableMapping.ColumnMappings.Add("Subscription", "Subscription");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
             this._adapter.DeleteCommand.CommandText = "DELETE FROM [Relation_User_Restaurant] WHERE (([UID] = @Original_UID) AND ([RID] " +
-                "= @Original_RID) AND ([Relation] = @Original_Relation))";
+                "= @Original_RID) AND ([Relation] = @Original_Relation) AND ((@IsNull_Subscriptio" +
+                "n = 1 AND [Subscription] IS NULL) OR ([Subscription] = @Original_Subscription)))" +
+                "";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::System.Data.SQLite.SQLiteParameter param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@Original_UID";
@@ -6460,10 +6594,25 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "Relation";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@IsNull_Subscription";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.DbType = global::System.Data.DbType.Int32;
+            param.SourceColumn = "Subscription";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Original_Subscription";
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.SourceColumn = "Subscription";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Relation_User_Restaurant] ([UID], [RID], [Relation]) VALUES (@UID, @" +
-                "RID, @Relation)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [Relation_User_Restaurant] ([UID], [RID], [Relation], [Subscription])" +
+                " VALUES (@UID, @RID, @Relation, @Subscription)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@UID";
@@ -6483,11 +6632,15 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.DbType = global::System.Data.DbType.Int32;
             param.SourceColumn = "Relation";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Subscription";
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.SourceColumn = "Subscription";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [Relation_User_Restaurant] SET [UID] = @UID, [RID] = @RID, [Relation] = @R" +
-                "elation WHERE (([UID] = @Original_UID) AND ([RID] = @Original_RID) AND ([Relatio" +
-                "n] = @Original_Relation))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [Relation_User_Restaurant] SET [UID] = @UID, [RID] = @RID, [Relation] = @Relation, [Subscription] = @Subscription WHERE (([UID] = @Original_UID) AND ([RID] = @Original_RID) AND ([Relation] = @Original_Relation) AND ((@IsNull_Subscription = 1 AND [Subscription] IS NULL) OR ([Subscription] = @Original_Subscription)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@UID";
@@ -6506,6 +6659,12 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.DbType = global::System.Data.DbType.Int32;
             param.DbType = global::System.Data.DbType.Int32;
             param.SourceColumn = "Relation";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Subscription";
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.SourceColumn = "Subscription";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@Original_UID";
@@ -6528,12 +6687,27 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "Relation";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@IsNull_Subscription";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.DbType = global::System.Data.DbType.Int32;
+            param.SourceColumn = "Subscription";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Original_Subscription";
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.SourceColumn = "Subscription";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void InitConnection() {
             this._connection = new global::System.Data.SQLite.SQLiteConnection();
-            this._connection.ConnectionString = global::delicousDBManager.Properties.Settings.Default.delicacyDBConnectionString;
+            this._connection.ConnectionString = "data source=F:\\QT\\delicacymap\\deliciousServer\\delicacyDB.db3";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6541,7 +6715,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._commandCollection = new global::System.Data.SQLite.SQLiteCommand[1];
             this._commandCollection[0] = new global::System.Data.SQLite.SQLiteCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT [UID], [RID], [Relation] FROM [Relation_User_Restaurant]";
+            this._commandCollection[0].CommandText = "SELECT        Relation_User_Restaurant.*\r\nFROM            Relation_User_Restauran" +
+                "t";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -6595,10 +6770,18 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(long Original_UID, long Original_RID, int Original_Relation) {
+        public virtual int Delete(long Original_UID, long Original_RID, int Original_Relation, global::System.Nullable<bool> Original_Subscription) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((long)(Original_UID));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((long)(Original_RID));
             this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_Relation));
+            if ((Original_Subscription.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((bool)(Original_Subscription.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -6618,10 +6801,16 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(long UID, long RID, int Relation) {
+        public virtual int Insert(long UID, long RID, int Relation, global::System.Nullable<bool> Subscription) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((long)(UID));
             this.Adapter.InsertCommand.Parameters[1].Value = ((long)(RID));
             this.Adapter.InsertCommand.Parameters[2].Value = ((int)(Relation));
+            if ((Subscription.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[3].Value = ((bool)(Subscription.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -6641,13 +6830,27 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(long UID, long RID, int Relation, long Original_UID, long Original_RID, int Original_Relation) {
+        public virtual int Update(long UID, long RID, int Relation, global::System.Nullable<bool> Subscription, long Original_UID, long Original_RID, int Original_Relation, global::System.Nullable<bool> Original_Subscription) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(UID));
             this.Adapter.UpdateCommand.Parameters[1].Value = ((long)(RID));
             this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(Relation));
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((long)(Original_UID));
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((long)(Original_RID));
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_Relation));
+            if ((Subscription.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((bool)(Subscription.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((long)(Original_UID));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((long)(Original_RID));
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_Relation));
+            if ((Original_Subscription.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((bool)(Original_Subscription.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -6667,8 +6870,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int Relation, long Original_UID, long Original_RID, int Original_Relation) {
-            return this.Update(Original_UID, Original_RID, Relation, Original_UID, Original_RID, Original_Relation);
+        public virtual int Update(int Relation, global::System.Nullable<bool> Subscription, long Original_UID, long Original_RID, int Original_Relation, global::System.Nullable<bool> Original_Subscription) {
+            return this.Update(Original_UID, Original_RID, Relation, Subscription, Original_UID, Original_RID, Original_Relation, Original_Subscription);
         }
     }
     
@@ -6790,11 +6993,11 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             tableMapping.ColumnMappings.Add("UID_Host", "UID_Host");
             tableMapping.ColumnMappings.Add("UID_Target", "UID_Target");
             tableMapping.ColumnMappings.Add("Relation", "Relation");
+            tableMapping.ColumnMappings.Add("Subscription", "Subscription");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [Relation_User_User] WHERE (([UID_Host] = @Original_UID_Host) AND ([U" +
-                "ID_Target] = @Original_UID_Target) AND ([Relation] = @Original_Relation))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [Relation_User_User] WHERE (([UID_Host] = @Original_UID_Host) AND ([UID_Target] = @Original_UID_Target) AND ([Relation] = @Original_Relation) AND ((@IsNull_Subscription = 1 AND [Subscription] IS NULL) OR ([Subscription] = @Original_Subscription)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::System.Data.SQLite.SQLiteParameter param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@Original_UID_Host";
@@ -6817,10 +7020,25 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "Relation";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@IsNull_Subscription";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.DbType = global::System.Data.DbType.Int32;
+            param.SourceColumn = "Subscription";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Original_Subscription";
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.SourceColumn = "Subscription";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Relation_User_User] ([UID_Host], [UID_Target], [Relation]) VALUES (@" +
-                "UID_Host, @UID_Target, @Relation)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [Relation_User_User] ([UID_Host], [UID_Target], [Relation], [Subscrip" +
+                "tion]) VALUES (@UID_Host, @UID_Target, @Relation, @Subscription)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@UID_Host";
@@ -6840,11 +7058,15 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.DbType = global::System.Data.DbType.Int32;
             param.SourceColumn = "Relation";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Subscription";
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.SourceColumn = "Subscription";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::System.Data.SQLite.SQLiteCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [Relation_User_User] SET [UID_Host] = @UID_Host, [UID_Target] = @UID_Targe" +
-                "t, [Relation] = @Relation WHERE (([UID_Host] = @Original_UID_Host) AND ([UID_Tar" +
-                "get] = @Original_UID_Target) AND ([Relation] = @Original_Relation))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [Relation_User_User] SET [UID_Host] = @UID_Host, [UID_Target] = @UID_Target, [Relation] = @Relation, [Subscription] = @Subscription WHERE (([UID_Host] = @Original_UID_Host) AND ([UID_Target] = @Original_UID_Target) AND ([Relation] = @Original_Relation) AND ((@IsNull_Subscription = 1 AND [Subscription] IS NULL) OR ([Subscription] = @Original_Subscription)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@UID_Host";
@@ -6863,6 +7085,12 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.DbType = global::System.Data.DbType.Int32;
             param.DbType = global::System.Data.DbType.Int32;
             param.SourceColumn = "Relation";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Subscription";
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.SourceColumn = "Subscription";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::System.Data.SQLite.SQLiteParameter();
             param.ParameterName = "@Original_UID_Host";
@@ -6885,12 +7113,27 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             param.SourceColumn = "Relation";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@IsNull_Subscription";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.DbType = global::System.Data.DbType.Int32;
+            param.SourceColumn = "Subscription";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::System.Data.SQLite.SQLiteParameter();
+            param.ParameterName = "@Original_Subscription";
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.DbType = global::System.Data.DbType.Boolean;
+            param.SourceColumn = "Subscription";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void InitConnection() {
             this._connection = new global::System.Data.SQLite.SQLiteConnection();
-            this._connection.ConnectionString = global::delicousDBManager.Properties.Settings.Default.delicacyDBConnectionString;
+            this._connection.ConnectionString = "data source=F:\\QT\\delicacymap\\deliciousServer\\delicacyDB.db3";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6898,7 +7141,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._commandCollection = new global::System.Data.SQLite.SQLiteCommand[1];
             this._commandCollection[0] = new global::System.Data.SQLite.SQLiteCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT [UID_Host], [UID_Target], [Relation] FROM [Relation_User_User]";
+            this._commandCollection[0].CommandText = "SELECT        Relation_User_User.*\r\nFROM            Relation_User_User";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -6952,10 +7195,18 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(long Original_UID_Host, long Original_UID_Target, int Original_Relation) {
+        public virtual int Delete(long Original_UID_Host, long Original_UID_Target, int Original_Relation, global::System.Nullable<bool> Original_Subscription) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((long)(Original_UID_Host));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((long)(Original_UID_Target));
             this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_Relation));
+            if ((Original_Subscription.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((bool)(Original_Subscription.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -6975,10 +7226,16 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(long UID_Host, long UID_Target, int Relation) {
+        public virtual int Insert(long UID_Host, long UID_Target, int Relation, global::System.Nullable<bool> Subscription) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((long)(UID_Host));
             this.Adapter.InsertCommand.Parameters[1].Value = ((long)(UID_Target));
             this.Adapter.InsertCommand.Parameters[2].Value = ((int)(Relation));
+            if ((Subscription.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[3].Value = ((bool)(Subscription.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -6998,13 +7255,27 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(long UID_Host, long UID_Target, int Relation, long Original_UID_Host, long Original_UID_Target, int Original_Relation) {
+        public virtual int Update(long UID_Host, long UID_Target, int Relation, global::System.Nullable<bool> Subscription, long Original_UID_Host, long Original_UID_Target, int Original_Relation, global::System.Nullable<bool> Original_Subscription) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(UID_Host));
             this.Adapter.UpdateCommand.Parameters[1].Value = ((long)(UID_Target));
             this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(Relation));
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((long)(Original_UID_Host));
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((long)(Original_UID_Target));
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_Relation));
+            if ((Subscription.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((bool)(Subscription.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((long)(Original_UID_Host));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((long)(Original_UID_Target));
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_Relation));
+            if ((Original_Subscription.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((bool)(Original_Subscription.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -7024,8 +7295,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int Relation, long Original_UID_Host, long Original_UID_Target, int Original_Relation) {
-            return this.Update(Original_UID_Host, Original_UID_Target, Relation, Original_UID_Host, Original_UID_Target, Original_Relation);
+        public virtual int Update(int Relation, global::System.Nullable<bool> Subscription, long Original_UID_Host, long Original_UID_Target, int Original_Relation, global::System.Nullable<bool> Original_Subscription) {
+            return this.Update(Original_UID_Host, Original_UID_Target, Relation, Subscription, Original_UID_Host, Original_UID_Target, Original_Relation, Original_Subscription);
         }
     }
     
@@ -7325,7 +7596,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void InitConnection() {
             this._connection = new global::System.Data.SQLite.SQLiteConnection();
-            this._connection.ConnectionString = global::delicousDBManager.Properties.Settings.Default.delicacyDBConnectionString;
+            this._connection.ConnectionString = "data source=F:\\QT\\delicacymap\\deliciousServer\\delicacyDB.db3";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7333,8 +7604,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._commandCollection = new global::System.Data.SQLite.SQLiteCommand[1];
             this._commandCollection[0] = new global::System.Data.SQLite.SQLiteCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT [RID], [Name], [Longtitude], [Latitude], [Rating], [AverageExpense] FROM [" +
-                "Restaurants]";
+            this._commandCollection[0].CommandText = "SELECT        Restaurants.*\r\nFROM            Restaurants";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -7388,13 +7658,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(global::System.Nullable<long> Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
-            if ((Original_RID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[0].Value = ((long)(Original_RID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[0].Value = global::System.DBNull.Value;
-            }
+        public virtual int Delete(long Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((long)(Original_RID));
             if ((Original_Name == null)) {
                 throw new global::System.ArgumentNullException("Original_Name");
             }
@@ -7424,13 +7689,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(global::System.Nullable<long> RID, string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense) {
-            if ((RID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((long)(RID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[0].Value = global::System.DBNull.Value;
-            }
+        public virtual int Insert(long RID, string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((long)(RID));
             if ((Name == null)) {
                 throw new global::System.ArgumentNullException("Name");
             }
@@ -7460,13 +7720,8 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<long> RID, string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense, global::System.Nullable<long> Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
-            if ((RID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(RID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = global::System.DBNull.Value;
-            }
+        public virtual int Update(long RID, string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense, long Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(RID));
             if ((Name == null)) {
                 throw new global::System.ArgumentNullException("Name");
             }
@@ -7477,12 +7732,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this.Adapter.UpdateCommand.Parameters[3].Value = ((double)(Latitude));
             this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Rating));
             this.Adapter.UpdateCommand.Parameters[5].Value = ((decimal)(AverageExpense));
-            if ((Original_RID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((long)(Original_RID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
-            }
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((long)(Original_RID));
             if ((Original_Name == null)) {
                 throw new global::System.ArgumentNullException("Original_Name");
             }
@@ -7512,7 +7762,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense, global::System.Nullable<long> Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
+        public virtual int Update(string Name, double Longtitude, double Latitude, int Rating, decimal AverageExpense, long Original_RID, string Original_Name, double Original_Longtitude, double Original_Latitude, int Original_Rating, decimal Original_AverageExpense) {
             return this.Update(Original_RID, Name, Longtitude, Latitude, Rating, AverageExpense, Original_RID, Original_Name, Original_Longtitude, Original_Latitude, Original_Rating, Original_AverageExpense);
         }
     }
@@ -7690,7 +7940,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void InitConnection() {
             this._connection = new global::System.Data.SQLite.SQLiteConnection();
-            this._connection.ConnectionString = global::delicousDBManager.Properties.Settings.Default.delicacyDBConnectionString;
+            this._connection.ConnectionString = "data source=F:\\QT\\delicacymap\\deliciousServer\\delicacyDB.db3";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7698,7 +7948,7 @@ namespace delicousDBManager.delicacyDBTableAdapters {
             this._commandCollection = new global::System.Data.SQLite.SQLiteCommand[1];
             this._commandCollection[0] = new global::System.Data.SQLite.SQLiteCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT [TID], [ReadableText] FROM [RestaurantTypes]";
+            this._commandCollection[0].CommandText = "SELECT        RestaurantTypes.*\r\nFROM            RestaurantTypes";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
