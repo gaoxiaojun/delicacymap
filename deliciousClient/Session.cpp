@@ -181,6 +181,10 @@ void Session::loginMessenger()
 
 void Session::FriendsResponse(ProtocolBuffer::UserList* users)
 {
+    BOOST_FOREACH(const ProtocolBuffer::User* u, myfriends.values())
+    {
+        emit userChanged(false, u->uid());
+    }
     qDeleteAll(myfriends.values());
     myfriends.clear();
     for (int i=0;i<users->users_size();i++)

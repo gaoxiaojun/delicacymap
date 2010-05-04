@@ -210,7 +210,7 @@ void RestaurantInfoForm::on_btnCommit_clicked()
 
 void RestaurantInfoForm::commentsResponse(ProtocolBuffer::CommentList *list)
 {
-    QMetaObject::invokeMethod(this, "handleCommentList", Q_ARG(ProtocolBuffer::CommentList*, list));
+    QMetaObject::invokeMethod(this, "handleCommentList", Qt::BlockingQueuedConnection, Q_ARG(ProtocolBuffer::CommentList*, list));
 }
 
 void RestaurantInfoForm::addCommentToList(const ProtocolBuffer::Comment *c, bool releaseComment)
