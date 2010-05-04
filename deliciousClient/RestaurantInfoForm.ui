@@ -32,7 +32,7 @@
     <string notr="true">Restaurant name</string>
    </property>
    <property name="textInteractionFlags">
-    <set>Qt::NoTextInteraction</set>
+    <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
    </property>
   </widget>
   <widget class="QLabel" name="_label_price">
