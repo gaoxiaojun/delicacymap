@@ -255,7 +255,7 @@
     <message>
         <location filename="mainwindow.cpp" line="411"/>
         <source>Do you want to continue? Coninueing will discard this marker.</source>
-        <translation>确定要继续并吗？此餐厅的信息将丢失。</translation>
+        <translation>此餐厅的信息将丢失。</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="412"/>
